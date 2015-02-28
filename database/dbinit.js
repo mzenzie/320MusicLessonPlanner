@@ -3,4 +3,4 @@ var dblib = require('db.js');
 var manager = dblib.getDBManager();
 manager.db = manager.loadDB(path);
 manager.execute("CREATE TABLE TEACHER (TID PRIMARY KEY, EMAIL, CONTACT, ADDRESS, NAME)")
-manager.execute("CREATE TABLE STUDENT (SID PRIMARY KEY, 
+manager.execute("CREATE TABLE STUDENT (SID PRIMARY KEY, NAME,

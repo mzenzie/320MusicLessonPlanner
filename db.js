@@ -8,7 +8,7 @@ function loadDB(path){
     return db;
 }
 
-function saveDB(path){
+function saveDB(path, db){
 
     var fs = require('fs');
     var SQL = require('sql.js');
@@ -18,6 +18,10 @@ function saveDB(path){
     fs.writeFileSync(path, buffer);
 }
 
-function execute(db, command){
-    return db.exec(command);
+function execute(command){
+    return this.db.exec(command);
 }
+
+function getDBManager(path){
+    var DBManager = {path: path, db: null, loadDB: loadDB, saveDB: saveDB, execute: execute};
+    return DBManager;

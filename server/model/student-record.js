@@ -4,10 +4,23 @@ var students = [
 			{firstName: "Terry", lastName: "Kath", instrument: "Guitar"}
 		];
 
-var StudentRecord = function(_firstName, _lastName, _instrument){
+var StudentRecord = function(_firstName, _lastName, _instrument, _email, _address, _startDate, _lessonTime){
 	var newStudent = [];
-	console.log("new StudRec => " + _firstName + " " + _lastName + " " + _instrument);
-	newStudent.push({firstName:_firstName, lastName:_lastName, instrument:_instrument});
+	console.log("new StudRec => " + 
+				_firstName + " " + 
+				_lastName + " " + 
+				_instrument + " " +  
+				_email + " " +
+				_address + " " +
+				_startDate + " " +
+				_lessonTime);
+	newStudent.push({firstName:_firstName, 
+					lastName:_lastName, 
+					instrument:_instrument,
+					email:_email,
+					address:_address,
+					startDate:_startDate,
+					lessonTime:_lessonTime	});
 	this.newStdnt = newStudent;
 };
 

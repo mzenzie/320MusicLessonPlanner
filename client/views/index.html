@@ -43,20 +43,7 @@
 
 <!--    CONTENT Divs        -->
 
-        <div class="row">
-            <div    class="col-sm-6 col-md-4" 
-                    ng-include="'/htmlViews/todayView.html'"
-                    id="leftColumn">
-            </div>
-            <div    class="col-sm-6 col-md-4" 
-                    ng-include="'/htmlViews/studentListView.html'" 
-                    id="studentView">
-            </div>
-            <div    class="clearfix visible-sm-block"></div>
-            <div    class="col-sm-6 col-md-4" 
-                    ng-include="'/htmlViews/teacherView.html'"
-                    id="rightColumn">
-            </div>
+        <div class="row" ng-include="'/htmlViews/threeColumnView.html'">
         </div>
         <hr>
 

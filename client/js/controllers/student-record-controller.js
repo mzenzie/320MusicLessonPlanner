@@ -1,4 +1,5 @@
-appClient.controller('studentRecordController', ['$scope', '$resource', function ($scope, $resource){
+appClient.controller('studentRecordController', ['$scope', '$resource', 
+	function ($scope, $resource){
 		var StudentRecord = $resource('/api/studentRecord');
 
 		StudentRecord.query(function (result) {
@@ -9,16 +10,24 @@ appClient.controller('studentRecordController', ['$scope', '$resource', function
 
 		$scope.createStudentRecord = function () {
 			var newStudentRecord = new StudentRecord();
-			newStudentRecord.firstName = $scope.studentFirstName;
-			newStudentRecord.lastName = $scope.studentLastName;
-			newStudentRecord.instrument = $scope.studentInstrument;
+			newStudentRecord.firstName = $scope.firstName;
+			newStudentRecord.lastName = $scope.lastName;
+			newStudentRecord.instrument = $scope.instrument;
+			newStudentRecord.email = $scope.email;
+			newStudentRecord.address = $scope.address;
+			newStudentRecord.startDate = $scope.startDate;
+			newStudentRecord.lessonTime = $scope.lessonTime;
 			newStudentRecord.$save(function (result){
 				StudentRecord.query(function (result){
 					$scope.students = result;
 				});
-				$scope.studentFirstName = '';
-				$scope.studentLastName = '';
-				$scope.studentInstrument = '';
+				$scope.firstName = '';
+				$scope.lastName = '';
+				$scope.instrument = '';
+				$scope.email = '';
+				$scope.address = '';
+				$scope.startDate = '';
+				$scope.lessonTime = '';
 			});	
 			$('#addStudentForm').modal('hide');
 		}

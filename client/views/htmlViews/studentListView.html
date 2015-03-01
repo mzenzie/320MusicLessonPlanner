@@ -1,8 +1,8 @@
 <div ng-controller="studentRecordController" id="studentList">
     <h2>Students</h2>
 
-<!-- Displays a list of students: lastName, firstName | instrument -->
-
+    <!-- Displays a list of students: lastName, firstName | instrument -->
+    
     <table class = "table table-hover">
         <thread>
             <th>Students (<span ng-bind="students.length"></span> records)</th>
@@ -16,14 +16,14 @@
         </tbody>
     </table>  
 
-<!-- Buttons to add/remove/edit students -->
+    <!-- Buttons to add/remove/edit students -->
 
     <a href="#" class = "btn btn-lg btn-success" 
-                data-toggle="modal" 
-                data-target="#addStudentForm">&plus;</a> 
-    <a href="#" class = "btn btn-lg btn-danger" >&minus;</a>
+    data-toggle="modal" 
+    data-target="#addStudentForm">&plus;</a> 
+    <!-- <a href="#" class = "btn btn-lg btn-danger" >&minus;</a> -->
 
-<!-- Modal Add student dialog -->
+    <!-- Modal Add student dialog -->
 
     <div class = "modal fade" tabindex="-1" role="dialog" id="addStudentForm">
         <div class="modal-dialog">
@@ -72,3 +72,4 @@
         </div>
     </div>
 </div>
+

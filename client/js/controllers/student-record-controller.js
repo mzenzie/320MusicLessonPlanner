@@ -29,6 +29,9 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 				$scope.startDate = '';
 				$scope.lessonTime = '';
 			});	
+
+			//Closes the modal window after adding new student record
+				
 			$('#addStudentForm').modal('hide');
 		}
 	}

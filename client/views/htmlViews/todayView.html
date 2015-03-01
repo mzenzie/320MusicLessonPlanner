@@ -1,15 +1,15 @@
-<div ng-controller="studentRecordController" >
+<div ng-controller="studentRecordController" id="todaysEvents">
     <h2>Today</h2>
     <table class = "table table-hover">
-    <thread>
-        <th>Time</th>
-        <th>Student</th>
-    </thread>
-    <tbody>
-        <tr ng-repeat="student in students">
-            <td>{{student.lessonTime}}</td>
-            <td>{{student.lastName}}, {{student.firstName}}</td>
-        </tr>
-    </tbody>
+        <thread>
+            <th>Time</th>
+            <th>Student</th>
+        </thread>
+        <tbody>
+            <tr ng-repeat="student in students">
+                <td><span ng-bind="student.lessonTime"></span></td>
+                <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>
+            </tr>
+        </tbody>
     </table>  
 </div>

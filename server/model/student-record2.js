@@ -39,18 +39,16 @@ module.exports.isInputValid =function(_email, _phone,, _bd, _stdate, _numOfLes, 
 
 }
 
-module.exports.get = function(){
-	//retrieve
+module.exports.get = function(sid){
+	//retrieve student based on sid handler
 }
 
-module.exports.list = function(){
-	//turn as list
+StudentRecord.get(sid);
+
+module.exports.list = function(tid){
+	//return list of students based on teacher's id
 }
 
 module.exports.create = function(_firstname, _lastname, _instrument, _email, _phone, _address, _bd, _stdate, _numOfLes, _startTime, _hours){
 	// 
-}
-
-module.exports.getStudentRecords = function(tid){
-	
 }

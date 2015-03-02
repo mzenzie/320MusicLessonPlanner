@@ -1,7 +1,4 @@
 var database					= require("./database/dbinit.js");
-database.init();
-database.close();
-console.log("hello");
 
 var express 					= require("express");
 var app 						= express();

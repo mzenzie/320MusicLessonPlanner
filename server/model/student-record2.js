@@ -39,39 +39,64 @@ var StudentRecord = function(_firstname, _lastname, _instrument, _email, _phone,
 }
 
 
-
+/**
+ * Save a student record to the database.
+ * Used after changes are made to a student account
+ * or when a new student is being saved for the first time.
+ */
 StudentRecord.prototype.save = function(){
-	//save to db
+	//TODO: save to db
 	return this;
 }
 
-
+/**
+ * Delete a student record from the database.
+ */
 Student.prototype.delete = function(){
-	//delete from db
+	//TODO: delete from db
 }
 
+/**
+ * Update a student record in the database.
+ */
 Student.prototype.update = function(){
-
+	//TODO: implement function
 }
 
+// Exports the student record to allow it to be used by
+// the student record controller (or any other controller)
 module.exports = StudentRecord;
 
 // Static Methods //
 
+/**
+ * Check wether input (during creating new student) is valid.
+ */
 module.exports.isInputValid =function(_email, _phone,, _bd, _stdate, _numOfLes, _startTime, _hours){
-
+	//TODO: implement function
+	//		determine what are necessary inputs 
 }
 
+/**
+ * Retrieve student information from database.
+ * @param sid is the unique id for the student to be retrieved
+ */
 module.exports.get = function(sid){
-	//retrieve student based on sid handler
+	//TODO: retrieve student based on sid handler
 }
 
-StudentRecord.get(sid);
-
+/**
+ * Retrieve a list of all the students belonging to a given teacher
+ * @param tid is the unique id for the teacher who's requesting
+ * the list of students
+ */
 module.exports.list = function(tid){
-	//return list of students based on teacher's id
+	//TODO: return list of students based on teacher's id
 }
 
+/**
+ * TODO
+ */
 module.exports.create = function(_firstname, _lastname, _instrument, _email, _phone, _address, _bd, _stdate, _numOfLes, _startTime, _hours){
-	// 
+	//TODO: implement
 }

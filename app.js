@@ -23,24 +23,5 @@ app.listen(8000, function() {
 	console.log('Listening on 8000');
 });
 
-// Old code
-// var path = require("path");
-// app.use(bodyParser());
-// app.get("/", function(req, res){
-// 	console.log(__dirname);
-// 	res.sendFile(__dirname+"/client/views/index.html", function(err){
-// 		if(err){
-// 			console.log(err);
-// 		} else {
-// 			console.log("index.html sent");
-// 		}
-// 	})
-// })
 
-// test
-// var StudentRecord = require("model/student-record.js");
-// var newSTud = new StudentRecord()
-
-
-// console.log(__dirname+"/server/controller/student-record-controller.js");
 

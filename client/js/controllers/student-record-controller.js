@@ -7,7 +7,6 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 		});
 
 		$scope.students = [];
-
 		$scope.createStudentRecord = function () {
 			var newStudentRecord = new StudentRecord();
 			newStudentRecord.firstName = $scope.firstName;

@@ -1,28 +1,31 @@
-function loadDB(path){
+function loadDB(){
 
     var fs = require('fs');
-    var SQL = require('sql.js');
-
-    var fileBuffer = fs.readFileSync(path);
-    var db = new SQL.Database(fileBuffer);
-    return db;
+    var SQL = require('./sql.js');
+    console.log(typeof(this.path));
+    var fileBuffer = fs.readFileSync(this.path);
+    this.db = new SQL.Database(fileBuffer);
 }
 
-function saveDB(path, db){
+function saveDB(){
 
     var fs = require('fs');
     var SQL = require('sql.js');
 
-    var data = db.export()
+    var data = this.db.export()
     var buffer = newBuffer(data);
-    fs.writeFileSync(path, buffer);
+    fs.writeFileSync(this.path, buffer);
 }
+
 
 function execute(command){
     return this.db.exec(command);
 }
 
+
 function getDBManager(path){
     var DBManager = {path: path, db: null, loadDB: loadDB, saveDB: saveDB, execute: execute};
     return DBManager;
 }
+
+module.exports.getDBManager = getDBManager;

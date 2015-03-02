@@ -1,3 +1,16 @@
+var db = require(dbinit.js);
+
+function insertStudent(sid, fname, lname){
+    var inStudent = db.prepare("INSERT INTO StuTable(?,?,?)");
+    inStudent.run(sid, fname,lname);
+    inStudent.finalize();   
+}
+
+function studentList(tid){
+    SELECT * FROM StuTable WHERE 
+}
+
+/*
 function loadDB(path){
 
     var fs = require('fs');
@@ -26,3 +39,4 @@ function getDBManager(path){
     var DBManager = {path: path, db: null, loadDB: loadDB, saveDB: saveDB, execute: execute};
     return DBManager;
 }
+*/

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.11.2"
+    "express": "^4.11.2",
+    "sqlite3": "^3.0.5"
   },
   "devDependencies": {},
   "scripts": {

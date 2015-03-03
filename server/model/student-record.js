@@ -46,24 +46,24 @@ var StudentRecord = function(_firstName, _lastName, _instrument, _email, _addres
 StudentRecord.prototype.create = function() {
 	students = students.concat(this.newStdnt);
 	students.sort(function(a, b){
-		if (a.lastName > b.lastName) {
+		if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
 			return 1;
 		};
-		if (a.lastName < b.lastName) {
+		if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
 			return -1;
 		};
-		if (a.lastName == b.lastName) {
-			if (a.firstName > b.firstName) {
+		if (a.lastName.toLowerCase() == b.lastName.toLowerCase()) {
+			if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
 				return 1;
 			};
-			if (a.firstName < b.firstName) {
+			if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
 				return -1;
 			};
 			if (a.firstName == b.firstName) {
-				if (a.instrument > b.instrument) {
+				if (a.instrument.toLowerCase() > b.instrument.toLowerCase()) {
 					return 1;
 				};
-				if (a.instrument < b.instrument) {
+				if (a.instrument.toLowerCase() < b.instrument.toLowerCase()) {
 					return -1;
 				};
 			};

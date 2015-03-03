@@ -1,1 +1,1 @@
-var appClient = angular.module("studentRecord", ['ngResource']);
+var appClient = angular.module("musicLessonPlanner", ['ngResource']);

@@ -2,7 +2,7 @@
 // app.js
 
 //	Modules ==================================================
-var database					= require("./database/dbinit.js");
+// var database					= require("./database/dbinit.js");
 var express 					= require("express");
 var app 						= express();
 var bodyParser 					= require("body-parser");

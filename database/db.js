@@ -11,8 +11,22 @@ function insertTeacher(tid, fname, lname){
     inStudent.run(tid, fname,lname);
     inStudent.finalize();   
 }*/
+var dbinit = require("./dbinit.js");
+dbinit.init();
+db.each("SELECT * FROM SRecord", function(err, row) {
+      console.log(row.sid + ": " + row.FName);
+  });
+module.exports.openConnection = function(){dbinit.init();}
 
-function loadDB(path){
+/*
+var stmt = db2.prepare("INSERT INTO SRecord VALUES (?, ?, ?, ?)");
+stmt.run(1, "mike", "mary");
+db2.each("SELECT * FROM SRecord", function(err, row) {
+    console.log(row.sid + " " + row.FName);
+});
+stmt.finalize();
+db2.close();*/
+/*function loadDB(path){
 
     var fs = require('fs');
     var SQL = require('sql.js');
@@ -39,5 +53,5 @@ function execute(command){
 function getDBManager(path){
     var DBManager = {path: path, db: null, loadDB: loadDB, saveDB: saveDB, execute: execute};
     return DBManager;
-}
+}*/
 

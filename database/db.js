@@ -12,10 +12,6 @@ function insertTeacher(tid, fname, lname){
     inStudent.finalize();   
 }*/
 var dbinit = require("./dbinit.js");
-dbinit.init();
-db.each("SELECT * FROM SRecord", function(err, row) {
-      console.log(row.sid + ": " + row.FName);
-  });
 module.exports.openConnection = function(){dbinit.init();}
 
 /*

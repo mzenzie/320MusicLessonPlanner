@@ -7,22 +7,23 @@ stuTable = "CREATE TABLE SRecord(sid INTEGER PRIMARY KEY, tid INTEGER references
 schTable = "CREATE TABLE Schedule(schid INTEGER PRIMARY KEY AUTOINCREMENT, Date DATE, Start DATETIME, End DATETIME, sid INTEGER references SRecord(sid));";
 LRTable = "CREATE TABLE LessonRecord(lrid INTEGER PRIMARY KEY, Date DATE, Notes TEXT, sid INTEGER references SRecord(sid));";
 
+var database = null;
 
 // connect to the database and return the pointer to db
 module.exports.init = function(){
 	//connect to the database
 	var sqlite3 = require("sqlite3").verbose();
-	db = new sqlite3.Database(file);
+	database = new sqlite3.Database(file);
 
-	db.serialize(function(){
+	database.serialize(function(){
 		// if the file is not exist create tables
 		if(!exists){
-			db.run(teaTable);
-			db.run(stuTable);
-			db.run(schTable);
-			db.run(LRTable);
+			database.run(teaTable);
+			database.run(stuTable);
+			database.run(schTable);
+			database.run(LRTable);
 
-			var stmt = db.prepare("INSERT INTO SRecord (FName, LName, Instrument) VALUES(?, ?, ?)");
+			var stmt = database.prepare("INSERT INTO SRecord (FName, LName, Instrument) VALUES(?, ?, ?)");
 			stmt.run("Jack", "Benny", "Piano");
 			stmt.run("Bruce", "Springsteen", "Violin");
 			stmt.run("Prince", "", "Guitar");
@@ -31,7 +32,11 @@ module.exports.init = function(){
 			console.log("hello databae________________");
 		}
 	});
-	return db;
+	return database;
+}
+
+module.exports.getInstace = function(){
+	return database;
 }
 
 

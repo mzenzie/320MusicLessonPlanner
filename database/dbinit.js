@@ -1,8 +1,3 @@
-/*var path = "./music_db.sqlite";
-var dblib = require('./db.js');
-var manager = dblib.getDBManager(path);
-manager.db = manager.loadDB(path);
-*/
 var fs = require("fs");
 var file = './mlp.sql'; //file used to store the data
 var exists = fs.existsSync(file);// if the file not exist create a new one

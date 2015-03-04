@@ -1,0 +1,55 @@
+<h2>Student Record View SAMPLE</h2>
+
+<!-- Left column: Student information -->
+
+<div class="row" ng-controller="studentRecordController">
+	<div class="col-sm-8 col-md-9" id="studentColumnLeft">
+
+		<h4><small>Student Name:</small> Wolfgang Amadeus Mozart</h4>
+		<h4><small>Instrument:</small> Piano</h4>
+		<hr>
+		<h5><small>Email:</small> mozart@vienna.mus</h5>
+		<h5><small>Phone:</small> 555-1945</h5>
+		<h5><small>Addrees:</small> Vienna, Austria</h5>
+		<h5><small>Birthday:</small> January 27, 1756</h5>
+		<h5><small>Lesson Times:</small> Wednesdays at 3:00pm</h5>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Student Progress Notes</h3>
+			</div>
+			<div class="panel-body">
+				<textarea class="form-control" rows=3>Student progress</textarea>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4 col-md-3" id="studentColumnRight">
+		<img src="/views/images/mozart.jpg" class="img-responsive" alt="Responsive image" width = "250">
+	</div>
+</div>
+<div class="row">
+	<h3>Lesson Notes</h3>
+	<table class = "table table-hover">
+		<thread>
+			<th>Date</th>
+			<th>Time</th>
+		</thread>
+		<tbody>
+			<tr>
+				<td>March 1, 2015</td>
+				<td>3:00pm</td>
+			</tr>
+			<tr>
+				<td>February 23, 2015</td>
+				<td>3:00pm</td>
+			</tr>
+			<tr>
+				<td>February 16, 2015</td>
+				<td>3:00pm</td>
+			</tr>
+			<tr>
+				<td>February 9, 2015</td>
+				<td>3:00pm</td>
+			</tr>
+		</tbody>
+	</table> 
+</div>

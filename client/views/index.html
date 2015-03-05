@@ -1,71 +1,53 @@
+<!-- Version 2 of the main index page from HTML5 Boilerplate -->
+
+
 <!DOCTYPE html>
-<html ng-app="musicLessonPlanner">
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html>
 <head>
+
+    <title>MusicLessonPlanner</title>
+
+    <!-- Meta-information -->
+
 	<meta charset="utf-8">
-	<title>MusicLessonPlanner for private teachers</title>
+
+    <!-- Bootstrap Style sheets -->
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- MusicLessonPlanner CSS Styles -->
+    <link rel="stylesheet" href="css/main.css">
+
+
 </head>
 
-<body>
+<body ng-app="musicLessonPlanner">
+<div class="container">
 
-<!--    NAV BAR (To be added later when needed)       -->
+<!--    NAV BAR   -->
+    <div ng-include="'/views/htmlViews/headerView.html'"></div>
 
-	<!-- <nav id="myNavbar" class="navbar navbar-default navbar-fixed-top" role="navigation"> -->
-
-        <!-- Brand and toggle get grouped for better mobile display -->
-        
-<!--         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">MusicLessonPlanner</a>
-            </div>
- -->
-            <!-- Collect the nav links, forms, and other content for toggling -->
-
-<!--             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li class="active"><a href="#leftColumn">Today</a></li>
-                    <li class="active"><a href="#studentView">Students</a></li>
-                    <li class="active"><a href="#rightColumn">Profile</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav> -->
-
-<!--    TOP display/banner/alerts        -->
-
-	<div class="container">
-        <div ng-include="'/views/htmlViews/topBannerViews.html'"></div>
-
-
-<!--    CONTENT Divs        -->
-
-        <div class="row" ng-include="'/views/htmlViews/twoColumnView.html'">
-        </div>
-        <hr>
-
-<!--    FOOTER        -->
-
-        <div class="row">
-         <div class="col-sm-12">
-            <footer>
-               <p>© Copyright 2015 Jess Hendricks</p>
-           </footer>	
-       </div>
-   </div>
+<!--    CONTENT       -->
+    <div ng-view></div>
+    <hr>
 </div>
 
-<!--    Scripts       -->
+<!--    FOOTER -->
+    <div ng-include="'/views/htmlViews/footerView.html'"></div>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.js"></script>
+<!--    JavaScripts       -->
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
 <script type='text/javascript' src='/js/client-app.js'></script>
 <script type='text/javascript' src='/js/controllers/student-record-controller.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -73,3 +55,4 @@
 
 </body>
 </html>
+

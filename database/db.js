@@ -1,22 +1,18 @@
-function loadDB(path){
+//var db = require(dbinit.js);
 
-    var fs = require('fs');
-    var SQL = require('sql.js');
-
-    var fileBuffer = fs.readFileSync(path);
-    var db = new SQL.Database(fileBuffer);
-    return db;
+/*function insertStudent(sid, fname, lname, instrument){
+    var inStudent = db.prepare("INSERT INTO StuTable(?,?,?, ?)");
+    inStudent.run(sid, fname,lname, instrument);
+    inStudent.finalize();   
 }
 
-function saveDB(path, db){
-
-    var fs = require('fs');
-    var SQL = require('sql.js');
-
-    var data = db.export()
-    var buffer = newBuffer(data);
-    fs.writeFileSync(path, buffer);
-}
+function insertTeacher(tid, fname, lname){
+    var inStudent = db.prepare("INSERT INTO StuTable(?,?,?)");
+    inStudent.run(tid, fname,lname);
+    inStudent.finalize();   
+}*/
+var dbinit = require("./dbinit.js");
+module.exports.openConnection = function(){dbinit.init();}
 
 function execute(command){
     return this.db.exec(command);
@@ -35,3 +31,11 @@ module.exports.openConnection = function(){
 module.exports.getInstance = function(){
     return state;
 }
+/*
+var stmt = db2.prepare("INSERT INTO SRecord VALUES (?, ?, ?, ?)");
+stmt.run(1, "mike", "mary");
+db2.each("SELECT * FROM SRecord", function(err, row) {
+    console.log(row.sid + " " + row.FName);
+});
+stmt.finalize();
+db2.close();*/

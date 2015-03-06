@@ -1,3 +1,5 @@
+var database					= require("./database/dbinit.js");
+
 var express 					= require("express");
 var app 						= express();
 var bodyParser 					= require("body-parser");
@@ -25,6 +27,7 @@ app.post("/api/studentRecord", studentRecordController.create);
 app.get("/api/studentRecord", studentRecordController.list);
 app.listen(8000, function() {
 	console.log('Listening on 8000');
+	database.init();
 });
 
 // Old code

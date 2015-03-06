@@ -26,3 +26,12 @@ function getDBManager(path){
     var DBManager = {path: path, db: null, loadDB: loadDB, saveDB: saveDB, execute: execute};
     return DBManager;
 }
+
+var state = 0;
+module.exports.openConnection = function(){
+    state = 1;
+}
+
+module.exports.getInstance = function(){
+    return state;
+}

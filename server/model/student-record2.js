@@ -13,6 +13,10 @@
  * @param {String} _startTime is the start time (format TBD) of the student's lesson
  * @param {String} _hours is the number of hours each lesson will last (0.5 is 30 minute lesson)
  */
+
+ var db = require("./database/db.js");
+ var singletonDB = db.getInstance();
+
 var StudentRecord = function(_firstname, _lastname, _instrument, _email, _phone, _address, _bd, _stdate, _numOfLes, _startTime, _hours){
 	this.firstName = _firstname;
 	this.lastName = _lastname;
@@ -28,13 +32,13 @@ var StudentRecord = function(_firstname, _lastname, _instrument, _email, _phone,
 	this.numberOfLessons = _numOfLes;
 	this.startTime = _startTime;
 	this.hours = _hours;
+	this
 	this.id = -1;
 	// Notes is the list of lesson notes for this student.
 	// Initialized to null because a new student has no lesson notes.
 	this.notes = null;
 	// Progress is the music record of pieces this student has done.
 	// Initialized to null because a new student has no previous music progress.
-	this.progress = null;
 };
 
 
@@ -91,6 +95,8 @@ module.exports.get = function(sid){
  */
 module.exports.list = function(tid){
 	//TODO: return list of students based on teacher's id
+	var studentRecords = db.exec("SELECT from * Student");
+
 };
 
 /**

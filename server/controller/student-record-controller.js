@@ -1,34 +1,26 @@
 var StudentRecord = require('../model/student-record.js');
 
 module.exports.create = function (req, res) {
-	var newStudRec = new StudentRecord(req.body.firstName, req.body.lastName, req.body.instrument);
-	newStudRec.create();
-	res.json({});
-};
+	/* triggered for every GET /api/student-record.
+		could've just passed req.body to create, but test to see first.
+		note** req -> Request, res -> Response
+	  */
+	var newStudRec = StudentRecord.create({
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			email: req.body.email,
+			phone: req.body.phone,
+			address: req.body.address,
+			birthday: req.body.birthday,
+			startDate: req.body.startDate,
+			startTime: req.body.startTime,
+			numberOfLessons: req.body.numberOfLessons,
+			hours: req.body.hours
+		});
+	res.json(newStudRec); // sends back newly created StudentRecord Object.
+}; 
 
 module.exports.list = function (req, res) {
-	res.json(StudentRecord.list());
-}
+	res.json(StudentRecord.list(req.body.tid));
+};
 
-
-
-// 	OLD CODE
-// var StudentRecord = require("../model/student-record.js");
-
-// module.exports.list = function(req, res){
-// 	console.log("GET to server");
-// 	// console.log(StudentRecord.list());
-// 	res.json(StudentRecord.list());
-// };
-
-// module.exports.create = function(req, res){
-// 	console.log("POST to server");
-// 	// var newStudRec = new StudentRecord(req.body.name, req.body.instrument, req.body.date, req.body.freq);
-// 	var newStudRec = new StudentRecord(req.body.name, req.body.instrument);
-// 	// console.log(newStudRec);
-// 	newStudRec.create();
-// 	console.log("in ctrl");
-// 	console.log(StudentRecord.list());
-// 	console.log("/in ctrl");
-// 	res.json({});
-// };

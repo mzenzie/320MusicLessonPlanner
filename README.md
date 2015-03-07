@@ -14,8 +14,8 @@ This website redirects automatically to IP address
 ### Installation and Build
 
 - Install [node](https://nodejs.org/) and [express](http://expressjs.com/) before running this app.
-- Navigate to the directory where you wish to install the software and clone the repository using the link provided by GitHub
-- Before running the app make sure you have the necessary dependencies installed:
+- Navigate to the directory where you wish to install MusicLessonPlanner and clone the repository.
+- Make sure you have the necessary dependencies installed:
   - project dependencies
   ```sh
   $ sudo npm install

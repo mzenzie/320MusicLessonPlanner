@@ -26,7 +26,7 @@ Run the script dbtest.py in ./database in order to run any SQL command you desir
 
 ### Bug Tracking Instructions
 
-TODO
+All bugs can be tracked under the issues subsection of our GitHub repository. New issues can be added by clicking the green “New Issue” button at the top right of the issues page.
 
 ### Tech
 

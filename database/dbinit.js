@@ -9,6 +9,8 @@ schTable = "CREATE TABLE Schedule(schid INTEGER PRIMARY KEY AUTOINCREMENT, Date 
 LRTable = "CREATE TABLE LessonRecord(lrid INTEGER PRIMARY KEY AUTOINCREMENT, Date DATE, Notes TEXT, sid INTEGER references SRecord(sid));";
 
 // connect to the database and return the pointer to db
+var db = null;
+
 module.exports.init = function(){
 	//connect to the database
 	var sqlite3 = require("sqlite3").verbose();
@@ -31,6 +33,8 @@ module.exports.init = function(){
 			*/
 		}
 	});
-	return db;
 }
 
+module.exports.getInstance = function(){
+    return db;
+}

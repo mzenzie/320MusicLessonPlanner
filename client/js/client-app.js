@@ -51,9 +51,15 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 			newStudentRecord.lastName = $scope.lastName;
 			newStudentRecord.instrument = $scope.instrument;
 			newStudentRecord.email = $scope.email;
+			newStudentRecord.phone = $scope.phone;
 			newStudentRecord.address = $scope.address;
+			newStudentRecord.birthday = $scope.birthday;
 			newStudentRecord.startDate = $scope.startDate;
-			newStudentRecord.startTime = $scope.startTime;
+			newStudentRecord.numberOfLessons = $scope.numberOfLessons;
+			newStudentRecord.lessonTime = $scope.lessonTime;
+			newStudentRecord.lessonLength = $scope.lessonLength;
+			newStudentRecord.generalNotes = $scope.generalNotes;
+			newStudentRecord.lessonNotes = $scope.lessonNotes;
 			newStudentRecord.$save(function (result){
 				StudentRecord.query(function (result){
 					$scope.students = result;
@@ -62,62 +68,22 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 				$scope.lastName = '';
 				$scope.instrument = '';
 				$scope.email = '';
+				$scope.phone = '';
 				$scope.address = '';
+				$scope.birthday = '';
 				$scope.startDate = '';
-				$scope.startTime = '';
+				$scope.numberOfLessons = 0;
+				$scope.lessonTime = '';
+				$scope.lessonLength = 0;
+				$scope.generalNotes = '';
+				$scope.lessonNotes = null;
 			});	
-
-			// $scope.showModal = false;
-
-			// $scope.toggleModal = function () {
-			// 	$scope.showModal = !$scope.showModal;
-			// };
 
 			//Closes the modal window after adding new student record
 
-			$('#addStudentForm').modal('hide');
+			// $('#addStudentForm').modal('hide');
+			$scope.$broadcast("REFRESH");
 		}
 	}
 	]);
 
-// appClient.directive('modal', function (){
-// 	return {
-// 		template: '<div class="modal fade">' + 
-// 		'<div class="modal-dialog">' + 
-// 		'<div class="modal-content">' + 
-// 		'<div class="modal-header">' + 
-// 		'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
-// 		'<h4 class="modal-title">{{ title }}</h4>' + 
-// 		'</div>' + 
-// 		'<div class="modal-body" ng-transclude></div>' + 
-// 		'</div>' + 
-// 		'</div>' + 
-// 		'</div>',
-// 		restrict: 'E',
-// 		transclude: true,
-// 		replace:true,
-// 		scope:true,
-// 		link: function postLink(scope, element, attrs) {
-// 			scope.title = attrs.title;
-
-// 			scope.$watch(attrs.visible, function(value){
-// 				if(value == true)
-// 					$(element).modal('show');
-// 				else
-// 					$(element).modal('hide');
-// 			});
-
-// 			$(element).on('shown.bs.modal', function(){
-// 				scope.$apply(function(){
-// 					scope.$parent[attrs.visible] = true;
-// 				});
-// 			});
-
-// 			$(element).on('hidden.bs.modal', function(){
-// 				scope.$apply(function(){
-// 					scope.$parent[attrs.visible] = false;
-// 				});
-// 			});
-// 		}
-// 	};
-// });

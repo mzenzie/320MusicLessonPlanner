@@ -13,8 +13,6 @@ var logger						= require('morgan'); // HTTP Req/Res Logger (not Morgan Freeman)
 var multer  					= require('multer'); // Parsing multi-part/form data
 
 
-var sleep = require('sleep');
-
 
 //	Configuration ============================================
 

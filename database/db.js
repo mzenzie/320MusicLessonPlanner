@@ -13,7 +13,6 @@ function insertTeacher(tid, fname, lname){
 }*/
 var dbinit = require("./dbinit.js");
 module.exports.openConnection = function(){dbinit.init();}
-dbinit.init()
 
 /*
 var stmt = db2.prepare("INSERT INTO SRecord VALUES (?, ?, ?, ?)");

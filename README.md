@@ -13,9 +13,19 @@ This website redirects automatically to IP address
 
 ### Installation and Build
 
-- Install [node](https://nodejs.org/) and [express](http://expressjs.com/) before running this app. 
-- You might also have to run "npm install" before starting the server.
-In the terminal run:
+- Install [node](https://nodejs.org/) and [express](http://expressjs.com/) before running this app.
+- Navigate to the directory where you wish to install the software and clone the repository using the link provided by GitHub
+- Before running the app make sure you have the necessary dependencies installed:
+  - npm
+  ```sh
+  $ sudo npm install
+  ```
+  - sqlite3
+  ```sh
+  $ sudo npm install sqlite3 --save
+  ```
+  
+To run the app, in your terminal execute:
 ```sh
 $ node app
 ```

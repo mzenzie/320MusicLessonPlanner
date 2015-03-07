@@ -5,17 +5,15 @@
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
-The live product website will be accessible during grading at [320mlp.zenzie.net](http://320mlp.zenzie.net).
+The current version can be accessed for use or testing at [320mlp.zenzie.net](http://320mlp.zenzie.net).
 This website redirects automatically to IP address
 ```sh
 54.165.8.175:8000
 ```
 
-### Installation
+### Installation and Build
 
-(These instructions will change once we are up and running with a URL, that way there is no need for the grader to install node)
-
-- Install node and express before running this app. 
+- Install [node](https://nodejs.org/) and [express](http://expressjs.com/) before running this app. 
 - You might also have to run "npm install" before starting the server.
 In the terminal run:
 ```sh

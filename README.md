@@ -5,6 +5,11 @@
 
 MusicLessonPlanner is an organizational application for private music teacher that keeps track of their studio of students, lesson notes, schedule, and progress.
 
+The current live product website will be accessible during grading at the following IP address:
+```sh
+54.165.8.175:8000
+```
+
 ### Installation
 
 (These instructions will change once we are up and running with a URL, that way there is no need for the grader to install node)
@@ -22,15 +27,15 @@ localhost:8000
 
 ### Database Access
 
-Run the command 
+The entirety of the database can be found in ./database/mlp.sql.
+To run any SQL command you desire on the database, navigate to ./database and run the script:
 ```sh
-$ python ./database/dbtest.py
-```
-in order to run any SQL command you desire on the database. If you want to transfer the database, mlp.sql contains the entirety. 
+dbtest.py
+``` 
 
 ### Bug Tracking
 
-All bugs can be tracked under the issues subsection of our GitHub repository. New issues can be added by clicking the green “New Issue” button at the top right of the issues page.
+All bugs are monitored under the issues subsection of our GitHub repository. New issues can be added by clicking the green “New Issue” button at the top right of the issues page.
 
 ### Tech
 

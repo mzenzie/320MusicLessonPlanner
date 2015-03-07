@@ -8,6 +8,8 @@ var app 						= express();
 var bodyParser 					= require("body-parser");
 var studentRecordController 	= require('./server/controller/student-record-controller');
 var dbConnector					= require('./database/db.js'); //get db module
+var logger						= require('morgan'); // HTTP Req/Res Logger (not Morgan Freeman)
+var multer  					= require('multer'); // Parsing multi-part/form data
 
 
 
@@ -15,7 +17,10 @@ var dbConnector					= require('./database/db.js'); //get db module
 
 var port = process.env.PORT || 8000;
 
+	// Middleware registration
 app.use(bodyParser());
+app.use(logger('dev'));
+app.use(multer());
 
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/client/views/index.html');
@@ -36,14 +41,15 @@ db = dbConnector.openConnection();
 
 var studentRecordController = require(__dirname+"/server/controller/student-record-controller.js");
 
-// Routes
+// Routes ======================================================
 
-app.post("/api/studentRecord", studentRecordController.create);
-app.get("/api/studentRecord", studentRecordController.list);
+app.post("/api/studentRecord/", studentRecordController.create);
+app.get("/api/studentRecord/", studentRecordController.list);
 
 
 //	Start app ==================================================
 
 app.listen(port);
+console.log("Server started @port=" + port);
 
 

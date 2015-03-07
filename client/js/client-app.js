@@ -53,7 +53,7 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 			newStudentRecord.email = $scope.email;
 			newStudentRecord.address = $scope.address;
 			newStudentRecord.startDate = $scope.startDate;
-			newStudentRecord.lessonTime = $scope.lessonTime;
+			newStudentRecord.startTime = $scope.startTime;
 			newStudentRecord.$save(function (result){
 				StudentRecord.query(function (result){
 					$scope.students = result;
@@ -64,7 +64,7 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 				$scope.email = '';
 				$scope.address = '';
 				$scope.startDate = '';
-				$scope.lessonTime = '';
+				$scope.startTime = '';
 			});	
 
 			// $scope.showModal = false;

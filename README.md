@@ -5,7 +5,11 @@
 
 MusicLessonPlanner is an organizational application for private music teacher that keeps track of their studio of students, lesson notes, schedule, and progress.
 
-The current live product website will be accessible during grading at the following IP address:
+The current live product website will be accessible during grading at:
+```sh
+320mlp.zenzie.net
+```
+This website redirects automatically to the IP address:
 ```sh
 54.165.8.175:8000
 ```

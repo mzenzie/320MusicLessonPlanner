@@ -34,7 +34,6 @@ module.exports.init = function(){
 			*/
 		}
 	});
-	return db;
 }
 
 module.exports.getInstance = function(){

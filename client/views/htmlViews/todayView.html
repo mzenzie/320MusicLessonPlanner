@@ -7,7 +7,7 @@
         </thread>
         <tbody>
             <tr ng-repeat="student in students | orderBy: startTime">
-                <td><span ng-bind="student.startTime"></span></td>
+                <td><span ng-bind="student.lessonTime"></span></td>
                 <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>
             </tr>
         </tbody>

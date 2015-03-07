@@ -72,9 +72,9 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 				$scope.address = '';
 				$scope.birthday = '';
 				$scope.startDate = '';
-				$scope.numberOfLessons = 0;
+				$scope.numberOfLessons = '';
 				$scope.lessonTime = '';
-				$scope.lessonLength = 0;
+				$scope.lessonLength = '';
 				$scope.generalNotes = '';
 				$scope.lessonNotes = null;
 			});	

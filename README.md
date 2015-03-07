@@ -3,13 +3,10 @@
 ### Version
 1.0.0
 
-MusicLessonPlanner is an organizational application for private music teacher that keeps track of their studio of students, lesson notes, schedule, and progress.
+MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
-The current live product website will be accessible during grading at:
-```sh
-320mlp.zenzie.net
-```
-This website redirects automatically to the IP address:
+The live product website will be accessible during grading at [320mlp.zenzie.net](http://320mlp.zenzie.net).
+This website redirects automatically to IP address
 ```sh
 54.165.8.175:8000
 ```
@@ -31,8 +28,8 @@ localhost:8000
 
 ### Database Access
 
-The entirety of the database can be found in ./database/mlp.sql.
-To run any SQL command you desire on the database, navigate to ./database and run the script:
+The entirety of the database can be found in [./database/mlp.sql](database/mlp.sql).
+To run any SQL command you desire on the database, navigate to ./database on your machine and run the script:
 ```sh
 $ python dbtest.py
 ``` 

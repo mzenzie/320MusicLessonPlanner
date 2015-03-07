@@ -30,7 +30,7 @@ localhost:8000
 The entirety of the database can be found in ./database/mlp.sql.
 To run any SQL command you desire on the database, navigate to ./database and run the script:
 ```sh
-python dbtest.py
+$ python dbtest.py
 ``` 
 
 ### Bug Tracking

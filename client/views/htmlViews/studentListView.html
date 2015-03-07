@@ -5,7 +5,7 @@
     
     <table class = "table table-hover">
         <thread>
-            <th>Students (<span ng-bind="students.length"></span> records)</th>
+            <th>Students (<span ng-bind="students.length"></span> records)</th> <th>Phone</th><th>Lesson Time</th>
             <th>Instrument</th>
         </thread>
         <tbody>
@@ -13,6 +13,8 @@
                 <!-- Student name: lastName, firstName -->
                 <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>
                 <!-- Student instrument -->
+                <td><span ng-bind="student.phone"></span></td>
+                <td><span ng-bind="student.lessonTime"></span></td>
                 <td><span ng-bind="student.instrument"></span></td>
             </tr>
         </tbody>

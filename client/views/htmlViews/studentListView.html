@@ -7,13 +7,14 @@
         <thread>
             <th>Students (<span ng-bind="students.length"></span> records)</th>
             <th>Instrument</th>
+            <th>Lesson Time</th>
         </thread>
         <tbody>
             <tr ng-repeat="student in students">
                 <!-- Student name: lastName, firstName -->
-                <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>
+                <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>,
+                <td><span ng-bind="student.lastName"></span>
                 <!-- Student instrument -->
-                <td><span ng-bind="student.instrument"></span></td>
             </tr>
         </tbody>
     </table>  

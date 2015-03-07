@@ -2,6 +2,7 @@ var fs = require("fs");
 var file = './mlp.sql'; //file used to store the data
 var exists = fs.existsSync(file);// if the file not exist create a new one
 
+
 /* Any changes to these names/layout needs to be updated to the spreadsheet */
 
 teaTable = "CREATE TABLE Teacher(tid INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";

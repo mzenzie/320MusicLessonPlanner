@@ -1,77 +1,4 @@
 
-// var students = [
-// 			{firstName: "Jess", 
-// 				lastName: "Hendricks", 
-// 				instrument: "Trombone", 
-// 				email: "jess@fupduckonline.com",
-// 				address: "1601 Pennsylvania Ave",
-// 				startDate: "October 1, 2015",
-// 				lessonTime: "3:00pm"
-// 			},
-// 			{firstName: "Wolfgang", 
-// 				lastName: "Mozart", 
-// 				instrument: "Piano", 
-// 				email: "jess@fupduckonline.com",
-// 				address: "1601 Pennsylvania Ave",
-// 				startDate: "October 1, 2015",
-// 				lessonTime: "4:00pm"},
-// 			{firstName: "Terry", 
-// 				lastName: "Kath", 
-// 				instrument: "Guitar", 
-// 				email: "jess@fupduckonline.com",
-// 				address: "1601 Pennsylvania Ave",
-// 				startDate: "October 1, 2015",
-// 				lessonTime: "5:00pm"}
-// 		];
-
-// var StudentRecord = function(_firstName, _lastName, _instrument, _email, _address, _startDate, _lessonTime){
-// 	var newStudent = [];
-// 	console.log("new StudRec => " + 
-// 				_firstName + " " + 
-// 				_lastName + " " + 
-// 				_instrument + " " +  
-// 				_email + " " +
-// 				_address + " " +
-// 				_startDate + " " +
-// 				_lessonTime);
-// 	newStudent.push({firstName:_firstName, 
-// 					lastName:_lastName, 
-// 					instrument:_instrument,
-// 					email:_email,
-// 					address:_address,
-// 					startDate:_startDate,
-// 					lessonTime:_lessonTime	});
-// 	this.newStdnt = newStudent;
-// };
-
-// StudentRecord.prototype.create = function() {
-// 	students = students.concat(this.newStdnt);
-// 	students.sort(function(a, b){
-// 		if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
-// 			return 1;
-// 		};
-// 		if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
-// 			return -1;
-// 		};
-// 		if (a.lastName.toLowerCase() == b.lastName.toLowerCase()) {
-// 			if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
-// 				return 1;
-// 			};
-// 			if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
-// 				return -1;
-// 			};
-// 			if (a.firstName == b.firstName) {
-// 				if (a.instrument.toLowerCase() > b.instrument.toLowerCase()) {
-// 					return 1;
-// 				};
-// 				if (a.instrument.toLowerCase() < b.instrument.toLowerCase()) {
-// 					return -1;
-// 				};
-// 			};
-// 		};
-// 		return 0;
-// 	});
-
 /**
  * Instantiates a new student record.
  * @param {String} jsObject.firstname is the student's first name
@@ -88,10 +15,13 @@
  * @param {String} _hours is the number of hours each lesson will last (0.5 is 30 minute lesson)
  */
 
+ var __records = [];
+ var __id = 1;
+
 var StudentRecord = function(jsObject){
 	// example usage: new StudentRecord({firstName: "Natcha",  lastName: "Simsiri", ... [etc]})
-	this.firstName = jsObject.firstname;
-	this.lastName = jsObject.lastname;
+	this.firstName = jsObject.firstName;
+	this.lastName = jsObject.lastName;
 
 	// TODO: Validation of e-mail and phone
 	this.email = jsObject.email;
@@ -101,9 +31,10 @@ var StudentRecord = function(jsObject){
 	this.address = jsObject.address;
 	this.birthday = jsObject.birthday;
 	this.startDate = jsObject.startDate;
-	// this.numberOfLessons = numberOfLessons;
+	this.numberOfLessons = jsObject.numberOfLessons;
 	this.startTime = jsObject.startTime;
-	// this.hours = jsObject.hours
+	this.hours = jsObject.hours;
+	this.instrument = jsObject.instrument;
 	
 	this.sid = null;
 	// Notes is the list of lesson notes for this student.
@@ -114,6 +45,10 @@ var StudentRecord = function(jsObject){
 	// Initialized to null because a new student has no previous music progress.
 };
 
+StudentRecord.prototype.toString = function(){
+	return String.format("[STUDENT-RECORD]->\nfirstName: {0}", this.firstName);
+}
+
 
 /**
  * Save a student record to the database.
@@ -123,7 +58,8 @@ var StudentRecord = function(jsObject){
 StudentRecord.prototype.save = function(){
 	//TODO: save to db
 	// returns identifier for StudentRecord
-	this.sid = 1;
+	this.sid = __id;
+	__id+=1;
 	return 0; 
 };
 
@@ -173,7 +109,7 @@ module.exports.get = function(sid){
  */
 module.exports.list = function(tid){
 	//TODO: return list of students based on teacher's id
-
+	return __records;
 };
 
 /**
@@ -184,6 +120,9 @@ module.exports.create = function(jsObject){
 	//		loop to create multiple student records
 	var newStudentRecord = new StudentRecord(jsObject);
 	newStudentRecord.save();
+	__records.push(newStudentRecord);
+	console.log("MODEL");
+	console.log(newStudentRecord);
 	return newStudentRecord;
 
 };

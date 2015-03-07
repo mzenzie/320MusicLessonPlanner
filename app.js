@@ -7,10 +7,13 @@ var express 					= require("express");
 var app 						= express();
 var bodyParser 					= require("body-parser");
 var studentRecordController 	= require('./server/controller/student-record-controller');
-var dbConnector					= require('./database/db.js'); //get db module
+var dbConnector					= require('./database/dbinit.js');
+
 var logger						= require('morgan'); // HTTP Req/Res Logger (not Morgan Freeman)
 var multer  					= require('multer'); // Parsing multi-part/form data
 
+
+var sleep = require('sleep');
 
 
 //	Configuration ============================================
@@ -36,7 +39,8 @@ app.use(express.static(__dirname + "/client"));
 // Controller
 
 
-db = dbConnector.openConnection();
+dbConnector.init();
+var db = dbConnector.getInstance();
 
 
 var studentRecordController = require(__dirname+"/server/controller/student-record-controller.js");

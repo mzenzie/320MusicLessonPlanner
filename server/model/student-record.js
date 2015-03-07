@@ -15,8 +15,12 @@
  * @param {String} _hours is the number of hours each lesson will last (0.5 is 30 minute lesson)
  */
 
- var __records = [];
- var __id = 1;
+var dbConnector = require('../../database/dbinit.js');
+if (dbConnector==null) console.log("DATABASE CON NULL");
+
+/* Stub code */
+var __records = [];
+var __id = 1;
 
 var StudentRecord = function(jsObject){
 	// example usage: new StudentRecord({firstName: "Natcha",  lastName: "Simsiri", ... [etc]})
@@ -58,9 +62,34 @@ StudentRecord.prototype.toString = function(){
 StudentRecord.prototype.save = function(){
 	//TODO: save to db
 	// returns identifier for StudentRecord
-	this.sid = __id;
-	__id+=1;
-	return 0; 
+	var db = dbConnector.getInstance();
+	console.log("SAVE");
+	console.log(db);
+	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES(1,'"+ 
+						this.firstName + "','" +
+						this.lastName + "','" +
+						this.email + "','" +
+						this.address + "','" +
+						this.phone + "','" +
+						this.birthday + "','" + 
+						this.instrument+"')";
+	var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength) VALUES('" +
+						this.startDate + "', '" +
+						this.lessonTime + "', '" + 
+						this.lessonLength + "')";
+	console.log(student_record_query);
+	console.log(schedule_query);
+	db.run(student_record_query, function(err){
+		if (err !== null){
+			console.log("STUDENT RECORD SAVE ERR TO DB");
+		}
+	});
+	db.run(schedule_query, function(err){
+		if (err!= null){
+			console.log("SCHDULE RECORD SAVE ERR TO DB");
+		}
+	})
+	return __id++; 
 };
 
 /**
@@ -107,9 +136,20 @@ module.exports.get = function(sid){
  * @param tid is the unique id for the teacher who's requesting
  * the list of students
  */
-module.exports.list = function(tid){
-	//TODO: return list of students based on teacher's id
-	return __records;
+module.exports.list = function(tid, response){
+	console.log(dbConnector);
+	var db = dbConnector.getInstance();
+	console.log("DB LIST");
+	var studentRecords = [];
+	console.log("=============================================listing after query");
+	db.all("SELECT * FROM SRecord", function(err, rows){
+		for (var i in rows){
+			console.log(rows[i]);
+		}
+		response.json(rows);
+		
+	});
+
 };
 
 /**
@@ -118,11 +158,10 @@ module.exports.list = function(tid){
 module.exports.create = function(jsObject){
 	//TODO: implement
 	//		loop to create multiple student records
+	console.log("CREATE");
 	var newStudentRecord = new StudentRecord(jsObject);
 	newStudentRecord.save();
-	__records.push(newStudentRecord);
 	console.log("MODEL");
 	console.log(newStudentRecord);
 	return newStudentRecord;
-
 };

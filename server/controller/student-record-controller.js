@@ -28,6 +28,6 @@ module.exports.list = function (req, res) {
 	// var id = sess.id; // to be implemented...
 
 	var id = 1; // stub code
-	res.json(StudentRecord.list(1));
+	StudentRecord.list(1, res);
 };
 

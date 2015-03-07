@@ -10,5 +10,5 @@ c.execute(a)
 if("select" in a.lower()):
     print(c.fetchall())
 else:
-    c.commit()
+    conn.commit()
     print("Done.")

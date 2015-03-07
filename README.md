@@ -5,7 +5,7 @@
 
 MusicLessonPlanner is an organizational application for private music teacher that keeps track of their studio of students, lesson notes, schedule, and progress.
 
-### Installation Instructions
+### Installation
 
 (These instructions will change once we are up and running with a URL, that way there is no need for the grader to install node)
 
@@ -20,11 +20,11 @@ Open your internet browser and go to the localhost:
 localhost:8000
 ```
 
-### Database Access Instructions
+### Database Access
 
 Run the script dbtest.py in ./database in order to run any SQL command you desire on the database. If you want to transfer the database, mlp.sql contains the entirety. 
 
-### Bug Tracking Instructions
+### Bug Tracking
 
 All bugs can be tracked under the issues subsection of our GitHub repository. New issues can be added by clicking the green “New Issue” button at the top right of the issues page.
 

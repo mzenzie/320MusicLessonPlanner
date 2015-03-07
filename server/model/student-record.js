@@ -1,37 +1,69 @@
 var students = [
-			{firstName: "Jess", lastName: "Hendricks", instrument: "Trombone"},
-			{firstName: "Wolfgang", lastName: "Mozart", instrument: "Piano"},
-			{firstName: "Terry", lastName: "Kath", instrument: "Guitar"}
+			{firstName: "Jess", 
+				lastName: "Hendricks", 
+				instrument: "Trombone", 
+				email: "jess@fupduckonline.com",
+				address: "1601 Pennsylvania Ave",
+				startDate: "October 1, 2015",
+				lessonTime: "3:00pm"
+			},
+			{firstName: "Wolfgang", 
+				lastName: "Mozart", 
+				instrument: "Piano", 
+				email: "jess@fupduckonline.com",
+				address: "1601 Pennsylvania Ave",
+				startDate: "October 1, 2015",
+				lessonTime: "4:00pm"},
+			{firstName: "Terry", 
+				lastName: "Kath", 
+				instrument: "Guitar", 
+				email: "jess@fupduckonline.com",
+				address: "1601 Pennsylvania Ave",
+				startDate: "October 1, 2015",
+				lessonTime: "5:00pm"}
 		];
 
-var StudentRecord = function(_firstName, _lastName, _instrument){
+var StudentRecord = function(_firstName, _lastName, _instrument, _email, _address, _startDate, _lessonTime){
 	var newStudent = [];
-	console.log("new StudRec => " + _firstName + " " + _lastName + " " + _instrument);
-	newStudent.push({firstName:_firstName, lastName:_lastName, instrument:_instrument});
+	console.log("new StudRec => " + 
+				_firstName + " " + 
+				_lastName + " " + 
+				_instrument + " " +  
+				_email + " " +
+				_address + " " +
+				_startDate + " " +
+				_lessonTime);
+	newStudent.push({firstName:_firstName, 
+					lastName:_lastName, 
+					instrument:_instrument,
+					email:_email,
+					address:_address,
+					startDate:_startDate,
+					lessonTime:_lessonTime	});
 	this.newStdnt = newStudent;
 };
 
 StudentRecord.prototype.create = function() {
 	students = students.concat(this.newStdnt);
 	students.sort(function(a, b){
-		if (a.lastName > b.lastName) {
+		if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
 			return 1;
 		};
-		if (a.lastName < b.lastName) {
+		if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
 			return -1;
 		};
-		if (a.lastName == b.lastName) {
-			if (a.firstName > b.firstName) {
+		if (a.lastName.toLowerCase() == b.lastName.toLowerCase()) {
+			if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
 				return 1;
 			};
-			if (a.firstName < b.firstName) {
+			if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
 				return -1;
 			};
 			if (a.firstName == b.firstName) {
-				if (a.instrument > b.instrument) {
+				if (a.instrument.toLowerCase() > b.instrument.toLowerCase()) {
 					return 1;
 				};
-				if (a.instrument < b.instrument) {
+				if (a.instrument.toLowerCase() < b.instrument.toLowerCase()) {
 					return -1;
 				};
 			};

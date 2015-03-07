@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="studentRecord">
+<html ng-app="musicLessonPlanner">
 <head>
 	<meta charset="utf-8">
 	<title>MusicLessonPlanner for private teachers</title>
@@ -27,9 +27,9 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li class="active"><a href="#leftColumn">Today</a></li>
+<!--                     <li class="active"><a href="#leftColumn">Today</a></li>
                     <li class="active"><a href="#studentView">Students</a></li>
-                    <li class="active"><a href="#rightColumn">Profile</a></li>
+                    <li class="active"><a href="#rightColumn">Profile</a></li> -->
 				</ul>
 			</div>
 		</div>
@@ -38,25 +38,12 @@
 <!--    TOP display/banner/alerts        -->
 
 	<div class="container">
-        <div ng-include="'/htmlViews/topBannerViews.html'"></div>
+        <div ng-include="'/views/htmlViews/topBannerViews.html'"></div>
 
 
 <!--    CONTENT Divs        -->
 
-        <div class="row">
-            <div    class="col-sm-6 col-md-4" 
-                    ng-include="'/htmlViews/todayView.html'"
-                    id="leftColumn">
-            </div>
-            <div    class="col-sm-6 col-md-4" 
-                    ng-include="'/htmlViews/studentListView.html'" 
-                    id="studentView">
-            </div>
-            <div    class="clearfix visible-sm-block"></div>
-            <div    class="col-sm-6 col-md-4" 
-                    ng-include="'/htmlViews/teacherView.html'"
-                    id="rightColumn">
-            </div>
+        <div class="row" ng-include="'/views/htmlViews/threeColumnView.html'">
         </div>
         <hr>
 

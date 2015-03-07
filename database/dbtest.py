@@ -3,7 +3,7 @@ import sqlite3
 conn = sqlite3.connect("mlp.sqlite")
 c = conn.cursor()
 
-a = input("Enter a sql command to execute: ")
+a = raw_input("Enter a sql command to execute: ")
 
 c.execute(a)
 

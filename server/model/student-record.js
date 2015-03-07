@@ -32,8 +32,8 @@ var StudentRecord = function(jsObject){
 	this.birthday = jsObject.birthday;
 	this.startDate = jsObject.startDate;
 	this.numberOfLessons = jsObject.numberOfLessons;
-	this.startTime = jsObject.startTime;
-	this.hours = jsObject.hours;
+	this.lessonTime = jsObject.lessonTime;
+	this.lessonLength = jsObject.lessonLength;
 	this.instrument = jsObject.instrument;
 	
 	this.sid = null;

@@ -16,9 +16,9 @@ module.exports.create = function (req, res) {
 			instrument: req.body.instrument,
 			birthday: req.body.birthday,
 			startDate: req.body.startDate,
-			startTime: req.body.startTime,
+			lessonTime: req.body.lessonTime,
 			numberOfLessons: req.body.numberOfLessons,
-			hours: req.body.hours
+			lessonLength: req.body.lessonLength
 		});
 	res.json(newStudRec); // sends back newly created StudentRecord Object.
 }; 

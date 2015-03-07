@@ -22,7 +22,7 @@ localhost:8000
 
 ### Database Access Instructions
 
-TODO
+Run the script dbtest.py in ./database in order to run any SQL command you desire on the database. If you want to transfer the database, mlp.sql contains the entirety. 
 
 ### Bug Tracking Instructions
 

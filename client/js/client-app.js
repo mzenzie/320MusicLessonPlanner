@@ -82,7 +82,7 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 			//Closes the modal window after adding new student record
 
 			// $('#addStudentForm').modal('hide');
-			$scope.$broadcast("REFRESH");
+			// $scope.$broadcast("REFRESH");
 		}
 	}
 	]);

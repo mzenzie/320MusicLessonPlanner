@@ -67,6 +67,7 @@ Additional SQL commands can be found at [http://www.thegeekstuff.com/2012/09/sql
 
 All bugs are monitored under the issues subsection of our GitHub repository. New issues can be added by clicking the green “New Issue” button at the top right of the issues page.
 
+Priority of bugs is determined based on labels with "bug" being the highest priority and "wontfix" being the lowest. Multiple labels can be attached to one bug to create in-between levels of priority.
 
 ### Tech
 

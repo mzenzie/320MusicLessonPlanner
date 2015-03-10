@@ -40,7 +40,7 @@ localhost:8000
 ### Database Access
 
 The entirety of the database can be found in [./mlp.sql](mlp.sql).
-To run any SQL command you desire on the database, navigate to ./database on your machine and run the script:
+To run any SQL command you desire on the database, navigate to [./database](./database) on your machine and run the script:
 ```sh
 $ python dbtest.py
 ``` 

@@ -1,94 +1,96 @@
 <div ng-controller="studentRecordController" id="studentList">
-    <h2>Students</h2>
+  <h2>Students</h2>
 
-    <!-- Table displays a list of students: lastName, firstName | instrument -->
-    
-    <table class = "table table-hover">
-        <thread>
-            <th>Students (<span ng-bind="students.length"></span> records)</th><th>Birthday</th>
-            <th>Instrument</th>
-        </thread>
-        <tbody>
-            <tr ng-repeat="student in students">
-                <!-- Student name: lastName, firstName -->
-                <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>,
-                <td><span ng-bind="student.birthday"></span></td>
-                <td><span ng-bind="student.instrument"></span></td>
-            </tr>
-        </tbody>
-    </table>  
+  <!-- Table displays a list of students: lastName, firstName | instrument -->
 
-    <!-- Buttons to add/remove/edit students, opens a modal window -->
+  <table class = "table table-hover">
+    <thread>
+      <th>Students (<span ng-bind="students.length"></span> records)</th><th>Instrument</th><th></th><th></th>
+    </thread>
+    <tbody>
+      <tr ng-repeat="student in students">
+        <!-- Student name: lastName, firstName -->
+        <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>
+        <td><span ng-bind="student.instrument"></span></td>
+        <td>
+          <button class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;Edit
+          </button>
+          <button class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <!-- <button ng-click="toggleModal()" class="btn btn-default">&plus;</button>  -->
+  <!-- Buttons to add/remove/edit students, opens a modal window -->
+
+  <!-- <button ng-click="toggleModal()" class="btn btn-default">&plus;</button>  -->
 
 
-    <!-- Modal Window: Add student form -->
+  <!-- Modal Window: Add student form -->
 
-    <!-- <modal title="Create New Student Record" visible="showModal"> -->
+  <!-- <modal title="Create New Student Record" visible="showModal"> -->
 
-        <!-- Student record creation form calls createStudentRecord() in /controllers/student-record-controller.js -->
+  <!-- Student record creation form calls createStudentRecord() in /controllers/student-record-controller.js -->
 
-        <form ng-submit="createStudentRecord()">
-<!--             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div> -->
-            <!-- <div class="modal-body"> -->
-                <div class="form-group">
-                    <label for="inputName">First Name</label>
-                    <input type="text" ng-model="firstName" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Last Name</label>
-                    <input type="text" ng-model="lastName" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Instrument</label>
-                    <input type="text" ng-model="instrument" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Email</label>
-                    <input type="text" ng-model="email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Phone</label>
-                    <input type="text" ng-model="phone" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Address</label>
-                    <input type="text" ng-model="address" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Birthday</label>
-                    <input type="text" ng-model="birthday" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Start Date</label>
-                    <input type="date" ng-model="startDate" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Number of Lessons:</label>
-                    <input type="text" ng-model="numberOfLessons" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Lesson Time</label>
-                    <input type="text" ng-model="lessonTime" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Lesson Length</label>
-                    <input type="text" ng-model="lessonLength" class="form-control">
-                </div>
+  <form ng-submit="createStudentRecord()">
+    <!--             <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  </div> -->
+  <!-- <div class="modal-body"> -->
+  <div class="form-group">
+    <label for="inputName">First Name</label>
+    <input type="text" ng-model="firstName" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Last Name</label>
+    <input type="text" ng-model="lastName" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Instrument</label>
+    <input type="text" ng-model="instrument" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Email</label>
+    <input type="text" ng-model="email" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Phone</label>
+    <input type="text" ng-model="phone" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Address</label>
+    <input type="text" ng-model="address" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Birthday</label>
+    <input type="text" ng-model="birthday" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Start Date</label>
+    <input type="date" ng-model="startDate" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Number of Lessons:</label>
+    <input type="text" ng-model="numberOfLessons" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Lesson Time</label>
+    <input type="text" ng-model="lessonTime" class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="inputName">Lesson Length</label>
+    <input type="text" ng-model="lessonLength" class="form-control">
+  </div>
 
-            <!-- </div> -->
+  <!-- </div> -->
 
-            <!-- TODO: Make fields required -->
+  <!-- TODO: Make fields required -->
 
-            <!-- <div class="modal-footer"> -->
-                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button> -->
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            <!-- </div> -->
-        </form>
-    <!-- </modal> -->
+  <!-- <div class="modal-footer"> -->
+  <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button> -->
+  <button type="submit" class="btn btn-primary">Save changes</button>
+  <!-- </div> -->
+</form>
+<!-- </modal> -->
 </div>
-
-

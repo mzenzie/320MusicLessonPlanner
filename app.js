@@ -4,10 +4,10 @@
 //	Modules ==================================================
 var database					= require("./database/dbinit.js");
 var express 					= require("express");
-var app 						= express();
-var bodyParser 					= require("body-parser");
+var app 							= express();
+var bodyParser 				= require("body-parser");
 var studentRecordController 	= require('./server/controller/student-record-controller');
-var dbConnector					= require('./database/dbinit.js');
+var dbConnector				= require('./database/dbinit.js');
 
 var logger						= require('morgan'); // HTTP Req/Res Logger (not Morgan Freeman)
 var multer  					= require('multer'); // Parsing multi-part/form data
@@ -53,5 +53,3 @@ app.get("/api/studentRecord/", studentRecordController.list);
 
 app.listen(port);
 console.log("Server started @port=" + port);
-
-

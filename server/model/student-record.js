@@ -15,6 +15,8 @@
  * @param {String} _hours is the number of hours each lesson will last (0.5 is 30 minute lesson)
  */
 
+var format = require('string-format');
+
 var dbConnector = require('../../database/dbinit.js');
 if (dbConnector==null) console.log("DATABASE CON NULL");
 
@@ -153,8 +155,8 @@ module.exports.list = function(tid, response){
 	var db = dbConnector.getInstance();
 	console.log("DB LIST");
 	var studentRecords = [];
-	console.log("=============================================listing after query");
 	// need to put , Schedule WHERE Schedule.sid = SRecord.sid
+	console.log('hello {0}'.format('world'));
 	db.all("SELECT * FROM SRecord", function(err, rows){
 		for (var i in rows){
 			console.log(rows[i]);

@@ -18,15 +18,15 @@ appClient.config(['$routeProvider', '$locationProvider', function ($routeProvide
 	$routeProvider
 		// Start Page
 		.when("/", {
-			templateUrl: "/views/htmlViews/startPageView.html", 
+			templateUrl: "/views/htmlViews/startPageView.html",
 			controller: "pageController"})
 		// Student Record View
 		.when("/studentRecordView", {
-			templateUrl: "/views/htmlViews/studentRecordPageView.html", 
+			templateUrl: "/views/htmlViews/studentRecordPageView.html",
 			controller: "pageController"})
 		// Lesson Notes View
 		.when("/lessonNoteView", {
-			templateUrl: "/views/htmlViews/lessonNotePageView.html", 
+			templateUrl: "/views/htmlViews/lessonNotePageView.html",
 			controller: "pageController"});
 	}]);
 
@@ -36,9 +36,11 @@ appClient.controller('pageController', function (/* $scope, $location, $http */)
 });
 
 
-appClient.controller('studentRecordController', ['$scope', '$resource', 
+appClient.controller('studentRecordController', ['$scope', '$resource',
 	function ($scope, $resource){
 		var StudentRecord = $resource('/api/studentRecord/');
+
+        console.log("----------------appClient.controller Called");
 
 		StudentRecord.query(function (result) {
 			$scope.students = result;
@@ -77,7 +79,7 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 				$scope.lessonLength = '';
 				$scope.generalNotes = '';
 				$scope.lessonNotes = null;
-			});	
+			});
 
 			//Closes the modal window after adding new student record
 
@@ -86,4 +88,3 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 		}
 	}
 	]);
-

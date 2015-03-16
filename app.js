@@ -4,10 +4,10 @@
 //	Modules ==================================================
 var database					= require("./database/dbinit.js");
 var express 					= require("express");
-var app 							= express();
-var bodyParser 				= require("body-parser");
+var app 						= express();
+var bodyParser 					= require("body-parser");
 var studentRecordController 	= require('./server/controller/student-record-controller');
-var dbConnector				= require('./database/dbinit.js');
+var dbConnector					= require('./database/dbinit.js');
 
 var logger						= require('morgan'); // HTTP Req/Res Logger (not Morgan Freeman)
 var multer  					= require('multer'); // Parsing multi-part/form data
@@ -24,14 +24,14 @@ app.use(logger('dev'));
 app.use(multer());
 
 app.get('/', function (req, res) {
-	res.sendFile(__dirname + '/client/views/index.html');
+	res.sendFile(__dirname + '/index.html');
 })
 
 
 //	Set the static files location (This is so the app will be able to find images, html, and javascript files)
 //	............Refactored to use the entire 'client' folder.
 
-app.use(express.static(__dirname + "/client"));
+app.use(express.static(__dirname + "/"));
 
 
 // Controller

@@ -12,11 +12,14 @@ var dbConnector					= require('./database/dbinit.js');
 var logger						= require('morgan'); // HTTP Req/Res Logger (not Morgan Freeman)
 var multer  					= require('multer'); // Parsing multi-part/form data
 
+var format                      = require("string-format"); //allows formating of string
 
 
 //	Configuration ============================================
 
 var port = process.env.PORT || 8000;
+
+format.extend(String.prototype); //allows usage of String.format(arg1, arg2), i.e. "Hello {0}".format(name); -> "Hello "
 
 	// Middleware registration
 app.use(bodyParser());
@@ -47,9 +50,16 @@ var studentRecordController = require(__dirname+"/server/controller/student-reco
 
 app.post("/api/studentRecord/", studentRecordController.create);
 app.get("/api/studentRecord/", studentRecordController.list);
+app.get("/api/studentRecord/:id", studentRecordController.get);
+app.delete("/api/studentRecord/:id", studentRecordController.delete);
+app.put("/api/studentRecord/:id", studentRecordController.update);
 
 
 //	Start app ==================================================
 
 app.listen(port);
-console.log("Server started @port=" + port);
+
+console.log("Server at port={0}".format(port));
+
+
+

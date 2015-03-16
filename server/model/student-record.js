@@ -15,6 +15,8 @@
  * @param {String} _hours is the number of hours each lesson will last (0.5 is 30 minute lesson)
  */
 
+var format = require('string-format');
+
 var dbConnector = require('../../database/dbinit.js');
 if (dbConnector==null) console.log("DATABASE CON NULL");
 
@@ -49,67 +51,67 @@ var StudentRecord = function(jsObject){
 	// Initialized to null because a new student has no previous music progress.
 };
 
-StudentRecord.prototype.toString = function(){
-	return String.format("[STUDENT-RECORD]->\nfirstName: {0}", this.firstName);
-}
-
 
 /**
  * Save a student record to the database.
  * Used after changes are made to a student account
  * or when a new student is being saved for the first time.
  */
-StudentRecord.prototype.save = function(){
+StudentRecord.prototype.save = function(callback){
+	var self = this; // save model's context. 
+	var myErr = null;
 	//TODO: save to db
 	// returns identifier for StudentRecord
 	var db = dbConnector.getInstance();
-	console.log("SAVE");
-	console.log(db);
-	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES(1,'"+ 
-						this.firstName + "','" +
-						this.lastName + "','" +
-						this.email + "','" +
-						this.address + "','" +
-						this.phone + "','" +
-						this.birthday + "','" + 
-						this.instrument+"')";
+	console.log("DB SAVE");
+
+	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')"
+						.format(
+							1,
+							self.firstName,
+							self.lastName,
+							self.email,
+							self.address,
+							self.phone,
+							self.birthday,
+							self.instrument);
 	
 
 
+	var sid_query = "SELECT sid FROM SRecord WHERE SRecord.email='{0}' AND SRecord.instrument='{1}'"
+						.format(self.email, self.instrument); //assuming email is unique
 	console.log(student_record_query);
+	console.log(sid_query);
+	
 	db.run(student_record_query, function(err){
 		if (err !== null){
 			console.log("STUDENT RECORD SAVE ERR TO DB");
+			myErr = err;
 		}
+	}).get(sid_query, function(err, row){
+		if (err!=null){
+			console.log("SID GET ERR FROM DB");
+			myErr = err;
+		}
+		self.sid =  row.sid;
+		console.log(self.sid);
+
+		var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', '{3}')"
+							.format(self.startDate, self.lessonTime, self.lessonLength, self.sid); 
+		console.log(schedule_query);
+		db.run(schedule_query, function(err){
+			if (err!= null){
+				myErr = err;
+				console.log("SCHDULE RECORD SAVE ERR TO DB");
+			}
+			console.log("BEFORE SENDING BACK");
+			console.log(self);
+			callback(err, self);
+		});
+
 	});
-	// var sid_query = "SELECT sid FROM SRecord WHERE SRecord.email = '" + this.email + "'"; //assuming email is unique
-	// console.log(sid_query);
-	// db.get(sid_query, function(err, row){
-	// 	console.log("==== GET SID");
-	// 	console.log(row);
-	// 	this.sid = row.sid;
-	// 	console.log(this.startDate);
-	// 	var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('" +
-	// 						this.startDate + "', '" +
-	// 						this.lessonTime + "', '" + 
-	// 						this.lessonLength + "', '" +
-	// 						this.sid + "')";
-	// 	console.log(schedule_query);
-	// 	db.run(schedule_query, function(err){
-	// 		if (err!= null){
-	// 			console.log("SCHDULE RECORD SAVE ERR TO DB");
-	// 		}
-	// 	})
-	// });
-	return __id++; 
 };
 
-/**
- * Delete a student record from the database.
- */
-StudentRecord.prototype.delete = function(){
-	//TODO: delete from db
-};
 
 /**
  * Update a student record in the database.
@@ -148,34 +150,49 @@ module.exports.get = function(sid){
  * @param tid is the unique id for the teacher who's requesting
  * the list of students
  */
-module.exports.list = function(tid, response){
-	console.log(dbConnector);
+module.exports.list = function(tid, callback){
 	var db = dbConnector.getInstance();
 	console.log("DB LIST");
-	var studentRecords = [];
-	console.log("=============================================listing after query");
 	// need to put , Schedule WHERE Schedule.sid = SRecord.sid
-	db.all("SELECT * FROM SRecord", function(err, rows){
-		for (var i in rows){
-			console.log(rows[i]);
-
-		}
-		response.json(rows);
+	db.all("SELECT  * FROM SRecord", function(err, rows){
+		callback(err, rows);
 		
 	});
 
 };
 
 /**
+ * Delete a student record from the database.
+ */
+module.exports.delete = function(sid, callback){
+	var db = dbConnector.getInstance();
+	// var drecord_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
+	var srecord_query = "DELETE FROM SRecord WHERE SRecord.sid={0}".format(sid);
+	var schedule_query = "DELETE FROM Schedule WHERE Schedule.sid={0}".format(sid);
+	console.log(srecord_query);
+	console.log(schedule_query);
+	db.exec(srecord_query, function(err){
+		if (err!=null){
+			console.log(err);
+			callback(err);
+		}
+	}).exec(schedule_query, function(err){
+		if(err!=null){
+			console.log(err);
+		}
+		callback(err);
+	})
+};
+
+/**
  * TODO
  */
-module.exports.create = function(jsObject){
+module.exports.create = function(jsObject, callback){
 	//TODO: implement
 	//		loop to create multiple student records
 	console.log("CREATE");
 	var newStudentRecord = new StudentRecord(jsObject);
-	console.log("MODEL");
-	console.log(newStudentRecord);
-	newStudentRecord.save();
-	return newStudentRecord;
+	newStudentRecord.save(callback);
 };
+
+

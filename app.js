@@ -52,11 +52,15 @@ var studentRecordController = require(__dirname+"/server/controller/student-reco
 
 app.post("/api/studentRecord/", studentRecordController.create);
 app.get("/api/studentRecord/", studentRecordController.list);
+app.get("/api/studentRecord/:id", studentRecordController.get);
+app.delete("/api/studentRecord/:id", studentRecordController.delete);
+app.put("/api/studentRecord/:id", studentRecordController.update);
 
 
 //	Start app ==================================================
 
 app.listen(port);
 console.log("Server at port={0}".format(port));
+
 
 

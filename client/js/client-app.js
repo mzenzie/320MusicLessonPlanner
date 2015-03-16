@@ -38,7 +38,7 @@ appClient.controller('pageController', function (/* $scope, $location, $http */)
 
 appClient.controller('studentRecordController', ['$scope', '$resource', 
 	function ($scope, $resource){
-		var StudentRecord = $resource('/api/studentRecord/');
+		var StudentRecord = $resource('/api/studentRecord/:id');
 
 		StudentRecord.query(function (result) {
 			$scope.students = result;

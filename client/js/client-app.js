@@ -45,6 +45,15 @@ appClient.controller('studentRecordController', ['$scope', '$resource',
 		});
 
 		$scope.students = [];
+		$scope.deleteStudentRecord = function(student){
+			StudentRecord.delete({id:student.sid}, function(result){
+				if (result.isSuccessful){
+					var index = $scope.students.indexOf(student);
+					$scope.students.splice(index, 1);
+				}
+			});
+
+		};
 		$scope.createStudentRecord = function () {
 			var newStudentRecord = new StudentRecord();
 			newStudentRecord.firstName = $scope.firstName;

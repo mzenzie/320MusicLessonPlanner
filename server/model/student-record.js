@@ -93,9 +93,10 @@ StudentRecord.prototype.save = function(callback){
 			console.log("SID GET ERR FROM DB");
 			myErr = err;
 		}
+		self.sid =  row.sid;
 		console.log(self.sid);
 
-		var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', '{3}'')"
+		var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', '{3}')"
 							.format(self.startDate, self.lessonTime, self.lessonLength, self.sid); 
 		console.log(schedule_query);
 		db.run(schedule_query, function(err){
@@ -111,12 +112,6 @@ StudentRecord.prototype.save = function(callback){
 	});
 };
 
-/**
- * Delete a student record from the database.
- */
-StudentRecord.prototype.delete = function(){
-	//TODO: delete from db
-};
 
 /**
  * Update a student record in the database.
@@ -167,6 +162,22 @@ module.exports.list = function(tid, callback){
 };
 
 /**
+ * Delete a student record from the database.
+ */
+module.exports.delete = function(sid, callback){
+	var db = dbConnector.getInstance();
+	var delete_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
+	console.log(delete_query);
+	db.exec(delete_query, function(err){
+		if (err!=null){
+			console.log("DELETE STUDENT ERROR");
+			console.log(err);
+		}
+		callback(err);
+	})
+};
+
+/**
  * TODO
  */
 module.exports.create = function(jsObject, callback){
@@ -176,3 +187,5 @@ module.exports.create = function(jsObject, callback){
 	var newStudentRecord = new StudentRecord(jsObject);
 	newStudentRecord.save(callback);
 };
+
+

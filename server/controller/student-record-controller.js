@@ -1,6 +1,8 @@
 var StudentRecord = require('../model/student-record.js');
 
 module.exports.create = function (req, res) {
+	// > POST /api/studentRecord
+
 	/* triggered for every GET /api/student-record.
 		could've just passed req.body to create, but test to see first.
 		note** req -> Request, res -> Response
@@ -29,6 +31,8 @@ module.exports.create = function (req, res) {
 }; 
 
 module.exports.list = function (req, res) {
+	// > GET /api/studentRecord
+
 	// var sess = req.session;
 	// var id = sess.id; // to be implemented...
 
@@ -48,6 +52,13 @@ module.exports.get = function(req, res){
 
 module.exports.delete = function(req, res){
 	// > DELETE /api/studentRecord/:id
+	StudentRecord.delete(req.params.id, function(err){
+		if (err != null){
+			res.json({isSuccessful:false});
+		} else {
+			res.json({isSuccessful:true});
+		}
+	});
 }
 
 module.exports.update = function(req, res){

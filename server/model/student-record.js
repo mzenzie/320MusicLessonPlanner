@@ -166,11 +166,18 @@ module.exports.list = function(tid, callback){
  */
 module.exports.delete = function(sid, callback){
 	var db = dbConnector.getInstance();
-	var delete_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
-	console.log(delete_query);
-	db.exec(delete_query, function(err){
+	// var drecord_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
+	var srecord_query = "DELETE FROM SRecord WHERE SRecord.sid={0}".format(sid);
+	var schedule_query = "DELETE FROM Schedule WHERE Schedule.sid={0}".format(sid);
+	console.log(srecord_query);
+	console.log(schedule_query);
+	db.exec(srecord_query, function(err){
 		if (err!=null){
-			console.log("DELETE STUDENT ERROR");
+			console.log(err);
+			callback(err);
+		}
+	}).exec(schedule_query, function(err){
+		if(err!=null){
 			console.log(err);
 		}
 		callback(err);

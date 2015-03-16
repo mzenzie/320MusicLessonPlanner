@@ -16,16 +16,27 @@ function MainCtrl() {
 }
 
 function studentRecordController ($scope, $resource){
-    var StudentRecord = $resource('/api/studentRecord/');
+    var StudentRecord = $resource('/api/studentRecord/:id');
 
     StudentRecord.query(function (result) {
         $scope.students = result;
     });
 
+    $scope.deleteStudentRecord = function(student){
+        StudentRecord.delete({id:student.sid}, function(result){
+            if (result.isSuccessful){
+                var index = $scope.students.indexOf(student);
+                $scope.students.splice(index, 1);
+            }
+        });
+
+    };
+
     $scope.students = [];
     $scope.createStudentRecord = function () {
         var newStudentRecord = new StudentRecord();
         newStudentRecord.firstName = $scope.firstName;
+        // alert($scope.firstName);
         newStudentRecord.lastName = $scope.lastName;
         newStudentRecord.instrument = $scope.instrument;
         newStudentRecord.email = $scope.email;
@@ -63,4 +74,4 @@ function studentRecordController ($scope, $resource){
 angular
 .module('inspinia')
 .controller('MainCtrl', MainCtrl)
-.controller('studentRecordController', studentRecordController)
+.controller('studentRecordController', studentRecordController);

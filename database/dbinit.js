@@ -32,7 +32,7 @@ module.exports.init = function(){
 			stmt.run(3, "Prince", "", "Guitar");
 			stmt.run(4, "Mike", "Smith", "Trombone");
 			stmt.finalize();
-			console.log("hello databae________________");
+			console.log("hello databae________________"); <-- data"BAE" ? ROFL
 			*/
 		}
 	});

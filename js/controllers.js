@@ -15,7 +15,7 @@ function MainCtrl() {
 
 }
 
-function studentRecordController ($scope, $resource){
+function studentRecordController ($scope, $resource, $modal){
     var StudentRecord = $resource('/api/studentRecord/:id');
 
     StudentRecord.query(function (result) {
@@ -67,9 +67,27 @@ function studentRecordController ($scope, $resource){
             $scope.generalNotes = '';
             $scope.lessonNotes = null;
         });
-
     }
-}
+
+    $scope.openModal = function() {
+
+        var createStudentRecordModalInstance = $modal.open({
+            templateUrl: 'views/modalStudentRecordCreateForm.html',
+            controller: ModalInstanceCtrl,
+        });
+    };
+};
+
+function ModalInstanceCtrl ($scope, $modalInstance) {
+
+    $scope.ok = function () {
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+};
 
 angular
 .module('inspinia')

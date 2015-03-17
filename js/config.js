@@ -26,7 +26,17 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         url: "/main",
         templateUrl: "views/startPageView.html",
         controller: studentRecordController,
-        data: { pageTitle: 'Main Page' }
+        data: { pageTitle: 'Main Page' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'datePicker',
+                            files: ['css/plugins/datapicker/angular-datapicker.css','js/plugins/datapicker/datePicker.js']
+                        }
+                ]);
+            }
+        }
     })
     .state('index.studentRecordViewPage', {
         url: "/studentRecordPageView",

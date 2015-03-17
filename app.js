@@ -41,7 +41,6 @@ app.use(express.static(__dirname + "/"));
 
 
 dbConnector.init();
-var db = dbConnector.getInstance();
 
 
 var studentRecordController = require(__dirname+"/server/controller/student-record-controller.js");

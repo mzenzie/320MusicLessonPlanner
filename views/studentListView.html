@@ -12,12 +12,12 @@
                 <!-- Student name: lastName, firstName -->
                 <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>
                 <td><span ng-bind="student.instrument"></span></td>
-                <td>
-                    <button class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;Edit
-                    </button>
-                    <button class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View
-                    </button>
-                    <button class="btn btn-danger" ng-click="deleteStudentRecord(student);">&nbsp;&nbsp;delete</button>
+                <td align="right">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button class="btn btn-info"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
+                        <button class="btn btn-primary"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit</button>
+                        <button class="btn btn-danger" ng-click="deleteStudentRecord(student);"><span class="fa fa-trash"></span>&nbsp;&nbsp;Delete</button>
+                    </div>
                 </a>
                 </td>
             </tr>
@@ -35,64 +35,83 @@
 
     <!-- Student record creation form calls createStudentRecord() in /controllers/student-record-controller.js -->
 
-    <form ng-submit="createStudentRecord()">
-        <!--             <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        </div> -->
-        <!-- <div class="modal-body"> -->
-        <div class="form-group">
-            <label for="inputName">First Name</label>
-            <input type="text" ng-model="$parent.firstName" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Last Name</label>
-            <input type="text" ng-model="$parent.lastName" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Instrument</label>
-            <input type="text" ng-model="$parent.instrument" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Email</label>
-            <input type="text" ng-model="$parent.email" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Phone</label>
-            <input type="text" ng-model="$parent.phone" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Address</label>
-            <input type="text" ng-model="$parent.address" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Birthday</label>
-            <input type="text" ng-model="$parent.birthday" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Start Date</label>
-            <input type="date" ng-model="$parent.startDate" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Number of Lessons:</label>
-            <input type="text" ng-model="$parent.numberOfLessons" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Lesson Time</label>
-            <input type="text" ng-model="$parent.lessonTime" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="inputName">Lesson Length</label>
-            <input type="text" ng-model="$parent.lessonLength" class="form-control">
-        </div>
+    <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Create Student Record
+                    <small>This is temporary and will eventually be modal.</small>
+                </h5>
+                <div ibox-tools></div>
+            </div>
+            <div class="ibox-content">
+                <form ng-submit="createStudentRecord()">
+                    <!--             <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div> -->
+                    <!-- <div class="modal-body"> -->
+                    <div class="form-group">
+                        <label class="font-noraml">First Name</label>
+                        <input type="text" ng-model="$parent.firstName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Last Name</label>
+                        <input type="text" ng-model="$parent.lastName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Instrument</label>
+                        <input type="text" ng-model="$parent.instrument" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Email</label>
+                        <input type="text" ng-model="$parent.email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Phone</label>
+                        <input type="text" ng-model="$parent.phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Address</label>
+                        <input type="text" ng-model="$parent.address" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Birthday</label>
+                        <div class="input-group date" auto-close="">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="datetime" class="form-control" date-time ng-model="$parent.birthday" format="fullDate" min-view="date" view="year" auto-close="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Start Date</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="datetime" class="form-control" date-time ng-model="$parent.startDate" format="fullDate" min-view="date" view="date" auto-close="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Number of Lessons:</label>
+                        <input type="text" ng-model="$parent.numberOfLessons" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Lesson Time</label>
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                            <input type="datetime" class="form-control" date-time ng-model="$parent.lessonTime" format="hh:mm a" max-view="hours" min-view="minutes" auto-close="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-noraml">Lesson Length</label>
+                        <input type="text" ng-model="$parent.lessonLength" class="form-control">
+                    </div>
 
-        <!-- </div> -->
+                    <!-- </div> -->
 
-        <!-- TODO: Make fields required -->
+                    <!-- TODO: Make fields required -->
 
-        <!-- <div class="modal-footer"> -->
-        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button> -->
-        <button type="submit" class="btn btn-primary">Save changes</button>
-        <!-- </div> -->
-    </form>
+                    <!-- <div class="modal-footer"> -->
+                    <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button> -->
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <!-- </div> -->
+                </form>
+            </div>
+        </div>
 <!-- </modal> -->
 </div>

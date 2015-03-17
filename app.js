@@ -60,6 +60,3 @@ app.put("/api/studentRecord/:id", studentRecordController.update);
 app.listen(port);
 
 console.log("Server at port={0}".format(port));
-
-
-

@@ -32,7 +32,17 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         url: "/studentRecordPageView",
         templateUrl: "views/studentRecordPageView.html",
         controller: studentRecordController,
-        data: { pageTitle: 'Student Records' }
+        data: { pageTitle: 'Student Records' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'datePicker',
+                            files: ['css/plugins/datapicker/angular-datapicker.css','js/plugins/datapicker/datePicker.js']
+                        }
+                ]);
+            }
+        }
     })
     .state('index.lessonNoteViewPage', {
         url: "/lessonNotePageView",

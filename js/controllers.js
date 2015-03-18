@@ -71,7 +71,53 @@ function studentRecordController ($scope, $resource){
     }
 }
 
+function signinController($scope, $http, $state, store){
+
+    $scope.signin = function(){
+        $http.post('/api/signin', {username: $scope.username, password: $scope.password})
+        .success(function(data, status, header, config){
+            // alert("SIGN-IN-CTRL Recieved " + data.token);
+            store.set('token', data.token);
+            $state.go('index.main');
+        })
+        .error(function(data, status, header, config){
+            alert(status);
+        });
+    };
+}
+
+function signoutController($scope, $http, $state, store){
+    $scope.signout = function(){
+        $http.post('/api/signout')
+        .success(function(data, status, header, config){
+            store.remove('token');
+            $state.go('signin');
+        })
+        .error(function(data, status, header, config){
+            alert(status);
+        });
+    };
+}
+
+function signupController($scope, $http, $state, store){
+    $scope.signup = function(){
+        alert($scope.username);
+        $http.post('/api/signup', {username: $scope.username, password: $scope.password})
+        .success(function(data,status,header,config){
+            alert('success');
+            store.set('token', data.token);
+            $state.go('index.main');
+        })
+        .error(function(data,status,header,config){
+            alert(status);
+        });
+    };
+}
+
 angular
 .module('inspinia')
 .controller('MainCtrl', MainCtrl)
-.controller('studentRecordController', studentRecordController);
+.controller('studentRecordController', studentRecordController)
+.controller('signinController', signinController)
+.controller('signoutController', signoutController)
+.controller('signupController', signupController);

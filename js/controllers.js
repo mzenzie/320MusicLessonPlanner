@@ -29,7 +29,10 @@ function studentRecordController ($scope, $resource, $modal){
                 $scope.students.splice(index, 1);
             }
         });
+    };
 
+    $scope.viewStudentRecord = function(student) {
+        // @TODO implement this
     };
 
     $scope.students = [];

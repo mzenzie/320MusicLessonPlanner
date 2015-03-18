@@ -6,24 +6,23 @@
                 <a href="index.html">Home</a>
             </li>
             <!-- <li>
-                <a>Forms</a>
-            </li> -->
-            <li class="active">
-                <strong>Student Records</strong>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-2">
+            <a>Forms</a>
+        </li> -->
+        <li class="active">
+            <strong>Student Records</strong>
+        </li>
+    </ol>
+</div>
+<div class="col-lg-2">
 
-    </div>
+</div>
 </div>
 <div class="wrapper wrapper-content animated fadeInRight">
-	<div class="row">
-	<div class="col-md-6"
-	ng-include="'/views/studentRecordView.html'"
-	id="studentRecordPageLeft"></div>
-	<div class="col-md-6"
-	ng-include="'/views/studentListView.html'"
-	id="studentRecordPageRight"></div>
-</div>
+    <div class="row">
+        <div class="col-md-6" ng-include="'/views/studentRecordView.html'" id="studentRecordPageLeft"></div>
+        <div class="col-md-6" ng-include="'/views/studentListView.html'" id="studentRecordPageRight"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" ng-include="'/views/lessonNoteListView.html'"></div>
+    </div>
 </div>

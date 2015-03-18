@@ -1,0 +1,31 @@
+<div class = "wrapper wrapper-content">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Students <small>list of current students</small></h5>
+            <div ibox-tools></div>
+        </div>
+            <!-- Table displays a list of students: lastName, firstName | instrument -->
+        <div class="ibox-content">
+            <table class = "table table-hover">
+                <thread>
+                    <th>Students (<span ng-bind="students.length"></span> records)</th><th>Instrument</th><th></th><th></th>
+                </thread>
+                <tbody>
+                    <tr ng-repeat="student in students | orderBy: '-lastName'">
+                        <td>{{student.lastName}}, {{student.firstName}}</td>
+                        <td>{{student.instrument}}</td>
+                        <td align="right">
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button class="btn btn-info"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
+                                <button class="btn btn-primary"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit</button>
+                                <button class="btn btn-danger" ng-click="deleteStudentRecord(student);"><span class="fa fa-trash"></span>&nbsp;&nbsp;Delete</button>
+                            </div>
+                        </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" ng-click="openModal()">Add New Student</button>
+        </div>
+    </div>
+</div>

@@ -82,7 +82,8 @@ function studentRecordController($scope, $resource, $modal) {
 
         var createStudentRecordModalInstance = $modal.open({
             templateUrl: 'views/modalStudentRecordCreateForm.html',
-            controller: ModalInstanceCtrl
+            controller: ModalInstanceCtrl,
+            scope: $scope
         });
     };
 };
@@ -124,6 +125,7 @@ function ModalInstanceCtrl($scope, $modalInstance, $resource) {
             $scope.generalNotes = '';
             $scope.lessonNotes = null;
         });
+        $scope.students.push(newStudentRecord);
         $modalInstance.close();
     };
 

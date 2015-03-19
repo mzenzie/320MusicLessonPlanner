@@ -41,43 +41,6 @@ function studentRecordController($scope, $resource, $modal) {
         // @TODO implement this
     };
 
-    $scope.students = [];
-    $scope.createStudentRecord = function() {
-        var newStudentRecord = new StudentRecord();
-        newStudentRecord.firstName = $scope.firstName;
-        // alert($scope.firstName);
-        newStudentRecord.lastName = $scope.lastName;
-        newStudentRecord.instrument = $scope.instrument;
-        newStudentRecord.email = $scope.email;
-        newStudentRecord.phone = $scope.phone;
-        newStudentRecord.address = $scope.address;
-        newStudentRecord.birthday = $scope.birthday;
-        newStudentRecord.startDate = $scope.startDate;
-        newStudentRecord.numberOfLessons = $scope.numberOfLessons;
-        newStudentRecord.lessonTime = $scope.lessonTime;
-        newStudentRecord.lessonLength = $scope.lessonLength;
-        newStudentRecord.generalNotes = $scope.generalNotes;
-        newStudentRecord.lessonNotes = $scope.lessonNotes;
-        newStudentRecord.$save(function(result) {
-            StudentRecord.query(function(result) {
-                $scope.students = result;
-            });
-            $scope.firstName = '';
-            $scope.lastName = '';
-            $scope.instrument = '';
-            $scope.email = '';
-            $scope.phone = '';
-            $scope.address = '';
-            $scope.birthday = '';
-            $scope.startDate = '';
-            $scope.numberOfLessons = '';
-            $scope.lessonTime = '';
-            $scope.lessonLength = '';
-            $scope.generalNotes = '';
-            $scope.lessonNotes = null;
-        });
-    }
-
     $scope.openModal = function() {
 
         var createStudentRecordModalInstance = $modal.open({
@@ -94,7 +57,6 @@ function ModalInstanceCtrl($scope, $modalInstance, $resource) {
         var StudentRecord = $resource('/api/studentRecord/:id');
         var newStudentRecord = new StudentRecord();
         newStudentRecord.firstName = $scope.firstName;
-        // alert($scope.firstName);
         newStudentRecord.lastName = $scope.lastName;
         newStudentRecord.instrument = $scope.instrument;
         newStudentRecord.email = $scope.email;

@@ -12,7 +12,7 @@
                 <th></th>
             </thread>
             <tbody>
-                <tr ng-repeat="student in students | orderBy: lastName">
+                <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument']">
                     <td>{{student.lastName}}, {{student.firstName}}</td>
                     <td>{{student.instrument}}</td>
                     <td align="right">

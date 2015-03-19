@@ -35,11 +35,15 @@ function studentRecordController ($scope, $resource, $modal){
         // @TODO implement this
     };
 
+    $scope.editStudentRecord = function(student) {
+        // @TODO implement this
+    };
+
     $scope.students = [];
     $scope.createStudentRecord = function () {
         var newStudentRecord = new StudentRecord();
         newStudentRecord.firstName = $scope.firstName;
-        // alert($scope.firstName);
+        alert($scope.firstName);
         newStudentRecord.lastName = $scope.lastName;
         newStudentRecord.instrument = $scope.instrument;
         newStudentRecord.email = $scope.email;
@@ -76,7 +80,7 @@ function studentRecordController ($scope, $resource, $modal){
 
         var createStudentRecordModalInstance = $modal.open({
             templateUrl: 'views/modalStudentRecordCreateForm.html',
-            controller: ModalInstanceCtrl,
+            controller: ModalInstanceCtrl
         });
     };
 };
@@ -85,6 +89,10 @@ function ModalInstanceCtrl ($scope, $modalInstance) {
 
     $scope.ok = function () {
         $modalInstance.close();
+    };
+
+    $scope.submit = function() {
+
     };
 
     $scope.cancel = function () {

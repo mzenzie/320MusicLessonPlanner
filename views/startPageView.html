@@ -1,20 +1,12 @@
 <!-- Loads a three-column grid layout, 2 column on tablet, 1 column on smart phone. -->
-
-<!-- <div    class="col-sm-6 col-md-4"
-        ng-include="'/views/htmlViews/todayView.html'"
-        id="threeColumnLeft">
+hreeColumnLeft">
 </div> -->
 <div class="wrapper wrapper-content animated fadeInRight">
-  <div class="row">
-    <!-- <div class="col-md-6"
-      ng-include="'/views/studentListView.html'"
-      id="threeColumnMid">     -->
-    <div class="col-md-6" ng-include="'/views/studentListView.html'">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="row" ng-include="'/views/todayView.html'" scope="" onload=""></div>
+            <div class="row" ng-include="'/views/studentListView.html'"></div>
+        </div>
+        <div class="col-md-5" ng-include="'/views/teacherView.html'"></div>
     </div>
-    <!-- <div class="clearfix visible-sm-block"></div> -->
-    <div  class="col-md-6"
-          ng-include="'/views/teacherView.html'"
-          id="threeColumnRight">
-    </div>
-  </div>
 </div>

@@ -3,22 +3,22 @@
         <h4 class="modal-title">Create Student Record</h4>
     </div>
     <div class="modal-body">
-        <form ng-submit="createStudentRecord()">
+        <form role="form">
             <div class="form-group">
                 <label class="font-noraml">First Name</label>
-                <input type="text" ng-model="$parent.firstName" class="form-control">
+                <input type="text" ng-model="$parent.firstName" class="form-control" name="firstName">
             </div>
             <div class="form-group">
                 <label class="font-noraml">Last Name</label>
-                <input type="text" ng-model="$parent.lastName" class="form-control">
+                <input type="text" ng-model="$parent.lastName" class="form-control" name="lastName">
             </div>
             <div class="form-group">
                 <label class="font-noraml">Instrument</label>
-                <input type="text" ng-model="$parent.instrument" class="form-control">
+                <input type="text" ng-model="$parent.instrument" class="form-control" name="instrument">
             </div>
             <div class="form-group">
                 <label class="font-noraml">Email</label>
-                <input type="text" ng-model="$parent.email" class="form-control">
+                <input type="email" ng-model="$parent.email" class="form-control">
             </div>
             <div class="form-group">
                 <label class="font-noraml">Phone</label>
@@ -57,11 +57,9 @@
                 <label class="font-noraml">Lesson Length</label>
                 <input type="text" ng-model="$parent.lessonLength" class="form-control">
             </div>
+            <button type="button" class="btn btn-white" ng-click="cancel()">Close</button>
+            <button type="button" class="btn btn-primary" ng-click="ok()">Save changes</button>
         </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-white" ng-click="cancel()">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="ok()">Save changes</button>
     </div>
 
 </div>

@@ -1,23 +1,22 @@
 <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h5>Student Record View<small>   SAMPLE</small></h5>
+        <h5>{{student.lastName}}, {{student.firstName}}</h5>
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
-        <p><small>Student Name:</small> Wolfgang Amadeus Mozart</p>
-        <p><small>Instrument:</small> Piano</p>
+        <h4>{{student.instrument}}</h4>
         <hr>
         <dl class="dl-horizontal">
             <dt>Email:</dt>
-            <dd> mozart@vienna.mus</dd>
+            <dd> {{student.email}}</dd>
             <dt>Phone:</dt>
-            <dd> 555-1945</dd>
-            <dt>Addrees:</dt>
-            <dd> Vienna, Austria</dd>
+            <dd> {{student.phone}}</dd>
+            <dt>Address:</dt>
+            <dd> {{student.address}}</dd>
             <dt>Birthday:</dt>
-            <dd> January 27, 1756</dd>
+            <dd> {{student.birthday}}</dd>
             <dt>Lesson Times:</dt>
-            <dd> Wednesdays at 3:00pm</dd>
+            <dd> {{student.lessonTime}}, {{student.startDate}}</dd>
         </dl>
         <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -25,7 +24,7 @@
                 <div ibox-tools></div>
             </div>
             <div class="ibox-content no-padding">
-                <div summernote class="summernote" ng-model="main.summernoteText">
+                <div summernote class="summernote" ng-model="student.generalNotes">
                     <h3>Hello Jonathan! </h3> dummy text of the printing and typesetting industry. <strong>Lorem Ipsum has been the industry's</strong> standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
                     <br/>
                     <br/>

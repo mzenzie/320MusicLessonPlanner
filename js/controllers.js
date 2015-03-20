@@ -7,16 +7,16 @@
 /**
  * MainCtrl - controller
  */
-function MainCtrl() {
-
-    this.userName = 'Example user';
-    this.helloText = 'Welcome in SeedProject';
-    this.descriptionText = 'It is an application skeleton for a typical AngularJS web app. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.';
-
+function MainCtrl($scope, $http, $location, $state) {
+    $scope.validateLogin = function() {
+        alert($state.href("teacher-dashboard.main", {}));
+        $state.go('teacher-dashboard.main', {});
+    }
 }
 
-function studentRecordController($scope, $resource, $modal) {
+function studentRecordController($scope, $resource, $modal, $stateParams, $state) {
     var StudentRecord = $resource('/api/studentRecord/:id');
+
 
     StudentRecord.query(function(result) {
         $scope.students = result;
@@ -34,7 +34,11 @@ function studentRecordController($scope, $resource, $modal) {
     };
 
     $scope.viewStudentRecord = function(student) {
-        // @TODO implement this
+        // var studentRecordParams = $stateParams.student;
+        // $scope.state = $state.current;;
+        $state.go('index.studentRecordViewPage', {student: student});
+        // $scope.studentRecord = student;
+        // alert(student.firstName);
     };
 
     $scope.editStudentRecord = function(student) {

@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("mlp.sqlite")
+conn = sqlite3.connect("../mlp.sql")
 c = conn.cursor()
 
 a = raw_input("Enter a sql command to execute: ")

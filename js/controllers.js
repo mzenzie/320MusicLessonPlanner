@@ -36,7 +36,9 @@ function studentRecordController($scope, $resource, $modal, $stateParams, $state
     $scope.viewStudentRecord = function(student) {
         // var studentRecordParams = $stateParams.student;
         // $scope.state = $state.current;;
-        $state.go('index.studentRecordViewPage', {student: student});
+        $state.go('index.studentRecordViewPage', {
+            student: student
+        });
         // $scope.studentRecord = student;
         // alert(student.firstName);
     };
@@ -49,13 +51,35 @@ function studentRecordController($scope, $resource, $modal, $stateParams, $state
 
         var createStudentRecordModalInstance = $modal.open({
             templateUrl: 'views/modalStudentRecordCreateForm.html',
-            controller: ModalInstanceCtrl,
+            controller: StudentRecordModalInstanceCtrl,
             scope: $scope
         });
     };
 };
 
-function ModalInstanceCtrl($scope, $modalInstance, $resource) {
+function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
+    var StudentRecord = $resource('/api/studentRecord/:id');
+
+    StudentRecord.query(function(result) {
+        $scope.students = result;
+    });
+
+    $scope.cancelLesson = function(student) {
+
+        $scope.openModal = function() {
+
+            // var createCancelLessonDialogModalInstance = $modal.open({
+            //     templateUrl: 'views/modalStudentRecordCreateForm.html',
+            //     controller: ModalInstanceCtrl,
+            //     scope: $scope
+            // });
+        };
+        // @TODO cancel current lesson
+    }
+
+}
+
+function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource) {
 
     $scope.ok = function() {
         var StudentRecord = $resource('/api/studentRecord/:id');

@@ -9,7 +9,5 @@
         'ngResource',
         'oc.lazyLoad',                  // ocLazyLoad
         'ui.bootstrap',                 // Ui Bootstrap
-        'angular-jwt',					// token authentication
-        'angular-storage'				// token storage
     ])
 })();

@@ -12,19 +12,17 @@
 function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
     $urlRouterProvider
         .otherwise("/index/main");
-    // .otherwise("/login");
 
 
     $ocLazyLoadProvider.config({
         // Set to true if you want to see what and when is dynamically loaded
-        debug: true
+        debug: false
     });
 
     $stateProvider
         .state('index', {
             abstract: true,
             url: "/index",
-            controller: 'signoutController',
             templateUrl: "views/common/content_top_navigation.html",
         })
         .state('index.main', {

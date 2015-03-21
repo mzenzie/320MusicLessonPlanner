@@ -1,4 +1,5 @@
 /**
+<<<<<<< HEAD
  * INSPINIA - Responsive Admin Theme
  * Copyright 2015 Webapplayers.com
  *
@@ -7,10 +8,12 @@
  * Initial there are written state for all view in theme.
  *
  */
+
 function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
     $urlRouterProvider
         .otherwise("/index/main");
     // .otherwise("/login");
+
 
     $ocLazyLoadProvider.config({
         // Set to true if you want to see what and when is dynamically loaded
@@ -21,6 +24,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         .state('index', {
             abstract: true,
             url: "/index",
+            controller: 'signoutController',
             templateUrl: "views/common/content_top_navigation.html",
         })
         .state('index.main', {
@@ -29,6 +33,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             controller: studentRecordController,
             data: {
                 pageTitle: 'Teacher Dashboard'
+
             },
             resolve: {
                 loadPlugin: function($ocLazyLoad) {
@@ -73,6 +78,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             templateUrl: "views/support.html",
             data: { pageTitle: 'MusicLessonPlanner Support' }
         })
+
         .state('index.studentRecordViewPage', {
             url: "/studentRecordPageView",
             templateUrl: "views/studentRecordPageView.html",
@@ -90,6 +96,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                         files: ['css/plugins/summernote/summernote.css', 'css/plugins/summernote/summernote-bs3.css', 'js/plugins/summernote/summernote.min.js', 'js/plugins/summernote/angular-summernote.min.js']
                     }]);
                 }
+
             }
         })
         .state('index.lessonNoteViewPage', {
@@ -97,6 +104,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             templateUrl: "views/lessonNotePageView.html",
             data: {
                 pageTitle: 'Lesson Notes'
+
             },
             resolve: {
                 loadPlugin: function($ocLazyLoad) {
@@ -107,7 +115,9 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                 }
             }
         })
+
 }
+
 angular
     .module('inspinia')
     .config(config)

@@ -185,3 +185,4 @@ angular
     .controller('studentRecordController', studentRecordController)
     .controller('TodayViewController', TodayViewController)
     .controller('CalendarCtrl', CalendarCtrl);
+

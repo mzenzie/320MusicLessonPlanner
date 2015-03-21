@@ -16,6 +16,7 @@ Module.constant('dateTimeConfig', {
             (attrs.minView ? 'min-view="' + attrs.minView + '" ' : '') +
             (attrs.partial ? 'partial="' + attrs.partial + '" ' : '') +
             (attrs.step ? 'step="' + attrs.step + '" ' : '') +
+            (attrs.autoClose ? 'auto-close="' + attrs.autoClose + '" ' : '') +
             'class="dropdown-menu"></div>';
     },
     format: 'yyyy-MM-dd HH:mm',

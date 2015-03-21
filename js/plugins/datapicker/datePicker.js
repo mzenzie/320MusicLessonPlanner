@@ -42,7 +42,6 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
     link: function (scope, element, attrs, ngModel) {
 
       var arrowClick = false;
-
       scope.date = new Date(scope.model || new Date());
       scope.views = datePickerConfig.views.concat();
       scope.view = attrs.view || datePickerConfig.view;

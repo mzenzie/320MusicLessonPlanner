@@ -8,10 +8,10 @@
  * MainCtrl - controller
  */
 function MainCtrl($scope, $http, $location, $state) {
-    $scope.validateLogin = function() {
-        alert($state.href("teacher-dashboard.main", {}));
-        $state.go('teacher-dashboard.main', {});
-    }
+    // $scope.validateLogin = function() {
+    //     alert($state.href("teacher-dashboard.main", {}));
+    //     $state.go('teacher-dashboard.main', {});
+    // }
 }
 
 function studentRecordController($scope, $resource, $modal, $stateParams, $state) {
@@ -36,7 +36,7 @@ function studentRecordController($scope, $resource, $modal, $stateParams, $state
     $scope.viewStudentRecord = function(student) {
         // var studentRecordParams = $stateParams.student;
         // $scope.state = $state.current;;
-        $state.go('index.studentRecordViewPage', {
+        $state.go('student.viewStudentRecord', {
             student: student
         });
         // $scope.studentRecord = student;
@@ -56,6 +56,7 @@ function studentRecordController($scope, $resource, $modal, $stateParams, $state
         });
     };
 };
+
 
 function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
     var StudentRecord = $resource('/api/studentRecord/:id');
@@ -136,32 +137,52 @@ function CalendarCtrl($scope) {
     var y = date.getFullYear();
 
     // Events
-    $scope.events = [
-        {title: 'All Day Event',start: new Date(y, m, 1)},
-        {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-        {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-        {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-        {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
-        {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-    ];
+    $scope.events = [{
+        title: 'All Day Event',
+        start: new Date(y, m, 1)
+    }, {
+        title: 'Long Event',
+        start: new Date(y, m, d - 5),
+        end: new Date(y, m, d - 2)
+    }, {
+        id: 999,
+        title: 'Repeating Event',
+        start: new Date(y, m, d - 3, 16, 0),
+        allDay: false
+    }, {
+        id: 999,
+        title: 'Repeating Event',
+        start: new Date(y, m, d + 4, 16, 0),
+        allDay: false
+    }, {
+        title: 'Birthday Party',
+        start: new Date(y, m, d + 1, 19, 0),
+        end: new Date(y, m, d + 1, 22, 30),
+        allDay: false
+    }, {
+        title: 'Click for Google',
+        start: new Date(y, m, 28),
+        end: new Date(y, m, 29),
+        url: 'http://google.com/'
+    }];
 
 
     /* message on eventClick */
-    $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
+    $scope.alertOnEventClick = function(event, allDay, jsEvent, view) {
         $scope.alertMessage = (event.title + ': Clicked ');
     };
     /* message on Drop */
-    $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-        $scope.alertMessage = (event.title +': Droped to make dayDelta ' + dayDelta);
+    $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+        $scope.alertMessage = (event.title + ': Droped to make dayDelta ' + dayDelta);
     };
     /* message on Resize */
-    $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-        $scope.alertMessage = (event.title +': Resized to make dayDelta ' + minuteDelta);
+    $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
+        $scope.alertMessage = (event.title + ': Resized to make dayDelta ' + minuteDelta);
     };
 
     /* config object */
     $scope.uiConfig = {
-        calendar:{
+        calendar: {
             height: 450,
             editable: true,
             header: {
@@ -179,10 +200,17 @@ function CalendarCtrl($scope) {
     $scope.eventSources = [$scope.events];
 }
 
+function loginCtrl($state, $scope) {
+    $scope.signin = function() {
+        // alert('login clicked');
+        $state.go('index.main');
+    }
+}
+
 angular
     .module('inspinia')
     .controller('MainCtrl', MainCtrl)
     .controller('studentRecordController', studentRecordController)
     .controller('TodayViewController', TodayViewController)
-    .controller('CalendarCtrl', CalendarCtrl);
-
+    .controller('CalendarCtrl', CalendarCtrl)
+    .controller('loginCtrl', loginCtrl);

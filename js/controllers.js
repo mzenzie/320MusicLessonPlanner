@@ -200,14 +200,40 @@ function CalendarCtrl($scope) {
     $scope.eventSources = [$scope.events];
 }
 
-function loginCtrl($state, $scope) {
+function loginCtrl($state, $scope, $http, store) {
     $scope.signin = function() {
-        // alert('login clicked');
-        $state.go('index.main');
-    }
+        $http.post('/api/signin', {username: $scope.username, password: $scope.password})
+        .success(function(data, status, header, config){
+            // alert("SIGN-IN-CTRL Recieved " + data.token);
+            store.set('token', data.token);
+            $state.go('index.main');
+        })
+        .error(function(data, status, header, config){
+            alert(status);
+        });
+    };
     $scope.signout = function() {
+        $http.post('/api/signout')
+        .success(function(data, status, header, config){
+            store.remove('token');
         $state.go('startpage.landing');
-    }
+        })
+        .error(function(data, status, header, config){
+            alert(status);
+        });
+    };
+    $scope.signup = function(){
+        alert($scope.username);
+        $http.post('/api/signup', {username: $scope.username, password: $scope.password})
+        .success(function(data,status,header,config){
+            alert('success');
+            store.set('token', data.token);
+            $state.go('index.main');
+        })
+        .error(function(data,status,header,config){
+            alert(status);
+        });
+    };
 }
 
 angular

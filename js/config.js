@@ -1,5 +1,4 @@
 /**
-<<<<<<< HEAD
  * INSPINIA - Responsive Admin Theme
  * Copyright 2015 Webapplayers.com
  *
@@ -9,9 +8,13 @@
  *
  */
 
-function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
+function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInterceptorProvider, $httpProvider) {
     $urlRouterProvider.otherwise("/startpage/landing");
 
+    jwtInterceptorProvider.tokenGetter = function(store) {
+        return store.get('token'); //storage field = 'token'
+    }
+    $httpProvider.interceptors.push('jwtInterceptor');
 
     $ocLazyLoadProvider.config({
         // Set to true if you want to see what and when is dynamically loaded
@@ -30,7 +33,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                 templateUrl: "views/startPageView.html",
                 controller: studentRecordController,
                 data: {
-                    pageTitle: 'Teacher Dashboard'
+                    pageTitle: 'Teacher Dashboard',
+                    requiresLogin: true
 
                 },
                 resolve: {
@@ -45,42 +49,48 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             .state('index.calendar', {
                 url: "/calendar",
                 templateUrl: "views/calendar.html",
-                data: { pageTitle: 'Calendar' },
+                data: {
+                    pageTitle: 'Calendar',
+                    requiresLogin: true
+                },
                 resolve: {
-                    loadPlugin: function ($ocLazyLoad) {
-                        return $ocLazyLoad.load([
-                            {
-                                insertBefore: '#loadBefore',
-                                files: ['css/plugins/fullcalendar/fullcalendar.css','js/plugins/fullcalendar/fullcalendar.min.js','js/plugins/fullcalendar/gcal.js']
-                            },
-                            {
-                                name: 'ui.calendar',
-                                files: ['js/plugins/fullcalendar/calendar.js']
-                            }
-                        ]);
+                    loadPlugin: function($ocLazyLoad) {
+                        return $ocLazyLoad.load([{
+                            insertBefore: '#loadBefore',
+                            files: ['css/plugins/fullcalendar/fullcalendar.css', 'js/plugins/fullcalendar/fullcalendar.min.js', 'js/plugins/fullcalendar/gcal.js']
+                        }, {
+                            name: 'ui.calendar',
+                            files: ['js/plugins/fullcalendar/calendar.js']
+                        }]);
                     }
                 }
             })
         .state('startpage', {
             abstract: true,
-            url:"/startpage",
+            url: "/startpage",
             templateUrl: "views/common/start_page_navigation.html",
         })
             .state('startpage.landing', {
                 url: "/landing",
                 templateUrl: "views/login.html",
-                data: {pageTitle: "Welcome to MusicLessonPlanner"},
+                data: {
+                    pageTitle: "Welcome to MusicLessonPlanner"
+                },
                 controller: loginCtrl,
             })
             .state('startpage.about', {
                 url: "/about",
                 templateUrl: "views/about.html",
-                data: { pageTitle: 'About MusicLessonPlanner' }
+                data: {
+                    pageTitle: 'About MusicLessonPlanner'
+                }
             })
             .state('startpage.support', {
                 url: "/support",
                 templateUrl: "views/support.html",
-                data: { pageTitle: 'MusicLessonPlanner Support' }
+                data: {
+                    pageTitle: 'MusicLessonPlanner Support'
+                }
             })
         .state('student', {
             abstract: true,
@@ -93,7 +103,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                 templateUrl: "views/studentRecordPageView.html",
                 controller: studentRecordController,
                 data: {
-                    pageTitle: 'Student Records'
+                    pageTitle: 'Student Records',
+                    requiresLogin: true
                 },
                 resolve: {
                     loadPlugin: function($ocLazyLoad) {
@@ -112,7 +123,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                 url: "/lessonNotePageView",
                 templateUrl: "views/lessonNotePageView.html",
                 data: {
-                    pageTitle: 'Lesson Notes'
+                    pageTitle: 'Lesson Notes',
+                    requiresLogin: true
 
                 },
                 resolve: {
@@ -124,12 +136,25 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                     }
                 }
             });
-
 }
 
 angular
     .module('inspinia')
     .config(config)
-    .run(function($rootScope, $state) {
+    .run(function($rootScope, $state, store, jwtHelper, $location) {
         $rootScope.$state = $state;
+        $rootScope.$on('$stateChangeStart', function(e, toState) {
+            if (toState.data && toState.data.requiresLogin) {
+                if (!store.get('token')) {
+                    e.preventDefault();
+                    $state.go('startpage.landing');
+                }
+            }
+        });
+
+    })
+    .controller('AppController', function($scope, $location) {
+        $scope.$on('$stateChangeSuccess', function(e, nextRoute) {
+
+        });
     });

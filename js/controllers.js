@@ -205,6 +205,9 @@ function loginCtrl($state, $scope) {
         // alert('login clicked');
         $state.go('index.main');
     }
+    $scope.signout = function() {
+        $state.go('startpage.landing');
+    }
 }
 
 angular

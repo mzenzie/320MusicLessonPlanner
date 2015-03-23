@@ -23,6 +23,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             abstract: true,
             url: "/index",
             templateUrl: "views/common/content_top_navigation.html",
+            controller: loginCtrl
         })
             .state('index.main', {
                 url: "/main",
@@ -85,6 +86,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             abstract: true,
             url: "/student",
             templateUrl: "views/common/content_top_navigation.html",
+            controller: loginCtrl
         })
             .state('student.viewStudentRecord', {
                 url: "/viewStudentRecord/:lastName",

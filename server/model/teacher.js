@@ -39,9 +39,8 @@ StudentRecord.prototype.save = function(callback){
 	var db = dbConnector.getInstance();
 	console.log("DB SAVE");
 
-	var teacher_account_query = "INSERT INTO Teacher (email, email, firstName, lastName, address, phone) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}')"
+	var teacher_account_query = "INSERT INTO Teacher (email, firstName, lastName, address, phone) VALUES('{0}', '{1}', '{2}', '{3}', '{4}')"
 						.format(
-							1,
 							self.email,
 							self.firstName,
 							self.lastName,

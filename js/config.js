@@ -89,6 +89,20 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                     }
                 }
             })
+            .state('teacher-dashboard.about', {
+                url: "/about",
+                templateUrl: "views/about.html",
+                data: {
+                    pageTitle: 'About MusicLessonPlanner'
+                }
+            })
+            .state('teacher-dashboard.support', {
+                url: "/support",
+                templateUrl: "views/support.html",
+                data: {
+                    pageTitle: 'MusicLessonPlanner Support'
+                }
+            })
         .state('startpage', {
             abstract: true,
             url: "/startpage",
@@ -97,6 +111,14 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
             .state('startpage.landing', {
                 url: "/landing",
                 templateUrl: "views/login.html",
+                data: {
+                    pageTitle: "Welcome to MusicLessonPlanner"
+                },
+                controller: loginCtrl,
+            })
+            .state('startpage.register', {
+                url: "/register",
+                templateUrl: "views/register.html",
                 data: {
                     pageTitle: "Welcome to MusicLessonPlanner"
                 },

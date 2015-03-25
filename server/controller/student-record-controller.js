@@ -9,7 +9,9 @@ module.exports.create = function(req, res) {
 	  */
     console.log("CTRLLER");
     console.log(req.body);
+    // console.log(req.body.startDate.day);
     StudentRecord.create({
+        // alert(req.body.startDate);
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,

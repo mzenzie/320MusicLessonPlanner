@@ -5,7 +5,7 @@ var exists = fs.existsSync(file);// if the file not exist create a new one
 teaTable = "CREATE TABLE Teacher(tEmail TEXT PRIMARY KEY, passowrd TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
 stuTable = "CREATE TABLE SRecord(tEmail TEXT references Teacher(tEmailmail) on delete cascade on update cascade, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT, birthday DATE, instrument TEXT, generalNotes TEXT, PRIMARY KEY (email, instrument));";
 schTable = "CREATE TABLE Schedule(lsid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, lessonTime DATETIME, lessonLength INTEGER, email TEXT references SRecord(email) on delete cascade on update cascade, instrument TEXT references SRecord(instrument) on delete cascade on update cascade);";
-LRTable = "CREATE TABLE LessonRecord(lrid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, notes TEXT, sid INTEGER references SRecord(sid), email TEXT references SRecord(email) on delete cascade on update cascade, instrument TEXT references SRecord(instrument) on delete cascade on update cascade);";
+LRTable = "CREATE TABLE LessonRecord(lrid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, notes TEXT, email TEXT references SRecord(email) on delete cascade on update cascade, instrument TEXT references SRecord(instrument) on delete cascade on update cascade);";
 // connect to the database and return the pointer to db
 var db = null;
 

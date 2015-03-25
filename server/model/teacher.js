@@ -76,17 +76,6 @@ module.exports = Teacher;
 // Static Methods //
 
 /**
- * Check wether input (during creating new account) is valid.
- * 
- * @param {Object} jsObject : the object containing all the information that needs to be validated
- */
-module.exports.isInputValid =function(jsObject){
-	//TODO: implement function
-	//		determine what are necessary inputs. Fields (mentioned above) 
-	//		are accessed through jsObject.{fields} 
-};
-
-/**
  * Retrieve teacher information from database.
  *
  * @param {int} tid : the unique id for the teacher account to be retrieved

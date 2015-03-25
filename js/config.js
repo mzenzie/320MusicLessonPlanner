@@ -1,44 +1,68 @@
 /**
- * INSPINIA - Responsive Admin Theme
- * Copyright 2015 Webapplayers.com
+ * UI-Router config file:
+ *     Handles all links and routing to different views programmatically.
+ *     UI-Router creates a nested set of states of the application.
+ *     The nesting for this app so far is a simple one:
+ *     __________________________________________________________
+ *         teacher-dashboard -> main teacher workspace (after login)
+ *         |    teacher-dashboard.main
+ *         |    teacher-dashboard.calendar
+ *         startpage -> The pages that are accesible at first visit or after logout
+ *         |    startpage.landing   (login for now)
+ *         |    startpage.about
+ *         |    startpage.support
+ *         student -> Displayed when the teacher views an individual record, may nest this with teacher-dashboard
+ *         |    student.viewStudentRecord
+ *         |    student.lessonNoteView
  *
- * Inspinia theme use AngularUI Router to manage routing and views
- * Each view are defined as state.
- * Initial there are written state for all view in theme.
+ *      * THIS IS ALL SUBJECT TO CHANGE
  *
  */
 
 function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInterceptorProvider, $httpProvider) {
+
+    /*
+    *       If no other state is provided, the website defaults to this:
+     */
     $urlRouterProvider.otherwise("/startpage/landing");
 
+    /*
+    *       ?? Looks for a stored token and directs as necessary??
+     */
     jwtInterceptorProvider.tokenGetter = function(store) {
         return store.get('token'); //storage field = 'token'
     }
     $httpProvider.interceptors.push('jwtInterceptor');
 
+    /*
+    *    A config for the 'lazy loading' of plugins. 'Lazy loading' only loads plugins actively being used.
+     */
     $ocLazyLoadProvider.config({
         // Set to true if you want to see what and when is dynamically loaded
         debug: false
     });
 
+    /*
+    *       State routing for the entire app
+     */
     $stateProvider
-        .state('index', {
+        .state('teacher-dashboard', {
             abstract: true,
-            url: "/index",
+            url: "/teacher-dashboard",
             templateUrl: "views/common/content_top_navigation.html",
             controller: loginCtrl
         })
-            .state('index.main', {
+            .state('teacher-dashboard.main', {                  // This is the url used in a ui-sref call (see html files)
                 url: "/main",
-                templateUrl: "views/startPageView.html",
-                controller: studentRecordController,
-                data: {
+                templateUrl: "views/startPageView.html",        // assigns a template url file (partial html)
+                controller: studentRecordController,            // loads the appropriate controller
+                data: {                                         // This area handles some basic parameters
                     pageTitle: 'Teacher Dashboard',
                     requiresLogin: true
 
                 },
-                resolve: {
-                    loadPlugin: function($ocLazyLoad) {
+                resolve: {                                      // This area is important for loading plugins,
+                    loadPlugin: function($ocLazyLoad) {         //  passing parameters, and resolving promises.
                         return $ocLazyLoad.load([{
                             name: 'datePicker',
                             files: ['css/plugins/datapicker/angular-datapicker.css', 'js/plugins/datapicker/datePicker.js']
@@ -46,7 +70,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                     }
                 }
             })
-            .state('index.calendar', {
+            .state('teacher-dashboard.calendar', {
                 url: "/calendar",
                 templateUrl: "views/calendar.html",
                 data: {
@@ -119,7 +143,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
 
                 }
             })
-            .state('index.lessonNoteViewPage', {
+            .state('student.lessonNoteViewPage', {
                 url: "/lessonNotePageView",
                 templateUrl: "views/lessonNotePageView.html",
                 data: {
@@ -136,6 +160,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                     }
                 }
             });
+
 }
 
 angular

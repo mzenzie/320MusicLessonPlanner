@@ -1,7 +1,7 @@
 0 info it worked if it ends with ok
 1 verbose cli [ 'node', '/usr/local/bin/npm', 'install' ]
 2 info using npm@2.5.1
-3 info using node@v0.12.0
+3 info using node@v0.12.1
 4 warn package.json 320MusicLessonPlanner@0.0.1 No repository field.
 5 verbose install where, deps [ '/Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner',
 5 verbose install   [ 'bcrypt',
@@ -18,52 +18,52 @@
 6 verbose install where, peers [ '/Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner',
 6 verbose install   [] ]
 7 info preinstall 320MusicLessonPlanner@0.0.1
-8 verbose already installed skipping body-parser@^1.12.0 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-9 verbose already installed skipping collections@^1.2.1 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-10 verbose already installed skipping express@^4.11.2 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-11 verbose already installed skipping express-jwt@^2.1.0 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-12 verbose already installed skipping jsonwebtoken@^4.2.1 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-13 verbose already installed skipping morgan@^1.5.1 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-14 verbose already installed skipping multer@^0.1.8 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-15 verbose already installed skipping redis@^0.12.1 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-16 verbose already installed skipping sqlite3@^3.0.5 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-17 verbose already installed skipping string-format@^0.5.0 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
-18 silly cache add args [ 'bcrypt@^0.8.1', null ]
-19 verbose cache add spec bcrypt@^0.8.1
-20 silly cache add parsed spec { raw: 'bcrypt@^0.8.1',
-20 silly cache add   scope: null,
-20 silly cache add   name: 'bcrypt',
-20 silly cache add   rawSpec: '^0.8.1',
-20 silly cache add   spec: '>=0.8.1 <0.9.0',
-20 silly cache add   type: 'range' }
-21 verbose addNamed bcrypt@>=0.8.1 <0.9.0
-22 silly addNamed semver.valid null
-23 silly addNamed semver.validRange >=0.8.1 <0.9.0
-24 silly addNameRange { name: 'bcrypt', range: '>=0.8.1 <0.9.0', hasData: false }
-25 silly mapToRegistry name bcrypt
-26 silly mapToRegistry using default registry
-27 silly mapToRegistry registry https://registry.npmjs.org/
-28 silly mapToRegistry uri https://registry.npmjs.org/bcrypt
-29 verbose addNameRange registry:https://registry.npmjs.org/bcrypt not in flight; fetching
+8 verbose already installed skipping jsonwebtoken@^4.2.1 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
+9 verbose already installed skipping morgan@^1.5.1 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
+10 verbose already installed skipping multer@^0.1.8 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
+11 verbose already installed skipping redis@^0.12.1 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
+12 verbose already installed skipping sqlite3@^3.0.5 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
+13 verbose already installed skipping string-format@^0.5.0 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
+14 silly cache add args [ 'bcrypt@^0.8.1', null ]
+15 verbose cache add spec bcrypt@^0.8.1
+16 silly cache add parsed spec { raw: 'bcrypt@^0.8.1',
+16 silly cache add   scope: null,
+16 silly cache add   name: 'bcrypt',
+16 silly cache add   rawSpec: '^0.8.1',
+16 silly cache add   spec: '>=0.8.1 <0.9.0',
+16 silly cache add   type: 'range' }
+17 verbose addNamed bcrypt@>=0.8.1 <0.9.0
+18 silly addNamed semver.valid null
+19 silly addNamed semver.validRange >=0.8.1 <0.9.0
+20 silly addNameRange { name: 'bcrypt', range: '>=0.8.1 <0.9.0', hasData: false }
+21 silly mapToRegistry name bcrypt
+22 silly mapToRegistry using default registry
+23 silly mapToRegistry registry https://registry.npmjs.org/
+24 silly mapToRegistry uri https://registry.npmjs.org/bcrypt
+25 verbose addNameRange registry:https://registry.npmjs.org/bcrypt not in flight; fetching
+26 verbose already installed skipping body-parser@^1.12.0 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
+27 verbose already installed skipping collections@^1.2.1 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
+28 verbose already installed skipping express@^4.11.2 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
+29 verbose already installed skipping express-jwt@^2.1.0 /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
 30 verbose request uri https://registry.npmjs.org/bcrypt
 31 verbose request no auth needed
-32 info attempt registry request try #1 at 10:55:46 AM
-33 verbose request id ee5cf74f829209db
+32 info attempt registry request try #1 at 8:59:17 AM
+33 verbose request id 5a70ff99ed70cceb
 34 verbose etag "7IXOKRVQXKWY8RTU6JE85C8P7"
 35 http request GET https://registry.npmjs.org/bcrypt
 36 http 304 https://registry.npmjs.org/bcrypt
 37 silly get cb [ 304,
-37 silly get   { date: 'Mon, 23 Mar 2015 14:55:46 GMT',
+37 silly get   { date: 'Wed, 25 Mar 2015 12:59:19 GMT',
 37 silly get     server: 'Apache',
 37 silly get     via: '1.1 varnish',
-37 silly get     'last-modified': 'Mon, 23 Mar 2015 14:55:46 GMT',
+37 silly get     'last-modified': 'Wed, 25 Mar 2015 12:59:19 GMT',
 37 silly get     'cache-control': 'max-age=60',
 37 silly get     etag: '"7IXOKRVQXKWY8RTU6JE85C8P7"',
-37 silly get     age: '21',
-37 silly get     'x-served-by': 'cache-atl6224-ATL',
+37 silly get     age: '40',
+37 silly get     'x-served-by': 'cache-iad2128-IAD',
 37 silly get     'x-cache': 'HIT',
 37 silly get     'x-cache-hits': '1',
-37 silly get     'x-timer': 'S1427122546.410943,VS0,VE0',
+37 silly get     'x-timer': 'S1427288359.658493,VS0,VE0',
 37 silly get     vary: 'Accept',
 37 silly get     'content-length': '0',
 37 silly get     'keep-alive': 'timeout=10, max=50',
@@ -194,22 +194,22 @@
 82 silly prepareForInstallMany adding nan@1.5.0 from bcrypt dependencies
 83 silly cache add args [ 'bindings@1.0.0', null ]
 84 verbose cache add spec bindings@1.0.0
-85 silly cache add parsed spec { raw: 'bindings@1.0.0',
-85 silly cache add   scope: null,
-85 silly cache add   name: 'bindings',
-85 silly cache add   rawSpec: '1.0.0',
-85 silly cache add   spec: '1.0.0',
-85 silly cache add   type: 'version' }
-86 verbose addNamed bindings@1.0.0
-87 silly addNamed semver.valid 1.0.0
-88 silly addNamed semver.validRange 1.0.0
-89 silly mapToRegistry name bindings
-90 silly mapToRegistry using default registry
-91 silly mapToRegistry registry https://registry.npmjs.org/
-92 silly mapToRegistry uri https://registry.npmjs.org/bindings
-93 verbose addNameVersion registry:https://registry.npmjs.org/bindings not in flight; fetching
-94 silly cache add args [ 'nan@1.5.0', null ]
-95 verbose cache add spec nan@1.5.0
+85 silly cache add args [ 'nan@1.5.0', null ]
+86 verbose cache add spec nan@1.5.0
+87 silly cache add parsed spec { raw: 'bindings@1.0.0',
+87 silly cache add   scope: null,
+87 silly cache add   name: 'bindings',
+87 silly cache add   rawSpec: '1.0.0',
+87 silly cache add   spec: '1.0.0',
+87 silly cache add   type: 'version' }
+88 verbose addNamed bindings@1.0.0
+89 silly addNamed semver.valid 1.0.0
+90 silly addNamed semver.validRange 1.0.0
+91 silly mapToRegistry name bindings
+92 silly mapToRegistry using default registry
+93 silly mapToRegistry registry https://registry.npmjs.org/
+94 silly mapToRegistry uri https://registry.npmjs.org/bindings
+95 verbose addNameVersion registry:https://registry.npmjs.org/bindings not in flight; fetching
 96 silly cache add parsed spec { raw: 'nan@1.5.0',
 96 silly cache add   scope: null,
 96 silly cache add   name: 'nan',
@@ -226,27 +226,27 @@
 104 verbose addNameVersion registry:https://registry.npmjs.org/nan not in flight; fetching
 105 verbose request uri https://registry.npmjs.org/bindings
 106 verbose request no auth needed
-107 info attempt registry request try #1 at 10:55:46 AM
+107 info attempt registry request try #1 at 8:59:19 AM
 108 verbose etag "5997G8NY1OJEMZ1HNHL7VBX5J"
 109 http request GET https://registry.npmjs.org/bindings
 110 verbose request uri https://registry.npmjs.org/nan
 111 verbose request no auth needed
-112 info attempt registry request try #1 at 10:55:46 AM
+112 info attempt registry request try #1 at 8:59:19 AM
 113 verbose etag "2RVNOBUBIPFCFHXKKPTSTKGB8"
 114 http request GET https://registry.npmjs.org/nan
 115 http 304 https://registry.npmjs.org/bindings
 116 silly get cb [ 304,
-116 silly get   { date: 'Mon, 23 Mar 2015 14:55:46 GMT',
+116 silly get   { date: 'Wed, 25 Mar 2015 12:59:19 GMT',
 116 silly get     server: 'Apache',
 116 silly get     via: '1.1 varnish',
-116 silly get     'last-modified': 'Mon, 23 Mar 2015 14:55:32 GMT',
+116 silly get     'last-modified': 'Wed, 25 Mar 2015 12:59:19 GMT',
 116 silly get     'cache-control': 'max-age=60',
 116 silly get     etag: '"5997G8NY1OJEMZ1HNHL7VBX5J"',
-116 silly get     age: '35',
-116 silly get     'x-served-by': 'cache-atl6226-ATL',
+116 silly get     age: '40',
+116 silly get     'x-served-by': 'cache-iad2138-IAD',
 116 silly get     'x-cache': 'HIT',
-116 silly get     'x-cache-hits': '2',
-116 silly get     'x-timer': 'S1427122546.713450,VS0,VE0',
+116 silly get     'x-cache-hits': '1',
+116 silly get     'x-timer': 'S1427288359.854791,VS0,VE0',
 116 silly get     vary: 'Accept',
 116 silly get     'content-length': '0',
 116 silly get     'keep-alive': 'timeout=10, max=50',
@@ -255,17 +255,17 @@
 118 verbose get saving bindings to /Users/jesshendricks1/.npm/registry.npmjs.org/bindings/.cache.json
 119 http 304 https://registry.npmjs.org/nan
 120 silly get cb [ 304,
-120 silly get   { date: 'Mon, 23 Mar 2015 14:55:46 GMT',
+120 silly get   { date: 'Wed, 25 Mar 2015 12:59:19 GMT',
 120 silly get     server: 'Apache',
 120 silly get     via: '1.1 varnish',
-120 silly get     'last-modified': 'Mon, 23 Mar 2015 14:55:32 GMT',
+120 silly get     'last-modified': 'Wed, 25 Mar 2015 12:59:19 GMT',
 120 silly get     'cache-control': 'max-age=60',
 120 silly get     etag: '"2RVNOBUBIPFCFHXKKPTSTKGB8"',
-120 silly get     age: '39',
-120 silly get     'x-served-by': 'cache-atl6225-ATL',
+120 silly get     age: '29',
+120 silly get     'x-served-by': 'cache-iad2121-IAD',
 120 silly get     'x-cache': 'HIT',
-120 silly get     'x-cache-hits': '3',
-120 silly get     'x-timer': 'S1427122546.719168,VS0,VE0',
+120 silly get     'x-cache-hits': '1',
+120 silly get     'x-timer': 'S1427288359.859006,VS0,VE0',
 120 silly get     vary: 'Accept',
 120 silly get     'content-length': '0',
 120 silly get     'keep-alive': 'timeout=10, max=50',
@@ -433,7 +433,7 @@
 211 verbose rebuildBundles bcrypt@0.8.1
 212 verbose rebuildBundles [ 'bindings', 'nan' ]
 213 info install bcrypt@0.8.1
-214 verbose unsafe-perm in lifecycle true
+214 verbose unsafe-perm in lifecycle false
 215 info bcrypt@0.8.1 Failed to exec install script
 216 verbose unlock done using /Users/jesshendricks1/.npm/_locks/bcrypt-0b2ef8941823b9e1.lock for /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner/node_modules/bcrypt
 217 verbose stack Error: bcrypt@0.8.1 install: `node-gyp rebuild`
@@ -448,7 +448,7 @@
 219 verbose cwd /Users/jesshendricks1/Documents/GitHub Folder/320MusicLessonPlanner
 220 error Darwin 14.1.0
 221 error argv "node" "/usr/local/bin/npm" "install"
-222 error node v0.12.0
+222 error node v0.12.1
 223 error npm  v2.5.1
 224 error code ELIFECYCLE
 225 error bcrypt@0.8.1 install: `node-gyp rebuild`

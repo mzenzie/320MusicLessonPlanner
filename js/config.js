@@ -1,5 +1,4 @@
 /**
-<<<<<<< HEAD
  * INSPINIA - Responsive Admin Theme
  * Copyright 2015 Webapplayers.com
  *

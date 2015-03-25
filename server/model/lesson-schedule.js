@@ -1,30 +1,47 @@
-/*
- * @param {Date} _date : the date of the lesson
- * @param {Date} _startTime : the start time of the lesson
- * @param {Date} _endTime : the end time of the lesson
- * @param {int} _lsid : the lesson id for the database
+// TBD: Eliminate need for lesson-note.js by adding an additional field to the creation
+// of this class that is a string of lesson notes (initialized to the empty string and
+// able to be updated later on if wanted)
+
+/**
+ * Instantiates a new lesson-schedule.
+ * 
+ * @param {Date} date
+ * @param {Date} startTime
+ * @param {int} lessonLength
+ * @param {int} sid
  */
-var LessonSchedule = function(_date, _startTime, _endTime, _lsid){
-	this.date = _date;
-	this.startTime = _startTime;
-	this.endTime = _endTime;
-	this.lsid = _lsid;
+var LessonSchedule = function(date, lessonTime, lessonLength, sid){
+	this.date = date;
+	this.lessonTime = lessonTime;
+	this.lessonLength = lessonLength;
+	this.sid = sid;
 };
 
 /*
- * Delete current instance of lesson note.
+ * Save lesson schedule.
  */
-LessonSchedule.prototype.delete = function(){
-	//TODO: delete lesson note from DB
-	return this;
-};
+LessonSchedule.prototype.save = function(callback){
+	var self = this;
+	var myErr = null;
+	var db = dbConnector.getInstance();
+	console.log("DB SAVE");
 
-/*
- * Save lesson note.
- */
-LessonSchedule.prototype.save = function(){
-	//TODO: save lesson note to DB
-	return this;
+	var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES({0}, '{1}', '{2}', '{3}')"
+	.format(
+		1,
+		self.date,
+		self.lessonTime,
+		self.lessonLength,
+		self.sid);
+	
+	console.log(lschedule_query);
+
+	db.run(lschedule_query, function(err) {
+		if(err != null) {
+			console.log("SCHEDULE SAVE TO DB ERR");
+			myErr = err;
+		}
+	});
 };
 
 module.exports = LessonSchedule;
@@ -41,35 +58,56 @@ module.exports.get = function(_lsid){
 
 /*
  * Get a list of lesson notes.
- * @param _sid : student ID of the student whose 
- * lesson notes are to be retrieved.
+ *
+ * @param {int} sid
+ * @param {Function} callback
  */
-module.exports.list = function(_sid){
-	//TODO: get multiple lesson notes
-	return this;
+module.exports.list = function(sid, callback){
+	var db = dbConnector.getInstance();
+	console.log("DB LIST");
+	db.all("SELECT * FROM Schedule", function(err, rows) {
+		callback(err, rows);
+	});
+};
+
+/*
+ * Delete current instance of lesson schedule.
+ */
+module.exports.delete = function(schid){
+	var db = dbConnector.getInstance():
+	var lschedule_query = "DELETE FROM Schedule WHERE Schedule.schid={0}".format(schid);
+	console.log(lschedule_query);
+	db.exec(lschedule_query, function(err) {
+		if(err != null) {
+			console.log(err);
+			callback(err);
+		}
+	});
 };
 
 /*
  * Update lesson schedule.
  * Note: only updates fields. Not ID.
- * @param {Date} _startTime
+ *
+ * @param {Date} lessonTime
+ * @param {Date} lessonLength
+ * @param {int} sid
  */
-module.exports.update = function(_startTime, _endTime, _lsid){
+module.exports.update = function(lessonTime, lessonLength, sid){
 	//TODO: update lesson schedule in DB
-	return this;
 };
 
 /*
- * Create one lesson.
+ * Create a new schedule.
  * Note: only updates fields. Not ID.
- * @param {Date} _start
- * @param {Date} _startTime
- * @param {Date} _endTime
- * @param {int} _sid
+ *
+ * @param {Object} jsObject
+ * @param {Function} callback
  */
-module.exports.create = function(_date, _startTime, _endTime, _sid){
-	//TODO: createLessonNote
-	return this;
+module.exports.create = function(jsObject, callback){
+	console.log("CREATE");
+	var newLSchedule = new LessonSchedule(jsObject);
+	newLSchedule.save(callback);
 };
 
 

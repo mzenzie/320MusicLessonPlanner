@@ -3,14 +3,12 @@ var dbConnector = require('../../database/dbinit.js');
 if(dbConnector==null) console.log("DATABASE CONN. NULL");
 
 /**
- * @param {String} _notes : the node id
- * @param {Date} _date : the node id
- * @param {int} _nid : the node id
+ * @param {Object} jsObject
  */
-var LessonNote = function(_notes, _date, _nid){
-	this.notes = _notes;
-	this.date = _date;
-	this.nid = _nid;
+var LessonNote = function(jsObject){
+	this.notes = jsObject.notes;
+	this.date = jsObject.date;
+	this.nid = jsObject.nid;
 };
 
 /**
@@ -102,11 +100,11 @@ module.exports.update = function(_notes, _date, _nid){
 /**
  * Create a lesson note.
  *
- * @param {Object} _note
+ * @param {Object} jsObject
  * @param {Function} callback
  */
-module.exports.create = function(_note, callback){
+module.exports.create = function(jsObject, callback){
 	console.log("CREATE");
-	var newLessonNote = new LessonNote(_note);
+	var newLessonNote = new LessonNote(jsObject);
 	newLessonNote.save(callback);
 };

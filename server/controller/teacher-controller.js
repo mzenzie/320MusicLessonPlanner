@@ -27,9 +27,6 @@ module.exports.create = function (req, res) {
 module.exports.list = function (req, res) {
 	// > GET /api/teacher
 
-	// var sess = req.session;
-	// var id = sess.id; // to be implemented...
-
 	var id = 1; // stub code
 	Teacher.list(1, function(err, teachers){
 		if (err!=null){
@@ -52,7 +49,7 @@ module.exports.get = function(req, res){
 }
 
 module.exports.delete = function(req, res){
-	// > DELETE /api/studentRecord/:id
+	// > DELETE /api/teacher/:id
 	Teacher.delete(req.params.id, function(err){
 		if (err != null){
 			res.json({isSuccessful:false});
@@ -63,5 +60,5 @@ module.exports.delete = function(req, res){
 }
 
 module.exports.update = function(req, res){
-	// > PUT /api/studentRecord/:id
+	// > PUT /api/teacher/:id
 }

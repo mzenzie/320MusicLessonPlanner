@@ -1,10 +1,4 @@
 /**
- * INSPINIA - Responsive Admin Theme
- * Copyright 2015 Webapplayers.com
- *
- */
-
-/**
  * MainCtrl - controller
  */
 function MainCtrl($scope, $http, $location, $state) {
@@ -14,6 +8,17 @@ function MainCtrl($scope, $http, $location, $state) {
     // }
 }
 
+
+/**
+ * [studentRecordController description]
+ * @param  {[type]} $scope       [description]
+ * @param  {[type]} $resource    [description]
+ * @param  {[type]} $modal       passes modal window functionality to the controller
+ * @param  {[type]} $stateParams [description]
+ * @param  {[type]} $state       [description]
+ *
+ * Handles deleting, viewing, and editing student records.
+ */
 function studentRecordController($scope, $resource, $modal, $stateParams, $state) {
     var StudentRecord = $resource('/api/studentRecord/:id');
 

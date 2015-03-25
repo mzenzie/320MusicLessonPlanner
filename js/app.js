@@ -3,6 +3,10 @@
  * Copyright 2015 Webapplayers.com
  *
  */
+
+/*
+*	Pre-loads all modules
+ */
 (function () {
     angular.module('inspinia', [
         'ui.router',                    // Routing

@@ -1,4 +1,8 @@
-/*
+var format = require('string-format');
+var dbConnector = require('../../database/dbinit.js');
+if(dbConnector==null) console.log("DATABASE CONN. NULL");
+
+/**
  * @param {String} _notes : the node id
  * @param {Date} _date : the node id
  * @param {int} _nid : the node id
@@ -9,56 +13,100 @@ var LessonNote = function(_notes, _date, _nid){
 	this.nid = _nid;
 };
 
-/*
- * Delete current instance of lesson note.
- */
-LessonNote.prototype.delete = function(){
-	//TODO: delete lesson note from DB
-	return this;
-};
-
-/*
+/**
  * Save lesson note.
+ *
+ * @param {Function} callback : the function for handling database errors
  */
-LessonNote.prototype.save = function(){
-	//TODO: save lesson note to DB
-	return this;
+LessonNote.prototype.save = function(callback){
+	var self = this; // save model's context
+	var myErr = null;
+	var db = dbConnector.getInstance();
+	console.log("DB SAVE");
+
+	// The query that will be used to insert the lesson notes into the appropriate lesson record
+	var lesson_note_query = "INSERT INTO LessonRecord (date, notes, sid) VALUES({0},'{1}', '{2}', '{3}')"
+					.format(
+						1,
+						self.date,
+						self.notes,
+						self.sid);
+	console.log(lesson_note_query);
+
+	db.run(lesson_note_query, function(err) {
+		if(err!=null) {
+			myErr = err;
+			console.log("LESSON NOTE SAVE ERR TO DB");
+		}
+		console.log("BEFORE SENDING BACK");
+		console.log(self);
+		callback(err, self);
+	});
 };
 
 module.exports = LessonNote;
 
 // STATIC FUNCTIONS //
 
-/*
- * Get one the lesson note.
+/**
+ * Get one lesson note.
  */
-module.exports.get = function(_nid){
-	//TODO: get lesson note
-	return this;
+module.exports.get = function(_nid, callback){
+	var db = dbConnector.getInstance();
+	console.log("DB GET");
+	db.all("SELECT * FROM LessonRecord WHERE LessonRecord.lnid={0}".format(_nid), function(err, rows) {
+		callback(err, rows);
+	});
 };
 
-/*
- * Get a list of lesson notes.
- * @param _sid : student ID of the student whose 
- * lesson notes are to be retrieved.
+/**
+ * Get a list of all lesson notes.
+ *
+ * @param {int} _sid : student ID of the student whose lesson notes are to be retrieved.
+ * @param {Function} callback
  */
-module.exports.list = function(_sid){
-	//TODO: get multiple lesson notes
-	return this;
+module.exports.list = function(_sid, callback){
+	var db = dbConnector.getInstance();
+	console.lod("DB LIST");
+	db.all("SELECT * FROM LessonRecord", function(err, rows)) {
+		callback(err, rows);
+	}
 };
 
-/*
+/**
+ * Delete current instance of lesson note.
+ *
+ * @param {int} lnid : the lesson note ID for this lesson note
+ * @param {Function} callback : the function for handling database errors
+ */
+module.exports.delete = function(lnid, callback){
+	//TODO: delete lesson note from DB
+	var db = dbConnector.getInstance();
+	var lrecord_query = "DELETE FROM LessonRecord WHERE LessonRecord.lnid={0}".format(lnid);
+	console.log(lrecord_query);
+	db.exec(srecord_query, function(err){
+		if (err!=null){
+			console.log(err);
+			callback(err);
+		}
+	})
+};
+
+/**
  * Update lesson note.
  */
 module.exports.update = function(_notes, _date, _nid){
 	//TODO: update lesson note in DB
-	return this;
 };
 
-/*
+/**
  * Create a lesson note.
+ *
+ * @param {Object} _note
+ * @param {Function} callback
  */
-module.exports.create = function(_note, _sid){
-	//TODO: create lesson note instance and add to DB
-	return this;
+module.exports.create = function(_note, callback){
+	console.log("CREATE");
+	var newLessonNote = new LessonNote(_note);
+	newLessonNote.save(callback);
 };

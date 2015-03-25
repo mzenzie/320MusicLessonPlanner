@@ -10,18 +10,7 @@ var __id = 1;
 /**
  * Instantiates a new student record.
  * 
- * @param {String} jsObject.firstname is the student's first name
- * @param {String} jsObject.lastname is the student's last name
- * @param {String} jsObject.instrument is the student's instrument
- * @param {String} jsObject.email is the student's email
- * @param {String} jsObejct.phone is the student's phone number
- * @param {String} jsObject.address is the student's home address
- * @param {String} jsObject.birthday is the student's birthday
- * @param {String} jsObject.startDate is the student's lessons start date
- * @param {String} jsObject.numberOfLessons is the number of lessons this student 
- * is initially booked with (this can be extended later using update)
- * @param {String} _startTime is the start time (format TBD) of the student's lesson
- * @param {String} _hours is the number of hours each lesson will last (0.5 is 30 minute lesson)
+ * @param {Object} jsObject
  */
 var StudentRecord = function(jsObject){
 	// example usage: new StudentRecord({firstName: "Natcha",  lastName: "Simsiri", ... [etc]})

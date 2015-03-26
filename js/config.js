@@ -49,7 +49,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
         .state('teacher-dashboard', {
             abstract: true,
             url: "/teacher-dashboard",
-            templateUrl: "views/common/content_top_navigation.html",
+            templateUrl: "views/common/content.html",
             controller: loginCtrl
         })
             .state('teacher-dashboard.main', {                  // This is the url used in a ui-sref call (see html files)
@@ -106,7 +106,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
         .state('startpage', {
             abstract: true,
             url: "/startpage",
-            templateUrl: "views/common/start_page_navigation.html",
+            templateUrl: "views/common/start_page_navigation.html"
         })
             .state('startpage.landing', {
                 url: "/landing",
@@ -135,13 +135,13 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                 url: "/support",
                 templateUrl: "views/support.html",
                 data: {
-                    pageTitle: 'MusicLessonPlanner Support'
+                    pageTitle: 'MusicLessonPlanner Help & Support'
                 }
             })
         .state('student', {
             abstract: true,
             url: "/student",
-            templateUrl: "views/common/content_top_navigation.html",
+            templateUrl: "views/common/content.html",
             controller: loginCtrl
         })
             .state('student.viewStudentRecord', {

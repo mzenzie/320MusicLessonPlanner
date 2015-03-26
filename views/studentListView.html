@@ -8,7 +8,7 @@
             <thread>
                 <th>Students (<span ng-bind="students.length"></span> records)</th>
                 <th>Instrument</th>
-                <th>Birthday</th>
+                <!-- <th>Birthday</th> -->
                 <th></th>
                 <th></th>
             </thread>
@@ -16,7 +16,7 @@
                 <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument']">
                     <td>{{student.lastName}}, {{student.firstName}}</td>
                     <td>{{student.instrument}}</td>
-                    <td>{{student.birthday}}</td>
+                    <!-- <td>{{student.birthday}}</td> -->
                     <td align="right">
                         <div class="btn-group" role="group" aria-label="...">
                             <button class="btn btn-info" ng-click="viewStudentRecord(student)"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>

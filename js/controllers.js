@@ -85,7 +85,7 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
 
 }
 
-function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource) {
+function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource, $log) {
 
     $scope.ok = function() {
         var StudentRecord = $resource('/api/studentRecord/:id');
@@ -97,7 +97,9 @@ function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource) {
         newStudentRecord.phone = $scope.phone;
         newStudentRecord.address = $scope.address;
         newStudentRecord.birthday = $scope.birthday;
-        alert(newStudentRecord.birthday.toDateString());
+        // Logging to debug date picker values
+            $log.log.error(newStudentRecord.birtday)
+
         newStudentRecord.startDate = $scope.startDate;
         newStudentRecord.numberOfLessons = $scope.numberOfLessons;
         newStudentRecord.lessonTime = $scope.lessonTime;

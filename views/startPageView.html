@@ -7,12 +7,17 @@
             </li>
         </ol>
     </div>
-</div><div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
+</div>
+<div class="wrapper wrapper-content">
+<!--     <div class="row">
         <div class="col-md-7">
-            <div class="row" ng-include="'/views/todayView.html'" scope="" onload=""></div>
+            <div class="row" ng-include="'/views/todayView.html'"></div>
             <div class="row" ng-include="'/views/studentListView.html'"></div>
         </div>
-        <div class="col-md-5" ng-include="'/views/teacherView.html'"></div>
+        <div class="col-md-5" ng-include="'/views/teacherView.html'"></div> -->
+    </div>
+    <div class="row animated fadeInDown">
+        <div class="col-md-5" ng-include="'/views/todayView.html'"></div>
+        <div class="col-md-7" ng-include="'/views/studentListView.html'"></div>
     </div>
 </div>

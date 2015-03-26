@@ -37,6 +37,7 @@ module.exports.signin = function(req, res){
 			var _token = jwt.sign({id: myAccount.pid}, 
 								secret.secretToken, 
 								{ expiresInMinutes: TOKEN_EXPIRATION });
+			console.log(_token);
 			res.json({token:_token});
 		} else {
 			console.log(err);

@@ -28,11 +28,15 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
 
     /*
     *       ?? Looks for a stored token and directs as necessary??
+            JwtInterceptorProvider is an Interceptor - you can google angular inceptor for more details.
+            What this JwtInterceptor does is for every request we make, we are appending to the header the field
+            Authorization: Bearer <token> 
+            so that the Server can verify this User and give permission to protected API if neccesary. 
      */
-    // jwtInterceptorProvider.tokenGetter = function(store) {
-    //     return store.get('token'); //storage field = 'token'
-    // }
-    // $httpProvider.interceptors.push('jwtInterceptor');
+    jwtInterceptorProvider.tokenGetter = function(store) {
+        return store.get('token'); //storage field = 'token'
+    }
+    $httpProvider.interceptors.push('jwtInterceptor');
 
     /*
     *    A config for the 'lazy loading' of plugins. 'Lazy loading' only loads plugins actively being used.
@@ -57,7 +61,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                 templateUrl: "views/startPageView.html",        // assigns a template url file (partial html)
                 controller: studentRecordController,            // loads the appropriate controller
                 data: {                                         // This area handles some basic parameters
-                    pageTitle: 'Teacher Dashboard'
+                    pageTitle: 'Teacher Dashboard',
                     // requiresLogin: true
 
                 },
@@ -111,18 +115,18 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
             .state('startpage.landing', {
                 url: "/landing",
                 templateUrl: "views/login.html",
+                controller: loginCtrl,
                 data: {
                     pageTitle: "Welcome to MusicLessonPlanner"
-                },
-                controller: loginCtrl
+                }
             })
             .state('startpage.register', {
                 url: "/register",
                 templateUrl: "views/register.html",
+                controller: loginCtrl,
                 data: {
                     pageTitle: "Welcome to MusicLessonPlanner"
-                },
-                controller: loginCtrl,
+                }
             })
             .state('startpage.about', {
                 url: "/about",

@@ -29,10 +29,10 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
     /*
     *       ?? Looks for a stored token and directs as necessary??
      */
-    jwtInterceptorProvider.tokenGetter = function(store) {
-        return store.get('token'); //storage field = 'token'
-    }
-    $httpProvider.interceptors.push('jwtInterceptor');
+    // jwtInterceptorProvider.tokenGetter = function(store) {
+    //     return store.get('token'); //storage field = 'token'
+    // }
+    // $httpProvider.interceptors.push('jwtInterceptor');
 
     /*
     *    A config for the 'lazy loading' of plugins. 'Lazy loading' only loads plugins actively being used.
@@ -57,8 +57,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                 templateUrl: "views/startPageView.html",        // assigns a template url file (partial html)
                 controller: studentRecordController,            // loads the appropriate controller
                 data: {                                         // This area handles some basic parameters
-                    pageTitle: 'Teacher Dashboard',
-                    requiresLogin: true
+                    pageTitle: 'Teacher Dashboard'
+                    // requiresLogin: true
 
                 },
                 resolve: {                                      // This area is important for loading plugins,
@@ -74,8 +74,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                 url: "/calendar",
                 templateUrl: "views/calendar.html",
                 data: {
-                    pageTitle: 'Calendar',
-                    requiresLogin: true
+                    pageTitle: 'Calendar'
+                    // requiresLogin: true
                 },
                 resolve: {
                     loadPlugin: function($ocLazyLoad) {
@@ -100,7 +100,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                 data: {
                     pageTitle: "Welcome to MusicLessonPlanner"
                 },
-                controller: loginCtrl,
+                controller: loginCtrl
             })
             .state('startpage.about', {
                 url: "/about",
@@ -127,8 +127,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                 templateUrl: "views/studentRecordPageView.html",
                 controller: studentRecordController,
                 data: {
-                    pageTitle: 'Student Records',
-                    requiresLogin: true
+                    pageTitle: 'Student Records'
+                    // requiresLogin: true
                 },
                 resolve: {
                     loadPlugin: function($ocLazyLoad) {
@@ -147,8 +147,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                 url: "/lessonNotePageView",
                 templateUrl: "views/lessonNotePageView.html",
                 data: {
-                    pageTitle: 'Lesson Notes',
-                    requiresLogin: true
+                    pageTitle: 'Lesson Notes'
+                    // requiresLogin: true
 
                 },
                 resolve: {
@@ -168,18 +168,14 @@ angular
     .config(config)
     .run(function($rootScope, $state, store, jwtHelper, $location) {
         $rootScope.$state = $state;
-        $rootScope.$on('$stateChangeStart', function(e, toState) {
-            if (toState.data && toState.data.requiresLogin) {
-                if (!store.get('token')) {
-                    e.preventDefault();
-                    $state.go('startpage.landing');
-                }
-            }
-        });
 
-    })
-    .controller('AppController', function($scope, $location) {
-        $scope.$on('$stateChangeSuccess', function(e, nextRoute) {
+        // $rootScope.$on('$stateChangeStart', function(e, toState) {
+        //     if (toState.data && toState.data.requiresLogin) {
+        //         if (!store.get('token')) {
+        //             e.preventDefault();
+        //             $state.go('startpage.landing');
+        //         }
+        //     }
+        // });
 
-        });
     });

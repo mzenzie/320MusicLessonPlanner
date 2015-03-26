@@ -97,6 +97,7 @@ function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource) {
         newStudentRecord.phone = $scope.phone;
         newStudentRecord.address = $scope.address;
         newStudentRecord.birthday = $scope.birthday;
+        alert(newStudentRecord.birthday);
         newStudentRecord.startDate = $scope.startDate;
         newStudentRecord.numberOfLessons = $scope.numberOfLessons;
         newStudentRecord.lessonTime = $scope.lessonTime;
@@ -206,39 +207,39 @@ function CalendarCtrl($scope) {
 }
 
 function loginCtrl($state, $scope, $http, store) {
-//     $scope.signin = function() {
-//         $http.post('/api/signin', {username: $scope.username, password: $scope.password})
-//         .success(function(data, status, header, config){
-//             // alert("SIGN-IN-CTRL Recieved " + data.token);
-//             store.set('token', data.token);
-//             $state.go('index.main');
-//         })
-//         .error(function(data, status, header, config){
-//             alert(status);
-//         });
-//     };
-//     $scope.signout = function() {
-//         $http.post('/api/signout')
-//         .success(function(data, status, header, config){
-//             store.remove('token');
-//         $state.go('startpage.landing');
-//         })
-//         .error(function(data, status, header, config){
-//             alert(status);
-//         });
-//     };
-//     $scope.signup = function(){
-//         alert($scope.username);
-//         $http.post('/api/signup', {username: $scope.username, password: $scope.password})
-//         .success(function(data,status,header,config){
-//             alert('success');
-//             store.set('token', data.token);
-//             $state.go('index.main');
-//         })
-//         .error(function(data,status,header,config){
-//             alert(status);
-//         });
-//    };
+    $scope.signin = function() {
+        $http.post('/api/signin', {username: $scope.username, password: $scope.password})
+        .success(function(data, status, header, config){
+            // alert("SIGN-IN-CTRL Recieved " + data.token);
+            store.set('token', data.token);
+            $state.go('teacher-dashboard.main');
+        })
+        .error(function(data, status, header, config){
+            alert('Incorrect user name or password.');
+        });
+    };
+    $scope.signout = function() {
+        $http.post('/api/signout')
+        .success(function(data, status, header, config){
+            store.remove('token');
+        $state.go('startpage.landing');
+        })
+        .error(function(data, status, header, config){
+            alert('Sign out failed. How does that happen!!!??!?!');
+        });
+    };
+    $scope.signup = function(){
+        // alert($scope.username);
+        $http.post('/api/signup', {username: $scope.username, password: $scope.password})
+        .success(function(data,status,header,config){
+            // alert('success');
+            store.set('token', data.token);
+            $state.go('teacher-dashboard.main');
+        })
+        .error(function(data,status,header,config){
+            alert('Invalid input.');
+        });
+    };
 }
 
 angular

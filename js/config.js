@@ -89,6 +89,20 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                     }
                 }
             })
+            .state('teacher-dashboard.about', {
+                url: "/about",
+                templateUrl: "views/about.html",
+                data: {
+                    pageTitle: 'About MusicLessonPlanner'
+                }
+            })
+            .state('teacher-dashboard.support', {
+                url: "/support",
+                templateUrl: "views/support.html",
+                data: {
+                    pageTitle: 'MusicLessonPlanner Support'
+                }
+            })
         .state('startpage', {
             abstract: true,
             url: "/startpage",
@@ -101,6 +115,14 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                     pageTitle: "Welcome to MusicLessonPlanner"
                 },
                 controller: loginCtrl
+            })
+            .state('startpage.register', {
+                url: "/register",
+                templateUrl: "views/register.html",
+                data: {
+                    pageTitle: "Welcome to MusicLessonPlanner"
+                },
+                controller: loginCtrl,
             })
             .state('startpage.about', {
                 url: "/about",
@@ -168,7 +190,6 @@ angular
     .config(config)
     .run(function($rootScope, $state, store, jwtHelper, $location) {
         $rootScope.$state = $state;
-
         // $rootScope.$on('$stateChangeStart', function(e, toState) {
         //     if (toState.data && toState.data.requiresLogin) {
         //         if (!store.get('token')) {
@@ -179,3 +200,4 @@ angular
         // });
 
     });
+

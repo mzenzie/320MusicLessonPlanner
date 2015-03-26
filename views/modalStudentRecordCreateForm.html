@@ -33,8 +33,8 @@
                 <p class="input-group">
                     <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="birthday" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                     <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
-              </span>
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+                    </span>
                 </p>
                 <!--                 <div class="input-group date" auto-close="">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -43,11 +43,17 @@
             </div>
             <div class="form-group">
                 <label class="font-noraml">Start Date</label>
-                <div class="input-group date">
+                <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="startDate" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </p>
+                <!-- <div class="input-group date">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     <input type="datetime" class="form-control" date-time ng-model="startDate" format="fullDate" min-view="date" view="date" auto-close="true">
                 </div>
-            </div>
+ -->            </div>
             <div class="form-group">
                 <label class="font-noraml">Number of Lessons:</label>
                 <input type="text" ng-model="numberOfLessons" class="form-control">

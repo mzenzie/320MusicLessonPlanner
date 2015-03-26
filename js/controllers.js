@@ -97,7 +97,7 @@ function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource) {
         newStudentRecord.phone = $scope.phone;
         newStudentRecord.address = $scope.address;
         newStudentRecord.birthday = $scope.birthday;
-        alert(newStudentRecord.birthday);
+        alert(newStudentRecord.birthday.toDateString());
         newStudentRecord.startDate = $scope.startDate;
         newStudentRecord.numberOfLessons = $scope.numberOfLessons;
         newStudentRecord.lessonTime = $scope.lessonTime;
@@ -125,6 +125,13 @@ function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource) {
         $scope.students.push(newStudentRecord);
         $modalInstance.close();
     };
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
 
     $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
@@ -232,7 +239,7 @@ function loginCtrl($state, $scope, $http, store) {
         // alert($scope.username);
         $http.post('/api/signup', {username: $scope.username, password: $scope.password})
         .success(function(data,status,header,config){
-            // alert('success');
+            alert('success');
             store.set('token', data.token);
             $state.go('teacher-dashboard.main');
         })

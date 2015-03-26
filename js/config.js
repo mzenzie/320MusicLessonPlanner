@@ -111,18 +111,18 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
             .state('startpage.landing', {
                 url: "/landing",
                 templateUrl: "views/login.html",
+                controller: loginCtrl,
                 data: {
                     pageTitle: "Welcome to MusicLessonPlanner"
-                },
-                controller: loginCtrl,
+                }
             })
             .state('startpage.register', {
                 url: "/register",
                 templateUrl: "views/register.html",
+                controller: loginCtrl,
                 data: {
                     pageTitle: "Welcome to MusicLessonPlanner"
-                },
-                controller: loginCtrl,
+                }
             })
             .state('startpage.about', {
                 url: "/about",

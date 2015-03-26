@@ -1,18 +1,17 @@
-var StudentRecord = require('../model/lesson-note.js');
+var LessonNote = require('../model/lesson-note.js');
 
 module.exports.create = function (req, res) {
-	// > POST /api/lessoNote
+	// > POST /api/lessonNote
 
-	/* triggered for every GET /api/lesson-note.
+	/* triggered for every GET /api/lessonNote.
 		could've just passed req.body to create, but test to see first.
 		note** req -> Request, res -> Response
 	  */
 	console.log("CTRLLER");
 	console.log(req.body);
-	StudentRecord.create({
+	LessonNote.create({
 			notes: req.body.notes,
 			date: req.body.date,
-			nid: req.body.email,
 		}, function(err, newNote){
 			if (err!=null){
 				res.json({});
@@ -38,7 +37,7 @@ module.exports.list = function (req, res) {
 module.exports.get = function(req, res){
 	// > GET /api/lessonNote/:id
 
-	Teacher.get(req.params.id, function(err, noteObj){
+	LessonNote.get(req.params.id, function(err, noteObj){
 		if (err != null){
 			res.json({});
 		} else {
@@ -50,7 +49,7 @@ module.exports.get = function(req, res){
 module.exports.delete = function(req, res){
 	// > DELETE /api/lessonNote/:id
 
-	StudentRecord.delete(req.params.id, function(err){
+	LessonNote.delete(req.params.id, function(err){
 		if (err != null){
 			res.json({isSuccessful:false});
 		} else {

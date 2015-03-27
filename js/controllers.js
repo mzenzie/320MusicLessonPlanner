@@ -85,7 +85,7 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
 
 }
 
-function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource) {
+function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource, $log) {
 
     $scope.ok = function() {
         var StudentRecord = $resource('/api/studentRecord/:id');
@@ -97,7 +97,9 @@ function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource) {
         newStudentRecord.phone = $scope.phone;
         newStudentRecord.address = $scope.address;
         newStudentRecord.birthday = $scope.birthday;
-        alert(newStudentRecord.birthday.toDateString());
+        // Logging to debug date picker values
+            $log.log.error(newStudentRecord.birtday)
+
         newStudentRecord.startDate = $scope.startDate;
         newStudentRecord.numberOfLessons = $scope.numberOfLessons;
         newStudentRecord.lessonTime = $scope.lessonTime;
@@ -216,6 +218,7 @@ function CalendarCtrl($scope) {
 function loginCtrl($state, $scope, $http, store) {
     $scope.signin = function() {
         $http.post('/api/signin', {username: $scope.username, password: $scope.password})
+        // $http.post('/api/signin', {username: 'admin@g.com', password: '1234'})
         .success(function(data, status, header, config){
             // alert("SIGN-IN-CTRL Recieved " + data.token);
             store.set('token', data.token);
@@ -246,7 +249,7 @@ function loginCtrl($state, $scope, $http, store) {
         .success(function(data,status,header,config){
             alert('success');
             store.set('token', data.token);
-            $state.go('teacher-dashboard.main');
+            $state.go('startpage.landing');
         })
         .error(function(data,status,header,config){
             alert('Invalid input.');

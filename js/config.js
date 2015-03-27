@@ -55,7 +55,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
             .state('teacher-dashboard.main', {                  // This is the url used in a ui-sref call (see html files)
                 url: "/main",
                 templateUrl: "views/startPageView.html",        // assigns a template url file (partial html)
-                controller: studentRecordController,            // loads the appropriate controller
+                controller: teacherController,            // loads the appropriate controller
                 data: {                                         // This area handles some basic parameters
                     pageTitle: 'Teacher Dashboard',
                     requiresLogin: true

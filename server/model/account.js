@@ -47,7 +47,7 @@ module.exports.create = function(jsObject, callback){
 	bcrypt.genSalt(10, function(err, salt){
 		bcrypt.hash(myAccount.password, salt, function(err, hash){
 			if (err){
-				callback(err, null);	
+				callback(err, null);
 			} else {
 				myAccount.password = hash;
 				myAccount.save(callback);

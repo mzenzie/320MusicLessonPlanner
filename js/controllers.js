@@ -98,7 +98,7 @@ function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource, $log)
         newStudentRecord.address = $scope.address;
         newStudentRecord.birthday = $scope.birthday;
         // Logging to debug date picker values
-            $log.log.error(newStudentRecord.birtday)
+            // $log.log.error(newStudentRecord.birtday)
 
         newStudentRecord.startDate = $scope.startDate;
         newStudentRecord.numberOfLessons = $scope.numberOfLessons;

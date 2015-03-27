@@ -243,7 +243,7 @@ function loginCtrl($state, $scope, $http, store) {
         .success(function(data,status,header,config){
             alert('success');
             store.set('token', data.token);
-            $state.go('teacher-dashboard.main');
+            $state.go('startpage.landing');
         })
         .error(function(data,status,header,config){
             alert('Invalid input.');

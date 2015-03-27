@@ -130,6 +130,8 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
 
 function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource, $log) {
 
+    // var birthday = $scope.birthday.toDateString()
+
     $scope.ok = function() {
         var StudentRecord = $resource('/api/studentRecord/:id');
         var newStudentRecord = new StudentRecord();

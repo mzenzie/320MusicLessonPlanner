@@ -156,7 +156,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                     loadPlugin: function($ocLazyLoad) {
                         return $ocLazyLoad.load([{
                             name: 'datePicker',
-                            files: ['css/plugins/datapicker/angular-datapicker.css', 'js/plugins/datapicker/datePicker.js']
+                            files: ['css/plugins/datapicker/angular-datapicker.css', 'js/plugins/datapicker/datePicker.js', 'js/plugins/datapicker/datePickerUtils.js', 'js/plugins/datapicker/input.js']
                         }, {
                             name: 'summernote',
                             files: ['css/plugins/summernote/summernote.css', 'css/plugins/summernote/summernote-bs3.css', 'js/plugins/summernote/summernote.min.js', 'js/plugins/summernote/angular-summernote.min.js']

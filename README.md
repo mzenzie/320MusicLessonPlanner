@@ -10,8 +10,16 @@ This website redirects automatically to IP address
 ```sh
 54.165.8.175:8000
 ```
-Version 1.0.0 includes the following feature:
-Add a new student to the list of students by entering the prompted information and clicking the "Save Changes" button at the bottom of the page. After all fields have been entered and the student information has been saved to the database, a summary of the student's record will appear at the top of the page.
+**Features implemented**
+
+- Add/Delete/View student accounts
+- Teacher Login Authentication
+
+**Features in progress**
+
+- Lesson Notes - Add/delete/view notes for each lesson and general notes for each student.
+- Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
+- Lesson Scheduling - Integrate Google API to allow teachers to schedule lessons and make updates to existing lessons.
 
 
 ### Installation and Build
@@ -60,14 +68,17 @@ You can also view information stored in an existing table by executing
 ```sh
 $ select * from example
 ``` 
-Additional SQL commands can be found at [http://www.thegeekstuff.com/2012/09/sqlite-command-examples/](http://www.thegeekstuff.com/2012/09/sqlite-command-examples/)
+Additional SQL commands can be found [here](http://www.thegeekstuff.com/2012/09/sqlite-command-examples/)
 
+### Testing
+
+TODO
 
 ### Bug Tracking
 
-All bugs are monitored under the issues subsection of our GitHub repository. New issues can be added by clicking the green “New Issue” button at the top right of the issues page.
+All bugs are monitored [here](https://github.com/mzenzie/320MusicLessonPlanner/issues) under the issues subsection of our GitHub repository. New issues can be added by clicking the green “New Issue” button at the top right of the issues page.
 
-Priority of bugs is determined based on labels with "bug" being the highest priority and "wontfix" being the lowest. Multiple labels can be attached to one bug to create in-between levels of priority.
+Priority of bugs is determined by labels with "bug" being the highest priority and "wontfix" being the lowest. Multiple labels can be attached to one bug to create in-between levels of priority.
 
 ### Tech
 

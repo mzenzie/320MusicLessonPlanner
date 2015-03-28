@@ -195,7 +195,6 @@ module.exports.list = function(tid, callback) {
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
     db.all("SELECT  * FROM SRecord", function(err, rows) {
         callback(err, rows);
-
     });
 
 };

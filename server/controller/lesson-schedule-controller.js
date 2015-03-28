@@ -30,12 +30,12 @@ module.exports.list = function (req, res) {
 		res.status(400).send('no sid');
 	} else {
 		console.log("GETTING SCHEDULE LIST");
-		LessonSchedule.list(sid, function(err, schedule){
-			if (err!=null || schedule==null){
+		LessonSchedule.list(sid, function(err, schedules){
+			if (err!=null || schedules==null){
 				res.status(400).send("unable to list schedule");
 			} else {
-				console.log(schedule);
-				res.json(schedule);
+				console.log(schedules);
+				res.json(schedules);
 			}
 		});
 	}
@@ -43,7 +43,7 @@ module.exports.list = function (req, res) {
 
 module.exports.get = function(req, res){
 	// > GET /api/lessonSchedule/:id
-	LessonSchedule.get(req.params.id, function(err, scheduleObj){
+	LessonSchedule.get(req.params.id, function(edrr, scheduleObj){
 		if (err != null){
 			res.status(400).send("unable to get");
 		} else {

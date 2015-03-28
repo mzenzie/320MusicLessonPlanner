@@ -32,39 +32,55 @@ module.exports.create = function(req, res) {
     });
 };
 
-module.exports.list = function(req, res) {
+module.exports.get = function(req, res) {
     // > GET /api/studentRecord
 
     // var sess = req.session;
     // var id = sess.id; // to be implemented...
-
-    var id = 1; // stub code
-    StudentRecord.list(1, function(err, studentRecords) {
-        if (err != null) {
-            res.json({});
-        } else {
-            res.json(studentRecords);
-        }
-    });
+    email = req.query.email;
+    instrument = req.query.instrument;
+    console.log(email + ' ' + instrument);
+    if (email === undefined || instrument === undefined){
+        var id = 1; // stub code
+        StudentRecord.list(1, function(err, studentRecords) {
+            if (err != null) {
+                res.json({});
+            } else {
+                res.json(studentRecords);
+            }
+        });
+    } else {
+        StudentRecord.get(email, instrument, function(err, studentRecord){
+            if (err!=null){
+                res.status(400).send("couldn't find StudentRecord") // bad request
+            } else {
+                res.json(studentRecord);
+            }
+        })
+        
+    }
 };
 
-module.exports.get = function(req, res) {
-    // > GET /api/studentRecord/:id
-}
 
 module.exports.delete = function(req, res) {
-    // > DELETE /api/studentRecord/:id
-    StudentRecord.delete(req.params.id, function(err) {
-        if (err != null) {
-            res.json({
-                isSuccessful: false
-            });
-        } else {
-            res.json({
-                isSuccessful: true
-            });
-        }
-    });
+    // > DELETE /api/studentRecord/
+    email = req.query.email;
+    instrument = req.query.instrument;
+    if (email === undefined || instrument === undefined){
+        req.status(400).send("invalid email, instrument");
+    } else {
+        StudentRecord.delete(email, instrument, function(err) {
+            if (err != null) {
+                res.json({
+                    isSuccessful: false
+                });
+            } else {
+                res.json({
+                    isSuccessful: true
+                });
+            }
+        });
+    }
 }
 
 module.exports.update = function(req, res) {

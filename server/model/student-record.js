@@ -82,42 +82,25 @@ StudentRecord.prototype.save = function(callback){
 							self.phone,
 							self.birthday,
 							self.instrument);
+	var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, email, instrument) VALUES('{0}', '{1}', '{2}', '{3}', '{4}')"
+		.format(self.startDate, self.lessonTime, self.lessonLength, self.email, self.instrument); 
 
-	var sid_query = "SELECT sid FROM SRecord WHERE SRecord.email='{0}' AND SRecord.instrument='{1}'"
-						.format(self.email, self.instrument); //assuming email is unique
 	console.log(student_record_query);
-	console.log(sid_query);
-	
+	console.log(schedule_query);
+
 	db.run(student_record_query, function(err){
 		if (err !== null){
 			console.log("STUDENT RECORD SAVE ERR TO DB");
 			myErr = err;
 		}
-	}).get(sid_query, function(err, row){
-		if (err!=null){
-			console.log("SID GET ERR FROM DB");
+	}).run(schedule_query, function(err){
+		if (err!= null){
 			myErr = err;
+			console.log("SCHDULE RECORD SAVE ERR TO DB");
 		}
-		self.sid =  row.sid;
-		console.log(self.sid);
-
-		// This should be done using lesson-schedule.js functions
-		// Again, this is a higher order function: that when a new student
-		// is created their schedule is simultaneously created. It should
-		// not be handled on this level.
-		var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', '{3}')"
-							.format(self.startDate, self.lessonTime, self.lessonLength, self.sid); 
-		console.log(schedule_query);
-		db.run(schedule_query, function(err){
-			if (err!= null){
-				myErr = err;
-				console.log("SCHDULE RECORD SAVE ERR TO DB");
-			}
-			console.log("BEFORE SENDING BACK");
-			console.log(self);
-			callback(err, self);
-		});
-
+		console.log("BEFORE SENDING BACK");
+		console.log(self);
+		callback(err, self);
 	});
 };
 
@@ -156,13 +139,13 @@ module.exports.isInputValid =function(jsObject){
  * @param {Function} callback : the function used to handle database error
  */
 
-module.exports.get = function(sid, callback){
+module.exports.get = function(email, instrument, callback){
 	//TODO: retrieve student based on sid handler
 	var db = dbConnector.getInstance();
-	console.log("DB GET");
-	db.all("SELECT * FROM SRecord WHERE SRecord.sid={0}".format(sid), function(err, rows){
+	var query = "SELECT * FROM SRecord WHERE SRecord.email='{0}' AND SRecord.instrument='{1}'".format(email, instrument);
+	console.log("DB GET: " + query);
+	db.get(query,function(err, rows){
 		callback(err, rows);
-		
 	});
 };
 
@@ -193,11 +176,11 @@ module.exports.list = function(tid, callback) {
  * @param {Function} callback : the function used to handle database error
  */
 
-module.exports.delete = function(sid, callback) {
+module.exports.delete = function(email, instrument, callback) {
     var db = dbConnector.getInstance();
     // var drecord_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
-    var srecord_query = "DELETE FROM SRecord WHERE SRecord.sid={0}".format(sid);
-    var schedule_query = "DELETE FROM Schedule WHERE Schedule.sid={0}".format(sid);
+    var srecord_query = "DELETE FROM SRecord WHERE SRecord.email='{0}' AND SRecord.instrument='{1}'".format(email, instrument);
+    var schedule_query = "DELETE FROM Schedule WHERE Schedule.email='{0}'".format(email);
     console.log(srecord_query);
     console.log(schedule_query);
     db.exec(srecord_query, function(err) {

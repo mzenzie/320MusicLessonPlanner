@@ -74,9 +74,9 @@ StudentRecord.prototype.save = function(callback){
 	var db = dbConnector.getInstance();
 	console.log("DB SAVE");
 
-	var student_record_query = "INSERT INTO SRecord (tEmail, firstName, lastName, email, address, phone, birthday, instrument) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')"
+	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')"
 						.format(
-							"teacher@gmail.com",
+							1,
 							self.firstName,
 							self.lastName,
 							self.email,
@@ -84,8 +84,17 @@ StudentRecord.prototype.save = function(callback){
 							self.phone,
 							self.birthday,
 							self.instrument);
-	var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, email, instrument) VALUES('{0}', '{1}', '{2}', '{3}', '{4}')"
-		.format(self.startDate, self.lessonTime, self.lessonLength, self.email, self.instrument); 
+    var student_record_get_query = "SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND email='{2}' AND address='{3}' AND phone='{4}' AND birthday='{5}' AND instrument = '{6}'"
+                        .format(
+                            self.firstName,
+                            self.lastName,
+                            self.email,
+                            self.address,
+                            self.phone,
+                            self.birthday,
+                            self.instrument);
+	var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', '{3}')"
+		.format(self.startDate, self.lessonTime, self.lessonLength, self.); 
 
 	console.log(student_record_query);
 	console.log(schedule_query);
@@ -94,23 +103,19 @@ StudentRecord.prototype.save = function(callback){
 		if (err !== null){
 			console.log("STUDENT RECORD SAVE ERR TO DB");
             console.log(err);
-		} else {
+		} 
+    })
+    .get(schedule_query, function(err, row){
+        if (err!= null || row == null){
+            myErr = err;
+            console.log(err);
+        } else {
             console.log("== STUDENT RECORD SAVED! ==");
-            console.log(self);
-            callback(err, self);
+            self.sid = row.sid
+    		console.log(self);
+    		callback(err, self);
         }
 	});
- //    .run(schedule_query, function(err){
-	// 	if (err!= null){
-	// 		myErr = err;
- //            console.log(err);
-	// 		console.log("SCHDULE RECORD SAVE ERR TO DB");
-	// 	} else {
- //    		console.log("BEFORE SENDING BACK");
- //    		console.log(self);
- //    		callback(err, self);
- //        }
-	// });
 };
 
 

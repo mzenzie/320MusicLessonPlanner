@@ -32,20 +32,18 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
     var db = dbConnector.getInstance();
     console.log("DB SAVE");
 
-    var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, email, instrument) VALUES('{0}', '{1}', '{2}', '{3}', '{4}')"
+    var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', {3})"
         .format(
             self.date,
             self.lessonTime,
             self.lessonLength,
-            studentRecord.email,
-            studentRecord.instrument);
-    var get_query = "SELECT * FROM Schedule WHERE Schedule.date='{0}' AND Schedule.lessonTime='{1}' AND Schedule.lessonLength='{2}' AND Schedule.email='{3}' AND Schedule.instrument='{4}'"
+            studentRecord.sid);
+    var get_query = "SELECT * FROM Schedule WHERE Schedule.date='{0}' AND Schedule.lessonTime='{1}' AND Schedule.lessonLength='{2}' AND Schedule.sid={3}"
         .format(
             self.date,
             self.lessonTime,
             self.lessonLength,
-            studentRecord.email,
-            studentRecord.instrument);
+            studentRecord.sid);
 
     console.log(lschedule_query);
     console.log(get_query);
@@ -89,11 +87,17 @@ module.exports.get = function(_lsid) {
  * @param {Text} email
  * @param {Function} callback
  */
-module.exports.list = function(email, callback){
+module.exports.list = function(sid, callback){
 	var db = dbConnector.getInstance();
 	console.log("DB LIST");
-	db.all("SELECT * FROM Schedule WHERE Schedule.email={0}".format(email), function(err, rows) {
-		callback(err, rows);
+	db.all("SELECT * FROM Schedule WHERE Schedule.sid={0}".format(sid), function(err, rows) {
+        if (err!= null || rows == null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            console.log(rows);
+    		callback(null, rows);
+        }
 	});
 };
 

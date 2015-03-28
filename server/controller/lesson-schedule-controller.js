@@ -1,4 +1,5 @@
 var LessonSchedule = require('../model/lesson-schedule.js');
+var StudentRecord = require('../model/student-record.js');
 
 module.exports.create = function (req, res) {
 	// > POST /api/lessonSchedule
@@ -23,24 +24,28 @@ module.exports.create = function (req, res) {
 }; 
 
 module.exports.list = function (req, res) {
-	// > GET /api/lessonSchedule
-
-	var id = 1; // stub code
-	LessonSchedule.list(1, function(err, schedule){
-		if (err!=null){
-			res.json({});
-		} else {
-			res.json(schedule);
-		}
-	});
+	// > GET /api/studentRecord:sid/lessonSchedule
+	var sid = req.params.sid;
+	if (sid===undefined){
+		res.status(400).send('no sid');
+	} else {
+		console.log("GETTING SCHEDULE LIST");
+		LessonSchedule.list(sid, function(err, schedule){
+			if (err!=null || schedule==null){
+				res.status(400).send("unable to list schedule");
+			} else {
+				console.log(schedule);
+				res.json(schedule);
+			}
+		});
+	}
 };
 
 module.exports.get = function(req, res){
 	// > GET /api/lessonSchedule/:id
-
 	LessonSchedule.get(req.params.id, function(err, scheduleObj){
 		if (err != null){
-			res.json({});
+			res.status(400).send("unable to get");
 		} else {
 			res.json(scheduleObj);
 		}

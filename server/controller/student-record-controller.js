@@ -81,6 +81,10 @@ module.exports.delete = function(req, res) {
     }
 }
 
+/*
+NEED TO RECODE PRIMARY KEY FROM EMAIL, INSTRUMENT to 
+*/
+
 module.exports.update = function(req, res) {
     // > PUT /api/studentRecord/:id
     if (req.query.email === undefined || req.query.instrument === undefined){

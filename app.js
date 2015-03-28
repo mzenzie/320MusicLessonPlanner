@@ -67,7 +67,8 @@ app.delete("/api/studentRecord/", studentRecordController.delete);
 app.put("/api/studentRecord/", studentRecordController.update);
 
 // LESSON SCHEDULE
-app.get('/api/lessonSchedule', lessonScheduleController.get);
+app.get('/api/studentRecord/:sid/lessonSchedule/', lessonScheduleController.list);
+
 
 
 // console.log([1]);

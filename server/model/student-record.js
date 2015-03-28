@@ -84,38 +84,36 @@ StudentRecord.prototype.save = function(callback){
 							self.phone,
 							self.birthday,
 							self.instrument);
-    var student_record_get_query = "SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND email='{2}' AND address='{3}' AND phone='{4}' AND birthday='{5}' AND instrument = '{6}'"
-                        .format(
-                            self.firstName,
-                            self.lastName,
-                            self.email,
-                            self.address,
-                            self.phone,
-                            self.birthday,
-                            self.instrument);
-	var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', '{3}')"
-		.format(self.startDate, self.lessonTime, self.lessonLength, self.); 
 
-	console.log(student_record_query);
-	console.log(schedule_query);
+    console.log(student_record_query);
 
-	db.run(student_record_query, function(err){
-		if (err !== null){
-			console.log("STUDENT RECORD SAVE ERR TO DB");
+    db.run(student_record_query, function(err){
+        if (err !== null){
+            console.log("STUDENT RECORD SAVE ERR TO DB");
             console.log(err);
-		} 
+        } 
+
+        var student_record_get_query = "SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND email='{2}' AND address='{3}' AND phone='{4}' AND birthday='{5}' AND instrument = '{6}'"
+                            .format(
+                                self.firstName,
+                                self.lastName,
+                                self.email,
+                                self.address,
+                                self.phone,
+                                self.birthday,
+                                self.instrument);
+        console.log(student_record_get_query);
+        db.get(student_record_get_query, function(err, row){
+            if (err!= null || row == null){
+                console.log(err);
+            } else {
+                console.log("== STUDENT RECORD SAVED! ==");
+                self.sid = row.sid
+        		console.log(self);
+        		callback(err, self);
+            }
+    	});
     })
-    .get(schedule_query, function(err, row){
-        if (err!= null || row == null){
-            myErr = err;
-            console.log(err);
-        } else {
-            console.log("== STUDENT RECORD SAVED! ==");
-            self.sid = row.sid
-    		console.log(self);
-    		callback(err, self);
-        }
-	});
 };
 
 
@@ -166,10 +164,10 @@ module.exports.isInputValid =function(jsObject){
  * @param {Function} callback : the function used to handle database error
  */
 
-module.exports.get = function(email, instrument, callback){
+module.exports.get = function(sid, callback){
 	//TODO: retrieve student based on sid handler
 	var db = dbConnector.getInstance();
-	var query = "SELECT * FROM SRecord WHERE SRecord.email='{0}' AND SRecord.instrument='{1}'".format(email, instrument);
+	var query = "SELECT * FROM SRecord WHERE SRecord.sid={0}".format(sid);
 	console.log("DB GET: " + query);
 	db.get(query,function(err, row){
         console.log(row);
@@ -211,24 +209,26 @@ module.exports.list = function(tid, callback) {
  * @param {Function} callback : the function used to handle database error
  */
 
-module.exports.delete = function(email, instrument, callback) {
+module.exports.delete = function(sid,callback) {
     var db = dbConnector.getInstance();
     // var drecord_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
-    var srecord_query = "DELETE FROM SRecord WHERE SRecord.email='{0}' AND SRecord.instrument='{1}'".format(email, instrument);
-    var schedule_query = "DELETE FROM Schedule WHERE Schedule.email='{0}'".format(email);
+    var srecord_query = "DELETE FROM SRecord WHERE SRecord.sid={0}".format(sid);
+    // var schedule_query = "DELETE FROM Schedule WHERE Schedule.email='{0}'".format(email);
+    // console.log(schedule_query);
     console.log(srecord_query);
-    console.log(schedule_query);
     db.exec(srecord_query, function(err) {
         if (err != null) {
             console.log(err);
             callback(err);
         }
-    }).exec(schedule_query, function(err) {
-        if (err != null) {
-            console.log(err);
-        }
-        callback(err);
-    })
+        callback(null);
+    });
+    // .exec(schedule_query, function(err) {
+    //     if (err != null) {
+    //         console.log(err);
+    //     }
+    //     callback(err);
+    // })
 };
 
 /**

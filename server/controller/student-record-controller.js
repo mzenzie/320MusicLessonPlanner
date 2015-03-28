@@ -37,12 +37,11 @@ module.exports.get = function(req, res) {
 
     // var sess = req.session;
     // var id = sess.id; // to be implemented...
-    email = req.query.email;
-    instrument = req.query.instrument;
-    console.log(email + ' ' + instrument);
-    if (email === undefined || instrument === undefined){
-        var id = 1; // stub code
-        StudentRecord.list(1, function(err, studentRecords) {
+    var sid = req.query.sid
+    console.log(sid);
+    if (sid === undefined){
+        var tid = 1; // stub code
+        StudentRecord.list(tid, function(err, studentRecords) {
             if (err != null) {
                 res.json({});
             } else {
@@ -50,7 +49,7 @@ module.exports.get = function(req, res) {
             }
         });
     } else {
-        StudentRecord.get(email, instrument, function(err, studentRecord){
+        StudentRecord.get(sid, function(err, studentRecord){
             if (err!=null || studentRecord==null){
                 res.status(400).send("couldn't find StudentRecord") // bad request
             } else {
@@ -64,12 +63,11 @@ module.exports.get = function(req, res) {
 
 module.exports.delete = function(req, res) {
     // > DELETE /api/studentRecord/
-    email = req.query.email;
-    instrument = req.query.instrument;
-    if (email === undefined || instrument === undefined){
-        res.status(400).send("invalid email, instrument");
+    var sid = req.query.sid;
+    if (sid === undefined){
+        res.status(400).send("invalid sid");
     } else {
-        StudentRecord.delete(email, instrument, function(err) {
+        StudentRecord.delete(sid, function(err) {
             if (err != null) {
                 res.json({
                     isSuccessful: false

@@ -49,6 +49,9 @@ var StudentRecord = function(jsObject) {
     this.lessonLength = jsObject.lessonLength;
 
     this.sid = null;
+    if (jsObject.sid !== undefined){
+        this.sid = jsObject.sid;
+    }
     // Notes is the list of lesson notes for this student.
     // Initialized to null because a new student has no lesson notes.
     this.lessonNotes = [];
@@ -174,7 +177,17 @@ module.exports.get = function(sid, callback){
             console.log(err);
             callback(err, null);
         } else if (row!==undefined){
-            callback(null, new StudentRecord(row));
+            var retrievedStudentRecord = new StudentRecord(row);
+            LessonSchedule.list(sid, function(err, schedules){
+                if (err!= null || schedules == null){
+                    console.log(err);
+                    callback(err, null);
+                } else {
+                    retrievedStudentRecord.lessonSchedules = schedules;
+                    console.log(retrievedStudentRecord);
+                    callback(null, retrievedStudentRecord);
+                }
+            });
         } else {
             callback(null, null);
         }
@@ -189,12 +202,49 @@ module.exports.get = function(sid, callback){
  * @param {Function} callback : the function used to handle database error
  */
 
+
+/*
+
+*/
 module.exports.list = function(tid, callback) {
     var db = dbConnector.getInstance();
     console.log("DB LIST");
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
-    db.all("SELECT  * FROM SRecord", function(err, rows) {
-        callback(err, rows);
+    studentRecords = [];
+    db.each("SELECT  * FROM SRecord", function(err, each_row) {
+        if (err!=null || each_row == null){
+            callback(err, null);
+        } else {
+            var studentRecord = new StudentRecord(each_row);
+            studentRecords.push(studentRecord);
+        }
+    }, function(err, numberOfRows){
+        if (err!=null) callback(err, null)
+        else {
+            console.log("number of rows: "+ numberOfRows);
+            _studentRecords = [];
+            var error = null;
+            db.serialize(function(){
+                for(var studentRecord in studentRecords){
+                    console.log(studentRecord);
+                    LessonSchedule.list(studentRecord.sid, function(err, schedules){
+                        if (err!= null || schedules == null){
+                            console.log(err);
+                            error = err;
+                            return;
+                        } else {
+                            studentRecord.lessonSchedules = schedules;
+                            console.log(studentRecord);
+                            _studentRecords.push(studentRecord);
+                        }
+                    });
+                    if (error!=null) break;
+                }
+            })
+            console.log("student Records");
+            console.log(_studentRecords);
+            callback(error, _studentRecords);
+        }
     });
 
 };

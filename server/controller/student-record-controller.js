@@ -1,5 +1,5 @@
 var StudentRecord = require('../model/student-record.js');
-var LessonSchedule = require('../model/lesson-schedule.js');
+
 
 module.exports.create = function(req, res) {
     // > POST /api/studentRecord
@@ -45,7 +45,7 @@ module.exports.get = function(req, res) {
         var tid = 1; // stub code
         StudentRecord.list(tid, function(err, studentRecords) {
             if (err != null) {
-                res.json({});
+                res.status(400).send("error listing studentRecords");
             } else {
                 res.json(studentRecords);
             }
@@ -55,17 +55,8 @@ module.exports.get = function(req, res) {
             if (err!=null || studentRecord==null){
                 res.status(400).send("couldn't find StudentRecord") // bad request
             } else {
-                LessonSchedule.get(sid, function(err, schedules){
-                    if (err!= null || schedules == null){
-                        console.log(err);
-                        res.status(400).send("couldn't find StudentRecord's Schedules") // bad request    
-                    } else {
-                        studentRecord.lessonSchedules = schedules;
-                        console.log(studentRecord);
-                        res.json(studentRecord);
-                    }
-                    
-                })
+                console.log("Retrieving studentRecord's lesson schedule");
+                res.json(studentRecord);
             }
         })
         

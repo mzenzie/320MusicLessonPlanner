@@ -74,7 +74,7 @@ module.exports = LessonSchedule;
 /*
  * Get one the lesson note.
  */
-module.exports.get = function(_lsid) {
+module.exports.get = function(sid, callback) {
     //TODO: get lesson note
     return this;
 };

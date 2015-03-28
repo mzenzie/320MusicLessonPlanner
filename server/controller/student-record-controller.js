@@ -83,6 +83,33 @@ module.exports.delete = function(req, res) {
 
 module.exports.update = function(req, res) {
     // > PUT /api/studentRecord/:id
+    if(req.query.sid === undefined){
+        res.status(400).send("invalid sid");
+    }else{
+        StudentRecord.get(req.query.sid, function(err, studentRecord){
+            if(studentRecord == null){
+                res.send("Invalid sid");
+            }else{
+            
+                 for(var key in req.body){
+                    if(req.body.hasOwnProperty(key)){
+                        var val = req.body[key];
+                        studentRecord[key] = val;
+                    }
+                }
+                studentRecord.update(function(err, studentRecord){
+                    if (err!=null){
+                        res.status(400).send("unable to update StudentRecord");
+                    } else {
+                        res.status(200).send(studentRecord);
+                    }
+                });
+            }
+        });
+    }
+
+//email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT, birthday DATE, instrument TEXT, generalNotes 
+    /*
     if (req.query.email === undefined || req.query.instrument === undefined){
         req.status(400).send("invalid email, instrument");
     } else {
@@ -105,6 +132,6 @@ module.exports.update = function(req, res) {
                 });
             }
         })
-    }
+    }*/
 
 }

@@ -14,11 +14,13 @@ This website redirects automatically to IP address
 
 - Add/Delete/View student accounts
 - Teacher Login Authentication
+- Teacher account information stored
 
 **Features in progress**
 
 - Lesson Notes - Add/delete/view notes for each lesson and general notes for each student.
 - Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
+- Edit/View teacher account information - Allow teachers to view, modify, or update their account information after creating already having created an account.
 - Lesson Scheduling - Integrate Google API to allow teachers to schedule lessons and make updates to existing lessons.
 
 

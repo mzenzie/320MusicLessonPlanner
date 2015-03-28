@@ -62,6 +62,49 @@ function studentRecordController($scope, $resource, $modal, $stateParams, $state
     };
 };
 
+function teacherController($scope, $resource, $modal, $stateParams, $state) {
+    var StudentRecord = $resource('/api/studentRecord/:id');
+
+
+    StudentRecord.query(function(result) {
+        $scope.students = result;
+    });
+
+    $scope.deleteStudentRecord = function(student) {
+        StudentRecord.delete({
+            id: student.sid
+        }, function(result) {
+            if (result.isSuccessful) {
+                var index = $scope.students.indexOf(student);
+                $scope.students.splice(index, 1);
+            }
+        });
+    };
+
+    $scope.viewStudentRecord = function(student) {
+        // var studentRecordParams = $stateParams.student;
+        // $scope.state = $state.current;;
+        $state.go('student.viewStudentRecord', {
+            student: student
+        });
+        // $scope.studentRecord = student;
+        // alert(student.firstName);
+    };
+
+    $scope.editStudentRecord = function(student) {
+        // @TODO implement this
+    };
+
+    $scope.openModal = function() {
+
+        var createStudentRecordModalInstance = $modal.open({
+            templateUrl: 'views/modalStudentRecordCreateForm.html',
+            controller: StudentRecordModalInstanceCtrl,
+            scope: $scope
+        });
+    };
+}
+
 
 function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
     var StudentRecord = $resource('/api/studentRecord/:id');
@@ -87,6 +130,8 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
 
 function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource, $log) {
 
+    // var birthday = $scope.birthday.toDateString()
+
     $scope.ok = function() {
         var StudentRecord = $resource('/api/studentRecord/:id');
         var newStudentRecord = new StudentRecord();
@@ -97,9 +142,6 @@ function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource, $log)
         newStudentRecord.phone = $scope.phone;
         newStudentRecord.address = $scope.address;
         newStudentRecord.birthday = $scope.birthday;
-        // Logging to debug date picker values
-            $log.log.error(newStudentRecord.birtday)
-
         newStudentRecord.startDate = $scope.startDate;
         newStudentRecord.numberOfLessons = $scope.numberOfLessons;
         newStudentRecord.lessonTime = $scope.lessonTime;
@@ -260,6 +302,7 @@ function loginCtrl($state, $scope, $http, store) {
 angular
     .module('inspinia')
     .controller('MainCtrl', MainCtrl)
+    .controller('teacherController', teacherController)
     .controller('studentRecordController', studentRecordController)
     .controller('TodayViewController', TodayViewController)
     .controller('CalendarCtrl', CalendarCtrl)

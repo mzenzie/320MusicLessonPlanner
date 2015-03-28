@@ -59,7 +59,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
             .state('teacher-dashboard.main', {                  // This is the url used in a ui-sref call (see html files)
                 url: "/main",
                 templateUrl: "views/startPageView.html",        // assigns a template url file (partial html)
-                controller: studentRecordController,            // loads the appropriate controller
+                controller: teacherController,            // loads the appropriate controller
                 data: {                                         // This area handles some basic parameters
                     pageTitle: 'Teacher Dashboard',
                     // requiresLogin: true
@@ -160,7 +160,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                     loadPlugin: function($ocLazyLoad) {
                         return $ocLazyLoad.load([{
                             name: 'datePicker',
-                            files: ['css/plugins/datapicker/angular-datapicker.css', 'js/plugins/datapicker/datePicker.js']
+                            files: ['css/plugins/datapicker/angular-datapicker.css', 'js/plugins/datapicker/datePicker.js', 'js/plugins/datapicker/datePickerUtils.js', 'js/plugins/datapicker/input.js']
                         }, {
                             name: 'summernote',
                             files: ['css/plugins/summernote/summernote.css', 'css/plugins/summernote/summernote-bs3.css', 'js/plugins/summernote/summernote.min.js', 'js/plugins/summernote/angular-summernote.min.js']

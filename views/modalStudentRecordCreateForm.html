@@ -29,10 +29,10 @@
                 <input type="text" ng-model="address" class="form-control">
             </div>
             <div class="form-group">
-                <label class="font-noraml">Birthday</label>
+                <label class="font-noraml">Birthday: {{birthday.toDateString() || 'null'}}</label>
                 <div class="input-group date" auto-close="">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input type="datetime" class="form-control" date-time ng-model="birthday" format="fullDate" min-view="date" view="year" auto-close="true">
+                    <input type="text" class="form-control" ng-model="birthday" date-time format="fullDate" min-view="date" view="year" auto-close="true">
                 </div>
             </div>
             <div class="form-group">
@@ -48,14 +48,22 @@
             </div>
             <div class="form-group">
                 <label class="font-noraml">Lesson Time</label>
-                <div class="input-group date">
+                <input type="text" ng-model="lessonTime" class="form-control">
+<!--                 <div class="input-group date">
                     <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
                     <input type="datetime" class="form-control" date-time ng-model="lessonTime" format="hh:mm a" max-view="hours" min-view="minutes" auto-close="true">
-                </div>
+                </div> -->
             </div>
             <div class="form-group">
-                <label class="font-noraml">Lesson Length</label>
-                <input type="text" ng-model="lessonLength" class="form-control">
+                <!-- <label class="font-noraml">Lesson Length</label> -->
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-model="lessonLength" btn-radio="'15 minutes'">15 Minutes</label>
+                    <label class="btn btn-default" ng-model="lessonLength" btn-radio="'30 minutes'">30 minutes</label>
+                    <label class="btn btn-default" ng-model="lessonLength" btn-radio="'45 minutes'">45 minutes</label>
+                    <label class="btn btn-default" ng-model="lessonLength" btn-radio="'60 minutes'">60 minutes</label>
+                </div>
+                <pre>{{lessonLength || 'null'}}</pre>
+                <!-- <input type="text" ng-model="lessonLength" class="form-control"> -->
             </div>
         </form>
     </div>

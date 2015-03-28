@@ -10,13 +10,13 @@
                 <th>Student</th>
             </thread>
             <tbody>
-                <tr ng-repeat="student in students | orderBy: lessonTime">
+                <tr ng-repeat="student in students | orderBy: 'lessonTime'">
                     <td><span ng-bind="student.lessonTime"></span></td>
                     <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>
                     <td align="right">
                         <div class="btn-group" role="group" aria-label="...">
-                            <button class="btn btn-info" ng-click="viewStudentRecord(student)"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
-                            <button class="btn btn-danger" ng-click=""><span class="fa fa-trash"></span>&nbsp;&nbsp;Cancel</button>
+                            <button class="btn btn-info btn-xs" ng-click="viewStudentRecord(student)"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
+                            <button class="btn btn-danger btn-xs" ng-click=""><span class="fa fa-trash"></span>&nbsp;&nbsp;Cancel</button>
                         </div>
                         </a>
                     </td>

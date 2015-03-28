@@ -108,7 +108,10 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
         }
         console.log
 
-        if(!nextView && attrs.autoClose === 'true'){
+        // if(!nextView && attrs.autoClose === 'true'){
+        //   element.addClass('hidden');
+        // }
+        if(!nextView){
           element.addClass('hidden');
         }
       };

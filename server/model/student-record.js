@@ -27,6 +27,7 @@ var StudentRecord = function(jsObject) {
     // example usage: new StudentRecord({firstName: "Natcha",  lastName: "Simsiri", ... [etc]})
     this.firstName = jsObject.firstName;
     this.lastName = jsObject.lastName;
+    this.instrument = jsObject.instrument;
 
     // TODO: Validation of e-mail and phone
     this.email = jsObject.email;
@@ -39,7 +40,6 @@ var StudentRecord = function(jsObject) {
     this.numberOfLessons = jsObject.numberOfLessons;
     this.lessonTime = jsObject.lessonTime;
     this.lessonLength = jsObject.lessonLength;
-    this.instrument = jsObject.instrument;
 
     this.sid = null;
     // Notes is the list of lesson notes for this student.

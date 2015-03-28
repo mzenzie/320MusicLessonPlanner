@@ -36,6 +36,11 @@ app.get('/', function (req, res) {
 })
 
 
+var date = new Date("2015-08-24");
+date.setDate(date.getDate()+5);
+console.log(date);
+
+
 //	Set the static files location (This is so the app will be able to find images, html, and javascript files)
 //	............Refactored to use the entire 'client' folder.
 

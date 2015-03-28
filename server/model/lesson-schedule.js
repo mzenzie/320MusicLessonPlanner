@@ -20,7 +20,7 @@ var LessonSchedule = function(jsObject) {
     this.date = jsObject.date;
     this.lessonTime = jsObject.lessonTime;
     this.lessonLength = jsObject.lessonLength;
-    this.lsid = jsObject;
+    this.lsid = null;
 };
 
 /*
@@ -32,7 +32,7 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
     var db = dbConnector.getInstance();
     console.log("DB SAVE");
 
-    var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, email, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}')"
+    var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, email, instrument) VALUES('{0}', '{1}', '{2}', '{3}', '{4}')"
         .format(
             self.date,
             self.lessonTime,
@@ -57,11 +57,14 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
             callback(err, null);
         } 
     }).get(get_query, function(err, row){
-        if (err!=null){
+        if (err!=null || row==null){
             console.log(err);
             callback(err, null);
         } else {
-            callback(null, new LessonSchedule(row));
+            console.log(row);
+            var _lessonSchedule = new LessonSchedule(row);
+            _lessonSchedule.lsid = row.lsid;
+            callback(null, _lessonSchedule);
         }
     });
 };
@@ -135,5 +138,6 @@ module.exports.create = function(jsObject, studentRecord, callback) {
     console.log("CREATE");
     var newLSchedule = new LessonSchedule(jsObject);
     newLSchedule.save(studentRecord, callback);
+
 
 };

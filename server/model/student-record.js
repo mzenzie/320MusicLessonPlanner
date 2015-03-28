@@ -16,6 +16,7 @@
  */
 
 var format = require('string-format');
+var LessonSchedule = require('./lesson-schedule.js');
 
 var dbConnector = require('../../database/dbinit.js');
 if (dbConnector == null) console.log("DATABASE CON NULL");
@@ -41,17 +42,18 @@ var StudentRecord = function(jsObject) {
     //
 
     this.address = jsObject.address;
-    this.birthday = jsObject.birthday;
-    this.startDate = jsObject.startDate;
-    this.numberOfLessons = jsObject.numberOfLessons;
+    this.birthday = new Date("{0}".format(jsObject.birthday));
+    this.startDate = new Date("{0}".format(jsObject.startDate));
     this.lessonTime = jsObject.lessonTime;
+    this.numberOfLessons = jsObject.numberOfLessons;
     this.lessonLength = jsObject.lessonLength;
 
     this.sid = null;
     // Notes is the list of lesson notes for this student.
     // Initialized to null because a new student has no lesson notes.
-    this.lessonNotes = null;
+    this.lessonNotes = [];
     this.generalNotes = null;
+    this.lessonSchedules = null;
     // Progress is the music record of pieces this student has done.
     // Initialized to null because a new student has no previous music progress.
 };
@@ -92,18 +94,23 @@ StudentRecord.prototype.save = function(callback){
 		if (err !== null){
 			console.log("STUDENT RECORD SAVE ERR TO DB");
             console.log(err);
-			myErr = err;
-		}
-	}).run(schedule_query, function(err){
-		if (err!= null){
-			myErr = err;
-            console.log(err);
-			console.log("SCHDULE RECORD SAVE ERR TO DB");
-		}
-		console.log("BEFORE SENDING BACK");
-		console.log(self);
-		callback(err, self);
+		} else {
+            console.log("== STUDENT RECORD SAVED! ==");
+            console.log(self);
+            callback(err, self);
+        }
 	});
+ //    .run(schedule_query, function(err){
+	// 	if (err!= null){
+	// 		myErr = err;
+ //            console.log(err);
+	// 		console.log("SCHDULE RECORD SAVE ERR TO DB");
+	// 	} else {
+ //    		console.log("BEFORE SENDING BACK");
+ //    		console.log(self);
+ //    		callback(err, self);
+ //        }
+	// });
 };
 
 
@@ -169,7 +176,6 @@ module.exports.get = function(email, instrument, callback){
         } else {
             callback(null, null);
         }
-		// callback(err, new StudentRecord(row));
 	});
 };
 
@@ -231,5 +237,24 @@ module.exports.create = function(jsObject, callback) {
     //		loop to create multiple student records
     console.log("CREATE");
     var newStudentRecord = new StudentRecord(jsObject);
-    newStudentRecord.save(callback);
+    newStudentRecord.save(function(err, _studentRecord){
+        if (err != null || _studentRecord == null){
+            callback(err, null);
+        } else {
+            var lessonScheduleJsObject = {
+                date: jsObject.startDate,
+                lessonTime: jsObject.lessonTime,
+                lessonLength: jsObject.lessonLength
+            };
+            LessonSchedule.create(lessonScheduleJsObject, _studentRecord, function(err, lessonSchedule){
+                if (err!=null || lessonSchedule == null){
+                    callback(err,null);
+                } else {
+                    _studentRecord.lessonSchedules.push(lessonSchedule);
+                    console.log(_studentRecord);   
+                }
+            })
+        }
+
+    });
 };

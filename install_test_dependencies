@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "You will have to enter your password for admin priveleges"
+
+sudo npm install —-save-dev mocha
+sudo npm install —-save-dev should
+sudo npm install —-save-dev supertest
+sudo npm install -g mocha

@@ -12,9 +12,8 @@ This website redirects automatically to IP address
 ```
 **Features implemented**
 
-- Add/Delete/View student accounts
-- Teacher Login Authentication
-- Teacher account information stored
+- [Add/Delete/View student accounts](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Managing-student-accounts)
+- [Teacher Login Authentication](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Create-a-new-teacher-account)
 
 **Features in progress**
 

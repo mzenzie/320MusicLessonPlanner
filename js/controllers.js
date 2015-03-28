@@ -258,8 +258,8 @@ function CalendarCtrl($scope) {
 }
 
 function loginCtrl($state, $scope, $http, store) {
-    $scope.signin = function() {
-        $http.post('/api/signin', {username: $scope.username, password: $scope.password})
+    $scope.signin = function(user) {
+        $http.post('/api/signin', {username: $scope.username, $scope.user.password})
         // $http.post('/api/signin', {username: 'admin@g.com', password: '1234'})
         .success(function(data, status, header, config){
             // alert("SIGN-IN-CTRL Recieved " + data.token);

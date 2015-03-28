@@ -194,14 +194,14 @@ angular
     .config(config)
     .run(function($rootScope, $state, store, jwtHelper, $location) {
         $rootScope.$state = $state;
-        $rootScope.$on('$stateChangeStart', function(e, toState) {
-            if (toState.data && toState.data.requiresLogin) {
-                if (!store.get('token')) {
-                    e.preventDefault();
-                    $state.go('startpage.landing');
-                }
-            }
-        });
+        // $rootScope.$on('$stateChangeStart', function(e, toState) {
+        //     if (toState.data && toState.data.requiresLogin) {
+        //         if (!store.get('token')) {
+        //             e.preventDefault();
+        //             $state.go('startpage.landing');
+        //         }
+        //     }
+        // });
 
     });
 

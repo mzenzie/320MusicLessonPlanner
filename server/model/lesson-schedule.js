@@ -10,38 +10,39 @@
  * @param {int} lessonLength
  * @param {int} sid
  */
-var LessonSchedule = function(date, lessonTime, lessonLength, sid){
-	this.date = date;
-	this.lessonTime = lessonTime;
-	this.lessonLength = lessonLength;
-	this.sid = sid;
+
+var LessonSchedule = function(date, lessonTime, lessonLength, sid) {
+    this.date = date;
+    this.lessonTime = lessonTime;
+    this.lessonLength = lessonLength;
+    this.sid = sid;
 };
 
 /*
  * Save lesson schedule.
  */
-LessonSchedule.prototype.save = function(callback){
-	var self = this;
-	var myErr = null;
-	var db = dbConnector.getInstance();
-	console.log("DB SAVE");
+LessonSchedule.prototype.save = function(callback) {
+    var self = this;
+    var myErr = null;
+    var db = dbConnector.getInstance();
+    console.log("DB SAVE");
 
-	var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES({0}, '{1}', '{2}', '{3}')"
-	.format(
-		1,
-		self.date,
-		self.lessonTime,
-		self.lessonLength,
-		self.sid);
-	
-	console.log(lschedule_query);
+    var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES({0}, '{1}', '{2}', '{3}')"
+        .format(
+            1,
+            self.date,
+            self.lessonTime,
+            self.lessonLength,
+            self.sid);
 
-	db.run(lschedule_query, function(err) {
-		if(err != null) {
-			console.log("SCHEDULE SAVE TO DB ERR");
-			myErr = err;
-		}
-	});
+    console.log(lschedule_query);
+
+    db.run(lschedule_query, function(err) {
+        if (err != null) {
+            console.log("SCHEDULE SAVE TO DB ERR");
+            myErr = err;
+        }
+    });
 };
 
 module.exports = LessonSchedule;
@@ -51,12 +52,14 @@ module.exports = LessonSchedule;
 /*
  * Get one the lesson note.
  */
-module.exports.get = function(_lsid){
-	//TODO: get lesson note
-	return this;
+module.exports.get = function(_lsid) {
+    //TODO: get lesson note
+    return this;
 };
 
+
 /*
+<<<<<<< HEAD
  * Get a list of lesson schedules.
  *
  * @param {Text} email
@@ -73,16 +76,17 @@ module.exports.list = function(email, callback){
 /*
  * Delete current instance of lesson schedule.
  */
-module.exports.delete = function(schid){
-	var db = dbConnector.getInstance():
-	var lschedule_query = "DELETE FROM Schedule WHERE Schedule.schid={0}".format(schid);
-	console.log(lschedule_query);
-	db.exec(lschedule_query, function(err) {
-		if(err != null) {
-			console.log(err);
-			callback(err);
-		}
-	});
+
+module.exports.delete = function(schid) {
+    var db = dbConnector.getInstance():
+        var lschedule_query = "DELETE FROM Schedule WHERE Schedule.schid={0}".format(schid);
+    console.log(lschedule_query);
+    db.exec(lschedule_query, function(err) {
+        if (err != null) {
+            console.log(err);
+            callback(err);
+        }
+    });
 };
 
 /*
@@ -93,8 +97,9 @@ module.exports.delete = function(schid){
  * @param {Date} lessonLength
  * @param {Text} email
  */
-module.exports.update = function(lessonTime, lessonLength, email){
-	//TODO: update lesson schedule in DB
+
+module.exports.update = function(lessonTime, lessonLength, email) {
+    //TODO: update lesson schedule in DB
 };
 
 /*
@@ -104,13 +109,10 @@ module.exports.update = function(lessonTime, lessonLength, email){
  * @param {Object} jsObject
  * @param {Function} callback
  */
-module.exports.create = function(jsObject, callback){
-	console.log("CREATE");
-	var newLSchedule = new LessonSchedule(jsObject);
-	newLSchedule.save(callback);
+
+module.exports.create = function(jsObject, callback) {
+    console.log("CREATE");
+    var newLSchedule = new LessonSchedule(jsObject);
+    newLSchedule.save(callback);
+
 };
-
-
-
-
-

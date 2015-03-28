@@ -1,42 +1,23 @@
-<!-- Loads a three-column grid layout, 2 column on tablet, 1 column on smart phone. -->
-
-<!-- <div    class="col-sm-6 col-md-4"
-        ng-include="'/views/htmlViews/todayView.html'"
-        id="threeColumnLeft">
-</div> -->
-<div class="wrapper wrapper-content animated fadeInRight">
-  <div class="row">
-    <!-- <div class="col-md-6"
-      ng-include="'/views/studentListView.html'"
-      id="threeColumnMid">     -->
-    <div class="col-md-6">
-      <h2>Students</h2>
-
-          <!-- Table displays a list of students: lastName, firstName | instrument -->
-
-          <table class = "table table-hover">
-              <thread>
-                  <th>Students (<span ng-bind="students.length"></span> records)</th><th>Instrument</th><th></th><th></th>
-              </thread>
-              <tbody>
-                  <tr ng-repeat="student in students">
-                      <!-- Student name: lastName, firstName -->
-                      <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>
-                      <td><span ng-bind="student.instrument"></span></td>
-                      <td>
-                          <button class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;Edit
-                          </button>
-                          <button class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;View
-                          </button>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Dashboard</h2>
+        <ol class="breadcrumb">
+            <li class="active">
+                <strong>Home</strong>
+            </li>
+        </ol>
     </div>
-    <!-- <div class="clearfix visible-sm-block"></div> -->
-    <div  class="col-md-6"
-          ng-include="'/views/teacherView.html'"
-          id="threeColumnRight">
+</div>
+<div class="wrapper wrapper-content">
+<!--     <div class="row">
+        <div class="col-md-7">
+            <div class="row" ng-include="'/views/todayView.html'"></div>
+            <div class="row" ng-include="'/views/studentListView.html'"></div>
+        </div>
+        <div class="col-md-5" ng-include="'/views/teacherView.html'"></div> -->
     </div>
-  </div>
+    <div class="row animated fadeInDown">
+        <div class="col-lg-6 col-md-5" ng-include="'/views/todayView.html'"></div>
+        <div class="col-lg-6 col-md-7" ng-include="'/views/studentListView.html'"></div>
+    </div>
 </div>

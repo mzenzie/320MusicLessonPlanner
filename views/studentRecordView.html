@@ -1,57 +1,36 @@
-
-
-<!-- Left column: Student information -->
-
-<div class="row" ng-controller="studentRecordController">
-	<h3>Student Record View SAMPLE</h3>
-	<hr>
-	<h4><small>Student Name:</small> Wolfgang Amadeus Mozart</h4>
-	<h4><small>Instrument:</small> Piano</h4>
-	<hr>
-	<dl class="dl-horizontal">
-		<dt>Email:</dt><dd> mozart@vienna.mus</dd>
-		<dt>Phone:</dt><dd> 555-1945</dd>
-		<dt>Addrees:</dt><dd> Vienna, Austria</dd>
-		<dt>Birthday:</dt><dd> January 27, 1756</dd>
-		<dt>Lesson Times:</dt><dd> Wednesdays at 3:00pm</dd>
-	</dl>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">Notes</h3>
-		</div>
-		<div class="panel-body">
-			<textarea class="form-control" rows="3">Current piece: Sonata No. 2, Upcoming piece: Symphony 40, Next Concert: March 31, 1780</textarea>
-		</div>
-	</div>
-
-<!-- 	<div class="col-sm-4 col-md-3" id="studentColumnRight">
-		<img src="/views/images/mozart.jpg" class="img-responsive" alt="Responsive image" width = "250">
-	</div> -->
-</div>
-<div class="row">
-	<h4>Lesson Notes</h4>
-	<table class = "table table-hover">
-		<thread>
-			<th>Date</th>
-			<th>Time</th>
-		</thread>
-		<tbody>
-			<tr>
-				<td>March 1, 2015</td>
-				<td>3:00pm</td>
-			</tr>
-			<tr>
-				<td>February 23, 2015</td>
-				<td>3:00pm</td>
-			</tr>
-			<tr>
-				<td>February 16, 2015</td>
-				<td>3:00pm</td>
-			</tr>
-			<tr>
-				<td>February 9, 2015</td>
-				<td>3:00pm</td>
-			</tr>
-		</tbody>
-	</table> 
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>{{student.lastName}}, {{student.firstName}}</h5>
+        <div ibox-tools></div>
+    </div>
+    <div class="ibox-content">
+        <h4>{{student.instrument}}</h4>
+        <hr>
+        <dl class="dl-horizontal">
+            <dt>Email:</dt>
+            <dd> {{student.email}}</dd>
+            <dt>Phone:</dt>
+            <dd> {{student.phone}}</dd>
+            <dt>Address:</dt>
+            <dd> {{student.address}}</dd>
+            <dt>Birthday:</dt>
+            <dd> {{student.birthday}}</dd>
+            <dt>Lesson Times:</dt>
+            <dd> {{student.lessonTime}}, {{student.startDate}}</dd>
+        </dl>
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Notes and Student Progress</h5>
+                <div ibox-tools></div>
+            </div>
+            <div class="ibox-content no-padding">
+                <div summernote class="summernote" ng-model="student.generalNotes">
+                    <h3>Hello Jonathan! </h3> dummy text of the printing and typesetting industry. <strong>Lorem Ipsum has been the industry's</strong> standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+        <div ng-include="'/views/lessonNoteListView.html'"></div>
+    </div>
 </div>

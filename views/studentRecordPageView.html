@@ -1,11 +1,25 @@
-
-<div class="wrapper wrapper-content animated fadeInRight">
-	<div class="row">
-	<div class="col-md-7"
-	ng-include="'/views/studentRecordView.html'"
-	id="studentRecordPageLeft"></div>
-	<div class="col-md-5"
-	ng-include="'/views/studentListView.html'"
-	id="studentRecordPageRight"></div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Student Records</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="teacher-dashboard.main">Home</a>
+            </li>
+            <!-- <li>
+            <a>Forms</a>
+        </li> -->
+        <li class="active">
+            <strong>Student Records</strong>
+        </li>
+    </ol>
 </div>
+<div class="col-lg-2">
+
+</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-6 col-md-7" ng-include="'/views/studentRecordView.html'" id="studentRecordPageLeft"></div>
+        <div class="col-lg-6 col-md-5" ng-include="'/views/studentListView.html'" id="studentRecordPageRight"></div>
+    </div>
 </div>

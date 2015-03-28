@@ -1,13 +1,23 @@
-<h3>Lesson Note View SAMPLE</h3>
-<hr>
-<h3><small>Name:</small> Mozart, Wolfgang Amadeus <small>Instrument:</small> Piano </h3>
-<h3><small>Date:</small> March 4, 1780 <small>Time:</small> 3:00pm </h3>
-<hr>
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">Notes</h3>
-	</div>
-	<div class="panel-body">
-		<textarea class="form-control" rows="25">Current piece: Sonata No. 2, Upcoming piece: Symphony 40, Next Concert: March 31, 1780</textarea>
-	</div>
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>Lesson Note View<small>   SAMPLE</small></h5>
+        <div ibox-tools></div>
+    </div>
+    <div class="ibox-content">
+        <h3><small>Name:</small> Mozart, Wolfgang Amadeus <small>Instrument:</small> Piano </h3>
+        <h3><small>Date:</small> March 4, 1780 <small>Time:</small> 3:00pm </h3>
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Notes and Student Progress</h5>
+                <div ibox-tools></div>
+            </div>
+            <div class="ibox-content no-padding">
+                <div summernote class="summernote" ng-model="main.summernoteText">
+                    <h3>Hello Jonathan! </h3> dummy text of the printing and typesetting industry. <strong>Lorem Ipsum has been the industry's</strong> standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

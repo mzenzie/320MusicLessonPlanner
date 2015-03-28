@@ -2,10 +2,16 @@ var fs = require("fs");
 var file = './mlp.sql'; //file used to store the data
 var exists = fs.existsSync(file);// if the file not exist create a new one
 
-teaTable = "CREATE TABLE Teacher(tEmail TEXT PRIMARY KEY, passowrd TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
-stuTable = "CREATE TABLE SRecord(tEmail TEXT references Teacher(tEmail) on delete cascade on update cascade, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT, birthday DATE, instrument TEXT, generalNotes TEXT, PRIMARY KEY (email, instrument));";
-schTable = "CREATE TABLE Schedule(lsid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, lessonTime DATETIME, lessonLength INTEGER, email TEXT references SRecord(email) on delete cascade on update cascade, instrument TEXT references SRecord(instrument) on delete cascade on update cascade);";
-LRTable = "CREATE TABLE LessonRecord(lrid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, notes TEXT, email TEXT references SRecord(email) on delete cascade on update cascade, instrument TEXT references SRecord(instrument) on delete cascade on update cascade);";
+teaTable = "CREATE TABLE Teacher(tid INTEGER PRIMARY KEY AUTOINCREMENT, tEmail TEXT, passowrd TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
+stuTable = "CREATE TABLE SRecord(sid INTEGER PRIMARY KEY AUTOINCREMENT, tid INTEGER references Teacher(sid) on delete cascade on update cascade, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT, birthday DATE, instrument TEXT, generalNotes TEXT);";
+schTable = "CREATE TABLE Schedule(lsid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, lessonTime DATETIME, lessonLength INTEGER, sid INTEGER references SRecord(sid) on delete cascade on update cascade);";
+LRTable = "CREATE TABLE LessonRecord(lrid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, notes TEXT, sid TEXT references SRecord(sid) on delete cascade on update cascade);";
+
+dteaTable = "DROP TABLE IF EXISTS db.Teacher;"
+dstuTable = "DROP TABLE IF EXISTS db.SRecord;"
+dschTable = "DROP TABLE IF EXISTS db.Schedule;"
+dLRTable = "DROP TABLE IF EXISTS db.LessonRecord;"
+
 // connect to the database and return the pointer to db
 var db = null;
 
@@ -36,4 +42,16 @@ module.exports.init = function(){
 
 module.exports.getInstance = function(){
     return db;
+}
+
+module.exports.reinit = function(){
+	db.run(dteaTable);
+	db.run(dstuTable);
+	db.run(dschTable);
+	db.run(dLRTable);
+
+	db.run(teaTable);
+	db.run(stuTable);
+	db.run(schTable);
+	db.run(LRTable);
 }

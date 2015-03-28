@@ -72,7 +72,8 @@ function teacherController($scope, $resource, $modal, $stateParams, $state) {
 
     $scope.deleteStudentRecord = function(student) {
         StudentRecord.delete({
-            id: student.sid
+            email: student.email,
+            instrument: student.instrument
         }, function(result) {
             if (result.isSuccessful) {
                 var index = $scope.students.indexOf(student);
@@ -258,8 +259,8 @@ function CalendarCtrl($scope) {
 }
 
 function loginCtrl($state, $scope, $http, store) {
-    $scope.signin = function(user) {
-        $http.post('/api/signin', {username: $scope.username, $scope.user.password})
+    $scope.signin = function() {
+        $http.post('/api/signin', {username: $scope.username, password: $scope.password})
         // $http.post('/api/signin', {username: 'admin@g.com', password: '1234'})
         .success(function(data, status, header, config){
             // alert("SIGN-IN-CTRL Recieved " + data.token);

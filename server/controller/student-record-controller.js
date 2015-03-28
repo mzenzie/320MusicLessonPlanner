@@ -51,7 +51,7 @@ module.exports.get = function(req, res) {
         });
     } else {
         StudentRecord.get(email, instrument, function(err, studentRecord){
-            if (err!=null){
+            if (err!=null || studentRecord==null){
                 res.status(400).send("couldn't find StudentRecord") // bad request
             } else {
                 res.json(studentRecord);
@@ -67,7 +67,7 @@ module.exports.delete = function(req, res) {
     email = req.query.email;
     instrument = req.query.instrument;
     if (email === undefined || instrument === undefined){
-        req.status(400).send("invalid email, instrument");
+        res.status(400).send("invalid email, instrument");
     } else {
         StudentRecord.delete(email, instrument, function(err) {
             if (err != null) {
@@ -85,4 +85,28 @@ module.exports.delete = function(req, res) {
 
 module.exports.update = function(req, res) {
     // > PUT /api/studentRecord/:id
+    if (req.query.email === undefined || req.query.instrument === undefined){
+        req.status(400).send("invalid email, instrument");
+    } else {
+        StudentRecord.get(req.query.email, req.query.instrument, function(err, studentRecord){
+            if (studentRecord==null){
+                res.status(400).send("invalid email, instrument");
+            } else {
+                if (req.body.firstName !== undefined){
+                    studentRecord.firstName = req.body.firstName;
+                }
+                if (req.body.lastName !== undefined){
+                    studentRecord.lastName = req.body.lastName;
+                }
+                studentRecord.update(function(err, _student){
+                    if (err!=null){
+                        res.status(400).send("unable to update StudentRecord");
+                    } else {
+                        res.status(200).send(_student);
+                    }
+                });
+            }
+        })
+    }
+
 }

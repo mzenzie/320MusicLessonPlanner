@@ -18,6 +18,7 @@ var secret 						= require('./server/config/secret.js');
 // controllers
 var studentRecordController 	= require('./server/controller/student-record-controller');
 var authenticationController 	= require('./server/controller/authentication-controller');
+var lessonScheduleController	= require('./server/controller/lesson-schedule-controller');
 
 //	Configuration ============================================
 
@@ -60,6 +61,8 @@ app.get("/api/studentRecord/", studentRecordController.get);
 app.delete("/api/studentRecord/", studentRecordController.delete);
 app.put("/api/studentRecord/", studentRecordController.update);
 
+// LESSON SCHEDULE
+app.get('/api/lessonSchedule', lessonScheduleController.get);
 
 
 // console.log([1]);

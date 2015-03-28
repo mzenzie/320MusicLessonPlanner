@@ -72,9 +72,9 @@ StudentRecord.prototype.save = function(callback){
 	var db = dbConnector.getInstance();
 	console.log("DB SAVE");
 
-	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')"
+	var student_record_query = "INSERT INTO SRecord (tEmail, firstName, lastName, email, address, phone, birthday, instrument) VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')"
 						.format(
-							1,
+							"teacher@gmail.com",
 							self.firstName,
 							self.lastName,
 							self.email,
@@ -91,11 +91,13 @@ StudentRecord.prototype.save = function(callback){
 	db.run(student_record_query, function(err){
 		if (err !== null){
 			console.log("STUDENT RECORD SAVE ERR TO DB");
+            console.log(err);
 			myErr = err;
 		}
 	}).run(schedule_query, function(err){
 		if (err!= null){
 			myErr = err;
+            console.log(err);
 			console.log("SCHDULE RECORD SAVE ERR TO DB");
 		}
 		console.log("BEFORE SENDING BACK");
@@ -110,8 +112,21 @@ StudentRecord.prototype.save = function(callback){
  * 
  * @param {Object} jsObject : contains the information needing to be updated
  */
-StudentRecord.prototype.update = function(jsObject) {
+StudentRecord.prototype.update = function(callback) {
     //TODO: implement function
+    var self = this;
+    var db = dbConnector.getInstance();
+    var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}' WHERE SRecord.email='{5}' AND SRecord.instrument='{6}'"
+                .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.email, self.instrument);
+    console.log(query);
+    db.run(query, function(err){
+        if (err!=null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            callback(null, new StudentRecord(self));
+        }
+    });
 };
 
 // Exports the student record to allow it to be used by
@@ -144,8 +159,17 @@ module.exports.get = function(email, instrument, callback){
 	var db = dbConnector.getInstance();
 	var query = "SELECT * FROM SRecord WHERE SRecord.email='{0}' AND SRecord.instrument='{1}'".format(email, instrument);
 	console.log("DB GET: " + query);
-	db.get(query,function(err, rows){
-		callback(err, rows);
+	db.get(query,function(err, row){
+        console.log(row);
+        console.log(err);
+        if (err!=null){
+            callback(err, null);
+        } else if (row!==undefined){
+            callback(null, new StudentRecord(row));
+        } else {
+            callback(null, null);
+        }
+		// callback(err, new StudentRecord(row));
 	});
 };
 

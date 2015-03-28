@@ -11,36 +11,57 @@
  * @param {int} sid
  */
 
-var LessonSchedule = function(date, lessonTime, lessonLength, sid) {
-    this.date = date;
-    this.lessonTime = lessonTime;
-    this.lessonLength = lessonLength;
-    this.sid = sid;
+var format = require('string-format');
+
+var dbConnector = require('../../database/dbinit.js');
+if (dbConnector == null) console.log("DATABASE CON NULL");
+
+var LessonSchedule = function(jsObject) {
+    this.date = jsObject.date;
+    this.lessonTime = jsObject.lessonTime;
+    this.lessonLength = jsObject.lessonLength;
+    this.lsid = jsObject;
 };
 
 /*
  * Save lesson schedule.
  */
-LessonSchedule.prototype.save = function(callback) {
+LessonSchedule.prototype.save = function(studentRecord, callback) {
     var self = this;
     var myErr = null;
     var db = dbConnector.getInstance();
     console.log("DB SAVE");
 
-    var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES({0}, '{1}', '{2}', '{3}')"
+    var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, email, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}')"
         .format(
-            1,
             self.date,
             self.lessonTime,
             self.lessonLength,
-            self.sid);
+            studentRecord.email,
+            studentRecord.instrument);
+    var get_query = "SELECT * FROM Schedule WHERE Schedule.date='{0}' AND Schedule.lessonTime='{1}' AND Schedule.lessonLength='{2}' AND Schedule.email='{3}' AND Schedule.instrument='{4}'"
+        .format(
+            self.date,
+            self.lessonTime,
+            self.lessonLength,
+            studentRecord.email,
+            studentRecord.instrument);
 
     console.log(lschedule_query);
+    console.log(get_query);
 
     db.run(lschedule_query, function(err) {
         if (err != null) {
             console.log("SCHEDULE SAVE TO DB ERR");
-            myErr = err;
+            console.log(err);
+            callback(err, null);
+        } 
+    }).get(get_query, function(err, row){
+        if (err!=null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            callback(null, new LessonSchedule(row));
         }
     });
 };
@@ -77,8 +98,8 @@ module.exports.list = function(email, callback){
  * Delete current instance of lesson schedule.
  */
 
-module.exports.delete = function(schid) {
-    var db = dbConnector.getInstance():
+module.exports.delete = function(studentRecord, callback) {
+    var db = dbConnector.getInstance();
         var lschedule_query = "DELETE FROM Schedule WHERE Schedule.schid={0}".format(schid);
     console.log(lschedule_query);
     db.exec(lschedule_query, function(err) {
@@ -110,9 +131,9 @@ module.exports.update = function(lessonTime, lessonLength, email) {
  * @param {Function} callback
  */
 
-module.exports.create = function(jsObject, callback) {
+module.exports.create = function(jsObject, studentRecord, callback) {
     console.log("CREATE");
     var newLSchedule = new LessonSchedule(jsObject);
-    newLSchedule.save(callback);
+    newLSchedule.save(studentRecord, callback);
 
 };

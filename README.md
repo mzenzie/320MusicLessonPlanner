@@ -73,7 +73,16 @@ Additional SQL commands can be found [here](http://www.thegeekstuff.com/2012/09/
 
 ### Testing
 
-TODO
+Testing is implemented using the [Mocha](http://mochajs.org/) testing framework. Future tests will also take advantage of [should](https://github.com/shouldjs/should.js) and [supertest](https://www.npmjs.com/package/supertest). All test files are located in ./test.
+
+When beginning testing for the first time you will need to install the testing dependencies. All of the necessary dependencies can be installed by executing
+  ```sh
+  $ ./install_test_dependencies
+  ```
+All tests can be run with the following command
+  ```sh
+  $ mocha
+  ```
 
 ### Bug Tracking
 

@@ -49,7 +49,7 @@ var StudentRecord = function(jsObject) {
     this.lessonLength = jsObject.lessonLength;
 
     this.sid = null;
-    if (jsObject.sid !== undefined){
+    if (jsObject.sid!==undefined){
         this.sid = jsObject.sid;
     }
     // Notes is the list of lesson notes for this student.
@@ -129,8 +129,8 @@ StudentRecord.prototype.update = function(callback) {
     //TODO: implement function
     var self = this;
     var db = dbConnector.getInstance();
-    var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}' WHERE SRecord.email='{5}' AND SRecord.instrument='{6}'"
-                .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.email, self.instrument);
+    var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}', instrument='{5}', email='{6}' WHERE sid='{7}'"
+                .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.instrument,  self.email, self.sid);
     console.log(query);
     db.run(query, function(err){
         if (err!=null){
@@ -139,7 +139,7 @@ StudentRecord.prototype.update = function(callback) {
         } else {
             callback(null, new StudentRecord(self));
         }
-    });
+    });    
 };
 
 // Exports the student record to allow it to be used by

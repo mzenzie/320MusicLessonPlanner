@@ -8,7 +8,8 @@ if(dbConnector==null) console.log("DATABASE CONN. NULL");
 var LessonNote = function(jsObject){
 	this.notes = jsObject.notes;
 	this.date = jsObject.date;
-	this.nid = jsObject.nid;
+	this.email = jsObject.email;
+	this.lnid = null;
 };
 
 /**
@@ -23,12 +24,12 @@ LessonNote.prototype.save = function(callback){
 	console.log("DB SAVE");
 
 	// The query that will be used to insert the lesson notes into the appropriate lesson record
-	var lesson_note_query = "INSERT INTO LessonRecord (date, notes, sid) VALUES({0},'{1}', '{2}', '{3}')"
+	var lesson_note_query = "INSERT INTO LessonRecord (date, notes, email) VALUES({0},'{1}', '{2}', '{3}')"
 					.format(
 						1,
 						self.date,
 						self.notes,
-						self.sid);
+						self.email);
 	console.log(lesson_note_query);
 
 	db.run(lesson_note_query, function(err) {
@@ -49,10 +50,10 @@ module.exports = LessonNote;
 /**
  * Get one lesson note.
  */
-module.exports.get = function(_nid, callback){
+module.exports.get = function(lnid, callback){
 	var db = dbConnector.getInstance();
 	console.log("DB GET");
-	db.all("SELECT * FROM LessonRecord WHERE LessonRecord.lnid={0}".format(_nid), function(err, rows) {
+	db.all("SELECT * FROM LessonRecord WHERE LessonRecord.lnid={0}".format(lnid), function(err, rows) {
 		callback(err, rows);
 	});
 };
@@ -60,13 +61,13 @@ module.exports.get = function(_nid, callback){
 /**
  * Get a list of all lesson notes.
  *
- * @param {int} _sid : student ID of the student whose lesson notes are to be retrieved.
+ * @param {int} email : email (primary key) of the student whose lesson notes are to be retrieved.
  * @param {Function} callback
  */
-module.exports.list = function(_sid, callback){
+module.exports.list = function(email, callback){
 	var db = dbConnector.getInstance();
 	console.lod("DB LIST");
-	db.all("SELECT * FROM LessonRecord", function(err, rows)) {
+	db.all("SELECT * FROM LessonRecord WHERE LessonRecord.email={0}".format(email), function(err, rows)) {
 		callback(err, rows);
 	}
 };

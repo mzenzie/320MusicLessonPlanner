@@ -57,15 +57,15 @@ module.exports.get = function(_lsid){
 };
 
 /*
- * Get a list of lesson notes.
+ * Get a list of lesson schedules.
  *
- * @param {int} sid
+ * @param {Text} email
  * @param {Function} callback
  */
-module.exports.list = function(sid, callback){
+module.exports.list = function(email, callback){
 	var db = dbConnector.getInstance();
 	console.log("DB LIST");
-	db.all("SELECT * FROM Schedule", function(err, rows) {
+	db.all("SELECT * FROM Schedule WHERE Schedule.email={0}".format(email), function(err, rows) {
 		callback(err, rows);
 	});
 };
@@ -91,9 +91,9 @@ module.exports.delete = function(schid){
  *
  * @param {Date} lessonTime
  * @param {Date} lessonLength
- * @param {int} sid
+ * @param {Text} email
  */
-module.exports.update = function(lessonTime, lessonLength, sid){
+module.exports.update = function(lessonTime, lessonLength, email){
 	//TODO: update lesson schedule in DB
 };
 

@@ -71,7 +71,40 @@ function studentRecordController ($scope, $resource){
     }
 }
 
+function lessonNoteController ($scope, $resource){
+    var LessnNote = $resource('/api/lessonNote/:id');
+
+    LessnNote.query(function (result) {
+        $scope.notes = result;
+    });
+
+    $scope.deleteLessonNote = function(note){
+        LessonNote.delete({id:note.nid}, function(result){
+            if (result.isSuccessful){
+                var index = $scope.notes.indexOf(note);
+                $scope.notes.splice(index, 1);
+            }
+        });
+    };
+
+    $scope.notes = [];
+    $scope.createLessonNote = function () {
+        var newLessonNote = new LessonNote();
+        newLessonNote.notes = $scope.notes;
+        newLessonNote.date = $scope.date;
+        newLessonNote.$save(function (result){
+            LessonNote.query(function (result){
+                $scope.notes = result;
+            });
+            $scope.notes = '';
+            $scope.date = '';
+        });
+
+    }
+}
+
 angular
 .module('inspinia')
 .controller('MainCtrl', MainCtrl)
 .controller('studentRecordController', studentRecordController);
+.controller('lessonNoteController', lessonNoteController);

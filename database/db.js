@@ -27,6 +27,15 @@ db2.close();
 var fs = require("fs");
 var dbinit = require("./dbinit.js");
 
+//dbinit.init();
+//dbinit.reinit();
+dbinit.reinit();
 var db = dbinit.getInstance();
-dbinit.init();
-dbinit.reinit(); 
+
+//date, lessonTime, lesson length sid
+
+db.run("INSERT INTO Teacher (firstName) VALUES('jack')");
+db.run("INSERT INTO SRecord (firstName, tid) VALUES('mary', '1')");
+db.run("INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES ('1999-09-18', '18:25:00', '10', '1'),('1999-09-19', '18:25:00', '4', '1'),('1999-09-20', '18:25:10', '2', '1')");
+db.run("delete from Teacher where tid = 1");
+

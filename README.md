@@ -79,6 +79,10 @@ When beginning testing for the first time you will need to install the testing d
   ```sh
   $ ./install_test_dependencies
   ```
+Note, if the above command does not work, you may need to re-run with admin privileges
+  ```sh
+  $ sudo ./install_test_dependencies
+  ```
 All tests can be run with the following command
   ```sh
   $ mocha

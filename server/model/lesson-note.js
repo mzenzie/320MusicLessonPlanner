@@ -70,9 +70,9 @@ module.exports.get = function(lnid, callback) {
 module.exports.list = function(email, callback) {
     var db = dbConnector.getInstance();
     console.lod("DB LIST");
-    db.all("SELECT * FROM LessonRecord WHERE LessonRecord.email={0}".format(email), function(err, rows)) {
+    db.all("SELECT * FROM LessonRecord WHERE LessonRecord.email={0}".format(email), function(err, rows) {
         callback(err, rows);
-    }
+    });
 };
 
 /**
@@ -91,7 +91,7 @@ module.exports.delete = function(lnid, callback) {
             console.log(err);
             callback(err);
         }
-    })
+    });
 };
 
 /**

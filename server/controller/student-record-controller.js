@@ -30,7 +30,7 @@ module.exports.get = function(req, res) {
 
     // var sess = req.session;
     // var id = sess.id; // to be implemented...
-    var sid = req.query.sid
+    var sid = req.query.id
     if (sid === undefined){
         //list
         var tid = 1; // stub code

@@ -67,12 +67,12 @@ module.exports.get = function(lnid, callback) {
  * @param {int} email : email (primary key) of the student whose lesson notes are to be retrieved.
  * @param {Function} callback
  */
-module.exports.list = function(email, callback) {
+module.exports.list = function(sid, callback) {
     var db = dbConnector.getInstance();
     console.lod("DB LIST");
-    db.all("SELECT * FROM LessonRecord WHERE LessonRecord.email={0}".format(email), function(err, rows) {
+    db.all("SELECT * FROM LessonRecord WHERE LessonRecord.sid={0}".format(sid), function(err, rows)) {
         callback(err, rows);
-    });
+    }
 };
 
 /**
@@ -91,7 +91,7 @@ module.exports.delete = function(lnid, callback) {
             console.log(err);
             callback(err);
         }
-    });
+    })
 };
 
 /**

@@ -15,8 +15,6 @@
  * @param {String} _hours is the number of hours each lesson will last (0.5 is 30 minute lesson)
  */
 
-
-var assert = require('assert');
 var format = require('string-format');
 var LessonSchedule = require('./lesson-schedule.js');
 
@@ -42,19 +40,39 @@ var StudentRecord = function(jsObject) {
     this.email = jsObject.email;
     this.phone = jsObject.phone;
     //
+
     this.address = jsObject.address;
-    this.birthday = new Date(format("{0}",jsObject.birthday));
-    this.startDate = new Date(format("{0}",jsObject.startDate));
+    if (jsObject.birthday !== undefined){
+        if (jsObject.birthday.getDate !== undefined){
+            this.birthday = jsObject.birthday;
+        } else {
+            this.birthday = new Date("{0}".format(jsObject.birthday));
+        }
+    }
+    if (jsObject.startDate !== undefined){
+        if (jsObject.startDate.getDate !== undefined){
+            this.startDate = jsObect.startDate;
+        } else {
+            this.startDate = new Date("{0}".format(jsObject.startDate));
+        }
+    }
     this.lessonTime = jsObject.lessonTime;
     this.numberOfLessons = jsObject.numberOfLessons;
     this.lessonLength = jsObject.lessonLength;
 
     this.sid = null;
+    if (jsObject.sid!==undefined){
+        this.sid = jsObject.sid;
+    }
     // Notes is the list of lesson notes for this student.
     // Initialized to null because a new student has no lesson notes.
     this.lessonNotes = [];
     this.generalNotes = null;
-    this.lessonSchedules = null;
+    if (jsObject.generalNotes !== undefined && jsObject.generalNotes != null){
+        console.log("GENERAL NOTES ADDDED" + jsObject.generalNotes);
+        this.generalNotes = jsObject.generalNotes;
+    }
+    this.lessonSchedules = [];
     // Progress is the music record of pieces this student has done.
     // Initialized to null because a new student has no previous music progress.
 };
@@ -72,11 +90,11 @@ StudentRecord.prototype.save = function(callback){
 	var myErr = null;
 	//TODO: save to db
 	// returns identifier for StudentRecord
-
+	var db = dbConnector.getInstance();
 	console.log("DB SAVE");
-
-	var student_record_query = 
-						format("INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
+    console.log(self);
+	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument, generalNotes) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')"
+						.format(
 							1,
 							self.firstName,
 							self.lastName,
@@ -84,12 +102,11 @@ StudentRecord.prototype.save = function(callback){
 							self.address,
 							self.phone,
 							self.birthday,
-							self.instrument);
+							self.instrument,
+                            self.generalNotes);
 
     console.log(student_record_query);
 
-    db = dbConnector.getInstance();
-    assert.notEqual(db, null);
     db.run(student_record_query, function(err){
         if (err !== null){
             console.log("STUDENT RECORD SAVE ERR TO DB");
@@ -129,8 +146,8 @@ StudentRecord.prototype.update = function(callback) {
     //TODO: implement function
     var self = this;
     var db = dbConnector.getInstance();
-    var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}' WHERE SRecord.email='{5}' AND SRecord.instrument='{6}'"
-                .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.email, self.instrument);
+    var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}', instrument='{5}', email='{6}' WHERE sid='{7}'"
+                .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.instrument,  self.email, self.sid);
     console.log(query);
     db.run(query, function(err){
         if (err!=null){
@@ -139,7 +156,7 @@ StudentRecord.prototype.update = function(callback) {
         } else {
             callback(null, new StudentRecord(self));
         }
-    });
+    });    
 };
 
 // Exports the student record to allow it to be used by
@@ -173,12 +190,21 @@ module.exports.get = function(sid, callback){
 	var query = "SELECT * FROM SRecord WHERE SRecord.sid={0}".format(sid);
 	console.log("DB GET: " + query);
 	db.get(query,function(err, row){
-        console.log(row);
-        console.log(err);
         if (err!=null){
+            console.log(err);
             callback(err, null);
         } else if (row!==undefined){
-            callback(null, new StudentRecord(row));
+            var retrievedStudentRecord = new StudentRecord(row);
+            LessonSchedule.list(sid, function(err, schedules){
+                if (err!= null || schedules == null){
+                    console.log(err);
+                    callback(err, null);
+                } else {
+                    retrievedStudentRecord.lessonSchedules = schedules;
+                    console.log(retrievedStudentRecord);
+                    callback(null, retrievedStudentRecord);
+                }
+            });
         } else {
             callback(null, null);
         }
@@ -193,13 +219,45 @@ module.exports.get = function(sid, callback){
  * @param {Function} callback : the function used to handle database error
  */
 
+
+/*
+
+*/
 module.exports.list = function(tid, callback) {
     var db = dbConnector.getInstance();
     console.log("DB LIST");
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
-    db.all("SELECT  * FROM SRecord", function(err, rows) {
-        callback(err, rows);
-
+    studentRecords = [];
+    var error = null;
+    db.each("SELECT  * FROM SRecord", function(err, each_row) {
+        if (err!=null || each_row == null){
+            console.log(err);
+            error = err;
+        } else {
+            var studentRecord = new StudentRecord(each_row);
+            // LessonSchedule.list(studentRecord.sid, function(err, schedules){
+            //     if (err!=null || schedules==null){
+            //         console.log(err);
+            //         error = err;
+            //     } else {
+            //         studentRecord.lessonSchedules = schedules;
+            //         studentRecords.push(studentRecord);
+            //         console.log("pushing");
+            //     }
+            // })
+            studentRecords.push(studentRecord);
+        }
+    }, function(err, numberOfRows){
+        if (error){
+            callback(error, null);
+        } else if (err!=null) {
+            console.log(err);
+            callback(err, null)
+         }else {
+            console.log("200 OK");
+            callback(null ,studentRecords);
+            
+        }
     });
 
 };
@@ -216,7 +274,7 @@ module.exports.delete = function(sid,callback) {
     var db = dbConnector.getInstance();
     // var drecord_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
     var srecord_query = "DELETE FROM SRecord WHERE SRecord.sid={0}".format(sid);
-    // var schedule_query = "DELETE FROM Schedule WHERE Schedule.email='{0}'".format(email);
+    var schedule_query = "DELETE FROM Schedule WHERE Schedule.sid='{0}'".format(sid);
     // console.log(schedule_query);
     console.log(srecord_query);
     db.exec(srecord_query, function(err) {
@@ -224,14 +282,14 @@ module.exports.delete = function(sid,callback) {
             console.log(err);
             callback(err);
         }
-        callback(null);
+        // callback(null);
+    })
+    .exec(schedule_query, function(err) {
+        if (err != null) {
+            console.log(err);
+        }
+        callback(err);
     });
-    // .exec(schedule_query, function(err) {
-    //     if (err != null) {
-    //         console.log(err);
-    //     }
-    //     callback(err);
-    // })
 };
 
 /**
@@ -240,29 +298,42 @@ module.exports.delete = function(sid,callback) {
  * @param {Object} jsObject : 
  * @param {Function} callback : the function used to handle database error
  */
+ /*
+
+db.run("INSERT INTO Schedule (date, lessonTime, lessonLength, sid) 
+VALUES ('1999-09-18', '18:25:00', '10', '1'),
+('1999-09-19', '18:25:00', '4', '1'),
+('1999-09-20', '18:25:10', '2', '1')");
+
+
+ */
 module.exports.create = function(jsObject, callback) {
     //TODO: implement
     //		loop to create multiple student records
     console.log("CREATE");
+    var db = dbConnector.getInstance();
+    var numberOfLessons = jsObject.numberOfLessons;
     var newStudentRecord = new StudentRecord(jsObject);
-    console.log("Got to save");
-    newStudentRecord.save(function(err, _studentRecord){
-        if (err != null || _studentRecord == null){
+    newStudentRecord.save(function(err, studentRecord){
+        var scheduleData = {
+            date: new Date(jsObject.startDate),
+            lessonTime: jsObject.lessonTime,
+            lessonLength: jsObject.lessonLength,
+            numberOfLessons: jsObject.numberOfLessons
+        };
+        if (err != null || studentRecord == null){
             callback(err, null);
         } else {
-            var lessonScheduleJsObject = {
-                date: jsObject.startDate,
-                lessonTime: jsObject.lessonTime,
-                lessonLength: jsObject.lessonLength
-            };
-            LessonSchedule.create(lessonScheduleJsObject, _studentRecord, function(err, lessonSchedule){
-                if (err!=null || lessonSchedule == null){
-                    callback(err,null);
+            var error = null;
+            LessonSchedule.generateDates(scheduleData, studentRecord, function(err, schedules){
+                if (err != null || schedules == null){
+                    callback(err, null);
                 } else {
-                    _studentRecord.lessonSchedules.push(lessonSchedule);
-                    console.log(_studentRecord);   
+                    studentRecord.lessonSchedules = schedules;
+                    callback(null, studentRecord);
                 }
             })
+        
         }
 
     });

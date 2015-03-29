@@ -17,7 +17,12 @@ var dbConnector = require('../../database/dbinit.js');
 if (dbConnector == null) console.log("DATABASE CON NULL");
 
 var LessonSchedule = function(jsObject) {
-    this.date = jsObject.date;
+    this.date = null;
+    if (jsObject.date.getDate !== undefined){
+        this.date = jsObject.date;
+    } else {
+        this.date = new Date(jsObject.date);
+    }
     this.lessonTime = jsObject.lessonTime;
     this.lessonLength = jsObject.lessonLength;
     this.lsid = null;
@@ -30,22 +35,21 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
     var self = this;
     var myErr = null;
     var db = dbConnector.getInstance();
+  
     console.log("DB SAVE");
 
-    var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, email, instrument) VALUES('{0}', '{1}', '{2}', '{3}', '{4}')"
+    var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', {3})"
         .format(
             self.date,
             self.lessonTime,
             self.lessonLength,
-            studentRecord.email,
-            studentRecord.instrument);
-    var get_query = "SELECT * FROM Schedule WHERE Schedule.date='{0}' AND Schedule.lessonTime='{1}' AND Schedule.lessonLength='{2}' AND Schedule.email='{3}' AND Schedule.instrument='{4}'"
+            studentRecord.sid);
+    var get_query = "SELECT * FROM Schedule WHERE Schedule.date='{0}' AND Schedule.lessonTime='{1}' AND Schedule.lessonLength='{2}' AND Schedule.sid={3}"
         .format(
             self.date,
             self.lessonTime,
             self.lessonLength,
-            studentRecord.email,
-            studentRecord.instrument);
+            studentRecord.sid);
 
     console.log(lschedule_query);
     console.log(get_query);
@@ -54,7 +58,7 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
         if (err != null) {
             console.log("SCHEDULE SAVE TO DB ERR");
             console.log(err);
-            callback(err, null);
+            // callback(err, null); don't neeed may be redundant
         } 
     }).get(get_query, function(err, row){
         if (err!=null || row==null){
@@ -76,7 +80,7 @@ module.exports = LessonSchedule;
 /*
  * Get one the lesson note.
  */
-module.exports.get = function(_lsid) {
+module.exports.get = function(sid, callback) {
     //TODO: get lesson note
     return this;
 };
@@ -89,11 +93,18 @@ module.exports.get = function(_lsid) {
  * @param {Text} email
  * @param {Function} callback
  */
-module.exports.list = function(email, callback){
+module.exports.list = function(sid, callback){ /// option = {callback: function(err, schedules), db: db}
 	var db = dbConnector.getInstance();
+
 	console.log("DB LIST");
-	db.all("SELECT * FROM Schedule WHERE Schedule.email={0}".format(email), function(err, rows) {
-		callback(err, rows);
+	db.all("SELECT * FROM Schedule WHERE Schedule.sid={0}".format(sid), function(err, rows) {
+        if (err!= null || rows == null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            console.log(rows);
+    		callback(null, rows);
+        }
 	});
 };
 
@@ -141,3 +152,42 @@ module.exports.create = function(jsObject, studentRecord, callback) {
 
 
 };
+
+module.exports.generateDates = function(scheduleData, studentRecord, callback){
+    var db = dbConnector.getInstance();
+    var error = null;
+    var schedules = []
+     db.serialize(function(){
+        console.log("SERIALIZD");
+        console.log(scheduleData);
+        for (var i = 0; i < scheduleData.numberOfLessons; i++){
+           scheduleData.date.setDate(scheduleData.date.getDate()+7*i);
+            // console.log("Creating lesson schedule" + lessonScheduleJsObject.date.toString());
+            var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', {3})"
+                                    .format(
+                                        scheduleData.date,
+                                        scheduleData.lessonTime,
+                                        scheduleData.lessonLength,
+                                        studentRecord.sid);
+            var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}"
+                                    .format(
+                                        studentRecord.sid);
+            // console.log(lschedule_query);
+            // console.log(get_query);
+            db.run(lschedule_query, function(err){
+                if (err!=null){
+                    console.log(err);
+                }
+            })
+        }
+        db.all(get_query, function(err, schedules){
+            if (err!=null || schedules == null){
+                console.log(err);
+                callback(err, null);
+            } else{
+                console.log("200 -------- RETREIVED SCHEDULE LIST");
+                callback(null, schedules);
+            }
+        });
+    });
+}

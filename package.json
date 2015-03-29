@@ -20,14 +20,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/mzenzie/320MusicLessonPlanner.git"
-  },
+   "type": "git",
+   "url": "https://github.com/mzenzie/320MusicLessonPlanner.git"
+},
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "mocha": "^2.2.1",
-    "should": "^5.2.0",
-    "supertest": "^0.15.0"
-  }
+  "license": "ISC"
 }
+
+

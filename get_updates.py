@@ -4,7 +4,7 @@
 from twisted.internet import protocol, reactor, endpoints
 import subprocess
 
-END_CMD = ["pkill","-f","node"]
+END_CMD = ["stopapp"]
 RUN_CMD = ["runapp"]
 UPDATE_CMD = ["update"]
 

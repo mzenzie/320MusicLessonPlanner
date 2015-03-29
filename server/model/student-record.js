@@ -42,8 +42,20 @@ var StudentRecord = function(jsObject) {
     //
 
     this.address = jsObject.address;
-    this.birthday = new Date("{0}".format(jsObject.birthday));
-    this.startDate = new Date("{0}".format(jsObject.startDate));
+    if (jsObject.birthday !== undefined){
+        if (jsObject.birthday.getDate !== undefined){
+            this.birthday = jsObject.birthday;
+        } else {
+            this.birthday = new Date("{0}".format(jsObject.birthday));
+        }
+    }
+    if (jsObject.startDate !== undefined){
+        if (jsObject.startDate.getDate !== undefined){
+            this.startDate = jsObect.startDate;
+        } else {
+            this.startDate = new Date("{0}".format(jsObject.startDate));
+        }
+    }
     this.lessonTime = jsObject.lessonTime;
     this.numberOfLessons = jsObject.numberOfLessons;
     this.lessonLength = jsObject.lessonLength;

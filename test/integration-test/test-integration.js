@@ -1,3 +1,11 @@
+/**
+ * These tests check the integration of the system as a whole.
+ * They use HTTP requests to get json objects from. Retrieving
+ * these objects requires the front end to call several back-end
+ * functions which means the entire system must be well-integrated
+ * for these tests to pass.
+ */
+
 var request = require('supertest')('http://localhost:8000');
 var should = require('should');
 

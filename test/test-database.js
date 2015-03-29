@@ -63,12 +63,6 @@ describe('Database', function() {
         it('Create returns given record', function() {
             
         });
-
-        describe('create', function() {
-            it('function exists', function() {
-                assert.equal(typeof app.create, 'function');
-            });
-        });
     });
 
 

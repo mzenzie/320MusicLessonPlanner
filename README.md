@@ -73,13 +73,13 @@ Additional SQL commands can be found [here](http://www.thegeekstuff.com/2012/09/
 
 ### Testing
 
-Testing is implemented using the [Mocha](http://mochajs.org/) testing framework. Future tests will also take advantage of [should](https://github.com/shouldjs/should.js) and [supertest](https://www.npmjs.com/package/supertest). All test files are located in ./test.
+Testing is implemented using the [Mocha](http://mochajs.org/) testing framework. Within this framework, unit tests use [should](https://github.com/shouldjs/should.js) and integration tests use [supertest](https://www.npmjs.com/package/supertest) (with some possible overlapping). All test files are located in ./test.
 
 When beginning testing for the first time you will need to install the testing dependencies. All of the necessary dependencies can be installed by executing
   ```sh
   $ ./install_test_dependencies
   ```
-Note, if the above command does not work, you may need to re-run with admin privileges
+If the above command does not work, you may need to re-run with admin privileges
   ```sh
   $ sudo ./install_test_dependencies
   ```
@@ -87,6 +87,7 @@ All tests can be run with the following command
   ```sh
   $ mocha
   ```
+More detailed testing instructions can be found [here](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Testing).
 
 ### Bug Tracking
 

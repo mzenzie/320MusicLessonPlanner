@@ -40,10 +40,9 @@ var StudentRecord = function(jsObject) {
     this.email = jsObject.email;
     this.phone = jsObject.phone;
     //
-
     this.address = jsObject.address;
-    this.birthday = new Date("{0}".format(jsObject.birthday));
-    this.startDate = new Date("{0}".format(jsObject.startDate));
+    this.birthday = new Date(format("{0}",jsObject.birthday));
+    this.startDate = new Date(format("{0}",jsObject.startDate));
     this.lessonTime = jsObject.lessonTime;
     this.numberOfLessons = jsObject.numberOfLessons;
     this.lessonLength = jsObject.lessonLength;
@@ -71,11 +70,11 @@ StudentRecord.prototype.save = function(callback){
 	var myErr = null;
 	//TODO: save to db
 	// returns identifier for StudentRecord
-	var db = dbConnector.getInstance();
+
 	console.log("DB SAVE");
 
-	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')"
-						.format(
+	var student_record_query = 
+						format("INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
 							1,
 							self.firstName,
 							self.lastName,
@@ -242,6 +241,7 @@ module.exports.create = function(jsObject, callback) {
     //		loop to create multiple student records
     console.log("CREATE");
     var newStudentRecord = new StudentRecord(jsObject);
+    console.log("Got to save");
     newStudentRecord.save(function(err, _studentRecord){
         if (err != null || _studentRecord == null){
             callback(err, null);

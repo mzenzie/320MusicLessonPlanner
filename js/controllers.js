@@ -10,22 +10,21 @@ function MainCtrl($scope, $http, $location, $state) {
 
 
 /**
- * [studentRecordController description]
- * @param  {[type]} $scope       [description]
- * @param  {[type]} $resource    [description]
- * @param  {[type]} $modal       passes modal window functionality to the controller
- * @param  {[type]} $stateParams [description]
- * @param  {[type]} $state       [description]
- *
- * Handles deleting, viewing, and editing student records.
+ *     teacherController
+ *     Handles deleting, viewing, and editing student records.
  */
 
 function teacherController($scope, $resource, $stateParams, $state, $modal, getStudent, $log) {
+
+    //  Gets the list of students
+
     var StudentRecord = $resource('/api/studentRecord/:id');
 
     StudentRecord.query(function(result) {
         $scope.students = result;
     });
+
+    //  Delete student record
 
     $scope.confirmDeleteStudent = false;
     $scope.deleteStudentRecord = function(student) {
@@ -55,6 +54,8 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
         });
     };
 
+    //  View student record
+
     $scope.viewStudentRecord = function(student) {
         $log.debug('Viewing student record id: ' + student.sid);
         var studentParams = {
@@ -69,14 +70,23 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
         $state.go('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', studentParams);
     };
 
+    //  Edit student record
+
     $scope.editStudentRecord = function(student) {
         // @TODO implement this
     };
+
+    //  Add student record
 
     $scope.createStudentRecord = function() {
         $state.go('teacher-dashboard.createStudentRecord');
     };
 };
+
+/**
+ *      ModalDeleteStudentCtrl
+ *      Displays a modal window to confirm or cancel deletion of a student record
+ */
 
 function ModalDeleteStudentCtrl($scope, $modalInstance) {
 
@@ -92,6 +102,11 @@ function ModalDeleteStudentCtrl($scope, $modalInstance) {
     };
 };
 
+/**
+ *      StudentRecordCtrl
+ *      Controller for the student record viewing page.
+ *      Necessary to pass the variable scope of a specific student to the new page.
+ */
 function StudentRecordCtrl($scope, $resource, $state, $stateParams, getStudent, $log) {
     $log.debug('StudentRecordCtrl called, $stateParams.sid = ' + $stateParams.sid);
     var StudentRecord = $resource('/api/studentRecord/:id');
@@ -114,6 +129,10 @@ function getStudent() {
     return {};
 };
 
+/**
+ *     StudentRecordCreationCrtl
+ *     Controller for the Add student record form. The edit form will be similar.
+ */
 function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
     var StudentRecord = $resource('/api/studentRecord/:id');
 
@@ -226,7 +245,12 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
     };
 };
 
-
+/**
+ *      TodayViewController
+ *      Controller for the today view.
+ *      Will get a list of lessons scheduled for today and displays them
+ *      Will also handle canceling and rescheduling lessons.
+ */
 function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
     var StudentRecord = $resource('/api/studentRecord/:id');
 
@@ -238,11 +262,6 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
 
         $scope.openModal = function() {
 
-            // var createCancelLessonDialogModalInstance = $modal.open({
-            //     templateUrl: 'views/modalStudentRecordCreateForm.html',
-            //     controller: ModalInstanceCtrl,
-            //     scope: $scope
-            // });
         };
         // @TODO cancel current lesson
     };
@@ -251,6 +270,7 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
 /**
  * CalendarCtrl - Controller for Calendar
  * Store data events for calendar
+ * This is not finished yet!!!!
  */
 function CalendarCtrl($scope) {
 
@@ -364,6 +384,10 @@ function loginCtrl($state, $scope, $http, store) {
             });
     };
 };
+
+/**
+ *      Service (like a factory) and Controller instantiation.
+ */
 
 angular
     .module('inspinia')

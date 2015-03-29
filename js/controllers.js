@@ -20,37 +20,38 @@ function MainCtrl($scope, $http, $location, $state) {
  * Handles deleting, viewing, and editing student records.
  */
 
-function teacherController($scope, $resource, $stateParams, $state, getStudent, $log) {
+function teacherController($scope, $resource, $stateParams, $state, $modal, getStudent, $log) {
     var StudentRecord = $resource('/api/studentRecord/:id');
-
-    //  Set individual student scopes
-    $scope.firstName = $stateParams.firstName;
-    $scope.lastName = $stateParams.lastName;
-    $scope.instrument = $stateParams.instrument;
-    $scope.email = $stateParams.email;
-    $scope.phone = $stateParams.phone;
-    $scope.address = $stateParams.address;
-    $scope.birthday = $stateParams.birthday;
-    $scope.startDate = $stateParams.startDate;
-    $scope.numberOfLessons = $stateParams.numberOfLessons;
-    $scope.lessonTime = $stateParams.lessonTime;
-    $scope.lessonLength = $stateParams.lessonLength;
-    $scope.generalNotes = $stateParams.generalNotes;
-    $scope.lessonNotes = $stateParams.lessonNotes;
-
 
     StudentRecord.query(function(result) {
         $scope.students = result;
     });
 
+    $scope.confirmDeleteStudent = false;
     $scope.deleteStudentRecord = function(student) {
-        StudentRecord.delete({
-            id: student.sid
-        }, function(result) {
-            if (result.isSuccessful) {
-                var index = $scope.students.indexOf(student);
-                $scope.students.splice(index, 1);
+        var modalInstance = $modal.open({
+            templateUrl: 'views/deleteConfirmModal.html',
+            controller: ModalDeleteStudentCtrl,
+            size: 'sm',
+            resolve: {
+                confirmDeleteStudent: function() {
+                    return $scope.confirmDeleteStudent;
+                }
             }
+        });
+        modalInstance.result.then(function(confirmDeleteStudent) {
+            $scope.confirmDeleteStudent = confirmDeleteStudent;
+            $log.debug("Confirm Delete status: " + $scope.confirmDeleteStudent);
+            if ($scope.confirmDeleteStudent) {
+                StudentRecord.delete({
+                    id: student.sid
+                }, function(result) {
+                    if (result.isSuccessful) {
+                        var index = $scope.students.indexOf(student);
+                        $scope.students.splice(index, 1);
+                    }
+                });
+            };
         });
     };
 
@@ -73,15 +74,23 @@ function teacherController($scope, $resource, $stateParams, $state, getStudent, 
     };
 
     $scope.createStudentRecord = function() {
-
-        // var createStudentRecordModalInstance = $modal.open({
-        //     templateUrl: 'views/modalStudentRecordCreateForm.html',
-        //     controller: StudentRecordModalInstanceCtrl,
-        //     scope: $scope
-        // });
         $state.go('teacher-dashboard.createStudentRecord');
     };
-}
+};
+
+function ModalDeleteStudentCtrl($scope, $modalInstance) {
+
+    $scope.ok = function() {
+        $scope.confirmDeleteStudent = true;
+        $modalInstance.close($scope.confirmDeleteStudent);
+    };
+
+    $scope.cancel = function() {
+        $scope.confirmDeleteStudent = false;
+        $modalInstance.close($scope.confirmDeleteStudent);
+        // $modalInstance.dismiss('cancel');
+    };
+};
 
 function StudentRecordCtrl($scope, $resource, $state, $stateParams, getStudent, $log) {
     $log.debug('StudentRecordCtrl called, $stateParams.sid = ' + $stateParams.sid);
@@ -99,11 +108,11 @@ function StudentRecordCtrl($scope, $resource, $state, $stateParams, getStudent, 
 
     $log.debug('StudentRecordCtrl firstName: ' + $scope.student.firstName);
 
-}
+};
 
 function getStudent() {
     return {};
-}
+};
 
 function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
     var StudentRecord = $resource('/api/studentRecord/:id');
@@ -211,7 +220,7 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
         $event.stopPropagation();
         $scope.openedStartDate = true;
     };
-}
+};
 
 
 function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
@@ -232,8 +241,8 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
             // });
         };
         // @TODO cancel current lesson
-    }
-}
+    };
+};
 
 /**
  * CalendarCtrl - Controller for Calendar
@@ -350,7 +359,7 @@ function loginCtrl($state, $scope, $http, store) {
                 alert('Invalid input.');
             });
     };
-}
+};
 
 angular
     .module('inspinia')

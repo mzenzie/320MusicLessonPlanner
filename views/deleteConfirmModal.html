@@ -1,0 +1,14 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <i class="fa fa-laptop modal-icon"></i>
+        <h4 class="modal-title">Delete Student Record</h4>
+    </div>
+    <div class="modal-body">
+        <p>This will permanently delete the student record for {{student.firstName}} {{student.lastName}}.</p>
+        <p><strong>Are you sure?</strong></p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="ok()">Delete {{student.firstName}} {{student.lastName}}</button>
+    </div>
+</div>

@@ -122,7 +122,7 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
     });
 
     /*
-     *       TIME PICKER CODE
+     *       TIME PICKER CODE       ****************************
      */
     $scope.lessonTime = new Date();
     $scope.lessonTime.setMinutes(00);
@@ -155,6 +155,10 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
     $scope.clear = function() {
         $scope.lessonTime = null;
     };
+    //      *******************************************************
+
+    //      Temp General Notes:
+    $scope.generalNotes = "This is where notes on student progress should be placed. <b>Hopefully</b> formatting will work.";
 
     /*
      *       SUBMIT FORM

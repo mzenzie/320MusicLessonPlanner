@@ -45,7 +45,7 @@ var StudentRecord = function(jsObject) {
     // Notes is the list of lesson notes for this student.
     // Initialized to null because a new student has no lesson notes.
     this.lessonNotes = null;
-    this.generalNotes = null;
+    this.generalNotes = jsObject.generalNotes;
     // Progress is the music record of pieces this student has done.
     // Initialized to null because a new student has no previous music progress.
 };

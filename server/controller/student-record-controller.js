@@ -22,7 +22,8 @@ module.exports.create = function(req, res) {
         startDate: req.body.startDate,
         numberOfLessons: req.body.numberOfLessons,
         lessonTime: req.body.lessonTime,
-        lessonLength: req.body.lessonLength
+        lessonLength: req.body.lessonLength,
+        generalNotes: req.body.generalNotes
     }, function(err, newStudentRecord) {
         if (err != null) {
             res.json({});

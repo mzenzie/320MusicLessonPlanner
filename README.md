@@ -73,7 +73,7 @@ Additional SQL commands can be found [here](http://www.thegeekstuff.com/2012/09/
 
 ### Testing
 
-Testing is implemented using the [Mocha](http://mochajs.org/) testing framework. Within this framework, unit tests use [should](https://github.com/shouldjs/should.js) and integration tests use [supertest](https://www.npmjs.com/package/supertest) (with some possible overlapping). All test files are located in ./test.
+Testing is implemented using the [Mocha](http://mochajs.org/) testing framework. Within this framework, unit tests use [should](https://github.com/shouldjs/should.js) and integration tests use [supertest](https://www.npmjs.com/package/supertest) (with some possible overlapping). All test files are located in [./test](./test).
 
 When beginning testing for the first time you will need to install the testing dependencies. All of the necessary dependencies can be installed by executing
   ```sh

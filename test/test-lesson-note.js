@@ -1,7 +1,7 @@
 var assert = require('assert');
 var app = require('../server/model/lesson-note.js'); // the module
 
-describe('Lesson Note', function() {
+describe('Testing Lesson Note', function() {
 	describe('create', function() {
 		it('function exists', function() {
 			assert.equal(typeof app.create, 'function');

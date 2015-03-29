@@ -1,11 +1,10 @@
 var assert = require('assert');
-var app = require('../server/controller/student-record-controller.js'); // the module
-var dbConnector = require('../database/dbinit.js');
-var fs = require('fs');
 var format = require('string-format');
+mockery = require('mockery');
 
+/*
 describe('Student Record Controller', function() {
-    var db;
+    var db, app;
     var student = {};
     var student2 = {};
     var d = new Date();
@@ -39,33 +38,28 @@ describe('Student Record Controller', function() {
     }
 
     beforeEach(function () {
-        //fs.unlinksync('./mlp.sql');
-        dbConnector.init();
-        db = dbConnector.getInstance();
+        mockery.enable();
+        mockery.registerSubstitute('../model/student-record.js', '/Mocks/mock-student-record.js');
+        app = require('../server/controller/student-record-controller.js');
+        if(app === null)
+            console.log("record controller null");
     });
 
-    describe('database setup correctly', function(){
-        var exists = fs.existsSync('./mlp.sql');
-        it('mlp.sql exists', function(){
-            assert.equal(true, exists);
-        });   
-        it('db not null', function()
-        {
-            assert.notEqual(db, null);
-        });
-    });
+    afterEach(function(){
+        mockery.deregisterAll();
+    })
 
-    
+   
     describe('creates record correctly', function() {
+            if(app === null)
+            console.log("record controller null");
         var res = {};
         app.create(student, res);
         it('respond is not null', function() {
-            console.log(res + ' is my response');
-            assert.notEqual(res, null);
-            
+            assert.notEqual(res, null);            
         });
         it('response equals the given Record', function() {
-            //assert.equal(app.create(student, res).json, student.body);
+            assert.equal(app.create(student, res).json, student.body);
         });
     });    
 
@@ -86,4 +80,4 @@ describe('Student Record Controller', function() {
         });
     });
 
-});
+});//*/

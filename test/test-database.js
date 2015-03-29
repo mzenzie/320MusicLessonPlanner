@@ -38,8 +38,8 @@ describe('Database', function() {
     }
 
     beforeEach(function () {
-        //fs.unlinksync('./mlp.sql');
         app.init();
+        app.reinit();
         db = app.getInstance();
     });
 

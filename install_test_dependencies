@@ -1,10 +1,10 @@
 #!/bin/bash
 
 echo "Installing test dependency mocha"
-npm install —-save-dev mocha
+npm install --save-dev mocha
 echo "Installing test dependency should"
-npm install —-save-dev should
+npm install --save-dev should
 echo "Installing test dependency supertest"
-npm install —-save-dev supertest
+npm install --save-dev supertest
 echo "Installing mocha as a global module"
 npm install -g mocha

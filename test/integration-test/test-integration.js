@@ -1,6 +1,6 @@
 var request = require('supertest')('http://localhost:8000');
 
-describe('Testing Integration', function() {
+describe('Integration', function() {
 	it('page exists', function(done){
 		request
 		.get('/api/studentRecord/')

@@ -1,4 +1,5 @@
 var assert = require('assert');
+var should = require('should');
 var app = require('../server/model/student-record.js'); // the module
 
 describe('Testing Student Record', function() {

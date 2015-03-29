@@ -211,39 +211,35 @@ module.exports.list = function(tid, callback) {
     console.log("DB LIST");
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
     studentRecords = [];
+    var error = null;
     db.each("SELECT  * FROM SRecord", function(err, each_row) {
         if (err!=null || each_row == null){
-            callback(err, null);
+            console.log(err);
+            error = err;
         } else {
             var studentRecord = new StudentRecord(each_row);
+            // LessonSchedule.list(studentRecord.sid, function(err, schedules){
+            //     if (err!=null || schedules==null){
+            //         console.log(err);
+            //         error = err;
+            //     } else {
+            //         studentRecord.lessonSchedules = schedules;
+            //         studentRecords.push(studentRecord);
+            //         console.log("pushing");
+            //     }
+            // })
             studentRecords.push(studentRecord);
         }
     }, function(err, numberOfRows){
-        if (err!=null) callback(err, null)
-        else {
-            console.log("number of rows: "+ numberOfRows);
-            _studentRecords = [];
-            var error = null;
-            db.serialize(function(){
-                for(var studentRecord in studentRecords){
-                    console.log(studentRecord);
-                    LessonSchedule.list(studentRecord.sid, function(err, schedules){
-                        if (err!= null || schedules == null){
-                            console.log(err);
-                            error = err;
-                            return;
-                        } else {
-                            studentRecord.lessonSchedules = schedules;
-                            console.log(studentRecord);
-                            _studentRecords.push(studentRecord);
-                        }
-                    });
-                    if (error!=null) break;
-                }
-            })
-            console.log("student Records");
-            console.log(_studentRecords);
-            callback(error, _studentRecords);
+        if (error){
+            callback(error, null);
+        } else if (err!=null) {
+            console.log(err);
+            callback(err, null)
+         }else {
+            console.log("200 OK");
+            callback(null ,studentRecords);
+            
         }
     });
 
@@ -298,28 +294,29 @@ module.exports.create = function(jsObject, callback) {
     //TODO: implement
     //		loop to create multiple student records
     console.log("CREATE");
+    var db = dbConnector.getInstance();
+    var numberOfLessons = jsObject.numberOfLessons;
     var newStudentRecord = new StudentRecord(jsObject);
-    newStudentRecord.save(function(err, _studentRecord){
-        if (err != null || _studentRecord == null){
+    newStudentRecord.save(function(err, studentRecord){
+        var scheduleData = {
+            date: new Date(jsObject.startDate),
+            lessonTime: jsObject.lessonTime,
+            lessonLength: jsObject.lessonLength,
+            numberOfLessons: jsObject.numberOfLessons
+        };
+        if (err != null || studentRecord == null){
             callback(err, null);
         } else {
-            var lessonScheduleJsObject = {
-                date: jsObject.startDate,
-                lessonTime: jsObject.lessonTime,
-                lessonLength: jsObject.lessonLength
-            };
-            console.log("Creating lesson schedule");
-            console.log(lessonScheduleJsObject);
-            LessonSchedule.create(lessonScheduleJsObject, _studentRecord, function(err, lessonSchedule){
-                if (err!=null || lessonSchedule == null){
-                    callback(err,null);
+            var error = null;
+            LessonSchedule.generateDates(scheduleData, studentRecord, function(err, schedules){
+                if (err != null || schedules == null){
+                    callback(err, null);
                 } else {
-                    console.log(_studentRecord);
-                    _studentRecord.lessonSchedules.push(lessonSchedule);
-                    console.log(_studentRecord);  
-                    callback(null, _studentRecord); 
+                    studentRecord.lessonSchedules = schedules;
+                    callback(null, studentRecord);
                 }
             })
+        
         }
 
     });

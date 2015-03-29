@@ -19,7 +19,7 @@ module.exports.init = function(){
 	//connect to the database
 	var sqlite3 = require("sqlite3").verbose();
 	db = new sqlite3.Database(file);
-	db.run("PRAGMA foreign_keys = ON");
+	// db.run("PRAGMA foreign_keys = ON");
 	db.serialize(function(){
 		// if the file is not exist create tables
 		if(!exists){
@@ -40,7 +40,7 @@ module.exports.init = function(){
 }
 
 module.exports.getInstance = function(){
-	db.run("PRAGMA foreign_keys = ON");
+	// db.run("PRAGMA foreign_keys = ON");
     return db;
 }
 

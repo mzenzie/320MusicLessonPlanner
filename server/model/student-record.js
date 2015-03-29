@@ -51,7 +51,7 @@ var StudentRecord = function(jsObject) {
     }
     if (jsObject.startDate !== undefined){
         if (jsObject.startDate.getDate !== undefined){
-            this.startDate = jsObect.startDate;
+            this.startDate = jsObject.startDate;
         } else {
             this.startDate = new Date("{0}".format(jsObject.startDate));
         }

@@ -56,6 +56,10 @@ var StudentRecord = function(jsObject) {
     // Initialized to null because a new student has no lesson notes.
     this.lessonNotes = [];
     this.generalNotes = null;
+    if (jsObject.generalNotes !== undefined && jsObject.generalNotes != null){
+        console.log("GENERAL NOTES ADDDED" + jsObject.generalNotes);
+        this.generalNotes = jsObject.generalNotes;
+    }
     this.lessonSchedules = [];
     // Progress is the music record of pieces this student has done.
     // Initialized to null because a new student has no previous music progress.
@@ -76,8 +80,8 @@ StudentRecord.prototype.save = function(callback){
 	// returns identifier for StudentRecord
 	var db = dbConnector.getInstance();
 	console.log("DB SAVE");
-
-	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')"
+    console.log(self);
+	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument, generalNotes) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')"
 						.format(
 							1,
 							self.firstName,
@@ -86,7 +90,8 @@ StudentRecord.prototype.save = function(callback){
 							self.address,
 							self.phone,
 							self.birthday,
-							self.instrument);
+							self.instrument,
+                            self.generalNotes);
 
     console.log(student_record_query);
 

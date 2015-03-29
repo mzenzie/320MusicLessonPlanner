@@ -11,20 +11,10 @@ module.exports.create = function(req, res) {
     console.log("CTRLLER");
     console.log(req.body);
     // console.log(req.body.startDate.day);
-    StudentRecord.create({
+    StudentRecord.create(   
         // alert(req.body.startDate);
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        instrument: req.body.instrument,
-        email: req.body.email,
-        phone: req.body.phone,
-        address: req.body.address,
-        birthday: req.body.birthday,
-        startDate: req.body.startDate,
-        numberOfLessons: req.body.numberOfLessons,
-        lessonTime: req.body.lessonTime,
-        lessonLength: req.body.lessonLength
-    }, function(err, newStudentRecord) {
+        req.body
+    , function(err, newStudentRecord) {
         if (err != null) {
             res.json({});
         } else {
@@ -33,13 +23,14 @@ module.exports.create = function(req, res) {
     });
 };
 
+
+
 module.exports.get = function(req, res) {
     // > GET /api/studentRecord
 
     // var sess = req.session;
     // var id = sess.id; // to be implemented...
     var sid = req.query.sid
-    console.log(sid);
     if (sid === undefined){
         //list
         var tid = 1; // stub code

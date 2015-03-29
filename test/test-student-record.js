@@ -1,7 +1,7 @@
 var assert = require('assert');
 var app = require('../server/model/student-record.js'); // the module
 
-describe('Student Record', function() {
+describe('Testing Student Record', function() {
 	describe('create', function() {
 		it('function exists', function() {
 			assert.equal(typeof app.create, 'function');

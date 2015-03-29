@@ -1,7 +1,7 @@
 var fs = require("fs");
 var file = './mlp.sql'; //file used to store the data
 var exists = fs.existsSync(file);// if the file not exist create a new one
-
+ var assert = require('assert');
 
 teaTable = "CREATE TABLE Teacher(tid INTEGER PRIMARY KEY AUTOINCREMENT, tEmail TEXT, passowrd TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
 stuTable = "CREATE TABLE SRecord(sid INTEGER PRIMARY KEY AUTOINCREMENT, tid INTEGER references Teacher(sid) on delete cascade on update cascade, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT, birthday DATE, instrument TEXT, generalNotes TEXT);";
@@ -14,12 +14,16 @@ dschTable = "DROP TABLE IF EXISTS db.Schedule;"
 dLRTable = "DROP TABLE IF EXISTS db.LessonRecord;"
 
 // connect to the database and return the pointer to db
-var db = null;
+db = null;
+
 
 module.exports.init = function(){
 	//connect to the database
 	var sqlite3 = require("sqlite3").verbose();
 	db = new sqlite3.Database(file);
+
+	if(db === null)
+		console.log("how did db remain null?");
 
 	db.serialize(function(){
 		// if the file is not exist create tables
@@ -39,9 +43,15 @@ module.exports.init = function(){
 		}
 	});
 
+
 }
 
 module.exports.getInstance = function(){
+	if(db === null)
+		db = module.exports.init();
+
+	assert.notEqual(typeof db, null);
+	assert.equal(typeof db.run, 'function');
     return db;
 }
 

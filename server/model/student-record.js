@@ -15,6 +15,8 @@
  * @param {String} _hours is the number of hours each lesson will last (0.5 is 30 minute lesson)
  */
 
+
+var assert = require('assert');
 var format = require('string-format');
 var LessonSchedule = require('./lesson-schedule.js');
 
@@ -86,6 +88,8 @@ StudentRecord.prototype.save = function(callback){
 
     console.log(student_record_query);
 
+    db = dbConnector.getInstance();
+    assert.notEqual(db, null);
     db.run(student_record_query, function(err){
         if (err !== null){
             console.log("STUDENT RECORD SAVE ERR TO DB");

@@ -10,7 +10,7 @@ describe('Student Record Controller', function() {
     var student2 = {};
     var d = new Date();
     var n = d.toDateString();
-    console.log('My date ' + format("{0}", new Date()));
+    
     student.body = {
         firstName: 'Josh',
         lastName: 'Levine',
@@ -39,13 +39,13 @@ describe('Student Record Controller', function() {
     }
 
     beforeEach(function () {
-        fs.unlinksync('../database/mlp.sql');
+        //fs.unlinksync('../database/mlp.sql');
         dbConnector.init();
         db = dbConnector.getInstance();
     });
 
     describe('database setup correctly', function(){
-        var exists = fs.existsSync('../database/mlp.sql');
+        var exists = fs.existsSync('./mlp.sql');
         it('mlp.sql created', function(){
             assert.equal(true, exists);
         });   
@@ -56,13 +56,13 @@ describe('Student Record Controller', function() {
     });
 
     
-    /*describe('creates record correctly', function() {
-        var res = null;
-        console.log(app.create(student, res));
+    describe('creates record correctly', function() {
+        var res = {};
+        //console.log(app.create(student, res));
         it('Create returns given record', function() {
             //console.log(app.create(student, res));
-            assert.equal(1, 1);
-            //assert.equal(app.create(student, res).json, student.body);
+            //assert.equal(
+            assert.equal(app.create(student, res).json, student.body);
         });
 
         describe('create', function() {
@@ -70,9 +70,7 @@ describe('Student Record Controller', function() {
                 assert.equal(typeof app.create, 'function');
             });
         });
-    });*/
-
-    
+    });    
 
     describe('get', function () {
         console.log()

@@ -1,50 +1,109 @@
-<div ng-controller="studentRecordController">
-    <form ng-submit="createStudentRecord()">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Add New Student</h4>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label for="inputName">First Name</label>
-                <input type="text" ng-model="firstName" class="form-control">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>MusicLessonPlanner: Add New Student Record</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="teacher-dashboard.main">Home</a>
+            </li>
+            <li class="active">
+                <strong>Add New Student Record</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <form novalidate role="form" name="studentRecordForm">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">First Name</label>
+                    <input type="text" ng-model="firstName" class="form-control" name="firstName">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="inputName">Last Name</label>
-                <input type="text" ng-model="lastName" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="inputName">Instrument</label>
-                <input type="text" ng-model="instrument" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="inputName">Email</label>
-                <input type="text" ng-model="email" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="inputName">Address</label>
-                <input type="text" ng-model="address" class="form-control">
-            </div>
-            <div class="form-group" ng-controller="datePickerController">
-                <label for="inputName">Start Date</label>
-                <p class="input-group">
-                    <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="startDate" is-open="opened" ng-required="true" close-text="Close"/>
-                    <span class="input-group btn">
-                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></button>
-                    </span>
-                </p>
-            </div>
-            <div class="form-group">
-                <label for="inputName">Lesson Time</label>
-                <input type="text" ng-model="lessonTime" class="form-control">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">Last Name</label>
+                    <input type="text" ng-model="lastName" class="form-control" name="lastName">
+                </div>
             </div>
         </div>
-
-    <!-- TODO: Make fields required -->
-
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">Instrument</label>
+                    <input type="text" ng-model="instrument" class="form-control" name="instrument">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">Email</label>
+                    <input type="email" ng-model="email" class="form-control">
+                </div>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">Address</label>
+                    <input type="text" ng-model="address" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">Phone</label>
+                    <input type="text" ng-model="phone" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group date">
+                    <label class="font-noraml">Birthday</label>
+                    <p class="input-group">
+                        <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="birthday" is-open="openedBirthday" ng-required="true" close-text="Close" />
+                        <span class="input-group-addon"><button type="button" class="btn btn-primary btn-xs" ng-click="openBirthday($event)"><i class="fa fa-calendar"></i></button></span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">Start Date</label>
+                    <p class="input-group">
+                        <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="startDate" is-open="openedStartDate" ng-required="true" close-text="Close" />
+                        <span class="input-group-addon"><button type="button" class="btn btn-primary btn-xs" ng-click="openStartDate($event)"><i class="fa fa-calendar"></i></button></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">Number of Lessons:</label>
+                    <input type="text" ng-model="numberOfLessons" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">Lesson Length</label><br>
+                    <div class="btn-group">
+                        <label class="btn btn-default" ng-model="lessonLength" btn-radio="'15 minutes'">15 Minutes</label>
+                        <label class="btn btn-default" ng-model="lessonLength" btn-radio="'30 minutes'">30 minutes</label>
+                        <label class="btn btn-default" ng-model="lessonLength" btn-radio="'45 minutes'">45 minutes</label>
+                        <label class="btn btn-default" ng-model="lessonLength" btn-radio="'60 minutes'">60 minutes</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-noraml">Lesson Time</label>
+                    <timepicker ng-model="lessonTime" ng-change="changed()" hour-step="hstep" minute-step="5" show-meridian="ismeridian"></timepicker>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="ok()">Save Student Record</button>
     </form>
+</div>
 </div>

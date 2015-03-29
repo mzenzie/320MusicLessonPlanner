@@ -9,17 +9,19 @@ module.exports.create = function(req, res) {
 	  */
     console.log("CTRLLER");
     console.log(req.body);
+    // console.log(req.body.startDate.day);
     StudentRecord.create({
+        // alert(req.body.startDate);
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        instrument: req.body.instrument,
         email: req.body.email,
         phone: req.body.phone,
         address: req.body.address,
-        instrument: req.body.instrument,
         birthday: req.body.birthday,
         startDate: req.body.startDate,
-        lessonTime: req.body.lessonTime,
         numberOfLessons: req.body.numberOfLessons,
+        lessonTime: req.body.lessonTime,
         lessonLength: req.body.lessonLength
     }, function(err, newStudentRecord) {
         if (err != null) {

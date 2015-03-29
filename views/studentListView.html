@@ -8,6 +8,7 @@
             <thread>
                 <th>Students (<span ng-bind="students.length"></span> records)</th>
                 <th>Instrument</th>
+                <!-- <th>Birthday</th> -->
                 <th></th>
                 <th></th>
             </thread>
@@ -15,17 +16,18 @@
                 <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument']">
                     <td>{{student.lastName}}, {{student.firstName}}</td>
                     <td>{{student.instrument}}</td>
+                    <!-- <td>{{student.birthday}}</td> -->
                     <td align="right">
                         <div class="btn-group" role="group" aria-label="...">
-                            <button class="btn btn-info" ng-click="viewStudentRecord(student)"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
+                            <button class="btn btn-info btn-xs" ng-click="viewStudentRecord(student)"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
                             <!-- <button class="btn btn-info" ui-sref="index.studentRecordViewPage({student: student})"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button> -->
-                            <button class="btn btn-primary" ng-click="editStudentRecord(student)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit</button>
-                            <button class="btn btn-danger" ng-click="deleteStudentRecord(student)"><span class="fa fa-trash"></span>&nbsp;&nbsp;Delete</button>
+                            <button class="btn btn-primary btn-xs" ng-click="editStudentRecord(student)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit</button>
+                            <button class="btn btn-danger btn-xs" ng-click="deleteStudentRecord(student)"><span class="fa fa-trash"></span>&nbsp;&nbsp;Delete</button>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary" ng-click="openModal()">Add New Student</button>
+        <button class="btn btn-primary" ng-click="createStudentRecord()">Add New Student</button>
     </div>
 </div>

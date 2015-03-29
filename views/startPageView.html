@@ -1,18 +1,23 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-8">
-        <h2>Dashboard</h2>
+        <h2>MusicLessonPlanner: Dashboard</h2>
         <ol class="breadcrumb">
             <li class="active">
                 <strong>Home</strong>
             </li>
         </ol>
     </div>
-</div><div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
+</div>
+<div class="wrapper wrapper-content">
+    <!--     <div class="row">
         <div class="col-md-7">
-            <div class="row" ng-include="'/views/todayView.html'" scope="" onload=""></div>
+            <div class="row" ng-include="'/views/todayView.html'"></div>
             <div class="row" ng-include="'/views/studentListView.html'"></div>
         </div>
         <div class="col-md-5" ng-include="'/views/teacherView.html'"></div>
+        </div> -->
+    <div class="row animated fadeInDown">
+        <div class="col-lg-6 col-md-5" ng-include="'/views/todayView.html'" ng-controller="teacherController"></div>
+        <div class="col-lg-6 col-md-7" ng-include="'/views/studentListView.html'" ng-controller="teacherController"></div>
     </div>
 </div>

@@ -1,31 +1,90 @@
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-sm-4">
-        <h2>Support</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a href="index.html">This is</a>
-            </li>
-            <li class="active">
-                <strong>Breadcrumb</strong>
-            </li>
-        </ol>
+    <div class="col-sm-6">
+        <h2>MusicLessonPlanner: Help and Support</h2>
     </div>
-    <div class="col-sm-8">
-        <div class="title-action">
-            <a href="" class="btn btn-primary">This is action area</a>
-        </div>
+    <div class="col-sm-6">
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
-        <div class="wrapper wrapper-content">
-            <div class="middle-box text-center animated fadeInRightBig">
-                <h3 class="font-bold">Support page content</h3>
-
-                <div class="error-desc">
-                    You can create here any grid layout you want. And any variation layout you imagine:) Check out main dashboard and other site. It use many different layout.
-                    <br/><a ui-sref="index.main" class="btn btn-primary m-t">Dashboard</a>
-                </div>
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel blank-panel ui-tab">
+            <div class="panel-body">
+                <tabset>
+                    <!-- ACCOUNT MANAGEMENT TAB -->
+                    <tab heading="Account Management">
+                        <div class="panel-body">
+                            <div class="panel-group">
+                                <accordion close-others="true">
+                                    <accordion-group is-open="true">
+                                        <accordion-heading>Create a new account</accordion-heading>
+                                        <ol>
+                                            <li>Click <a ui-sref="startpage.register">here</a> to create a new account.</li>
+                                            <li>You will then be prompted to enter your name and the e-mail you would like to be associated with the account, followed by a password for your account.</li>
+                                            <div class="well">
+                                                <h4>Example input:</h4>
+                                                <ul class="unstyled">
+                                                    <li>Mary Jane</li>
+                                                    <li>mj@email.com</li>
+                                                    <li>Password123</li>
+                                                </ul>
+                                            </div>
+                                            <li>Once you have entered all of this information correctly, select Register. If any of your input is not the correct format an error will pop up to notify you. When set up is complete, you will be brought to your new dashboard where you can proceed with adding students and checking your schedule for the day. </li>
+                                        </ol>
+                                    </accordion-group>
+                                    <accordion-group>
+                                        <accordion-heading>Logging in to your account</i>
+                                        </accordion-heading>
+                                        <ol>
+                                            <li>Click <a ui-sref="startpage.landing">here</a> to log in to your account.</li>
+                                            <li>You will then be prompted to enter your user name and password. Your user name is the email address associated with the account.</li>
+                                        </ol>
+                                    </accordion-group>
+                                </accordion>
+                            </div>
+                        </div>
+                    </tab>
+                    <!-- STUDENT RECORD MANAGEMENT TAB -->
+                    <tab heading="Student Records Management">
+                        <p>These instructions assume that the user has already created an MLP account. If you are unsure of how to do this or need additional help, click the <b>Account Creation</b> tab above.</p>
+                        <p>All of these instructions begin from the <a ui-sref="teacher-dashboard.main">main dashboard</a> view of your account. To get to this view, select Main page or the music note symbol from the tab of available pages along the left side of your screen. If this tab is not visible, you can expand it using the small green square at the top left of the window.</p>
+                        <div class="panel-body">
+                            <div class="panel-group">
+                                <accordion close-others="true">
+                                    <accordion-group is-open="true">
+                                        <accordion-heading>Add a new student record</accordion-heading>
+                                        <ol>
+                                            <li>Click the green <i>Add new student</i> button. If this button is not immediately visible, you may need to scroll down past the Today section and to the bottom of the Students section.</li>
+                                            <li>This will open a page where you can enter the new student's information.</li>
+                                            <li>Once you have entered all of this information correctly, select <i>Save Student Record</i> to create the new student account. If any of your input is not the correct format an error will pop up to notify you. If you decide to cancel the new student account creation, select <i>Cancel</i> and the page will exit without storing any information.</li>
+                                            <li>After saving the new student record, you will be brought to your updated dashboard. Here you can see the name and instrument of your new student in your list of students. If they have a lesson scheduled for today, you will also see their name and time under the <b>Today</b> section of your dashboard.</li>
+                                        </ol>
+                                    </accordion-group>
+                                    <accordion-group>
+                                        <accordion-heading>View a student record</i>
+                                        </accordion-heading>
+                                        <ol>
+                                            <li>Locate the student account you wish to view.
+                                                <br> If the student has a lesson today, their name should be visible in the <b>Today</b> section of your main dashboard view.
+                                                <br> If the student does not have a lesson today, their name will be in the <b>Students</b> section of your main dashboard. If this section is not immediately visible, you may need to scroll down past <b>Today</b>.</li>
+                                            <li>Once you have located the student account you wish to view, select the blue view button in the row of the student you wish to view.</li>
+                                            <li>This will direct you to the <b>Student Records</b> page where you can see more detailed information about the student account which you selected.</li>
+                                            <li>To change between student views, you can select a different student from the list of students. For users on large screens this list will be visible to the right of the current student account. For users on smaller screens this list is located beneath the current student account.</li>
+                                        </ol>
+                                    </accordion-group>
+                                    <accordion-group>
+                                        <accordion-heading>Delete a student record</i>
+                                        </accordion-heading>
+                                        <ol>
+                                            <li>Student accounts can be deleted from the main page, or from the detailed student record view. Deleting from either of these views requires the same steps.</li>
+                                            <li>Locate the student who's account you wish to delete. If the list of current students is not visible you may need to scroll down to see it.</li>
+                                            <li>Select the red <i>Delete button</i> on the right side of the row correlating to the student who's account you wish to delete. This will permanently delete that student's account.</li>
+                                        </ol>
+                                    </accordion-group>
+                                </accordion>
+                            </div>
+                        </div>
+                    </tab>
+                </tabset>
             </div>
         </div>
     </div>

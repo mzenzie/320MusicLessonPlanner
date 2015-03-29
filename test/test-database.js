@@ -1,14 +1,18 @@
 var assert = require('assert');
-
+var studentCtrl = require('../server/controller/student-record-controller.js');
 var fs = require('fs');
 var format = require('string-format');
+
+format.extend(String.prototype); //allows usage of String.format(arg1, arg2), i.e. "Hello {0}".format(name); -> "Hello "
+
 describe('Database', function() {
     var db, app;
-    var student = {};
     var self;
     var d = new Date();
     var n = d.toDateString();
     
+    var student = {body:''};
+     
     student.body = {
         firstName: 'Josh',
         lastName: 'Levine',
@@ -22,7 +26,8 @@ describe('Database', function() {
         lessonTime: '12:10',
         lessonLength: '2:00',
     }
-    self = {
+    var student2 = {}
+    student2.body = {
         firstName: 'Kyle',
         lastName: 'Lemmings',
         instrument: 'Timpani',
@@ -40,6 +45,7 @@ describe('Database', function() {
     {
         app = require('../database/dbinit.js');
         app.init();        
+        app.reinit();
         db = app.getInstance();
 
         console.log("before each");
@@ -63,33 +69,58 @@ describe('Database', function() {
         it('db has run function', function(){
             assert.equal(typeof db.run, 'function');
         })
+        it('should start empty', function()
+        {
+            db.all("SELECT * FROM SRecord", function(err, row){
+                assert.equal(row.length, 0);
+            });
+        })
     })
 
     
-    describe('Adds to database', function() {   
-        setup();
-        var student_record_query = 
-            format("INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
-                1,
-                self.firstName,
-                self.lastName,
-                self.email,
-                self.address,
-                self.phone,
-                self.birthday,
-                self.instrument); 
-     
-        db.get(student_record_query, function(err, row){
-            it('returns given record', function() {
-                assert.notEqual(row, null);               
+    describe('Adds and removes the same Student', function() {   
+        setup()
+        
+        studentCtrl.create(student);
+        it('should have a student', function()
+        {
+            db.all("SELECT * FROM SRecord", function(err, row){
+                assert.equal(row.length, 1)
             });
-            it('returns without error', function(){
-                  assert.equal(err, null);
-            assert.equal(row.sid, self.sid);
-            });
-        });
-    })
+        })
 
+        var sid = 0;
+        var student_record_get_query = 
+            format("SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND instrument = '{2}'",
+                student.body.firstName,
+                student.body.lastName,
+                student.body.instrument);
+        console.log(student_record_get_query);
+        it('should contain that student', function(){
+            db.get(student_record_get_query, function(err, row){
+                assert.equal(row.length, 1)
+                if (err!= null || row == null){
+                    console.log(err);
+                } else {
+                    console.log("== STUDENT RECORD SAVED! ==");
+                    sid = row.sid;
+                    console.log(self);
+                    callback(err, self);
+                }
+            });
+        })
+        it('should then delete that student', function() {
+            var req = {query: { sid: sid}};
+            var res = {};
+            studentCtrl.delete(req, res);
+
+        })           
+
+        it('should now have that student added', function()
+        {
+            //db.all("SELECT * FROM SRecord WHERE "
+        })
+    })
 
 
     describe('getInstance', function () {

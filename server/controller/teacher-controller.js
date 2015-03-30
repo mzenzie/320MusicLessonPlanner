@@ -24,28 +24,29 @@ module.exports.create = function(req, res) {
     });
 };
 
-module.exports.list = function(req, res) {
-    // > GET /api/teacher
-
-    var id = 1; // stub code
-    Teacher.list(1, function(err, teachers) {
-        if (err != null) {
-            res.json({});
-        } else {
-            res.json(teachers);
-        }
-    });
-};
 
 module.exports.get = function(req, res) {
-    // > GET /api/teacher/:id
-    Teacher.get(req.params.id, function(err, teacherObj) {
-        if (err != null) {
-            res.json({});
-        } else {
-            res.json(teacherObj);
-        }
-    });
+    // > GET /api/teacher/
+    // var tid = req.query.id; //for testing
+    var tid = Account.getIDFromToken(req.headers.authorization)
+    if (tid===undefined){
+        Teacher.list(function(err, teachers){
+            if (err!=null){
+                res.send(400);
+            } else {
+                res.json(teachers);
+            }
+        });
+    } else {
+        Teacher.get(tid, function(err, teacher) {
+            if (err != null) {
+                res.send(400);
+            } else {
+                console.log(teacher);
+                res.json(teacher);
+            }
+        });
+    }
 }
 
 module.exports.delete = function(req, res) {

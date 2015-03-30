@@ -2,11 +2,13 @@ var fs = require("fs");
 var file = './mlp.sql'; //file used to store the data
 var exists = fs.existsSync(file);// if the file not exist create a new one
 
-teaTable = "CREATE TABLE Teacher(tid INTEGER PRIMARY KEY AUTOINCREMENT, tEmail TEXT, passowrd TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
+accTable = "CREATE TABLE Account(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, tid INTEGER references Teacher(sid) on delete cascade on update cascade);";
+teaTable = "CREATE TABLE Teacher(tid INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
 stuTable = "CREATE TABLE SRecord(sid INTEGER PRIMARY KEY AUTOINCREMENT, tid INTEGER references Teacher(tid) on delete cascade on update cascade, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT, birthday DATE, instrument TEXT, generalNotes TEXT);";
 schTable = "CREATE TABLE Schedule(lsid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, lessonTime DATETIME, lessonLength INTEGER, sid INTEGER references SRecord(sid) on delete cascade on update cascade);";
 LRTable = "CREATE TABLE LessonRecord(lrid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, notes TEXT, sid TEXT references SRecord(sid) on delete cascade on update cascade);";
 
+daccTable = "DROP TABLE IF EXISTS Account"; 
 dteaTable = "DROP TABLE IF EXISTS Teacher;"
 dstuTable = "DROP TABLE IF EXISTS SRecord;"
 dschTable = "DROP TABLE IF EXISTS Schedule;"
@@ -23,6 +25,7 @@ module.exports.init = function(){
 	db.serialize(function(){
 		// if the file is not exist create tables
 		if(!exists){
+			db.run(accTable);
 			db.run(teaTable);
 			db.run(stuTable);
 			db.run(schTable);
@@ -48,6 +51,7 @@ module.exports.reinit = function(){
 	var sqlite3 = require("sqlite3").verbose();
 	db = new sqlite3.Database(file);
 	db.serialize(function(){
+		db.run(daccTable);
 		db.run(dschTable);
 		db.run(dLRTable);
 		db.run(dstuTable);
@@ -55,6 +59,7 @@ module.exports.reinit = function(){
 	});
 
 	db.serialize(function(){
+		db.run(daccTable);
 		db.run(teaTable);
 		db.run(stuTable);
 		db.run(schTable);

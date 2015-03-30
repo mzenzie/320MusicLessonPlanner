@@ -19,6 +19,7 @@ var secret 						= require('./server/config/secret.js');
 var studentRecordController 	= require('./server/controller/student-record-controller');
 var authenticationController 	= require('./server/controller/authentication-controller');
 var lessonScheduleController	= require('./server/controller/lesson-schedule-controller');
+var teacherController			= require('./server/controller/teacher-controller');
 
 //	Configuration ============================================
 
@@ -36,11 +37,6 @@ app.get('/', function (req, res) {
 })
 
 
-var date = new Date("2015-08-24");
-date.setDate(date.getDate()+5);
-console.log(date);
-
-
 //	Set the static files location (This is so the app will be able to find images, html, and javascript files)
 //	............Refactored to use the entire 'client' folder.
 
@@ -56,9 +52,9 @@ dbConnector.init();
 // Routes ======================================================
 
 //ACCOUNT
+app.post('/api/signout',  jwt({ secret: secret.secretToken }),authenticationController.signout);
 app.post('/api/signin', authenticationController.signin);
 app.post('/api/signup', authenticationController.signup);
-app.post('/api/signout',  jwt({ secret: secret.secretToken }),authenticationController.signout);
 
 // STUDENT RECORD
 app.post("/api/studentRecord/", studentRecordController.create);
@@ -68,6 +64,9 @@ app.put("/api/studentRecord/", studentRecordController.update);
 
 // LESSON SCHEDULE
 app.get('/api/studentRecord/:sid/lessonSchedule/', lessonScheduleController.list);
+
+//TEACHER
+app.get('/api/teacher/', teacherController.get);
 
 
 

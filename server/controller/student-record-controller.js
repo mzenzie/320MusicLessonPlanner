@@ -1,4 +1,6 @@
 var StudentRecord = require('../model/student-record.js');
+var Account = require('../model/account.js');
+
 
 
 module.exports.create = function(req, res) {
@@ -10,10 +12,25 @@ module.exports.create = function(req, res) {
 	  */
     console.log("CTRLLER");
     console.log(req.body);
-    // console.log(req.body.startDate.day);
+    var tid = Account.getIDFromToken(req.headers.authorization); 
+    if (tid==null) tid = 1; // FOR TESTING 
+    console.log("TID FOR INSERTION ======================== " + tid);
     StudentRecord.create(   
-        // alert(req.body.startDate);
-        req.body
+        {
+            tid       : tid,
+            firstName : req.body.firstName,
+            lastName  : req.body.lastName,
+            email     : req.body.email,
+            instrument: req.body.instrument,
+            address   : req.body.address,
+            phone     : req.body.phone,
+            birthday  : req.body.birthday,
+            startDate : req.body.startDate,
+            lessonTime: req.body.lessonTime,
+            lessonLength: req.body.lessonLength,
+            numberOfLessons: req.body.numberOfLessons,
+            generalNotes   : req.body.generalNotes    
+        }
     , function(err, newStudentRecord) {
         if (err != null) {
             res.json({});
@@ -30,10 +47,12 @@ module.exports.get = function(req, res) {
 
     // var sess = req.session;
     // var id = sess.id; // to be implemented...
-    var sid = req.query.id
+    var sid = req.query.id;
+    var tid = Account.getIDFromToken(req.headers.authorization); 
+    if (tid==null) tid = 1;
     if (sid === undefined){
         //list
-        var tid = 1; // stub code
+        console.log("TID+======"+tid);
         StudentRecord.list(tid, function(err, studentRecords) {
             if (err != null) {
                 res.status(400).send("error listing studentRecords");

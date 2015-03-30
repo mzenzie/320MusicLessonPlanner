@@ -376,12 +376,14 @@ function loginCtrl($state, $scope, $http, store) {
     };
     $scope.signup = function() {
         // alert($scope.username);
+        alert($scope.firstName);
         $http.post('/api/signup', {
                 username: $scope.username,
-                password: $scope.password
+                password: $scope.password,
+                firstName: $scope.firstName
             })
             .success(function(data, status, header, config) {
-                alert('success');
+                // alert('success');
                 store.set('token', data.token);
                 $state.go('startpage.landing');
             })

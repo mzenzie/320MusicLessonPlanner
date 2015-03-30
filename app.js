@@ -63,7 +63,6 @@ app.post('/api/signout',  jwt({ secret: secret.secretToken }),authenticationCont
 // STUDENT RECORD
 app.post("/api/studentRecord/", studentRecordController.create);
 app.get("/api/studentRecord/", studentRecordController.get);
-app.get("/api/studentRecord/:id", studentRecordController.get);
 app.delete("/api/studentRecord/", studentRecordController.delete);
 app.put("/api/studentRecord/", studentRecordController.update);
 

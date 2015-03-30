@@ -63,7 +63,7 @@ function studentRecordController($scope, $resource, $modal, $stateParams, $state
 };
 
 function teacherController($scope, $resource, $modal, $stateParams, $state) {
-    var StudentRecord = $resource('/api/studentRecord/:id');
+    var StudentRecord = $resource('/api/studentRecord/');
 
 
     StudentRecord.query(function(result) {
@@ -72,8 +72,7 @@ function teacherController($scope, $resource, $modal, $stateParams, $state) {
 
     $scope.deleteStudentRecord = function(student) {
         StudentRecord.delete({
-            email: student.email,
-            instrument: student.instrument
+            id: student.sid
         }, function(result) {
             if (result.isSuccessful) {
                 var index = $scope.students.indexOf(student);

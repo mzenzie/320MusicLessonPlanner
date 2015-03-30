@@ -57,7 +57,7 @@ module.exports.get = function(req, res) {
 
 module.exports.delete = function(req, res) {
     // > DELETE /api/studentRecord/
-    var sid = req.query.sid;
+    var sid = req.query.id;
     if (sid === undefined){
         res.status(400).send("invalid sid");
     } else {

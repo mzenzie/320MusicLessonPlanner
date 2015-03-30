@@ -8,19 +8,23 @@ module.exports.create = function (req, res) {
 		could've just passed req.body to create, but test to see first.
 		note** req -> Request, res -> Response
 	  */
-	console.log("CTRLLER");
-	console.log(req.body);
-	LessonSchedule.create({
+	console.log("LS CTRLLER");
+	lessonSchedule = new LessonSchedule(
+		{
 			date: req.body.date,
 			lessonTime: req.body.lessonTime,
-			lessonLength: req.body.lessonLength,
-		}, function(err, newSchedule){
-			if (err!=null){
-				res.json({});
-			} else {
-				res.json(newSchedule);
-			}
+			lessonLength: req.body.lessonLength
 		});
+	studentRecord = new StudentRecord(req.params);
+	console.log(lessonSchedule);
+	console.log(req.body);
+	lessonSchedule.save(studentRecord, function(err, newSchedule){
+		if (err!=null){
+			res.status(400).send("unable to create new lesson schedule");
+		} else {
+			res.json(newSchedule);
+		}
+	});
 }; 
 
 module.exports.list = function (req, res) {
@@ -43,7 +47,8 @@ module.exports.list = function (req, res) {
 
 module.exports.get = function(req, res){
 	// > GET /api/lessonSchedule/:id
-	LessonSchedule.get(req.params.id, function(edrr, scheduleObj){
+	var lsid = req.params.lsid;
+	LessonSchedule.get(lsid, function(err, scheduleObj){
 		if (err != null){
 			res.status(400).send("unable to get");
 		} else {
@@ -55,7 +60,7 @@ module.exports.get = function(req, res){
 module.exports.delete = function(req, res){
 	// > DELETE /api/lessonSchedule/:id
 
-	LessonSchedule.delete(req.params.id, function(err){
+	LessonSchedule.delete(req.params.lsid, function(err){
 		if (err != null){
 			res.json({isSuccessful:false});
 		} else {

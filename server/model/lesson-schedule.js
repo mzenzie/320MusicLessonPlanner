@@ -25,6 +25,9 @@ var LessonSchedule = function(jsObject) {
     this.lessonTime = jsObject.lessonTime;
     this.lessonLength = jsObject.lessonLength;
     this.lsid = null;
+    if (jsObject!==undefined){
+        this.lsid = jsObject.lsid;
+    }
 };
 
 /*
@@ -80,9 +83,18 @@ module.exports = LessonSchedule;
 /*
  * Get one the lesson note.
  */
-module.exports.get = function(sid, callback) {
+module.exports.get = function(lsid, callback) {
     //TODO: get lesson note
-    return this;
+    var db = dbConnector.getInstance();
+    db.get("SELECT * From Schedule WHERE Schedule.lsid={0}".format(lsid), function(err, row){
+        if (err!=null || row==null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            var schedule = new LessonSchedule(row);
+            callback(null, schedule);
+        }
+    })
 };
 
 /*
@@ -93,7 +105,6 @@ module.exports.get = function(sid, callback) {
  */
 module.exports.list = function(sid, callback){ /// option = {callback: function(err, schedules), db: db}
 	var db = dbConnector.getInstance();
-
 	console.log("DB LIST");
 	db.all("SELECT * FROM Schedule WHERE Schedule.sid={0}".format(sid), function(err, rows) {
         if (err!= null || rows == null){
@@ -110,14 +121,16 @@ module.exports.list = function(sid, callback){ /// option = {callback: function(
  * Delete current instance of lesson schedule.
  */
 
-module.exports.delete = function(studentRecord, callback) {
+module.exports.delete = function(lsid, callback) {
     var db = dbConnector.getInstance();
-        var lschedule_query = "DELETE FROM Schedule WHERE Schedule.schid={0}".format(schid);
+    var lschedule_query = "DELETE FROM Schedule WHERE Schedule.lsid={0}".format(lsid);
     console.log(lschedule_query);
     db.exec(lschedule_query, function(err) {
         if (err != null) {
             console.log(err);
             callback(err);
+        } else {
+            callback(null);
         }
     });
 };
@@ -156,10 +169,9 @@ module.exports.generateDates = function(scheduleData, studentRecord, callback){
     var error = null;
     var schedules = []
      db.serialize(function(){
-        console.log("SERIALIZD");
-        console.log(scheduleData);
+        // console.log(scheduleData);
         for (var i = 0; i < scheduleData.numberOfLessons; i++){
-           scheduleData.date.setDate(scheduleData.date.getDate()+7*i);
+           scheduleData.date.setDate(scheduleData.date.getDate()+7);
             // console.log("Creating lesson schedule" + lessonScheduleJsObject.date.toString());
             var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', {3})"
                                     .format(
@@ -187,5 +199,34 @@ module.exports.generateDates = function(scheduleData, studentRecord, callback){
                 callback(null, schedules);
             }
         });
+    });
+}
+
+// doesnt work lol gg 
+// supposed to append schedules to each student in students. 
+module.exports.retrieveSchedules = function(studentRecords, callback){
+    var db = dbConnector.getInstance();
+    var newStudentRecords = [];
+    var error = null;
+    db.serialize(function(){
+        for (var i = 0; i < studentRecords.length; i++){
+            var studentRecord = studentRecords[i];
+            var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}".format(studentRecord.sid); 
+            db.all(get_query, function(err, schedules){
+                if (err!=null || schedules == null){
+                    console.log(err);
+                    error = err;
+                    callback(err, null);
+                } else {
+                    studentRecord.lessonSchedules = schedules;
+                    newStudentRecords.push(studentRecord);
+                    console.log(studentRecords.length + ' ============== '+ i);
+                    if (i==studentRecords.length-1){
+                        callback(null, newStudentRecords);
+                    }
+                }
+            })
+            if (error!=null) break;
+        }
     });
 }

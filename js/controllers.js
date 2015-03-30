@@ -375,8 +375,6 @@ function loginCtrl($state, $scope, $http, store) {
             });
     };
     $scope.signup = function() {
-        // alert($scope.username);
-        alert($scope.firstName);
         $http.post('/api/signup', {
                 username: $scope.username,
                 password: $scope.password,

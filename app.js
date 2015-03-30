@@ -19,6 +19,7 @@ var secret 						= require('./server/config/secret.js');
 var studentRecordController 	= require('./server/controller/student-record-controller');
 var authenticationController 	= require('./server/controller/authentication-controller');
 var lessonScheduleController	= require('./server/controller/lesson-schedule-controller');
+var lessonNoteController		= require('./server/controller/lesson-note-controller');
 var teacherController			= require('./server/controller/teacher-controller');
 
 //	Configuration ============================================
@@ -64,9 +65,21 @@ app.put("/api/studentRecord/", studentRecordController.update);
 
 // LESSON SCHEDULE
 app.get('/api/studentRecord/:sid/lessonSchedule/', lessonScheduleController.list);
+app.get('/api/studentRecord/:sid/lessonSchedule/:lsid', lessonScheduleController.get);
+app.post('/api/studentRecord/:sid/lessonSchedule/', lessonScheduleController.create);
+app.delete('/api/studentRecord/:sid/lessonSchedule/:lsid', lessonScheduleController.delete);
+app.put('/api/studentRecord/:sid/lessonSchedule/:lsid', lessonScheduleController.update);
 
 //TEACHER
 app.get('/api/teacher/', teacherController.get);
+
+// LESSON NOTES
+app.get('/api/studentRecord/:sid/lessonNotes/', lessonNoteController.list);
+app.get('/api/studentRecord/:sid/lessonNotes/:lnid', lessonNoteController.get);
+app.post('/api/studentRecord/:sid/lessonNotes/', lessonNoteController.create);
+app.delete('/api/studentRecord/:sid/lessonNotes/:lnid', lessonNoteController.delete);
+app.put('/api/studentRecord/:sid/lessonNotes/:lnid', lessonNoteController.update);
+
 
 
 

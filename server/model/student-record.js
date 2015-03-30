@@ -21,9 +21,6 @@ var LessonSchedule = require('./lesson-schedule.js');
 var dbConnector = require('../../database/dbinit.js');
 if (dbConnector == null) console.log("DATABASE CON NULL");
 
-/* Stub code */
-var __records = [];
-var __id = 1;
 
 /**
  * Instantiates a new student record.
@@ -225,38 +222,15 @@ module.exports.list = function(tid, callback) {
     var db = dbConnector.getInstance();
     console.log("DB LIST");
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
-    studentRecords = [];
-    var error = null;
     var list_query = "SELECT * FROM SRecord WHERE SRecord.tid={0}".format(tid);
     console.log(list_query);
-    db.each(list_query, function(err, each_row) {
-        if (err!=null || each_row == null){
+    db.all(list_query, function(err, studentRecords) {
+        if (err!=null || studentRecords == null){
             console.log(err);
-            error = err;
+            callback(err, null);
         } else {
-            var studentRecord = new StudentRecord(each_row);
-            // LessonSchedule.list(studentRecord.sid, function(err, schedules){
-            //     if (err!=null || schedules==null){
-            //         console.log(err);
-            //         error = err;
-            //     } else {
-            //         studentRecord.lessonSchedules = schedules;
-            //         studentRecords.push(studentRecord);
-            //         console.log("pushing");
-            //     }
-            // })
-            studentRecords.push(studentRecord);
-        }
-    }, function(err, numberOfRows){
-        if (error){
-            callback(error, null);
-        } else if (err!=null) {
-            console.log(err);
-            callback(err, null)
-         }else {
-            console.log("200 OK ========= " + numberOfRows);
-            callback(null ,studentRecords);
-            
+            console.log("appending schedules to each records");
+            callback(null, studentRecords);
         }
     });
 

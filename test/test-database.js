@@ -47,13 +47,10 @@ describe('Database', function() {
         app.init();        
         app.reinit();
         db = app.getInstance();
-
-        console.log("before each");
-        console.log(db==undefined);
     }
 
     describe('database initialized', function(){
-        setup()
+        setup();
         var exists = fs.existsSync('./mlp.sql');
         it('mlp.sql created', function(){
             assert.equal(true, exists);
@@ -79,7 +76,7 @@ describe('Database', function() {
 
     
     describe('Adds and removes the same Student', function() {   
-        setup()
+        setup();
         
         studentCtrl.create(student);
         it('should have a student', function()
@@ -107,20 +104,32 @@ describe('Database', function() {
                 }
             });
         })
-        it('should then delete that student', function() {
+        it('should correctly modify that student', function(){
+            var req = {query: {sid: sid}, body: {firstname: 'newName', lastName: 'Jones', instrument: 'Violin' }};
+            var res = {};
+            studentCtrl.update(req, res);
+            var updated_student_query = 
+            format("SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND instrument = '{2}'",
+                'newName',
+                'Jones',
+                'Violin');
+            db.get(student_record_get_query, function(err, row){
+                assert.equal(row.length, 1)
+                if (err!= null || row == null){
+                    console.log(err);
+                } else {
+                    sid = row.sid;
+                    callback(err, self);
+                }
+            });
+        })
+        it('should then delete that student to have zero students', function() {
             var req = {query: { sid: sid}};
             var res = {};
             studentCtrl.delete(req, res);
-
-        })           
-
-        it('should now have zero students', function()
-        {
-            var req = {query: {sid: sid}};
-            var res = {};
             studentCtrl.get(req, res);
             assert.equal(res.json, null);
-        })
+        }) 
     })
 
 

@@ -11,6 +11,7 @@ var __id = 1;
  * Instantiates a new teacher account.
  * @param {Object} jsObject
  */
+
 var Teacher = function(jsObject) {
     // example usage: new Teacher({email: "email@service.com",  firstName: "Cassie", ... [etc]})
     this.firstName = jsObject.firstName;
@@ -24,13 +25,6 @@ var Teacher = function(jsObject) {
 };
 
 
-/**
- * Save a taecher account to the database.
- * Used after changes are made to the account
- * or when a new account is being saved for the first time.
- * 
- * @param {Function} callback the function used to handle database error
- */
 StudentRecord.prototype.save = function(callback) {
     var self = this; // save model's context. 
     var myErr = null;
@@ -65,6 +59,7 @@ StudentRecord.prototype.save = function(callback) {
  * 
  * @param {Object} jsObject : contains the information needing to be updated
  */
+
 StudentRecord.prototype.update = function(jsObject) {
     //TODO: implement function
 };
@@ -95,6 +90,7 @@ module.exports.get = function(tid, callback) {
  * 
  * @param {Function} callback : the function used to handle database error
  */
+
 module.exports.list = function(callback) {
     var db = dbConnector.getInstance();
     console.log("DB LIST");
@@ -110,6 +106,7 @@ module.exports.list = function(callback) {
  * @param {int} tid : the unique id for the account to be deleted
  * @param {Function} callback : the function used to handle database error
  */
+
 module.exports.delete = function(tid, callback) {
     var db = dbConnector.getInstance();
     var teacher_query = "DELETE FROM Teacher WHERE Teacher.tid={0}".format(tid);

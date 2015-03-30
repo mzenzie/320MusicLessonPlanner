@@ -1,10 +1,12 @@
 var format = require('string-format');
 var dbConnector = require('../../database/dbinit.js');
-if (dbConnector == null) console.log("DATABASE CONN. NULL");
+if(dbConnector==null) console.log("DATABASE CONN. NULL");
+
 
 /**
  * @param {Object} jsObject
  */
+
 var LessonNote = function(jsObject) {
     this.notes = jsObject.notes;
     this.date = jsObject.date;
@@ -17,6 +19,7 @@ var LessonNote = function(jsObject) {
  *
  * @param {Function} callback : the function for handling database errors
  */
+
 LessonNote.prototype.save = function(callback) {
     var self = this; // save model's context
     var myErr = null;
@@ -49,6 +52,7 @@ module.exports = LessonNote;
 
 /**
  * Get one lesson note.
+<<<<<<< HEAD
  */
 module.exports.get = function(lnid, callback) {
     var db = dbConnector.getInstance();
@@ -92,6 +96,51 @@ module.exports.delete = function(lnid, callback) {
 };
 
 /**
+=======
+ */
+module.exports.get = function(lnid, callback) {
+    var db = dbConnector.getInstance();
+    console.log("DB GET");
+    db.all("SELECT * FROM LessonRecord WHERE LessonRecord.lnid={0}".format(lnid), function(err, rows) {
+        callback(err, rows);
+    });
+};
+
+/**
+ * Get a list of all lesson notes.
+ *
+ * @param {int} email : email (primary key) of the student whose lesson notes are to be retrieved.
+ * @param {Function} callback
+ */
+module.exports.list = function(sid, callback) {
+    var db = dbConnector.getInstance();
+    console.lod("DB LIST");
+    db.all("SELECT * FROM LessonRecord WHERE LessonRecord.sid={0}".format(sid), function(err, rows)) {
+        callback(err, rows);
+    }
+};
+
+/**
+ * Delete current instance of lesson note.
+ *
+ * @param {int} lnid : the lesson note ID for this lesson note
+ * @param {Function} callback : the function for handling database errors
+ */
+module.exports.delete = function(lnid, callback) {
+    //TODO: delete lesson note from DB
+    var db = dbConnector.getInstance();
+    var lrecord_query = "DELETE FROM LessonRecord WHERE LessonRecord.lnid={0}".format(lnid);
+    console.log(lrecord_query);
+    db.exec(srecord_query, function(err) {
+        if (err != null) {
+            console.log(err);
+            callback(err);
+        }
+    })
+};
+
+/**
+>>>>>>> ServerBranch
  * Update lesson note.
  */
 module.exports.update = function(_notes, _date, _nid) {

@@ -1,3 +1,4 @@
+
 /**
  * Instantiates a new student record.
  * @param {String} jsObject.firstname is the student's first name
@@ -15,6 +16,7 @@
  */
 
 var format = require('string-format');
+var LessonSchedule = require('./lesson-schedule.js');
 
 var dbConnector = require('../../database/dbinit.js');
 if (dbConnector == null) console.log("DATABASE CON NULL");
@@ -23,6 +25,11 @@ if (dbConnector == null) console.log("DATABASE CON NULL");
 var __records = [];
 var __id = 1;
 
+/**
+ * Instantiates a new student record.
+ * 
+ * @param {Object} jsObject
+ */
 var StudentRecord = function(jsObject) {
     // example usage: new StudentRecord({firstName: "Natcha",  lastName: "Simsiri", ... [etc]})
     this.firstName = jsObject.firstName;
@@ -35,17 +42,36 @@ var StudentRecord = function(jsObject) {
     //
 
     this.address = jsObject.address;
-    this.birthday = jsObject.birthday;
-    this.startDate = jsObject.startDate;
-    this.numberOfLessons = jsObject.numberOfLessons;
+    if (jsObject.birthday !== undefined){
+        if (jsObject.birthday.getDate !== undefined){
+            this.birthday = jsObject.birthday;
+        } else {
+            this.birthday = new Date("{0}".format(jsObject.birthday));
+        }
+    }
+    if (jsObject.startDate !== undefined){
+        if (jsObject.startDate.getDate !== undefined){
+            this.startDate = jsObject.startDate;
+        } else {
+            this.startDate = new Date("{0}".format(jsObject.startDate));
+        }
+    }
     this.lessonTime = jsObject.lessonTime;
+    this.numberOfLessons = jsObject.numberOfLessons;
     this.lessonLength = jsObject.lessonLength;
 
     this.sid = null;
+    if (jsObject.sid!==undefined){
+        this.sid = jsObject.sid;
+    }
     // Notes is the list of lesson notes for this student.
     // Initialized to null because a new student has no lesson notes.
-    this.lessonNotes = null;
-    this.generalNotes = jsObject.generalNotes;
+    this.lessonNotes = [];
+    this.generalNotes = null;
+    if (jsObject.generalNotes !== undefined && jsObject.generalNotes != null){
+        this.generalNotes = jsObject.generalNotes;
+    }
+    this.lessonSchedules = [];
     // Progress is the music record of pieces this student has done.
     // Initialized to null because a new student has no previous music progress.
 };
@@ -55,68 +81,81 @@ var StudentRecord = function(jsObject) {
  * Save a student record to the database.
  * Used after changes are made to a student account
  * or when a new student is being saved for the first time.
+ * 
+ * @param {Function} callback the function used to handle database error
  */
-StudentRecord.prototype.save = function(callback) {
-    var self = this; // save model's context. 
-    var myErr = null;
-    //TODO: save to db
-    // returns identifier for StudentRecord
-    var db = dbConnector.getInstance();
-    console.log("DB SAVE");
+StudentRecord.prototype.save = function(callback){
+	var self = this; // save model's context. 
+	var myErr = null;
+	//TODO: save to db
+	// returns identifier for StudentRecord
+	var db = dbConnector.getInstance();
+	console.log("DB SAVE");
+    console.log(self);
+	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument, generalNotes) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')"
+						.format(
+							1,
+							self.firstName,
+							self.lastName,
+							self.email,
+							self.address,
+							self.phone,
+							self.birthday,
+							self.instrument,
+                            self.generalNotes);
 
-    var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')"
-        .format(
-            1,
-            self.firstName,
-            self.lastName,
-            self.email,
-            self.address,
-            self.phone,
-            self.birthday,
-            self.instrument);
-
-
-
-    var sid_query = "SELECT sid FROM SRecord WHERE SRecord.email='{0}' AND SRecord.instrument='{1}'"
-        .format(self.email, self.instrument); //assuming email is unique
     console.log(student_record_query);
-    console.log(sid_query);
 
-    db.run(student_record_query, function(err) {
-        if (err !== null) {
+    db.run(student_record_query, function(err){
+        if (err !== null){
             console.log("STUDENT RECORD SAVE ERR TO DB");
-            myErr = err;
-        }
-    }).get(sid_query, function(err, row) {
-        if (err != null) {
-            console.log("SID GET ERR FROM DB");
-            myErr = err;
-        }
-        self.sid = row.sid;
-        console.log(self.sid);
+            console.log(err);
+        } 
 
-        var schedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', '{3}')"
-            .format(self.startDate, self.lessonTime, self.lessonLength, self.sid);
-        console.log(schedule_query);
-        db.run(schedule_query, function(err) {
-            if (err != null) {
-                myErr = err;
-                console.log("SCHDULE RECORD SAVE ERR TO DB");
+        var student_record_get_query = "SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND email='{2}' AND address='{3}' AND phone='{4}' AND birthday='{5}' AND instrument = '{6}'"
+                            .format(
+                                self.firstName,
+                                self.lastName,
+                                self.email,
+                                self.address,
+                                self.phone,
+                                self.birthday,
+                                self.instrument);
+        console.log(student_record_get_query);
+        db.get(student_record_get_query, function(err, row){
+            if (err!= null || row == null){
+                console.log(err);
+            } else {
+                console.log("== STUDENT RECORD SAVED! ==");
+                self.sid = row.sid
+        		console.log(self);
+        		callback(err, self);
             }
-            console.log("BEFORE SENDING BACK");
-            console.log(self);
-            callback(err, self);
-        });
-
-    });
+    	});
+    })
 };
 
 
 /**
  * Update a student record in the database.
+ * 
+ * @param {Object} jsObject : contains the information needing to be updated
  */
-StudentRecord.prototype.update = function(jsObject) {
+StudentRecord.prototype.update = function(callback) {
     //TODO: implement function
+    var self = this;
+    var db = dbConnector.getInstance();
+    var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}', instrument='{5}', email='{6}' WHERE sid='{7}'"
+                .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.instrument,  self.email, self.sid);
+    console.log(query);
+    db.run(query, function(err){
+        if (err!=null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            callback(null, new StudentRecord(self));
+        }
+    });    
 };
 
 // Exports the student record to allow it to be used by
@@ -127,69 +166,174 @@ module.exports = StudentRecord;
 
 /**
  * Check wether input (during creating new student) is valid.
- * Parameters include email, phone, birthday, startDate, numOfLessons, startTime, hours
+ * 
+ * @param {Object} jsObject : the object containing all the information that needs to be validated
  */
-module.exports.isInputValid = function(jsObject) {
-    //TODO: implement function
-    //		determine what are necessary inputs. Fields (mentioned above) 
-    //		are accessed through jsObject.{fields} 
 
+module.exports.isInputValid =function(jsObject){
+	//TODO: implement function
+	//		determine what are necessary inputs. Fields (mentioned above) 
+	//		are accessed through jsObject.{fields} 
 };
 
 /**
  * Retrieve student information from database.
- * @param sid is the unique id for the student to be retrieved
+ *
+ * @param {int} sid : the unique id for the student to be retrieved
+ * @param {Function} callback : the function used to handle database error
  */
-module.exports.get = function(sid) {
-    //TODO: retrieve student based on sid handler
+
+module.exports.get = function(sid, callback){
+	//TODO: retrieve student based on sid handler
+	var db = dbConnector.getInstance();
+	var query = "SELECT * FROM SRecord WHERE SRecord.sid={0}".format(sid);
+	console.log("DB GET: " + query);
+	db.get(query,function(err, row){
+        if (err!=null){
+            console.log(err);
+            callback(err, null);
+        } else if (row!==undefined){
+            var retrievedStudentRecord = new StudentRecord(row);
+            LessonSchedule.list(sid, function(err, schedules){
+                if (err!= null || schedules == null){
+                    console.log(err);
+                    callback(err, null);
+                } else {
+                    retrievedStudentRecord.lessonSchedules = schedules;
+                    console.log(retrievedStudentRecord);
+                    callback(null, retrievedStudentRecord);
+                }
+            });
+        } else {
+            callback(null, null);
+        }
+	});
 };
 
 /**
  * Retrieve a list of all the students belonging to a given teacher
- * @param tid is the unique id for the teacher who's requesting
+ * 
+ * @param {int} tid : the unique id for the teacher who's requesting
  * the list of students
+ * @param {Function} callback : the function used to handle database error
  */
+
+
+/*
+
+*/
 module.exports.list = function(tid, callback) {
     var db = dbConnector.getInstance();
     console.log("DB LIST");
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
-    db.all("SELECT  * FROM SRecord", function(err, rows) {
-        callback(err, rows);
-
+    studentRecords = [];
+    var error = null;
+    db.each("SELECT  * FROM SRecord", function(err, each_row) {
+        if (err!=null || each_row == null){
+            console.log(err);
+            error = err;
+        } else {
+            var studentRecord = new StudentRecord(each_row);
+            // LessonSchedule.list(studentRecord.sid, function(err, schedules){
+            //     if (err!=null || schedules==null){
+            //         console.log(err);
+            //         error = err;
+            //     } else {
+            //         studentRecord.lessonSchedules = schedules;
+            //         studentRecords.push(studentRecord);
+            //         console.log("pushing");
+            //     }
+            // })
+            studentRecords.push(studentRecord);
+        }
+    }, function(err, numberOfRows){
+        if (error){
+            callback(error, null);
+        } else if (err!=null) {
+            console.log(err);
+            callback(err, null)
+         }else {
+            console.log("200 OK");
+            callback(null ,studentRecords);
+            
+        }
     });
 
 };
 
 /**
  * Delete a student record from the database.
+ * Deleting a student record also deletes that student's lesson schedule.
+ *
+ * @param {int} sid : the unique id for the student to be deleted
+ * @param {Function} callback : the function used to handle database error
  */
-module.exports.delete = function(sid, callback) {
+
+module.exports.delete = function(sid,callback) {
     var db = dbConnector.getInstance();
     // var drecord_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
     var srecord_query = "DELETE FROM SRecord WHERE SRecord.sid={0}".format(sid);
-    var schedule_query = "DELETE FROM Schedule WHERE Schedule.sid={0}".format(sid);
+    var schedule_query = "DELETE FROM Schedule WHERE Schedule.sid='{0}'".format(sid);
+    // console.log(schedule_query);
     console.log(srecord_query);
-    console.log(schedule_query);
     db.exec(srecord_query, function(err) {
         if (err != null) {
             console.log(err);
             callback(err);
         }
-    }).exec(schedule_query, function(err) {
+        // callback(null);
+    })
+    .exec(schedule_query, function(err) {
         if (err != null) {
             console.log(err);
         }
         callback(err);
-    })
+    });
 };
 
 /**
- * TODO
+ * Create a new student and save their instance to the database.
+ * 
+ * @param {Object} jsObject : 
+ * @param {Function} callback : the function used to handle database error
+ */
+ /*
+
+db.run("INSERT INTO Schedule (date, lessonTime, lessonLength, sid) 
+VALUES ('1999-09-18', '18:25:00', '10', '1'),
+('1999-09-19', '18:25:00', '4', '1'),
+('1999-09-20', '18:25:10', '2', '1')");
+
+
  */
 module.exports.create = function(jsObject, callback) {
     //TODO: implement
     //		loop to create multiple student records
     console.log("CREATE");
+    var db = dbConnector.getInstance();
+    var numberOfLessons = jsObject.numberOfLessons;
     var newStudentRecord = new StudentRecord(jsObject);
-    newStudentRecord.save(callback);
+    newStudentRecord.save(function(err, studentRecord){
+        var scheduleData = {
+            date: new Date(jsObject.startDate),
+            lessonTime: jsObject.lessonTime,
+            lessonLength: jsObject.lessonLength,
+            numberOfLessons: jsObject.numberOfLessons
+        };
+        if (err != null || studentRecord == null){
+            callback(err, null);
+        } else {
+            var error = null;
+            LessonSchedule.generateDates(scheduleData, studentRecord, function(err, schedules){
+                if (err != null || schedules == null){
+                    callback(err, null);
+                } else {
+                    studentRecord.lessonSchedules = schedules;
+                    callback(null, studentRecord);
+                }
+            })
+        
+        }
+
+    });
 };

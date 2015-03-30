@@ -29,27 +29,22 @@ module.exports.signin = function(req, res) {
     if (req.body.username == '' || req.body.password == '') {
         res.send(401);
     }
+	Account.get(req.body.username, req.body.password, function(err, myAccount){
+		if (err != 'null'){
+			console.log("RECIEVED MYACCOUNT @ AUTHEN CONTROLLER");
+			console.log(myAccount);
+			var _token = jwt.sign({id: myAccount.pid}, 
+								secret.secretToken, 
+								{ expiresInMinutes: TOKEN_EXPIRATION });
+			console.log(_token);
+			res.json({token:_token});
+		} else {
+			console.log(err);
+			res.send(401);
+		}
+	})
 
-    Account.get(req.body.username, req.body.password, function(err, myAccount) {
-        if (err != 'null') {
-            console.log("RECIEVED MYACCOUNT @ AUTHEN CONTROLLER");
-            console.log(myAccount);
-            var _token = jwt.sign({
-                    id: myAccount.pid
-                },
-                secret.secretToken, {
-                    expiresInMinutes: TOKEN_EXPIRATION
-                });
-            res.json({
-                token: _token
-            });
-        } else {
-            console.log(err);
-            res.send(401);
-        }
-    })
-};
-
+}
 module.exports.signout = function(req, res) {
     if (req.user) {
         // remove from redis storage

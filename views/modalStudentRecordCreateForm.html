@@ -41,13 +41,18 @@
                 <label class="font-noraml">Birthday: {{birthday.toDateString() || 'null'}}</label>
                 <div class="input-group date" auto-close="">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+<<<<<<< HEAD
+=======
+                    <input type="text" ng-model="birthday" class="form-control">
+>>>>>>> ServerBranch
                     <input type="text" class="form-control" ng-model="birthday" date-time format="fullDate" min-view="date" view="year" auto-close="true">
                 </div>
-            </div>
-            <div class="form-group">
+            </div> -->
+            <!-- <div class="form-group">
                 <label class="font-noraml">Start Date</label>
                 <div class="input-group date">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" ng-model="startDate" class="form-control">
                     <input type="datetime" class="form-control" date-time ng-model="startDate" format="fullDate" min-view="date" view="date" auto-close="true">
                 </div>
             </div> -->
@@ -64,6 +69,15 @@
                 </div> -->
             </div>
             <div class="form-group">
+                <!-- <label class="font-noraml">Lesson Length</label> -->
+                <!-- <div class="btn-group">
+                    <label class="btn btn-default" ng-model="lessonLength" btn-radio="'15 minutes'">15 Minutes</label>
+                    <label class="btn btn-default" ng-model="lessonLength" btn-radio="'30 minutes'">30 minutes</label>
+                    <label class="btn btn-default" ng-model="lessonLength" btn-radio="'45 minutes'">45 minutes</label>
+                    <label class="btn btn-default" ng-model="lessonLength" btn-radio="'60 minutes'">60 minutes</label>
+                </div>
+                <pre>{{lessonLength || 'null'}}</pre> -->
+                <!-- <input type="text" ng-model="lessonLength" class="form-control"> -->
                 <label class="font-noraml">Lesson Length</label>
                 <div class="btn-group">
                     <label class="btn btn-default" ng-model="lessonLength" btn-radio="'15 minutes'">15 Minutes</label>

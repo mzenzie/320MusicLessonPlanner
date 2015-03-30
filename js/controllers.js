@@ -8,6 +8,22 @@ function MainCtrl($scope, $http, $location, $state) {
     // }
 }
 
+<<<<<<< HEAD
+=======
+
+/**
+ * [studentRecordController description]
+ * @param  {[type]} $scope       [description]
+ * @param  {[type]} $resource    [description]
+ * @param  {[type]} $modal       passes modal window functionality to the controller
+ * @param  {[type]} $stateParams [description]
+ * @param  {[type]} $state       [description]
+ *
+ * Handles deleting, viewing, and editing student records.
+ */
+function studentRecordController($scope, $resource, $modal, $stateParams, $state) {
+    var StudentRecord = $resource('/api/studentRecord/:id');
+>>>>>>> ServerBranch
 
 /**
  *     teacherController
@@ -83,12 +99,58 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
     };
 };
 
+<<<<<<< HEAD
 /**
  *      ModalDeleteStudentCtrl
  *      Displays a modal window to confirm or cancel deletion of a student record
  */
 
 function ModalDeleteStudentCtrl($scope, $modalInstance) {
+=======
+function teacherController($scope, $resource, $modal, $stateParams, $state) {
+    var StudentRecord = $resource('/api/studentRecord/');
+
+
+    StudentRecord.query(function(result) {
+        $scope.students = result;
+    });
+
+    $scope.deleteStudentRecord = function(student) {
+        StudentRecord.delete({
+            id: student.sid
+        }, function(result) {
+            if (result.isSuccessful) {
+                var index = $scope.students.indexOf(student);
+                $scope.students.splice(index, 1);
+            }
+        });
+    };
+
+    $scope.viewStudentRecord = function(student) {
+        // var studentRecordParams = $stateParams.student;
+        // $scope.state = $state.current;;
+        $state.go('student.viewStudentRecord', {
+            student: student
+        });
+        // $scope.studentRecord = student;
+        // alert(student.firstName);
+    };
+
+    $scope.editStudentRecord = function(student) {
+        // @TODO implement this
+    };
+
+    $scope.openModal = function() {
+
+        var createStudentRecordModalInstance = $modal.open({
+            templateUrl: 'views/modalStudentRecordCreateForm.html',
+            controller: StudentRecordModalInstanceCtrl,
+            scope: $scope
+        });
+    };
+}
+
+>>>>>>> ServerBranch
 
     $scope.ok = function() {
         $scope.confirmDeleteStudent = true;
@@ -176,12 +238,18 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
     };
     //      *******************************************************
 
+<<<<<<< HEAD
     //      Temp General Notes:
     $scope.generalNotes = "This is where notes on student progress should be placed. <b>Hopefully</b> formatting will work.";
 
     /*
      *       SUBMIT FORM
      */
+=======
+function StudentRecordModalInstanceCtrl($scope, $modalInstance, $resource, $log) {
+
+    // var birthday = $scope.birthday.toDateString()
+>>>>>>> ServerBranch
 
     $scope.ok = function() {
         var StudentRecord = $resource('/api/studentRecord/:id');
@@ -222,6 +290,13 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
         $scope.students.push(newStudentRecord);
         $state.go('teacher-dashboard.main');
     };
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
 
     $scope.cancel = function() {
         $state.go('teacher-dashboard.main');
@@ -345,6 +420,7 @@ function CalendarCtrl($scope) {
 
 function loginCtrl($state, $scope, $http, store) {
     $scope.signin = function() {
+<<<<<<< HEAD
         $http.post('/api/signin', {
                 username: $scope.username,
                 password: $scope.password
@@ -388,6 +464,79 @@ function loginCtrl($state, $scope, $http, store) {
 /**
  *      Service (like a factory) and Controller instantiation.
  */
+=======
+        $http.post('/api/signin', {username: $scope.username, password: $scope.password})
+        // $http.post('/api/signin', {username: 'admin@g.com', password: '1234'})
+        .success(function(data, status, header, config){
+            // alert("SIGN-IN-CTRL Recieved " + data.token);
+            store.set('token', data.token);
+            alert("going to teacher-dashboard");
+            $state.go('teacher-dashboard.main');
+        })
+        .error(function(data, status, header, config){
+            alert(data);
+            alert(status);
+            alert(header);
+            alert(config);
+            alert('Incorrect user name or password.');
+        });
+    };
+    $scope.signout = function() {
+        $http.post('/api/signout')
+        .success(function(data, status, header, config){
+            store.remove('token');
+        $state.go('startpage.landing');
+        })
+        .error(function(data, status, header, config){
+            alert('Sign out failed. How does that happen!!!??!?!');
+        });
+    };
+    $scope.signup = function(){
+        // alert($scope.username);
+        $http.post('/api/signup', {username: $scope.username, password: $scope.password})
+        .success(function(data,status,header,config){
+            alert('success');
+            store.set('token', data.token);
+            $state.go('startpage.landing');
+        })
+        .error(function(data,status,header,config){
+            alert('Invalid input.');
+        });
+    };
+}
+
+function lessonNoteController ($scope, $resource){
+    var LessnNote = $resource('/api/lessonNote/:id');
+
+    LessnNote.query(function (result) {
+        $scope.notes = result;
+    });
+
+    $scope.deleteLessonNote = function(note){
+        LessonNote.delete({id:note.nid}, function(result){
+            if (result.isSuccessful){
+                var index = $scope.notes.indexOf(note);
+                $scope.notes.splice(index, 1);
+            }
+        });
+    };
+
+    $scope.notes = [];
+    $scope.createLessonNote = function () {
+        var newLessonNote = new LessonNote();
+        newLessonNote.notes = $scope.notes;
+        newLessonNote.date = $scope.date;
+        newLessonNote.$save(function (result){
+            LessonNote.query(function (result){
+                $scope.notes = result;
+            });
+            $scope.notes = '';
+            $scope.date = '';
+        });
+
+    }
+}
+>>>>>>> ServerBranch
 
 angular
     .module('inspinia')
@@ -409,6 +558,10 @@ angular
     }])
     .controller('MainCtrl', MainCtrl)
     .controller('teacherController', teacherController)
+<<<<<<< HEAD
+=======
+    .controller('studentRecordController', studentRecordController)
+>>>>>>> ServerBranch
     .controller('TodayViewController', TodayViewController)
     .controller('StudentRecordCtrl', StudentRecordCtrl)
     .controller('CalendarCtrl', CalendarCtrl)

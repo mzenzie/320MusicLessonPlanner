@@ -73,16 +73,6 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
             $state.go('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', studentParams);
             $log.debug('GET result: ' + result.lastName);
         });
-        // var studentParams = {
-        //     sid: student.sid,
-        //     firstName: student.firstName,
-        //     lastName: student.lastName,
-        // };
-        // $log.debug('studentParams id: ' + studentParams.lastName);
-
-        // //  Use the getStudent service to pass the $scope to StudentRecordCtrl
-        // getStudent.initializeStudentData(student);
-        // $state.go('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', studentParams);
     };
 
     //  Edit student record
@@ -124,7 +114,7 @@ function ModalDeleteStudentCtrl($scope, $modalInstance) {
  */
 function StudentRecordCtrl($scope, $resource, $state, $stateParams, getStudent, $log) {
     $log.debug('StudentRecordCtrl called, $stateParams.sid = ' + $stateParams.sid);
-    var StudentRecord = $resource('/api/studentRecord/:id');
+    var StudentRecord = $resource('/api/studentRecord/');
     StudentRecord.query(function(result) {
         $scope.students = result;
     });
@@ -137,6 +127,8 @@ function StudentRecordCtrl($scope, $resource, $state, $stateParams, getStudent, 
     $scope.student = getStudent.getStudentRecord();
 
     $log.debug('StudentRecordCtrl firstName: ' + $scope.student.firstName);
+    $log.debug('StudentRecordCtrl lessonSchedule date: ' + $scope.student.lessonSchedules[0].date);
+    $log.debug('StudentRecordCtrl lessonSchedule time: ' + $scope.student.lessonSchedules[0].lessonTime);
 
 };
 

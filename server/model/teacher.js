@@ -14,41 +14,54 @@ var __id = 1;
 
 var Teacher = function(jsObject) {
     // example usage: new Teacher({email: "email@service.com",  firstName: "Cassie", ... [etc]})
-    this.firstName = jsObject.firstName;
-    this.lastName = jsObject.lastName;
     // TODO: Validation of e-mail and phone
     this.email = jsObject.email;
+    this.firstName = jsObject.firstName;
+    this.tid=null;
+    if (jsObject.tid !== undefined){
+        this.tid = jsObject.tid;
+    }
+    // Current USELESS fields - will do when implementing student account -> 1.0 release
+
     this.phone = jsObject.phone;
-    //
-    this.address = jsObject.address;
-    this.tid = null;
+    this.lastName = '';
+    this.address = '';
 };
 
 
-StudentRecord.prototype.save = function(callback) {
+Teacher.prototype.save = function(callback) {
     var self = this; // save model's context. 
     var myErr = null;
-    //TODO: save to db
-    // returns identifier for StudentRecord
     var db = dbConnector.getInstance();
-    console.log("DB SAVE");
 
-    var teacher_account_query = "INSERT INTO Teacher (email, email, firstName, lastName, address, phone) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}')"
+    var teacher_account_query = "INSERT INTO Teacher (email, firstName, lastName, address, phone) VALUES('{0}', '{1}', '{2}', '{3}', '{4}')"
         .format(
-            1,
             self.email,
             self.firstName,
             self.lastName,
             self.address,
             self.phone
         );
+    var get_query = "SELECT * FROM Teacher WHERE Teacher.email='{0}'"
+        .format(self.email);
 
+    console.log("======= TEACHER SAVE");
     console.log(teacher_account_query);
 
-    db.run(student_record_query, function(err) {
-        if (err !== null) {
+    db.run(teacher_account_query, function(err) {
+        if (err != null) {
             console.log("TEACHER ACCOUNT SAVE ERR TO DB");
-            myErr = err;
+            console.log(err);
+        }
+    })
+    .get(get_query, function(err, row){
+        if (err != null || row == null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            self.tid = row.tid;
+            console.log("++++ TEACHER SAVED ++++");
+            callback(null, self);
         }
     });
 };
@@ -60,7 +73,7 @@ StudentRecord.prototype.save = function(callback) {
  * @param {Object} jsObject : contains the information needing to be updated
  */
 
-StudentRecord.prototype.update = function(jsObject) {
+Teacher.prototype.update = function(jsObject) {
     //TODO: implement function
 };
 
@@ -79,9 +92,14 @@ module.exports = Teacher;
 module.exports.get = function(tid, callback) {
     //TODO: retrieve student based on sid handler
     var db = dbConnector.getInstance();
-    console.log("DB GET");
-    db.all("SELECT * FROM Teacher WHERE Teacher.tid={0}".format(tid), function(err, rows) {
-        callback(err, rows);
+    db.get("SELECT * FROM Teacher WHERE Teacher.tid={0}".format(tid), function(err, row) {
+        if (err!=null || row==null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            var teacher = new Teacher(row);
+            callback(err, teacher);
+        }
     });
 };
 
@@ -95,8 +113,13 @@ module.exports.list = function(callback) {
     var db = dbConnector.getInstance();
     console.log("DB LIST");
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
-    db.all("SELECT  * FROM Teacher", function(err, rows) {
-        callback(err, rows);
+    db.all("SELECT * FROM Teacher", function(err, rows) {
+        if (err!=null || rows==null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            callback(err, rows);
+        }
     });
 };
 

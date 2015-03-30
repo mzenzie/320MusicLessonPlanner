@@ -84,7 +84,7 @@ var StudentRecord = function(jsObject) {
  * 
  * @param {Function} callback the function used to handle database error
  */
-StudentRecord.prototype.save = function(callback){
+StudentRecord.prototype.save = function(tid, callback){
 	var self = this; // save model's context. 
 	var myErr = null;
 	//TODO: save to db
@@ -94,7 +94,7 @@ StudentRecord.prototype.save = function(callback){
     console.log(self);
 	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument, generalNotes) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')"
 						.format(
-							1,
+							tid,
 							self.firstName,
 							self.lastName,
 							self.email,
@@ -103,7 +103,6 @@ StudentRecord.prototype.save = function(callback){
 							self.birthday,
 							self.instrument,
                             self.generalNotes);
-
     console.log(student_record_query);
 
     db.run(student_record_query, function(err){
@@ -228,7 +227,9 @@ module.exports.list = function(tid, callback) {
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
     studentRecords = [];
     var error = null;
-    db.each("SELECT  * FROM SRecord", function(err, each_row) {
+    var list_query = "SELECT * FROM SRecord WHERE SRecord.tid={0}".format(tid);
+    console.log(list_query);
+    db.each(list_query, function(err, each_row) {
         if (err!=null || each_row == null){
             console.log(err);
             error = err;
@@ -253,7 +254,7 @@ module.exports.list = function(tid, callback) {
             console.log(err);
             callback(err, null)
          }else {
-            console.log("200 OK");
+            console.log("200 OK ========= " + numberOfRows);
             callback(null ,studentRecords);
             
         }
@@ -313,7 +314,7 @@ module.exports.create = function(jsObject, callback) {
     var db = dbConnector.getInstance();
     var numberOfLessons = jsObject.numberOfLessons;
     var newStudentRecord = new StudentRecord(jsObject);
-    newStudentRecord.save(function(err, studentRecord){
+    newStudentRecord.save(jsObject.tid, function(err, studentRecord){
         var scheduleData = {
             date: new Date(jsObject.startDate),
             lessonTime: jsObject.lessonTime,

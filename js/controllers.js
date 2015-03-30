@@ -17,7 +17,7 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
 
     //  Gets the list of students
 
-    var StudentRecord = $resource('/api/studentRecord/:id');
+    var StudentRecord = $resource('/api/studentRecord/');
 
     StudentRecord.query(function(result) {
         $scope.students = result;
@@ -133,7 +133,7 @@ function getStudent() {
  *     Controller for the Add student record form. The edit form will be similar.
  */
 function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
-    var StudentRecord = $resource('/api/studentRecord/:id');
+    var StudentRecord = $resource('/api/studentRecord/');
 
     StudentRecord.query(function(result) {
         $scope.students = result;
@@ -376,12 +376,14 @@ function loginCtrl($state, $scope, $http, store) {
     };
     $scope.signup = function() {
         // alert($scope.username);
+        alert($scope.firstName);
         $http.post('/api/signup', {
                 username: $scope.username,
-                password: $scope.password
+                password: $scope.password,
+                firstName: $scope.firstName
             })
             .success(function(data, status, header, config) {
-                alert('success');
+                // alert('success');
                 store.set('token', data.token);
                 $state.go('startpage.landing');
             })

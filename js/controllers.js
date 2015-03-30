@@ -56,17 +56,33 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
     //  View student record
 
     $scope.viewStudentRecord = function(student) {
-        $log.debug('Viewing student record id: ' + student.sid);
-        var studentParams = {
-            sid: student.sid,
-            firstName: student.firstName,
-            lastName: student.lastName,
-        };
-        $log.debug('studentParams id: ' + studentParams.lastName);
+        var StudentRecord = $resource('api/studentRecord/');
+        StudentRecord.query(function(result) {
+            $scope.students = result;
+        });
+        StudentRecord.get({
+            id: student.sid
+        }, function(result) {
+            var studentParams = {
+                sid: result.sid,
+                firstName: result.firstName,
+                lastName: result.lastName,
+            };
+            //  Use the getStudent service to pass the $scope to StudentRecordCtrl
+            getStudent.initializeStudentData(result);
+            $state.go('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', studentParams);
+            $log.debug('GET result: ' + result.lastName);
+        });
+        // var studentParams = {
+        //     sid: student.sid,
+        //     firstName: student.firstName,
+        //     lastName: student.lastName,
+        // };
+        // $log.debug('studentParams id: ' + studentParams.lastName);
 
-        //  Use the getStudent service to pass the $scope to StudentRecordCtrl
-        getStudent.initializeStudentData(student);
-        $state.go('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', studentParams);
+        // //  Use the getStudent service to pass the $scope to StudentRecordCtrl
+        // getStudent.initializeStudentData(student);
+        // $state.go('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', studentParams);
     };
 
     //  Edit student record
@@ -222,12 +238,12 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
         $state.go('teacher-dashboard.main');
     };
 
-  $scope.open = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
 
-    $scope.opened = true;
-  };
+        $scope.opened = true;
+    };
 
     $scope.cancel = function() {
         $state.go('teacher-dashboard.main');
@@ -258,7 +274,7 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
  *      Will also handle canceling and rescheduling lessons.
  */
 function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
-    var StudentRecord = $resource('/api/studentRecord/:id');
+    var StudentRecord = $resource('/api/studentRecord/');
 
     StudentRecord.query(function(result) {
         $scope.students = result;
@@ -376,7 +392,7 @@ function loginCtrl($state, $scope, $http, store) {
     };
     $scope.signup = function() {
         // alert($scope.username);
-        alert($scope.firstName);
+        alert('Welcome to MusicLessonPlanner, ' + $scope.firstName);
         $http.post('/api/signup', {
                 username: $scope.username,
                 password: $scope.password,
@@ -394,16 +410,18 @@ function loginCtrl($state, $scope, $http, store) {
 };
 
 
-function lessonNoteController ($scope, $resource){
+function lessonNoteController($scope, $resource) {
     var LessnNote = $resource('/api/lessonNote/:id');
 
-    LessnNote.query(function (result) {
+    LessnNote.query(function(result) {
         $scope.notes = result;
     });
 
-    $scope.deleteLessonNote = function(note){
-        LessonNote.delete({id:note.nid}, function(result){
-            if (result.isSuccessful){
+    $scope.deleteLessonNote = function(note) {
+        LessonNote.delete({
+            id: note.nid
+        }, function(result) {
+            if (result.isSuccessful) {
                 var index = $scope.notes.indexOf(note);
                 $scope.notes.splice(index, 1);
             }
@@ -411,12 +429,12 @@ function lessonNoteController ($scope, $resource){
     };
 
     $scope.notes = [];
-    $scope.createLessonNote = function () {
+    $scope.createLessonNote = function() {
         var newLessonNote = new LessonNote();
         newLessonNote.notes = $scope.notes;
         newLessonNote.date = $scope.date;
-        newLessonNote.$save(function (result){
-            LessonNote.query(function (result){
+        newLessonNote.$save(function(result) {
+            LessonNote.query(function(result) {
                 $scope.notes = result;
             });
             $scope.notes = '';
@@ -457,7 +475,7 @@ angular
     .controller('loginCtrl', loginCtrl);
 
 
-    // =======
+// =======
 //         $http.post('/api/signin', {username: $scope.username, password: $scope.password})
 //         // $http.post('/api/signin', {username: 'admin@g.com', password: '1234'})
 //         .success(function(data, status, header, config){

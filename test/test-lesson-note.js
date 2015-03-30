@@ -1,4 +1,4 @@
-var assert = require('assert');
+/*var assert = require('assert');
 var app = require('../server/model/lesson-note.js'); // the module
 
 describe('Testing Lesson Note', function() {
@@ -23,4 +23,4 @@ describe('Testing Lesson Note', function() {
 		});
 	});
 
-});
+});*/

@@ -276,7 +276,8 @@ module.exports.delete = function(sid,callback) {
     var srecord_query = "DELETE FROM SRecord WHERE SRecord.sid={0}".format(sid);
     var schedule_query = "DELETE FROM Schedule WHERE Schedule.sid='{0}'".format(sid);
     // console.log(schedule_query);
-    console.log(srecord_query);
+    //console.log(srecord_query); // I commented this out so it wouldn't show up in tests -
+    // Comment it back if needed!
     db.exec(srecord_query, function(err) {
         if (err != null) {
             console.log(err);

@@ -95,16 +95,14 @@ describe('Database', function() {
                 student.body.firstName,
                 student.body.lastName,
                 student.body.instrument);
-        console.log(student_record_get_query);
+        //console.log(student_record_get_query);
         it('should contain that student', function(){
             db.get(student_record_get_query, function(err, row){
                 assert.equal(row.length, 1)
                 if (err!= null || row == null){
-                    console.log(err);
+                    //console.log(err);
                 } else {
-                    console.log("== STUDENT RECORD SAVED! ==");
                     sid = row.sid;
-                    console.log(self);
                     callback(err, self);
                 }
             });
@@ -116,15 +114,17 @@ describe('Database', function() {
 
         })           
 
-        it('should now have that student added', function()
+        it('should now have zero students', function()
         {
-            //db.all("SELECT * FROM SRecord WHERE "
+            var req = {query: {sid: sid}};
+            var res = {};
+            studentCtrl.get(req, res);
+            assert.equal(res.json, null);
         })
     })
 
 
     describe('getInstance', function () {
-        console.log()
         it('function exists', function () {
             assert.equal(typeof app.getInstance, 'function');
         })

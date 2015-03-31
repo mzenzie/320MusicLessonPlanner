@@ -1,15 +1,16 @@
 #get_updates.py 
-#Put this script on the virtual machine running the website and keep it in a screen in order to allow updates whenever
+#Put this script on the virtual machine running the website and keep it in a screen in order to allow updates whenever.
+#Prior to using it, you must define the commands that it will use to start, end, and update the server.
 
 from twisted.internet import protocol, reactor, endpoints
 import subprocess
 
-END_CMD = ["pkill","-f","node"]
-RUN_CMD = ["runapp"]
-UPDATE_CMD = ["update"]
+END_CMD = ["stopapp"] #stopapp is defined as "pkill -f node"
+RUN_CMD = ["runapp"] #runapp is defined as "screen -m cd %MLP root directory% && node app"
+UPDATE_CMD = ["update"] #update is defined as "screen -m cd %MLP root directory% && git pull"
 
-UPDATE_PORT = 4774
-RUN_PORT = 5885
+UPDATE_PORT = 4774 #The port to connect to when you want to update
+RUN_PORT = 5885 #The port to connect to when you want to restart the server
 
 class Update(protocol.Protocol):
     def connectionMade(self):

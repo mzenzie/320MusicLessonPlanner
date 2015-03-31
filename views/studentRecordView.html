@@ -16,7 +16,7 @@
             <dt>Birthday:</dt>
             <dd> {{student.birthday | date:'MMMM d, yyyy'}}</dd>
             <dt>Lesson Time:</dt>
-            <dd> {{student.lessonSchedules[0].lessonTime | date:'EEEE'}}s at {{student.lessonSchedules[0].lessonTime | date:'h:mm a'}}</dd>
+            <dd> {{student.lessonSchedules[0].date | date:'EEEE'}}s at {{student.lessonSchedules[0].lessonTime | date:'h:mm a'}}</dd>
             <dt>Lesson Length:</dt>
             <dd> {{student.lessonSchedules[0].lessonLength}}</dd>
             <dt>Original Start Date:</dt>

@@ -89,6 +89,64 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
 };
 
 /**
+ *      TodayViewController
+ *      Controller for the today view.
+ *      Will get a list of lessons scheduled for today and displays them
+ *      Will also handle canceling and rescheduling lessons.
+ */
+function TodayViewController($scope, $resource, $modal, $stateParams, $state, getStudent, $log) {
+
+    var StudentRecord = $resource('/api/studentRecord/');
+
+    StudentRecord.query(function(result) {
+        $scope.students = result;
+        $scope.lessons = [];
+        for (i = 0; i < $scope.students.length; i++) {
+            StudentRecord.get({
+                id: $scope.students[i].sid
+            }, function(result) {
+                // $log.debug('GET student result: ' + result.lessonSchedules[0].date);
+                // $log.debug('GET lessonSchedules result: ' + result.lessonSchedules[0].date);
+                // $log.debug('Number of lessons: ' + result.lessonSchedules.length);
+                for (j = 0; j < result.lessonSchedules.length; j++) {
+                    $scope.lessons.push(result.lessonSchedules[j]);
+                }
+            });
+        };
+    });
+
+    //  View student record
+
+    $scope.viewStudentRecord = function(lesson) {
+        var StudentRecord = $resource('api/studentRecord/');
+        StudentRecord.query(function(result) {
+            $scope.students = result;
+        });
+        StudentRecord.get({
+            id: lesson.sid
+        }, function(result) {
+            var studentParams = {
+                sid: result.sid,
+                firstName: result.firstName,
+                lastName: result.lastName,
+            };
+            //  Use the getStudent service to pass the $scope to StudentRecordCtrl
+            getStudent.initializeStudentData(result);
+            $state.go('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', studentParams);
+            $log.debug('GET result: ' + result.lastName);
+        });
+    };
+
+    $scope.cancelLesson = function(student) {
+
+        $scope.openModal = function() {
+
+        };
+        // @TODO cancel current lesson
+    };
+};
+
+/**
  *      ModalDeleteStudentCtrl
  *      Displays a modal window to confirm or cancel deletion of a student record
  */
@@ -118,17 +176,16 @@ function StudentRecordCtrl($scope, $resource, $state, $stateParams, getStudent, 
     StudentRecord.query(function(result) {
         $scope.students = result;
     });
+
     //  Set individual student scopes
+
     $scope.firstName = $stateParams.firstName;
     $scope.lastName = $stateParams.lastName;
     $scope.instrument = $stateParams.instrument;
 
     //  Use the getStudent service to receive the $scope from teacherController
-    $scope.student = getStudent.getStudentRecord();
 
-    $log.debug('StudentRecordCtrl firstName: ' + $scope.student.firstName);
-    $log.debug('StudentRecordCtrl lessonSchedule date: ' + $scope.student.lessonSchedules[0].date);
-    $log.debug('StudentRecordCtrl lessonSchedule time: ' + $scope.student.lessonSchedules[0].lessonTime);
+    $scope.student = getStudent.getStudentRecord();
 
 };
 
@@ -256,28 +313,6 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
         $event.preventDefault();
         $event.stopPropagation();
         $scope.openedStartDate = true;
-    };
-};
-
-/**
- *      TodayViewController
- *      Controller for the today view.
- *      Will get a list of lessons scheduled for today and displays them
- *      Will also handle canceling and rescheduling lessons.
- */
-function TodayViewController($scope, $resource, $modal, $stateParams, $state) {
-    var StudentRecord = $resource('/api/studentRecord/');
-
-    StudentRecord.query(function(result) {
-        $scope.students = result;
-    });
-
-    $scope.cancelLesson = function(student) {
-
-        $scope.openModal = function() {
-
-        };
-        // @TODO cancel current lesson
     };
 };
 
@@ -459,6 +494,31 @@ angular
             getStudentRecord: getStudentRecord
         };
     }])
+    .filter('isTodaysLesson', function() { // Filters lessons scheduled for today
+        return function(lessons) {
+            if (angular.isDefined(lessons)) {
+                // console.log('Today filter called, lessons[0].date = ' + lessons[0].date);
+                var todaysLessons = [];
+
+                for (var i = 0; i < lessons.length; i++) {
+                    var today = new Date();
+                    var todayDate = today.getDate();
+                    var todayMonth = today.getMonth();
+                    var todayYear = today.getFullYear();
+                    var lesson = new Date(lessons[i].date)
+                    var lessonDate = lesson.getDate();
+                    var lessonMonth = lesson.getMonth();
+                    var lessonYear = lesson.getYear();
+                    // console.log('Today: ' + 'format: ' + today + ": " + todayMonth + '/' + todayDate + '/' + todayYear);
+                    // console.log('Lesson: ' + 'format: ' + lesson  + lessonMonth + '/' + lessonDate + '/' + lessonYear);
+                    if (lessonDate == todayDate && lessonMonth == todayMonth) {
+                        todaysLessons.push(lessons[i]);
+                    }
+                }
+                return todaysLessons;
+            }
+        }
+    })
     .controller('MainCtrl', MainCtrl)
     .controller('teacherController', teacherController)
     .controller('TodayViewController', TodayViewController)

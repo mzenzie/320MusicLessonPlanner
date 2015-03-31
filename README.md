@@ -1,7 +1,7 @@
 # MusicLessonPlanner
 
 ### Version
-1.0.0
+0.1.0 BETA
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 

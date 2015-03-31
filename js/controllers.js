@@ -105,9 +105,6 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state, ge
             StudentRecord.get({
                 id: $scope.students[i].sid
             }, function(result) {
-                // $log.debug('GET student result: ' + result.lessonSchedules[0].date);
-                // $log.debug('GET lessonSchedules result: ' + result.lessonSchedules[0].date);
-                // $log.debug('Number of lessons: ' + result.lessonSchedules.length);
                 for (j = 0; j < result.lessonSchedules.length; j++) {
                     $scope.lessons.push(result.lessonSchedules[j]);
                 }

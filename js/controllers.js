@@ -47,6 +47,7 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
                     if (result.isSuccessful) {
                         var index = $scope.students.indexOf(student);
                         $scope.students.splice(index, 1);
+                        $state.go('teacher-dashboard.main');
                     }
                 });
             };
@@ -94,23 +95,65 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
  *      Will get a list of lessons scheduled for today and displays them
  *      Will also handle canceling and rescheduling lessons.
  */
-function TodayViewController($scope, $resource, $modal, $stateParams, $state, getStudent, $log) {
+function TodayViewController($scope, $resource, $modal, $stateParams, $state, getStudent, $log, $q) {
 
     var StudentRecord = $resource('/api/studentRecord/');
 
     StudentRecord.query(function(result) {
         $scope.students = result;
         $scope.lessons = [];
+        var promises = []; //holds promises returned by StudentRecord.get.$promise.then
         for (i = 0; i < $scope.students.length; i++) {
-            StudentRecord.get({
+            var futureStudentRecord = StudentRecord.get({
+                // a 'future' is returned from StudentRecord - meaning this object currently, doesn't
+                // know the return value, it will know later on in the code - but now it doens't - just a
+                // place holder.
                 id: $scope.students[i].sid
-            }, function(result) {
-                for (j = 0; j < result.lessonSchedules.length; j++) {
-                    $scope.lessons.push(result.lessonSchedules[j]);
-                }
             });
+            promises.push(futureStudentRecord.$promise.then(function(result) {
+                return result;
+            }));
+            // the thing we want to add to this promises array is the place holder for the outcome
+            // that will be given by the server's response - this is the promise. We get this promise from our
+            // future.
         };
+
+        $q.all(promises).then(function(result) {
+            // here is where we actually get the result. $q.all takes in our promises and resolves it
+            // when the server responses back.
+            console.log(result.length);
+            for (var sr_index in result) {
+                var schedules = result[sr_index].lessonSchedules;
+                // console.log(schedules);
+                for (var ls_index in schedules) {
+                    // using a MVVM (Model-View-ViewModel) term.
+                    var todayViewModel = {
+                        date: schedules[ls_index].date,
+                        lessonTime: schedules[ls_index].lessonTime,
+                        lessonLength: schedules[ls_index].lessonLength,
+                        firstName: result[sr_index].firstName,
+                        lastName: result[sr_index].lastName
+                    };
+                    console.log(todayViewModel);
+                    $scope.lessons.push(todayViewModel);
+                }
+            }
+        });
     });
+
+    // StudentRecord.query(function(result) {
+    //     $scope.students = result;
+    //     $scope.lessons = [];
+    //     for (i = 0; i < $scope.students.length; i++) {
+    //         StudentRecord.get({
+    //             id: $scope.students[i].sid
+    //         }, function(result) {
+    //             for (j = 0; j < result.lessonSchedules.length; j++) {
+    //                 $scope.lessons.push(result.lessonSchedules[j]);
+    //             }
+    //         });
+    //     };
+    // });
 
     //  View student record
 

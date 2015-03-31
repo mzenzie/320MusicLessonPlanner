@@ -2,27 +2,41 @@
 
 describe('Routing Test', function() {
 
-    browser.go('/');
+  it('should show teams on the first page', function() {
+    // Open the landing page
+    browser.get('#/');
+      // Ensure that the user was redirected
+    expect(browser.getCurrentUrl())
+        .toEqual('http://localhost:8000/#/startpage/landing');
+    var username = element(
+      by.model('username'));
+    var password = element(
+      by.model('password'));
+    username.sendKeys('admin@g.com');
+    password.sendKeys('1234');
+    element(by.buttonText('Login')).click()
+    //browser.driver.switchTo().alert().sendKeys('\n');
+    
     browser.debugger();
-    /*
-        var ptor, driver;
-     describe('Editors', function() {
-        ptor = protractor.getInstance();
-        driver = ptor.driver;
-        it('Can log in', function() {
-            driver.get('http://localhost:8000/');
-            browser.debugger();
-            //findByName('login').sendKeys('test_editor');
-            //findByName('pass').sendKeys('rubbish');
-            //driver.findElement(protractor.By.css('button[type="submit"]')).click();
-        }, 20000);
 
-        /*
-        it('Shows the homepage', function() {
-            var el = ptor.findElement(protractor.By.css('h1[field="pageTitle"]'));
-            expect(el.getText()).toEqual('Welcome to Home');
-        }, 30000);
+  });
+  browser.debugger();
+  /*
 
-    });*/
+  it('should allow logging in', function() {
+    // Navigate to the login page
+    browser.get('#/login');
 
+    var username = element(
+      by.model('loginCtrl.user.username'));
+    var password = element(
+      by.model('loginCtrl.user.password'));
+
+    // Type in the username and password
+    username.sendKeys('admin');
+    password.sendKeys('admin');
+
+
+
+  });*/
 });

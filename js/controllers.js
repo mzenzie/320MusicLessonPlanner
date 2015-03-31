@@ -22,6 +22,7 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
     StudentRecord.query(function(result) {
         $scope.students = result;
     });
+    alert("code runs");
 
     //  Delete student record
 

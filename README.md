@@ -1,4 +1,4 @@
-# MusicLessonPlanner
+﻿# MusicLessonPlanner
 
 ### Version
 0.1.0 BETA
@@ -88,6 +88,20 @@ All tests can be run from the root directory with the following command
   $ mocha
   ```
 More detailed testing instructions can be found [here](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Testing).
+
+For integration tests install protractor, start the app
+  ```sh
+  $ node app
+  ```
+and run the test
+  ```sh
+  $ protractor test/Protractor_Tests/protractor.conf.js
+  ```
+or  
+  ```sh
+  $ protractor debug test/Protractor_Tests/protractor.conf.js
+  ```
+which allows you to explore the browser as it happens and step through code by entering 'c'
 
 ### Bug Tracking
 

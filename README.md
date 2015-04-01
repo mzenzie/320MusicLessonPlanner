@@ -5,7 +5,7 @@
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
-The current version can be accessed for use or testing at [320mlp.zenzie.net](http://320mlp.zenzie.net).
+The current version can be accessed for use or testing at [320mlpbeta.zenzie.net](http://320mlpbeta.zenzie.net).
 This website redirects automatically to IP address
 ```sh
 54.165.8.175:8000

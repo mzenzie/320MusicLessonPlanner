@@ -132,7 +132,8 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state, ge
                         lessonTime: schedules[ls_index].lessonTime,
                         lessonLength: schedules[ls_index].lessonLength,
                         firstName: result[sr_index].firstName,
-                        lastName: result[sr_index].lastName
+                        lastName: result[sr_index].lastName,
+                        sid: result[sr_index].sid
                     };
                     console.log(todayViewModel);
                     $scope.lessons.push(todayViewModel);

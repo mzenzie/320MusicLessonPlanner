@@ -89,7 +89,7 @@ All tests can be run from the root directory with the following command
   ```
 More detailed testing instructions can be found [here](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Testing).
 
-For integration tests install protractor, start the app
+For integration tests install [Protractor](https://github.com/angular/protractor), start the app
   ```sh
   $ node app
   ```

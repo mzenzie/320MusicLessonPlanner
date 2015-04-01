@@ -36,6 +36,11 @@ This website redirects automatically to IP address
   ```sh
   $ sudo npm install sqlite3 --save
   ```
+  - bcrypt
+  ```sh
+  $ sudo npm install bcrypt
+  ```
+  NOTE: This package is rather finicky. Make sure you are using python 2.7
   
 To run the app, in your terminal execute:
 ```sh

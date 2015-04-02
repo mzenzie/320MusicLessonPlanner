@@ -1,11 +1,19 @@
 /**
  * MainCtrl - controller
  */
-function MainCtrl($scope, $http, $location, $state) {
-    // $scope.validateLogin = function() {
-    //     alert($state.href("teacher-dashboard.main", {}));
-    //     $state.go('teacher-dashboard.main', {});
-    // }
+function MainCtrl($scope, $http, $location, $state, $resource, store, jwtHelper, $log) {
+    $scope.token = store.get('token');
+    if ($scope.token != null) {
+        $scope.decodedToken = $scope.token && jwtHelper.decodeToken($scope.token);
+        var TeacherRecord = $resource('/api/teacher/:id');
+
+        TeacherRecord.get({
+            id: $scope.decodedToken.id
+        }, function(result) {
+            $scope.userName = result.firstName;
+        });
+    };
+
 }
 
 /**
@@ -428,7 +436,7 @@ function CalendarCtrl($scope) {
     $scope.eventSources = [$scope.events];
 }
 
-function loginCtrl($state, $scope, $http, store) {
+function loginCtrl($state, $stateParams, $scope, $http, store, $log) {
     $scope.signin = function() {
         $http.post('/api/signin', {
                 username: $scope.username,
@@ -508,29 +516,6 @@ function lessonNoteController($scope, $resource) {
 }
 
 /**
- * formValidation - Controller for validation example
- */
-function formValidation($scope) {
-
-    $scope.signupForm = function() {
-        if ($scope.signup_form.$valid) {
-            // Submit as normal
-        } else {
-            $scope.signup_form.submitted = true;
-        }
-    }
-
-    $scope.signupForm2 = function() {
-        if ($scope.signup_form.$valid) {
-            // Submit as normal
-        }
-    }
-
-};
-
-
-
-/**
  *      Service (like a factory) and Controller instantiation.
  */
 angular
@@ -554,7 +539,6 @@ angular
     .filter('isTodaysLesson', function() { // Filters lessons scheduled for today
         return function(lessons) {
             if (angular.isDefined(lessons)) {
-                // console.log('Today filter called, lessons[0].date = ' + lessons[0].date);
                 var todaysLessons = [];
 
                 for (var i = 0; i < lessons.length; i++) {
@@ -566,8 +550,6 @@ angular
                     var lessonDate = lesson.getDate();
                     var lessonMonth = lesson.getMonth();
                     var lessonYear = lesson.getYear();
-                    // console.log('Today: ' + 'format: ' + today + ": " + todayMonth + '/' + todayDate + '/' + todayYear);
-                    // console.log('Lesson: ' + 'format: ' + lesson  + lessonMonth + '/' + lessonDate + '/' + lessonYear);
                     if (lessonDate == todayDate && lessonMonth == todayMonth) {
                         todaysLessons.push(lessons[i]);
                     }
@@ -581,5 +563,4 @@ angular
     .controller('TodayViewController', TodayViewController)
     .controller('StudentRecordCtrl', StudentRecordCtrl)
     .controller('CalendarCtrl', CalendarCtrl)
-    .controller('loginCtrl', loginCtrl)
-    .controller('formValidation', formValidation);
+    .controller('loginCtrl', loginCtrl);

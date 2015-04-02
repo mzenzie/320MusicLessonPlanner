@@ -25,7 +25,7 @@ This website redirects automatically to IP address
 
 ### Installation and Build
 
-- Install [node](https://nodejs.org/) and [express](http://expressjs.com/) before running this app.
+- Install [python](https://www.python.org/downloads/), [node](https://nodejs.org/), and [express](http://expressjs.com/) before running this app.
 - Navigate to the directory where you wish to install MusicLessonPlanner and clone the repository.
 - Make sure you have the necessary dependencies installed:
   - project dependencies
@@ -73,7 +73,21 @@ Additional SQL commands can be found [here](http://www.thegeekstuff.com/2012/09/
 
 ### Testing
 
-TODO
+Testing is implemented using the [Mocha](http://mochajs.org/) testing framework. Within this framework, unit tests use [should](https://github.com/shouldjs/should.js) and integration tests use [supertest](https://www.npmjs.com/package/supertest) (with some possible overlapping). All test files are located in [./test](./test).
+
+When beginning testing for the first time you will need to install the testing dependencies. All of the necessary dependencies can be installed by executing
+  ```sh
+  $ ./install_test_dependencies
+  ```
+If the above command does not work, you may need to re-run with admin privileges
+  ```sh
+  $ sudo ./install_test_dependencies
+  ```
+All tests can be run from the root directory with the following command
+  ```sh
+  $ mocha
+  ```
+More detailed testing instructions can be found [here](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Testing).
 
 ### Bug Tracking
 

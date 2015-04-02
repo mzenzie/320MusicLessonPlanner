@@ -47,6 +47,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
     .state('teacher-dashboard.main', { // This is the url used in a ui-sref call (see html files)
         url: "/main",
         templateUrl: "views/startPageView.html", // assigns a template url file (partial html)
+        controller: loginCtrl,
         /*
          *       Controllers loaded in HTML
          */
@@ -65,6 +66,15 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
         data: {
             pageTitle: 'Add New Student Record',
             requiresLogin: true
+        },
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    insertBefore: '#loadBefore',
+                    name: 'localytics.directives',
+                    files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
+                }]);
+            }
         }
     })
 

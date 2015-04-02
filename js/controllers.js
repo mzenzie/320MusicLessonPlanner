@@ -121,7 +121,7 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state, ge
         $q.all(promises).then(function(result) {
             // here is where we actually get the result. $q.all takes in our promises and resolves it
             // when the server responses back.
-            console.log(result.length);
+            // console.log(result.length);
             for (var sr_index in result) {
                 var schedules = result[sr_index].lessonSchedules;
                 // console.log(schedules);
@@ -132,28 +132,15 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state, ge
                         lessonTime: schedules[ls_index].lessonTime,
                         lessonLength: schedules[ls_index].lessonLength,
                         firstName: result[sr_index].firstName,
-                        lastName: result[sr_index].lastName
+                        lastName: result[sr_index].lastName,
+                        sid: result[sr_index].sid
                     };
-                    console.log(todayViewModel);
+                    // console.log(todayViewModel);
                     $scope.lessons.push(todayViewModel);
                 }
             }
         });
     });
-
-    // StudentRecord.query(function(result) {
-    //     $scope.students = result;
-    //     $scope.lessons = [];
-    //     for (i = 0; i < $scope.students.length; i++) {
-    //         StudentRecord.get({
-    //             id: $scope.students[i].sid
-    //         }, function(result) {
-    //             for (j = 0; j < result.lessonSchedules.length; j++) {
-    //                 $scope.lessons.push(result.lessonSchedules[j]);
-    //             }
-    //         });
-    //     };
-    // });
 
     //  View student record
 
@@ -283,48 +270,57 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
     //      Temp General Notes:
     $scope.generalNotes = "This is where notes on student progress should be placed. <b>Hopefully</b> formatting will work.";
 
+    //      Lesson Time Options:
+
+    $scope.lengthOfLessons = ['15 minutes', '30 minutes', '45 minutes', '60 minutes'];
+    $scope.lessonLength = $scope.lengthOfLessons[1];
+
     /*
      *       SUBMIT FORM
      */
 
     $scope.ok = function() {
-        var StudentRecord = $resource('/api/studentRecord/:id');
-        var newStudentRecord = new StudentRecord();
-        newStudentRecord.firstName = $scope.firstName;
-        newStudentRecord.lastName = $scope.lastName;
-        newStudentRecord.instrument = $scope.instrument;
-        newStudentRecord.email = $scope.email;
-        newStudentRecord.phone = $scope.phone;
-        newStudentRecord.address = $scope.address;
-        newStudentRecord.birthday = $scope.birthday;
-        $log.debug('Birthday returned: ' + newStudentRecord.birthday);
-        newStudentRecord.startDate = $scope.startDate;
-        $log.debug('Starting date returned: ' + newStudentRecord.startDate);
-        newStudentRecord.numberOfLessons = $scope.numberOfLessons;
-        newStudentRecord.lessonTime = $scope.lessonTime;
-        newStudentRecord.lessonLength = $scope.lessonLength;
-        newStudentRecord.generalNotes = $scope.generalNotes;
-        newStudentRecord.lessonNotes = $scope.lessonNotes;
-        newStudentRecord.$save(function(result) {
-            StudentRecord.query(function(result) {
-                $scope.students = result;
+        if ($scope.studentRecordForm.$valid) {
+            var StudentRecord = $resource('/api/studentRecord/:id');
+            var newStudentRecord = new StudentRecord();
+            newStudentRecord.firstName = $scope.firstName;
+            newStudentRecord.lastName = $scope.lastName;
+            newStudentRecord.instrument = $scope.instrument;
+            newStudentRecord.email = $scope.email;
+            newStudentRecord.phone = $scope.phone;
+            newStudentRecord.address = $scope.address;
+            newStudentRecord.birthday = $scope.birthday;
+            $log.debug('Birthday returned: ' + newStudentRecord.birthday);
+            newStudentRecord.startDate = $scope.startDate;
+            $log.debug('Starting date returned: ' + newStudentRecord.startDate);
+            newStudentRecord.numberOfLessons = $scope.numberOfLessons;
+            newStudentRecord.lessonTime = $scope.lessonTime;
+            newStudentRecord.lessonLength = $scope.lessonLength;
+            newStudentRecord.generalNotes = $scope.generalNotes;
+            newStudentRecord.lessonNotes = $scope.lessonNotes;
+            newStudentRecord.$save(function(result) {
+                StudentRecord.query(function(result) {
+                    $scope.students = result;
+                });
+                $scope.firstName = '';
+                $scope.lastName = '';
+                $scope.instrument = '';
+                $scope.email = '';
+                $scope.phone = '';
+                $scope.address = '';
+                $scope.birthday = '';
+                $scope.startDate = '';
+                $scope.numberOfLessons = '';
+                $scope.lessonTime = '';
+                $scope.lessonLength = '';
+                $scope.generalNotes = '';
+                $scope.lessonNotes = null;
             });
-            $scope.firstName = '';
-            $scope.lastName = '';
-            $scope.instrument = '';
-            $scope.email = '';
-            $scope.phone = '';
-            $scope.address = '';
-            $scope.birthday = '';
-            $scope.startDate = '';
-            $scope.numberOfLessons = '';
-            $scope.lessonTime = '';
-            $scope.lessonLength = '';
-            $scope.generalNotes = '';
-            $scope.lessonNotes = null;
-        });
-        $scope.students.push(newStudentRecord);
-        $state.go('teacher-dashboard.main');
+            $scope.students.push(newStudentRecord);
+            $state.go('teacher-dashboard.main');
+        } else {
+            $scope.studentRecordForm.submitted = true;
+        }
     };
 
     $scope.open = function($event) {
@@ -511,6 +507,27 @@ function lessonNoteController($scope, $resource) {
     }
 }
 
+/**
+ * formValidation - Controller for validation example
+ */
+function formValidation($scope) {
+
+    $scope.signupForm = function() {
+        if ($scope.signup_form.$valid) {
+            // Submit as normal
+        } else {
+            $scope.signup_form.submitted = true;
+        }
+    }
+
+    $scope.signupForm2 = function() {
+        if ($scope.signup_form.$valid) {
+            // Submit as normal
+        }
+    }
+
+};
+
 
 
 /**
@@ -564,46 +581,5 @@ angular
     .controller('TodayViewController', TodayViewController)
     .controller('StudentRecordCtrl', StudentRecordCtrl)
     .controller('CalendarCtrl', CalendarCtrl)
-    .controller('loginCtrl', loginCtrl);
-
-
-// =======
-//         $http.post('/api/signin', {username: $scope.username, password: $scope.password})
-//         // $http.post('/api/signin', {username: 'admin@g.com', password: '1234'})
-//         .success(function(data, status, header, config){
-//             // alert("SIGN-IN-CTRL Recieved " + data.token);
-//             store.set('token', data.token);
-//             alert("going to teacher-dashboard");
-//             $state.go('teacher-dashboard.main');
-//         })
-//         .error(function(data, status, header, config){
-//             alert(data);
-//             alert(status);
-//             alert(header);
-//             alert(config);
-//             alert('Incorrect user name or password.');
-//         });
-//     };
-//     $scope.signout = function() {
-//         $http.post('/api/signout')
-//         .success(function(data, status, header, config){
-//             store.remove('token');
-//         $state.go('startpage.landing');
-//         })
-//         .error(function(data, status, header, config){
-//             alert('Sign out failed. How does that happen!!!??!?!');
-//         });
-//     };
-//     $scope.signup = function(){
-//         // alert($scope.username);
-//         $http.post('/api/signup', {username: $scope.username, password: $scope.password})
-//         .success(function(data,status,header,config){
-//             alert('success');
-//             store.set('token', data.token);
-//             $state.go('startpage.landing');
-//         })
-//         .error(function(data,status,header,config){
-//             alert('Invalid input.');
-//         });
-//     };
-// }
+    .controller('loginCtrl', loginCtrl)
+    .controller('formValidation', formValidation);

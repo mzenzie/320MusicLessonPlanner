@@ -1,11 +1,11 @@
-# MusicLessonPlanner
+﻿# MusicLessonPlanner
 
 ### Version
 0.1.0 BETA
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
-The current version can be accessed for use or testing at [320mlp.zenzie.net](http://320mlp.zenzie.net).
+The current version can be accessed for use or testing at [320mlpbeta.zenzie.net](http://320mlpbeta.zenzie.net).
 This website redirects automatically to IP address
 ```sh
 54.165.8.175:8000
@@ -36,6 +36,11 @@ This website redirects automatically to IP address
   ```sh
   $ sudo npm install sqlite3 --save
   ```
+  - bcrypt
+  ```sh
+  $ sudo npm install bcrypt
+  ```
+  NOTE: This package is rather finicky. Make sure you are using python 2.7
   
 To run the app, in your terminal execute:
 ```sh
@@ -88,6 +93,20 @@ All tests can be run from the root directory with the following command
   $ mocha
   ```
 More detailed testing instructions can be found [here](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Testing).
+
+For integration tests install [Protractor](https://github.com/angular/protractor), start the app
+  ```sh
+  $ node app
+  ```
+and run the test
+  ```sh
+  $ protractor test/Protractor_Tests/protractor.conf.js
+  ```
+or  
+  ```sh
+  $ protractor debug test/Protractor_Tests/protractor.conf.js
+  ```
+which allows you to explore the browser as it happens and step through code by entering 'c'
 
 ### Bug Tracking
 

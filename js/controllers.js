@@ -440,7 +440,7 @@ function loginCtrl($state, $scope, $http, store) {
                 $state.go('teacher-dashboard.main');
             })
             .error(function(data, status, header, config) {
-                alert('Incorrect user name or password.');
+                //alert('Incorrect user name or password.');
             });
     };
     $scope.signout = function() {

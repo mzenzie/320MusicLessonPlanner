@@ -1,4 +1,5 @@
 var Teacher = require('../model/teacher.js');
+var Account = require('../model/Account.js');
 
 module.exports.create = function(req, res) {
     // > POST /api/teacher
@@ -29,7 +30,8 @@ module.exports.get = function(req, res) {
     // > GET /api/teacher/
     // var tid = req.query.id; //for testing
     var tid = Account.getIDFromToken(req.headers.authorization)
-    if (tid===undefined){
+    console.log(tid);
+    if (tid===undefined || tid == null){
         Teacher.list(function(err, teachers){
             if (err!=null){
                 res.send(400);

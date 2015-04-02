@@ -1,4 +1,4 @@
-var format = require("string-format");
+	var format = require("string-format");
 var dbConnector = require('../../database/dbinit.js');
 var bcrypt = require('bcrypt');
 var Map = require('collections/map');

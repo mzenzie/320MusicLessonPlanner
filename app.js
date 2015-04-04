@@ -51,6 +51,9 @@ dbConnector.init();
 // authenticationController.startRedisServer(); //uncomment when authen completes.
 
 // Routes ======================================================
+/*  For Angular people, use these routes to make requests, i.e. $resource('/api/studentRecord/:sid/lessonSchedule') 
+	or use the lower level http service $http.get('/api/studentRecord/:sid/lessonSchedule/:lsid', callback...) etc etc etc. 
+*/
 
 //ACCOUNT
 app.post('/api/signout',  jwt({ secret: secret.secretToken }),authenticationController.signout);
@@ -72,6 +75,7 @@ app.put('/api/studentRecord/:sid/lessonSchedule/:lsid', lessonScheduleController
 
 //TEACHER
 app.get('/api/teacher/', teacherController.get);
+app.get('/api/teacher/:id', teacherController.get); // testing
 
 // LESSON NOTES
 app.get('/api/studentRecord/:sid/lessonNotes/', lessonNoteController.list);

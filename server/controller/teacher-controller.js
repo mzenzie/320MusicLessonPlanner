@@ -30,7 +30,7 @@ module.exports.get = function(req, res) {
     // > GET /api/teacher/
     // var tid = req.query.id; //for testing
     var tid = Account.getIDFromToken(req.headers.authorization)
-    console.log(tid);
+    if (tid==null) tid = req.params.id; // for testing purposes 
     if (tid===undefined || tid == null){
         Teacher.list(function(err, teachers){
             if (err!=null){

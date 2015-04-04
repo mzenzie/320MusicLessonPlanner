@@ -45,7 +45,7 @@ module.exports.get = function(req, res) {
             if (err != null) {
                 res.send(400);
             } else {
-                console.log(teacher);
+                console.log('TEACHER FOUND: ' + teacher);
                 res.json(teacher);
             }
         });

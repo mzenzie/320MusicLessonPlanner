@@ -1,11 +1,11 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
-    <div class="sidebar-collapse">
+    <div class="sidebar-collapse" ng-controller="LoginCtrl">
         <ul side-navigation class="nav" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element" dropdown>
                     <a class="dropdown-toggle" dropdown-toggle href>
                         <span class="clear">
-                            <span class="block m-t-xs"><strong class="font-bold">{{userName}}</strong></span>
+                            <span class="block m-t-xs"><strong class="font-bold">{{teacherProfile.firstName}}</strong></span>
                         <span class="text-muted text-xs block">Account<b class="caret"></b></span>
                         </span>
                     </a>

@@ -1,30 +1,20 @@
+"use strict";
+
+
+angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: angular.module.factory.controller.etc....
+
 /**
  * MainCtrl - controller
  */
-function MainCtrl($scope, $http, $location, $state, $resource, store, jwtHelper, $log) {
-    $scope.token = store.get('token');
-    if ($scope.token != null) {
-        $scope.decodedToken = $scope.token && jwtHelper.decodeToken($scope.token);
-        var TeacherRecord = $resource('/api/teacher/:id');
-
-        TeacherRecord.get({
-            id: $scope.decodedToken.id
-        }, function(result) {
-            $scope.userName = result.firstName;
-        });
-    };
-
-}
+.controller('MainCtrl', ['$scope', '$log', function($scope, $log) {}])
 
 /**
  *     teacherController
  *     Handles deleting, viewing, and editing student records.
  */
-
-function teacherController($scope, $resource, $stateParams, $state, $modal, getStudent, $log) {
+.controller('TeacherController', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', function($scope, $resource, $stateParams, $state, $modal, $log) {
 
     //  Gets the list of students
-
     var StudentRecord = $resource('/api/studentRecord/');
 
     StudentRecord.query(function(result) {
@@ -32,7 +22,6 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
     });
 
     //  Delete student record
-
     $scope.confirmDeleteStudent = false;
     $scope.deleteStudentRecord = function(student) {
         var modalInstance = $modal.open({
@@ -63,39 +52,28 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
     };
 
     //  View student record
-
     $scope.viewStudentRecord = function(student) {
-        var StudentRecord = $resource('api/studentRecord/');
-        StudentRecord.query(function(result) {
-            $scope.students = result;
-        });
         StudentRecord.get({
             id: student.sid
         }, function(result) {
             var studentParams = {
                 sid: result.sid,
-                firstName: result.firstName,
-                lastName: result.lastName,
             };
-            //  Use the getStudent service to pass the $scope to StudentRecordCtrl
-            getStudent.initializeStudentData(result);
-            $state.go('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', studentParams);
-            $log.debug('GET result: ' + result.lastName);
+            $state.go('teacher-dashboard.viewStudentRecord/:sid', studentParams);
         });
     };
 
     //  Edit student record
-
     $scope.editStudentRecord = function(student) {
         // @TODO implement this
     };
 
     //  Add student record
-
     $scope.createStudentRecord = function() {
         $state.go('teacher-dashboard.createStudentRecord');
     };
-};
+}])
+
 
 /**
  *      TodayViewController
@@ -103,20 +81,24 @@ function teacherController($scope, $resource, $stateParams, $state, $modal, getS
  *      Will get a list of lessons scheduled for today and displays them
  *      Will also handle canceling and rescheduling lessons.
  */
-function TodayViewController($scope, $resource, $modal, $stateParams, $state, getStudent, $log, $q) {
+.controller('TodayViewController', ['$scope', '$resource', '$modal', '$stateParams', '$state', '$log', '$q', function($scope, $resource, $modal, $stateParams, $state, $log, $q) {
 
-    var StudentRecord = $resource('/api/studentRecord/');
+    var studentRecordList = $resource('/api/studentRecord/');
 
-    StudentRecord.query(function(result) {
-        $scope.students = result;
+    studentRecordList.query(function(result) {
+        // $log.warn('studentRecordList.query called in TodayViewController, number of students BEFORE:' + result.length);
+        var studentRecords = result;
+        // for (var i = 0; i < studentRecords.length; i++) {
+        //     $log.debug('   Student[' + i + '] loaded: ' + studentRecords[i].sid);
+        // };
         $scope.lessons = [];
-        var promises = []; //holds promises returned by StudentRecord.get.$promise.then
-        for (i = 0; i < $scope.students.length; i++) {
-            var futureStudentRecord = StudentRecord.get({
-                // a 'future' is returned from StudentRecord - meaning this object currently, doesn't
+        var promises = []; //holds promises returned by studentRecordList.get.$promise.then
+        for (var i = 0; i < studentRecords.length; i++) {
+            var futureStudentRecord = studentRecordList.get({
+                // a 'future' is returned from studentRecordList - meaning this object currently, doesn't
                 // know the return value, it will know later on in the code - but now it doens't - just a
                 // place holder.
-                id: $scope.students[i].sid
+                id: studentRecords[i].sid
             });
             promises.push(futureStudentRecord.$promise.then(function(result) {
                 return result;
@@ -151,24 +133,14 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state, ge
     });
 
     //  View student record
-
     $scope.viewStudentRecord = function(lesson) {
-        var StudentRecord = $resource('api/studentRecord/');
-        StudentRecord.query(function(result) {
-            $scope.students = result;
-        });
-        StudentRecord.get({
+        studentRecordList.get({
             id: lesson.sid
         }, function(result) {
             var studentParams = {
                 sid: result.sid,
-                firstName: result.firstName,
-                lastName: result.lastName,
             };
-            //  Use the getStudent service to pass the $scope to StudentRecordCtrl
-            getStudent.initializeStudentData(result);
-            $state.go('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', studentParams);
-            $log.debug('GET result: ' + result.lastName);
+            $state.go('teacher-dashboard.viewStudentRecord/:sid', studentParams);
         });
     };
 
@@ -179,14 +151,14 @@ function TodayViewController($scope, $resource, $modal, $stateParams, $state, ge
         };
         // @TODO cancel current lesson
     };
-};
+}])
+
 
 /**
  *      ModalDeleteStudentCtrl
  *      Displays a modal window to confirm or cancel deletion of a student record
  */
-
-function ModalDeleteStudentCtrl($scope, $modalInstance) {
+.controller('ModalDeleteStudentCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance) {
 
     $scope.ok = function() {
         $scope.confirmDeleteStudent = true;
@@ -198,41 +170,28 @@ function ModalDeleteStudentCtrl($scope, $modalInstance) {
         $modalInstance.close($scope.confirmDeleteStudent);
         // $modalInstance.dismiss('cancel');
     };
-};
+}])
 
 /**
  *      StudentRecordCtrl
  *      Controller for the student record viewing page.
  *      Necessary to pass the variable scope of a specific student to the new page.
  */
-function StudentRecordCtrl($scope, $resource, $state, $stateParams, getStudent, $log) {
-    $log.debug('StudentRecordCtrl called, $stateParams.sid = ' + $stateParams.sid);
-    var StudentRecord = $resource('/api/studentRecord/');
-    StudentRecord.query(function(result) {
-        $scope.students = result;
-    });
+.controller('StudentRecordCtrl', ['$scope', '$stateParams', 'getStudentByID', '$log', function($scope, $stateParams, getStudentByID, $log) {
 
-    //  Set individual student scopes
+    //  Get 'sid' number from $stateParams
 
-    $scope.firstName = $stateParams.firstName;
-    $scope.lastName = $stateParams.lastName;
-    $scope.instrument = $stateParams.instrument;
+    //  Use the getStudentByID factory to receive the $scope from teacherController
 
-    //  Use the getStudent service to receive the $scope from teacherController
+    $scope.student = getStudentByID.get({id: $stateParams.sid});
 
-    $scope.student = getStudent.getStudentRecord();
-
-};
-
-function getStudent() {
-    return {};
-};
+}])
 
 /**
  *     StudentRecordCreationCrtl
  *     Controller for the Add student record form. The edit form will be similar.
  */
-function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
+.controller('StudentRecordCreationCrtl', ['$scope', '$resource', '$state', '$log', function($scope, $resource, $state, $log) {
     var StudentRecord = $resource('/api/studentRecord/');
 
     StudentRecord.query(function(result) {
@@ -243,8 +202,8 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
      *       TIME PICKER CODE       ****************************
      */
     $scope.lessonTime = new Date();
-    $scope.lessonTime.setMinutes(00);
-    $scope.lessonTime.setSeconds(00);
+    $scope.lessonTime.setMinutes(0);
+    $scope.lessonTime.setSeconds(0);
 
     $scope.hstep = 1;
     $scope.mstep = 15;
@@ -358,14 +317,14 @@ function StudentRecordCreationCrtl($scope, $resource, $state, $log) {
         $event.stopPropagation();
         $scope.openedStartDate = true;
     };
-};
+}])
 
 /**
  * CalendarCtrl - Controller for Calendar
  * Store data events for calendar
  * This is not finished yet!!!!
  */
-function CalendarCtrl($scope) {
+.controller('CalendarCtrl', ['$scope', function($scope) {
 
     var date = new Date();
     var d = date.getDate();
@@ -434,9 +393,15 @@ function CalendarCtrl($scope) {
 
     /* Event sources array */
     $scope.eventSources = [$scope.events];
-}
+}])
 
-function loginCtrl($state, $stateParams, $scope, $http, store, $log) {
+.controller('LoginCtrl', ['$state', '$stateParams', '$scope', '$resource', '$http', 'store', 'jwtHelper', 'getTeacherByID', '$log', function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log) {
+
+    $scope.teacherProfile = {};
+    if ($scope.teacherProfile.firstName != undefined) {
+        $log.warn('teacherProfile (firstName): ' + $scope.teacherProfile.firstName);
+    };
+
     $scope.signin = function() {
         $http.post('/api/signin', {
                 username: $scope.username,
@@ -445,16 +410,30 @@ function loginCtrl($state, $stateParams, $scope, $http, store, $log) {
             .success(function(data, status, header, config) {
                 // alert("SIGN-IN-CTRL Recieved " + data.token);
                 store.set('token', data.token);
+
+                //Get user date
+                var token = store.get('token')
+                var decodedToken = token && jwtHelper.decodeToken(token);
+
+                $log.debug('Decoded token id: ' + decodedToken.id);
+
+                $scope.teacherProfile = getTeacherByID.get({id: decodedToken.id});
+
+                $log.warn('Result of TeacherRecord.get (firstName): ' + $scope.teacherProfile.firstName);
+
                 $state.go('teacher-dashboard.main');
             })
             .error(function(data, status, header, config) {
                 //alert('Incorrect user name or password.');
             });
     };
+
+
     $scope.signout = function() {
         $http.post('/api/signout')
             .success(function(data, status, header, config) {
                 store.remove('token');
+                $scope.teacherProfile = null;
                 $state.go('startpage.landing');
             })
             .error(function(data, status, header, config) {
@@ -478,10 +457,9 @@ function loginCtrl($state, $stateParams, $scope, $http, store, $log) {
                 alert('Invalid input.');
             });
     };
-};
+}])
 
-
-function lessonNoteController($scope, $resource) {
+.controller('LessonNoteController', ['$scope', '$resource', function($scope, $resource) {
     var LessnNote = $resource('/api/lessonNote/:id');
 
     LessnNote.query(function(result) {
@@ -513,54 +491,67 @@ function lessonNoteController($scope, $resource) {
         });
 
     }
-}
+}])
+
+/*
+ *      Factory that passes student data from one controller to another
+ */
+.factory('getStudentByID', ['$resource', function($resource) {
+    return $resource('/api/studentRecord/', {id: '@id'});
+}])
+
+/*
+ *      Factory that passes student data from one controller to another
+ */
+.factory('getTeacherByID', ['$resource', function($resource) {
+    return $resource('/api/teacher/:id', {id: '@id'});
+}])
 
 /**
- *      Service (like a factory) and Controller instantiation.
+ * [description]
+ * @param  {Array}  lessons
+ * @return {Array}  lessons filtered by today's date.
+ * @todo Filter lessons by those only after the current time.
  */
-angular
-    .module('inspinia')
-    .service('getStudent', [function() {
-        var studentData = {};
+.filter('isTodaysLesson', [function() { // Filters lessons scheduled for today
+    return function(lessons) {
+        if (angular.isDefined(lessons)) {
+            var todaysLessons = [];
 
-        var initializeStudentData = function(student) {
-            studentData = student;
-        }
-
-        var getStudentRecord = function() {
-            return studentData;
-        }
-
-        return {
-            initializeStudentData: initializeStudentData,
-            getStudentRecord: getStudentRecord
-        };
-    }])
-    .filter('isTodaysLesson', function() { // Filters lessons scheduled for today
-        return function(lessons) {
-            if (angular.isDefined(lessons)) {
-                var todaysLessons = [];
-
-                for (var i = 0; i < lessons.length; i++) {
-                    var today = new Date();
-                    var todayDate = today.getDate();
-                    var todayMonth = today.getMonth();
-                    var todayYear = today.getFullYear();
-                    var lesson = new Date(lessons[i].date)
-                    var lessonDate = lesson.getDate();
-                    var lessonMonth = lesson.getMonth();
-                    var lessonYear = lesson.getYear();
-                    if (lessonDate == todayDate && lessonMonth == todayMonth) {
-                        todaysLessons.push(lessons[i]);
-                    }
+            for (var i = 0; i < lessons.length; i++) {
+                var today = new Date();
+                var todayDate = today.getDate();
+                var todayMonth = today.getMonth();
+                var todayYear = today.getFullYear();
+                var lesson = new Date(lessons[i].date)
+                var lessonDate = lesson.getDate();
+                var lessonMonth = lesson.getMonth();
+                var lessonYear = lesson.getYear();
+                if (lessonDate == todayDate && lessonMonth == todayMonth) {
+                    todaysLessons.push(lessons[i]);
                 }
-                return todaysLessons;
             }
+            return todaysLessons;
         }
-    })
-    .controller('MainCtrl', MainCtrl)
-    .controller('teacherController', teacherController)
-    .controller('TodayViewController', TodayViewController)
-    .controller('StudentRecordCtrl', StudentRecordCtrl)
-    .controller('CalendarCtrl', CalendarCtrl)
-    .controller('loginCtrl', loginCtrl);
+    }
+}])
+
+.filter('filterDuplicates', [function() {
+    return function(students) {
+        var filteredStudents = [];
+        var arrayOfIDs = [];
+
+        for (i = 0; i < students.length; i++) {
+            arrayOfIDs[i] = students[i].sid;
+        }
+        var keyID = 0;
+        for (i = 0; i < students.length; i++) {
+            console.log('filterDuplicates...sid: ' + students[i].sid + ' key: ' + keyID);
+            if (keyID != students[i]) {
+                filteredStudents.push(students[i]);
+                keyID = students[i].sid
+            };
+        }
+    }
+}]);
+

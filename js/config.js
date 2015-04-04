@@ -38,8 +38,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
         .state('teacher-dashboard', {
         abstract: true,
         url: "/teacher-dashboard",
-        templateUrl: "views/common/content.html",
-        controller: loginCtrl
+        templateUrl: "views/common/content.html"
     })
 
     //  Main dashboard
@@ -47,7 +46,6 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
     .state('teacher-dashboard.main', { // This is the url used in a ui-sref call (see html files)
         url: "/main",
         templateUrl: "views/startPageView.html", // assigns a template url file (partial html)
-        controller: MainCtrl,
         /*
          *       Controllers loaded in HTML
          */
@@ -62,7 +60,6 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
     .state('teacher-dashboard.createStudentRecord', {
         url: "/createStudentRecord",
         templateUrl: "views/createStudentRecord.html",
-        controller: StudentRecordCreationCrtl,
         data: {
             pageTitle: 'Add New Student Record',
             requiresLogin: true
@@ -80,8 +77,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
 
     //  Individual Student Record view
 
-    .state('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', {
-        url: "/viewStudentRecord/:sid/:firstName/:lastName",
+    .state('teacher-dashboard.viewStudentRecord/:sid', {
+        url: "/viewStudentRecord/:sid",
         templateUrl: "views/studentRecordPageView.html",
         /*
          *       Controllers loaded in HTML
@@ -176,7 +173,6 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
     .state('startpage.landing', {
         url: "/landing",
         templateUrl: "views/login.html",
-        controller: loginCtrl,
         data: {
             pageTitle: "Welcome to MusicLessonPlanner"
         }
@@ -187,7 +183,6 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
     .state('startpage.register', {
         url: "/register",
         templateUrl: "views/register.html",
-        controller: loginCtrl,
         data: {
             pageTitle: "Welcome to MusicLessonPlanner"
         }

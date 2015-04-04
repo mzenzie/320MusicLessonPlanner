@@ -460,7 +460,6 @@ function loginCtrl($state, $scope, $http, store) {
     };
     $scope.signup = function() {
         // alert($scope.username);
-        alert('Welcome to MusicLessonPlanner, ' + $scope.firstName);
         $http.post('/api/signup', {
                 username: $scope.username,
                 password: $scope.password,
@@ -468,11 +467,12 @@ function loginCtrl($state, $scope, $http, store) {
             })
             .success(function(data, status, header, config) {
                 // alert('success');
+                alert('Welcome to MusicLessonPlanner, ' + $scope.firstName);
                 store.set('token', data.token);
                 $state.go('startpage.landing');
             })
             .error(function(data, status, header, config) {
-                alert('Invalid input.');
+                alert('Username unavaialble, please try another Username :)');
             });
     };
 };

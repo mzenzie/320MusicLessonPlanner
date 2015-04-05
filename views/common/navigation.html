@@ -1,4 +1,4 @@
-<nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="navbar-default navbar-static-side" role="navigation" ng-controller="TeacherController">
     <div class="sidebar-collapse">
         <ul side-navigation class="nav" id="side-menu">
             <li class="nav-header">
@@ -30,39 +30,4 @@
     </div>
 </nav>
 
-<!-- OLD CODE: Attempted refactorization -->
 
-<!-- <nav class="navbar-default navbar-static-side" role="navigation">
-    <div class="sidebar-collapse" ng-controller="LoginCtrl">
-        <ul side-navigation class="nav" id="side-menu">
-            <li class="nav-header">
-                <div class="dropdown profile-element" dropdown>
-                    <a class="dropdown-toggle" dropdown-toggle href>
-                        <span class="clear">
-                            <span class="block m-t-xs"><strong class="font-bold">{{teacherProfile.firstName}}</strong></span>
-                        <span class="text-muted text-xs block">Account<b class="caret"></b></span>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="" ng-click="signout()">Logout</a></li>
-                    </ul>
-                </div>
-                <div class="logo-element">
-                    Mlp
-                </div>
-            </li>
-            <li class="active">
-                <a ui-sref="teacher-dashboard.main"><i class="fa fa-music"></i> <span class="nav-label">Main page</span> </a>
-            </li>
-            <li class="active">
-                <a ui-sref="teacher-dashboard.calendar"><i class="fa fa-calendar"></i> <span class="nav-label">Calendar</span> </a>
-            </li>
-            <li class="active">
-                <a ui-sref="teacher-dashboard.about"><i class="fa fa-info-circle"></i> <span class="nav-label">About</span> </a>
-            </li>
-            <li class="active">
-                <a ui-sref="teacher-dashboard.support"><i class="fa fa-question-circle"></i> <span class="nav-label">Support</span> </a>
-            </li>
-        </ul>
-    </div>
-</nav> -->

@@ -7,23 +7,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
  * MainCtrl - controller
  */
 .controller('MainCtrl', ['$scope', '$resource', 'store', 'jwtHelper', '$log',
-    function($scope, $resource, store, jwtHelper, $log) {
+    function($scope, $log) {
         //Get user date
-        var token = store.get('token');
-        var decodedToken = token && jwtHelper.decodeToken(token);
-        $log.debug('Decoded token: ' + decodedToken);
-        $scope.teacherProfile = {};
-        $scope.$watch('teacherProfile', function() {
-            $log.warn('teacherProfile has changed!');
-        });
-        // if (decodedToken != null) {
-        //     $log.debug('Decoded token id: ' + decodedToken.id);
 
-        //     $scope.teacherProfile = getTeacherByID.get({
-        //         id: decodedToken.id
-        //     });
-        //     $log.warn('Result of TeacherRecord.get (firstName): ' + $scope.teacherProfile.firstName);
-        // };
     }
 ])
 
@@ -31,14 +17,23 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
  *     teacherController
  *     Handles deleting, viewing, and editing student records.
  */
-.controller('TeacherController', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log',
-    function($scope, $resource, $stateParams, $state, $modal, $log) {
+.controller('TeacherController', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', 'store', 'jwtHelper', 'getTeacherByID',
+    function($scope, $resource, $stateParams, $state, $modal, $log, store, jwtHelper, getTeacherByID) {
 
         //  Gets the list of students
         var StudentRecord = $resource('/api/studentRecord/');
 
         StudentRecord.query(function(result) {
             $scope.students = result;
+        });
+
+        //Get user date
+        var token = store.get('token')
+        var decodedToken = token && jwtHelper.decodeToken(token);
+
+        $log.debug('Decoded token id: ' + decodedToken.id);
+        $scope.teacherProfile = getTeacherByID.get({
+            id: decodedToken.id
         });
 
         //  Delete student record
@@ -445,19 +440,14 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     // alert("SIGN-IN-CTRL Recieved " + data.token);
                     store.set('token', data.token);
 
-                    //Get user date
-                    var token = store.get('token')
-                    var decodedToken = token && jwtHelper.decodeToken(token);
+                    // //Get user date
+                    // var token = store.get('token')
+                    // var decodedToken = token && jwtHelper.decodeToken(token);
 
-                    $log.debug('Decoded token id: ' + decodedToken.id);
-                    $log.log('What we get from getTeacherByID: ' + getTeacherByID.get({
-                        id: decodedToken.id
-                    }).firstName);
-                    $scope.teacherProfile = getTeacherByID.get({
-                        id: decodedToken.id
-                    });
-                    // $scope.teacherProfile.firstName = 'Second thing';
-                    $log.warn('Result of TeacherRecord.get (firstName): ' + $scope.teacherProfile.firstName);
+                    // $log.debug('Decoded token id: ' + decodedToken.id);
+                    // $scope.teacherProfile = getTeacherByID.get({
+                    //     id: decodedToken.id
+                    // });
 
                     $state.go('teacher-dashboard.main');
                 })

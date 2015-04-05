@@ -69,7 +69,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="font-noraml">Phone</label>
-                    <input type="text" ng-model="phone" class="form-control" name="phone" placeHolder="Phone" required>
+                    <input type="text" class="form-control" data-mask="(999) 999-9999" ng-model="phone" name="phone" placeHolder="" required>
+                    <span class="help-block">(999) 999-9999</span>
                     <div class="m-t-xs" ng-show="studentRecordForm.phone.$invalid && studentRecordForm.phone.$dirty || studentRecordForm.submitted">
                         <small class="text-danger" ng-show="studentRecordForm.phone.$error.required">Please input a phone number.</small>
                     </div>
@@ -118,7 +119,7 @@
                     <label class="font-noraml">Lesson Length</label>
                     <br>
                     <div class="input-group">
-                        <select chosen data-placeholder="30 minutes" disable_search="true" class="chosen-select" style="width:350px;" tabindex="1"  ng-init="lessonLength = lengthOfLessons[1]" ng-model="lessonLength" ng-options="lengthOfLesson for lengthOfLesson in lengthOfLessons">
+                        <select chosen data-placeholder="30 minutes" disable_search="true" class="chosen-select" style="width:350px;" tabindex="1" ng-init="lessonLength = lengthOfLessons[1]" ng-model="lessonLength" ng-options="lengthOfLesson for lengthOfLesson in lengthOfLessons">
                         </select>
                     </div>
                 </div>

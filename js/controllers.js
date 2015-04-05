@@ -17,8 +17,8 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
  *     teacherController
  *     Handles deleting, viewing, and editing student records.
  */
-.controller('TeacherController', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', 'store', 'jwtHelper', 'getTeacherByID',
-    function($scope, $resource, $stateParams, $state, $modal, $log, store, jwtHelper, getTeacherByID) {
+.controller('StudentListCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID',
+    function($scope, $resource, $stateParams, $state, $modal, $log, store, jwtHelper, getTeacherByID, getStudentByID) {
 
         //  Gets the list of students
         var StudentRecord = $resource('/api/studentRecord/');
@@ -30,8 +30,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         //Get user date
         var token = store.get('token')
         var decodedToken = token && jwtHelper.decodeToken(token);
-
-        $log.debug('Decoded token id: ' + decodedToken.id);
         $scope.teacherProfile = getTeacherByID.get({
             id: decodedToken.id
         });
@@ -41,7 +39,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         $scope.deleteStudentRecord = function(student) {
             var modalInstance = $modal.open({
                 templateUrl: 'views/deleteConfirmModal.html',
-                controller: ModalDeleteStudentCtrl,
+                controller: 'ModalDeleteStudentCtrl',
                 size: 'sm',
                 resolve: {
                     confirmDeleteStudent: function() {
@@ -178,7 +176,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
  */
 .controller('ModalDeleteStudentCtrl', ['$scope', '$modalInstance',
     function($scope, $modalInstance) {
-
         $scope.ok = function() {
             $scope.confirmDeleteStudent = true;
             $modalInstance.close($scope.confirmDeleteStudent);
@@ -197,26 +194,43 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
  *      Controller for the student record viewing page.
  *      Necessary to pass the variable scope of a specific student to the new page.
  */
-.controller('StudentRecordCtrl', ['$scope', '$stateParams', 'getStudentByID', '$log',
-    function($scope, $stateParams, getStudentByID, $log) {
+.controller('StudentRecordCtrl', ['$scope', '$state', '$stateParams', '$resource', 'getStudentByID', '$log',
+    function($scope, $state, $stateParams, $resource, getStudentByID, $log) {
 
         //  Get 'sid' number from $stateParams
-
         //  Use the getStudentByID factory to receive the $scope from teacherController
-
         $scope.student = getStudentByID.get({
             id: $stateParams.sid
         });
-        $log.warn('Calling: getStudentByID');
+
+        // Options for summernote
+        $scope.noteOptions = {
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ]
+        };
+
+
+        //  Edit student record note
+        $scope.editStudentRecordNote = function() {
+            $log.debug('New note value: ' + $scope.student.generalNotes);
+            // $scope.student.$update();
+        };
+
     }
 ])
+
 
 /**
  *     StudentRecordCreationCrtl
  *     Controller for the Add student record form. The edit form will be similar.
  */
-.controller('StudentRecordCreationCrtl', ['$scope', '$resource', '$state', '$log',
-    function($scope, $resource, $state, $log) {
+.controller('StudentRecordCreationCrtl', ['$scope', '$resource', '$state', '$log', 'notify',
+    function($scope, $resource, $state, $log, notify) {
         var StudentRecord = $resource('/api/studentRecord/');
 
         StudentRecord.query(function(result) {
@@ -309,6 +323,11 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     $scope.lessonNotes = null;
                 });
                 $scope.students.push(newStudentRecord);
+                notify({
+                    message: 'Student record successfully created.',
+                    classes: 'alert-success',
+                    templateUrl: 'views/common/notify.html'
+                })
                 $state.go('teacher-dashboard.main');
             } else {
                 $scope.studentRecordForm.submitted = true;
@@ -432,28 +451,32 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         // };
 
         $scope.signin = function() {
-            $http.post('/api/signin', {
-                    username: $scope.username,
-                    password: $scope.password
-                })
-                .success(function(data, status, header, config) {
-                    // alert("SIGN-IN-CTRL Recieved " + data.token);
-                    store.set('token', data.token);
+            if ($scope.loginForm.$valid) {
+                $http.post('/api/signin', {
+                        username: $scope.username,
+                        password: $scope.password
+                    })
+                    .success(function(data, status, header, config) {
+                        // alert("SIGN-IN-CTRL Recieved " + data.token);
+                        store.set('token', data.token);
 
-                    // //Get user date
-                    // var token = store.get('token')
-                    // var decodedToken = token && jwtHelper.decodeToken(token);
+                        // //Get user date
+                        // var token = store.get('token')
+                        // var decodedToken = token && jwtHelper.decodeToken(token);
 
-                    // $log.debug('Decoded token id: ' + decodedToken.id);
-                    // $scope.teacherProfile = getTeacherByID.get({
-                    //     id: decodedToken.id
-                    // });
+                        // $log.debug('Decoded token id: ' + decodedToken.id);
+                        // $scope.teacherProfile = getTeacherByID.get({
+                        //     id: decodedToken.id
+                        // });
 
-                    $state.go('teacher-dashboard.main');
-                })
-                .error(function(data, status, header, config) {
-                    //alert('Incorrect user name or password.');
-                });
+                        $state.go('teacher-dashboard.main');
+                    })
+                    .error(function(data, status, header, config) {
+                        //alert('Incorrect user name or password.');
+                    });
+            } else {
+                $scope.loginForm.submitted = true;
+            }
         };
 
 
@@ -470,20 +493,24 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         };
         $scope.signup = function() {
             // alert($scope.username);
-            alert('Welcome to MusicLessonPlanner, ' + $scope.firstName);
-            $http.post('/api/signup', {
-                    username: $scope.username,
-                    password: $scope.password,
-                    firstName: $scope.firstName
-                })
-                .success(function(data, status, header, config) {
-                    // alert('success');
-                    store.set('token', data.token);
-                    $state.go('startpage.landing');
-                })
-                .error(function(data, status, header, config) {
-                    alert('Invalid input.');
-                });
+            if ($scope.loginForm.$valid) {
+                alert('Welcome to MusicLessonPlanner, ' + $scope.firstName);
+                $http.post('/api/signup', {
+                        username: $scope.username,
+                        password: $scope.password,
+                        firstName: $scope.firstName
+                    })
+                    .success(function(data, status, header, config) {
+                        // alert('success');
+                        store.set('token', data.token);
+                        $state.go('startpage.landing');
+                    })
+                    .error(function(data, status, header, config) {
+                        alert('Invalid input.');
+                    });
+            } else {
+                $scope.loginForm.submitted = true;
+            }
         };
     }
 ])

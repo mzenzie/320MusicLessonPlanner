@@ -66,11 +66,20 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
         },
         resolve: {
             loadPlugin: function($ocLazyLoad) {
-                return $ocLazyLoad.load([{
-                    insertBefore: '#loadBefore',
-                    name: 'localytics.directives',
-                    files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
-                }]);
+                return $ocLazyLoad.load([
+                    {
+                        insertBefore: '#loadBefore',
+                        name: 'localytics.directives',
+                        files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
+                    },
+                    {
+                        name: 'cgNotify',
+                        files: ['css/plugins/angular-notify/angular-notify.min.css','js/plugins/angular-notify/angular-notify.min.js']
+                    },
+                    {
+                        files: ['js/plugins/jasny/jasny-bootstrap.min.js']
+                    }
+                ]);
             }
         }
     })
@@ -85,6 +94,29 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
          */
         data: {
             pageTitle: "Student Record View:",
+            requiresLogin: true
+        },
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    name: 'summernote',
+                    files: ['css/plugins/summernote/summernote.css', 'css/plugins/summernote/summernote-bs3.css', 'js/plugins/summernote/summernote.min.js', 'js/plugins/summernote/angular-summernote.min.js']
+                }]);
+            }
+
+        }
+    })
+
+    //  EDIT Individual Student Record NOTE
+
+    .state('teacher-dashboard.editStudentRecordNote/:sid', {
+        url: "/editStudentRecordNote/:sid",
+        templateUrl: "views/editStudentRecordNote.html",
+        /*
+         *       Controllers loaded in HTML
+         */
+        data: {
+            pageTitle: "Edit Student Notes:",
             requiresLogin: true
         },
         resolve: {

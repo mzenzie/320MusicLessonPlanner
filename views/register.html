@@ -1,33 +1,35 @@
-<div class="col-md-6 col-md-offset-3 animated fadeInDown">
-    <div ng-controller="LoginCtrl">
-        <div>
-            <h1 class="logo-name">Mlp</h1>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 animated fadeInDown">
+        <div ng-controller="LoginCtrl">
+            <div>
+                <h1 class="logo-name">Mlp</h1>
+            </div>
+            <h3>New Teacher Registration</h3>
+            <p>Create account to start organizing your lessons.</p>
+            <form novalidate role="form" name="loginForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Name" ng-model='firstName' name="firstName" required>
+                    <div class="m-t-xs" ng-show="loginForm.firstName.$invalid && loginForm.firstName.$dirty || loginForm.submitted">
+                        <small class="text-danger" ng-show="loginForm.firstName.$error.required">Please input your first and last name.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Email" ng-model='username' name="email" placeHolder="Email" required>
+                    <div class="m-t-xs" ng-show="loginForm.email.$invalid && loginForm.email.$dirty || loginForm.submitted">
+                        <small class="text-danger" ng-show="loginForm.email.$error">Please input a valid email address.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" ng-model='password' name="password" ng-minlength="7" required>
+                    <div class="m-t-xs" ng-show="loginForm.password.$invalid && loginForm.password.$dirty || loginForm.submitted">
+                        <small class="text-danger" ng-show="loginForm.password.$error.required">Please input your password.</small>
+                        <small class="text-danger" ng-show="loginForm.password.$error.minlength">Your password is required to be at least 7 characters.</small>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b" ng-click='signup()' tooltip-placement="top" tooltip="Click to create a new account.">Register</button>
+                <p class="text-muted text-center"><small>Already have an account?</small></p>
+                <a class="btn btn-sm btn-white btn-block" ui-sref="startpage.landing" tooltip-placement="top" tooltip="Click to login to your account.">Login</a>
+            </form>
         </div>
-        <h3>New Teacher Registration</h3>
-        <p>Create account to start organizing your lessons.</p>
-        <form novalidate role="form" name="loginForm">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Name" ng-model='firstName' name="firstName" required>
-                <div class="m-t-xs" ng-show="loginForm.firstName.$invalid && loginForm.firstName.$dirty || loginForm.submitted">
-                    <small class="text-danger" ng-show="loginForm.firstName.$error.required">Please input your first and last name.</small>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="email" class="form-control" placeholder="Email" ng-model='username' name="email" placeHolder="Email" required>
-                <div class="m-t-xs" ng-show="loginForm.email.$invalid && loginForm.email.$dirty || loginForm.submitted">
-                    <small class="text-danger" ng-show="loginForm.email.$error">Please input a valid email address.</small>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" ng-model='password' name="password" ng-minlength="7" required>
-                <div class="m-t-xs" ng-show="loginForm.password.$invalid && loginForm.password.$dirty || loginForm.submitted">
-                    <small class="text-danger" ng-show="loginForm.password.$error.required">Please input your password.</small>
-                    <small class="text-danger" ng-show="loginForm.password.$error.minlength">Your password is required to be at least 7 characters.</small>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary block full-width m-b" ng-click='signup()' tooltip-placement="top" tooltip="Click to create a new account.">Register</button>
-            <p class="text-muted text-center"><small>Already have an account?</small></p>
-            <a class="btn btn-sm btn-white btn-block" ui-sref="startpage.landing" tooltip-placement="top" tooltip="Click to login to your account.">Login</a>
-        </form>
     </div>
 </div>

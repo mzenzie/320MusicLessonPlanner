@@ -25,12 +25,13 @@
         <hr>
         <h5>Notes and Student Progress</h5>
         <!-- <summernote height="245" ng-model="generalNotes"></summernote> -->
-        <div summernote style="border: 2px solid #a1a1a1; position: static" config="noteOptions" ng-model="student.generalNotes"></div>
-        <!-- <p>{{student.generalNotes}}</p> -->
-        <br/>
-        <button class="btn btn-primary btn-md" ng-click="editStudentRecordNote()" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Note</button>
-        <!-- </div> -->
-        <!-- </div> -->
+        <div class="row">
+            <div summernote config="noteOptions" ng-model="student.generalNotes"></div>
+            <!-- <p>{{student.generalNotes}}</p> -->
+        </div>
+        <div class="row">
+            <button class="btn btn-primary btn-md" ng-click="editStudentRecordNote()" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Update Note</button>
+        </div>
     </div>
     <div ng-include="'/views/lessonNoteListView.html'"></div>
 </div>

@@ -3525,6 +3525,11 @@ table.table-mail tr td {
 .jumbotron {
     border-radius: 6px;
     padding: 40px;
+	background: url(/img/MLPLogo.png) no-repeat left center;
+	height: 175pt;
+	color: gray;
+	text-align: right;
+	vertical-align: middle;
 }
 .jumbotron h1 {
     margin-top: 0;

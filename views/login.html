@@ -1,28 +1,37 @@
-<div class="col-md-6 col-md-offset-3 animated fadeInDown" ng-controller="LoginCtrl">
-    <div>
-        <div>
-            <h1 class="logo-name">Mlp</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="jumbotron">
+            <!-- <h1>MusicLessonPlanner</h1> -->
+            <p>Keep track of your students, schedule lessons and make-up lessons,</p>
+            <p>and keep notes on each student's progress</p>
         </div>
-        <h3>Welcome to MusicLessonPlanner</h3>
-        <p>Login to manage your schedule, students, and lessons.</p>
-        <!-- <p>Testing: Username: <small>admin@g.com</small> Password: <small>1234</small></p> -->
-        <form novalidate role="form" name="loginForm">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Username" ng-model="username" name="username" required>
-                <div class="m-t-xs" ng-show="loginForm.username.$invalid && loginForm.username.$dirty || loginForm.submitted">
-                    <small class="text-danger" ng-show="loginForm.username.$error.required">Please input your user name (Email).</small>
-                </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 animated fadeInDown" ng-controller="LoginCtrl">
+        <div class="panel panel-success">
+            <div class="panel-heading">Member Login:</div>
+            <!-- <p>Testing: Username: <small>admin@g.com</small> Password: <small>1234</small></p> -->
+            <div class="panel-body">
+                <form novalidate role="form" name="loginForm">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Username" ng-model="username" name="username" required>
+                        <div class="m-t-xs" ng-show="loginForm.username.$invalid && loginForm.username.$dirty || loginForm.submitted">
+                            <small class="text-danger" ng-show="loginForm.username.$error.required">Please input your user name (Email).</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Password" ng-model="password" name="password" required>
+                        <div class="m-t-xs" ng-show="loginForm.password.$invalid && loginForm.password.$dirty || loginForm.submitted">
+                            <small class="text-danger" ng-show="loginForm.password.$error.required">Please input your password.</small>
+                        </div>
+                    </div>
+                    <button type="submit" ng-click="signin()" class="btn btn-success block full-width m-b" tooltip-placement="top" tooltip="Click to login to your account.">Login</button>
+                    <!-- <a href="#"><small>Forgot password?</small></a> -->
+                    <p class="text-muted text-center"><small>Do not have an account?</small></p>
+                    <a class="btn btn-sm btn-white btn-block" ui-sref="startpage.register" tooltip-placement="top" tooltip="Click to create a new account.">Create an account</a>
+                </form>
             </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" ng-model="password" name="password" required>
-                <div class="m-t-xs" ng-show="loginForm.password.$invalid && loginForm.password.$dirty || loginForm.submitted">
-                    <small class="text-danger" ng-show="loginForm.password.$error.required">Please input your password.</small>
-                </div>
-            </div>
-            <button type="submit" ng-click="signin()" class="btn btn-primary block full-width m-b" tooltip-placement="top" tooltip="Click to login to your account.">Login</button>
-            <!-- <a href="#"><small>Forgot password?</small></a> -->
-            <p class="text-muted text-center"><small>Do not have an account?</small></p>
-            <a class="btn btn-sm btn-white btn-block" ui-sref="startpage.register" tooltip-placement="top" tooltip="Click to create a new account.">Create an account</a>
-        </form>
+        </div>
     </div>
 </div>

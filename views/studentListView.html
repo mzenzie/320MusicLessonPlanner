@@ -18,16 +18,29 @@
                     <td>{{student.instrument}}</td>
                     <!-- <td>{{student.birthday}}</td> -->
                     <td align="right">
-                        <div class="btn-group" role="group" aria-label="...">
-                            <button class="btn btn-info btn-xs" ng-click="viewStudentRecord(student)" tooltip-placement="top" tooltip="View this student record."><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
-                            <!-- <button class="btn btn-info" ui-sref="index.studentRecordViewPage({student: student})"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button> -->
+                        <div class="dropdown" dropdown>
+                            <a class="dropdown-toggle" dropdown-toggle tooltip-placement="top" tooltip="Student record options."> <i class="fa fa-cogs fa-2x"></i><span class="caret"></span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs" role="menu">
+                                <li>
+                                    <a href="#" ng-click="viewStudentRecord(student)"><i class="fa fa-eye"></i>&nbsp;&nbsp;View</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="editStudentRecord(student)"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Edit</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="deleteStudentRecord(student)"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+<!--                         <div class="btn-group" role="group" aria-label="...">
+                            <button class="btn btn-success btn-xs" ng-click="viewStudentRecord(student)" tooltip-placement="top" tooltip="View this student record."><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
                             <button class="btn btn-primary btn-xs" ng-click="editStudentRecord(student)" tooltip-placement="top" tooltip="Edit this student record (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit</button>
                             <button class="btn btn-danger btn-xs" ng-click="deleteStudentRecord(student)" tooltip-placement="top" tooltip="Delete this student record."><span class="fa fa-trash"></span>&nbsp;&nbsp;Delete</button>
-                        </div>
+                        </div> -->
                     </td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary" ng-click="createStudentRecord()" tooltip-placement="top" tooltip="Create a new student record.">Add New Student</button>
+        <button class="btn btn-success" ng-click="createStudentRecord()" tooltip-placement="top" tooltip="Create a new student record.">Add New Student</button>
     </div>
 </div>

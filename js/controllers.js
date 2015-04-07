@@ -204,7 +204,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         });
 
         // Options for summernote
-        $scope.noteOptions = {
+        $scope.options = {
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['fontsize', ['fontsize']],
@@ -217,9 +217,15 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
         //  Edit student record note
         $scope.editStudentRecordNote = function() {
-            $log.debug('New note value: ' + $scope.student.generalNotes);
-            // $scope.student.$update();
+            $scope.student.$update(function() {
+                $log.debug('New note value: ' + $scope.student.generalNotes);
+            });
         };
+
+        $scope.change = function(contents) {
+            // Test variable display
+            $scope.changedNotes = "Changed: " + $scope.student.generalNotes;
+        }
 
     }
 ])

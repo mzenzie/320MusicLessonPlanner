@@ -478,7 +478,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
     color: #1ab394;
 }
 .top-navigation .navbar-right {
-    margin-right: 10px;
+    margin-right: 5px;
+	margin-top: 10px;
 }
 .top-navigation .navbar-nav .dropdown-menu {
     box-shadow: none;
@@ -3328,7 +3329,7 @@ code {
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
-    background-color: #ffffff;
+    background-color: #1c84c6;
     border-color: #e7eaec;
     border-image: none;
     border-style: solid solid none;
@@ -3377,12 +3378,13 @@ table.table-mail tr td {
     clear: both;
 }
 .ibox-heading {
-    background-color: #f3f6fb;
+    background-color: #1c84c6;
     border-bottom: none;
 }
 .ibox-heading h3 {
     font-weight: 200;
     font-size: 24px;
+	color: white;
 }
 .ibox-title h5 {
     display: inline-block;
@@ -3391,6 +3393,7 @@ table.table-mail tr td {
     padding: 0;
     text-overflow: ellipsis;
     float: left;
+	color: white;
 }
 .ibox-title .label {
     float: left;
@@ -3406,7 +3409,7 @@ table.table-mail tr td {
 .ibox-tools a {
     cursor: pointer;
     margin-left: 5px;
-    color: #c4c4c4;
+    color: aqua;
 }
 .ibox-tools a.btn-primary {
     color: #fff;
@@ -3525,14 +3528,18 @@ table.table-mail tr td {
 .jumbotron {
     border-radius: 6px;
     padding: 40px;
-	background: url(/img/MLPLogo.png) no-repeat left center;
 	height: 175pt;
-	color: gray;
+	color: white;
 	text-align: right;
-	vertical-align: middle;
+	vertical-align: text-bottom;
+	background: url(../img/Julliard.jpg) no-repeat center center;
+	line-height: normal;
+	font-size: x-small;
 }
 .jumbotron h1 {
     margin-top: 0;
+	color: white;
+	font-variant: small-caps;
 }
 /* COLORS */
 .text-navy {

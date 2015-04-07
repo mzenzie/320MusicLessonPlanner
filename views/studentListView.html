@@ -8,9 +8,6 @@
             <thread>
                 <th>Students (<span ng-bind="students.length"></span> records)</th>
                 <th>Instrument</th>
-                <!-- <th>Birthday</th> -->
-                <th></th>
-                <th></th>
             </thread>
             <tbody>
                 <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument']">

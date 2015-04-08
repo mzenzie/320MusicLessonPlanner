@@ -1,6 +1,6 @@
-<div class="ibox float-e-margins">
+<div class="ibox float-e-margins" ng-controller="StudentRecordCtrl">
     <div class="ibox-title">
-        <h5>{{student.lastName}}, {{student.firstName}}</h5>
+        <h5><strong>{{student.lastName}}, {{student.firstName}}</strong> ... {{student.instrument}}</h5>
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
@@ -14,27 +14,24 @@
             <dt>Address:</dt>
             <dd> {{student.address}}</dd>
             <dt>Birthday:</dt>
-            <dd> {{student.birthday}}</dd>
+            <dd> {{student.birthday | date:'MMMM d, yyyy'}}</dd>
             <dt>Lesson Time:</dt>
-            <dd> {{student.lessonTime}}</dd>
+            <dd> {{student.lessonSchedules[0].date | date:'EEEE'}}s at {{student.lessonSchedules[0].lessonTime | date:'h:mm a'}}</dd>
             <dt>Lesson Length:</dt>
-            <dd> {{student.lessonLength}}</dd>
+            <dd> {{student.lessonSchedules[0].lessonLength}}</dd>
             <dt>Original Start Date:</dt>
-            <dd> {{student.startDate}}</dd>
+            <dd> {{student.lessonSchedules[0].date | date:'MMMM d, yyyy'}}</dd>
         </dl>
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>Notes and Student Progress</h5>
-                <div ibox-tools></div>
-            </div>
-            <div class="ibox-content no-padding">
-                <!-- <div summernote class="summernote" ng-model="generalNotes"> -->
-                    <h3>Hello {{student.firstName}}! </h3> dummy text of the printing and typesetting industry. <strong>Lorem Ipsum has been the industry's</strong> standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
-                    <br/>
-                    <br/>
-                    <button class="btn btn-primary btn-md" ng-click="editStudentRecord(student)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Note</button>
-            </div>
+        <hr>
+        <h5>Notes and Student Progress</h5>
+        <!-- <summernote height="245" ng-model="generalNotes"></summernote> -->
+        <div class="row">
+            <summernote config="options" on-change="change(contents)" ng-model="student.generalNotes"></summernote>
+            <p>{{changedNotes}}</p>
         </div>
-        <div ng-include="'/views/lessonNoteListView.html'"></div>
+        <div class="row">
+            <button class="btn btn-success btn-md" ng-click="editStudentRecordNote()" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Update Note</button>
+        </div>
     </div>
+    <div ng-include="'/views/lessonNoteListView.html'"></div>
 </div>

@@ -17,7 +17,7 @@ if (dbConnector == null) console.log("DATABASE CON NULL");
 
 var LessonSchedule = function(jsObject) {
     this.date = null;
-    if (jsObject.date.getDate !== undefined){
+    if (jsObject.date.getDate !== undefined) {
         this.date = jsObject.date;
     } else {
         this.date = new Date(jsObject.date);
@@ -38,7 +38,7 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
     var self = this;
     var myErr = null;
     var db = dbConnector.getInstance();
-  
+
     console.log("DB SAVE");
 
     var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', {3})"
@@ -62,9 +62,9 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
             console.log("SCHEDULE SAVE TO DB ERR");
             console.log(err);
             // callback(err, null); don't neeed may be redundant
-        } 
-    }).get(get_query, function(err, row){
-        if (err!=null || row==null){
+        }
+    }).get(get_query, function(err, row) {
+        if (err != null || row == null) {
             console.log(err);
             callback(err, null);
         } else {
@@ -112,9 +112,9 @@ module.exports.list = function(sid, callback){ /// option = {callback: function(
             callback(err, null);
         } else {
             console.log(rows);
-    		callback(null, rows);
+            callback(null, rows);
         }
-	});
+    });
 };
 
 /*
@@ -164,7 +164,7 @@ module.exports.create = function(jsObject, studentRecord, callback) {
 
 };
 
-module.exports.generateDates = function(scheduleData, studentRecord, callback){
+module.exports.generateDates = function(scheduleData, studentRecord, callback) {
     var db = dbConnector.getInstance();
     var error = null;
     var schedules = []
@@ -174,27 +174,27 @@ module.exports.generateDates = function(scheduleData, studentRecord, callback){
            scheduleData.date.setDate(scheduleData.date.getDate()+7);
             // console.log("Creating lesson schedule" + lessonScheduleJsObject.date.toString());
             var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, sid) VALUES('{0}', '{1}', '{2}', {3})"
-                                    .format(
-                                        scheduleData.date,
-                                        scheduleData.lessonTime,
-                                        scheduleData.lessonLength,
-                                        studentRecord.sid);
+                .format(
+                    scheduleData.date.toISOString(),
+                    scheduleData.lessonTime,
+                    scheduleData.lessonLength,
+                    studentRecord.sid);
             var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}"
-                                    .format(
-                                        studentRecord.sid);
+                .format(
+                    studentRecord.sid);
             // console.log(lschedule_query);
             // console.log(get_query);
-            db.run(lschedule_query, function(err){
-                if (err!=null){
+            db.run(lschedule_query, function(err) {
+                if (err != null) {
                     console.log(err);
                 }
             })
         }
-        db.all(get_query, function(err, schedules){
-            if (err!=null || schedules == null){
+        db.all(get_query, function(err, schedules) {
+            if (err != null || schedules == null) {
                 console.log(err);
                 callback(err, null);
-            } else{
+            } else {
                 console.log("200 -------- RETREIVED SCHEDULE LIST");
                 callback(null, schedules);
             }

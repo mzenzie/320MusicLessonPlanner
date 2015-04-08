@@ -38,8 +38,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
         .state('teacher-dashboard', {
         abstract: true,
         url: "/teacher-dashboard",
-        templateUrl: "views/common/content.html",
-        controller: loginCtrl
+        templateUrl: "views/common/content.html"
     })
 
     //  Main dashboard
@@ -61,23 +60,63 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
     .state('teacher-dashboard.createStudentRecord', {
         url: "/createStudentRecord",
         templateUrl: "views/createStudentRecord.html",
-        controller: StudentRecordCreationCrtl,
         data: {
             pageTitle: 'Add New Student Record',
             requiresLogin: true
+        },
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                    {
+                        insertBefore: '#loadBefore',
+                        name: 'localytics.directives',
+                        files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
+                    },
+                    {
+                        name: 'cgNotify',
+                        files: ['css/plugins/angular-notify/angular-notify.min.css','js/plugins/angular-notify/angular-notify.min.js']
+                    },
+                    {
+                        files: ['js/plugins/jasny/jasny-bootstrap.min.js']
+                    }
+                ]);
+            }
         }
     })
 
     //  Individual Student Record view
 
-    .state('teacher-dashboard.viewStudentRecord/:sid/:firstName/:lastName', {
-        url: "/viewStudentRecord/:sid/:firstName/:lastName",
+    .state('teacher-dashboard.viewStudentRecord/:sid', {
+        url: "/viewStudentRecord/:sid",
         templateUrl: "views/studentRecordPageView.html",
         /*
          *       Controllers loaded in HTML
          */
         data: {
             pageTitle: "Student Record View:",
+            requiresLogin: true
+        },
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    name: 'summernote',
+                    files: ['css/plugins/summernote/summernote.css', 'css/plugins/summernote/summernote-bs3.css', 'js/plugins/summernote/summernote.min.js', 'js/plugins/summernote/angular-summernote.min.js']
+                }]);
+            }
+
+        }
+    })
+
+    //  EDIT Individual Student Record NOTE
+
+    .state('teacher-dashboard.editStudentRecordNote/:sid', {
+        url: "/editStudentRecordNote/:sid",
+        templateUrl: "views/editStudentRecordNote.html",
+        /*
+         *       Controllers loaded in HTML
+         */
+        data: {
+            pageTitle: "Edit Student Notes:",
             requiresLogin: true
         },
         resolve: {
@@ -166,7 +205,6 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
     .state('startpage.landing', {
         url: "/landing",
         templateUrl: "views/login.html",
-        controller: loginCtrl,
         data: {
             pageTitle: "Welcome to MusicLessonPlanner"
         }
@@ -177,7 +215,6 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
     .state('startpage.register', {
         url: "/register",
         templateUrl: "views/register.html",
-        controller: loginCtrl,
         data: {
             pageTitle: "Welcome to MusicLessonPlanner"
         }
@@ -214,13 +251,13 @@ angular
     .config(config)
     .run(function($rootScope, $state, store, jwtHelper, $location) {
         $rootScope.$state = $state;
-        // $rootScope.$on('$stateChangeStart', function(e, toState) {
-        //     if (toState.data && toState.data.requiresLogin) {
-        //         if (!store.get('token')) {
-        //             e.preventDefault();
-        //             $state.go('startpage.landing');
-        //         }
-        //     }
-        // });
+        $rootScope.$on('$stateChangeStart', function(e, toState) {
+            if (toState.data && toState.data.requiresLogin) {
+                if (!store.get('token')) {
+                    e.preventDefault();
+                    $state.go('startpage.landing');
+                }
+            }
+        });
 
     });

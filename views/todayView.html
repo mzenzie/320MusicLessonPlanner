@@ -1,6 +1,6 @@
-<div class="ibox float-e-margins">
+<div class="ibox float-e-margins" ng-controller="TodayViewController">
     <div class="ibox-title">
-        <h5>Today <small> Upcoming Events</small></h5>
+        <h5>Today <small style="color:white"> Upcoming Events</small></h5>
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
@@ -10,12 +10,13 @@
                 <th>Student</th>
             </thread>
             <tbody>
-                <tr ng-repeat="student in students | orderBy: 'lessonTime'">
-                    <td><span ng-bind="student.lessonTime"></span></td>
-                    <td><span ng-bind="student.lastName"></span>, <span ng-bind="student.firstName"></span></td>
+                <tr ng-repeat="lesson in lessons| isTodaysLesson | orderBy: 'lessonTime' ">
+                    <td>{{lesson.lessonTime | date:'h:mm a'}}</span></td>
+                    <!-- <td>{{lesson.sid}}  <small>(Will have names soon!)</small></td> -->
+                    <td>{{lesson.lastName}}, {{lesson.firstName}}</td>
                     <td align="right">
                         <div class="btn-group" role="group" aria-label="...">
-                            <button class="btn btn-info btn-xs" ng-click="viewStudentRecord(student)"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
+                            <button class="btn btn-success btn-xs" ng-click="viewStudentRecord(lesson)"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
                             <button class="btn btn-danger btn-xs" ng-click=""><span class="fa fa-trash"></span>&nbsp;&nbsp;Cancel</button>
                         </div>
                         </a>

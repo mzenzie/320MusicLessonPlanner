@@ -67,6 +67,7 @@ app.get('/api/studentRecord/:sid/lessonSchedule/', lessonScheduleController.list
 
 //TEACHER
 app.get('/api/teacher/', teacherController.get);
+app.get('/api/teacher/:id', teacherController.get);
 
 
 

@@ -564,9 +564,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
  */
 .factory('getStudentByID', ['$resource',
     function($resource, $log) {
-        return $resource('/api/studentRecord/', {
-            id: '@id'
-        });
+        return $resource('/api/studentRecord/', {id: '@id'}, {update: {method:'PUT'}});
     }
 ])
 

@@ -8,15 +8,12 @@
             <thread>
                 <th>Students (<span ng-bind="students.length"></span> records)</th>
                 <th>Instrument</th>
-                <!-- <th>Birthday</th> -->
-                <th></th>
-                <th></th>
+                <th>Options</th>
             </thread>
             <tbody>
                 <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument']">
                     <td>{{student.lastName}}, {{student.firstName}}</td>
                     <td>{{student.instrument}}</td>
-                    <!-- <td>{{student.birthday}}</td> -->
                     <td align="right">
                         <div class="dropdown" dropdown>
                             <a class="dropdown-toggle" dropdown-toggle tooltip-placement="top" tooltip="Student record options."> <i class="fa fa-cogs fa-2x"></i><span class="caret"></span> </a>
@@ -32,11 +29,6 @@
                                 </li>
                             </ul>
                         </div>
-<!--                         <div class="btn-group" role="group" aria-label="...">
-                            <button class="btn btn-success btn-xs" ng-click="viewStudentRecord(student)" tooltip-placement="top" tooltip="View this student record."><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
-                            <button class="btn btn-primary btn-xs" ng-click="editStudentRecord(student)" tooltip-placement="top" tooltip="Edit this student record (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit</button>
-                            <button class="btn btn-danger btn-xs" ng-click="deleteStudentRecord(student)" tooltip-placement="top" tooltip="Delete this student record."><span class="fa fa-trash"></span>&nbsp;&nbsp;Delete</button>
-                        </div> -->
                     </td>
                 </tr>
             </tbody>

@@ -62,24 +62,24 @@ module.exports.reinit = function() {
         db.run(dteaTable);
     });
 
-// <<<<<<< HEAD
-// 	db.serialize(function(){
-// 		db.run(teaTable);
-// 		db.run(stuTable);
-// 		db.run(schTable);
-// 		db.run(LRTable);
-// 		db.run(daccTable);
-// 		db.run("PRAGMA foreign_keys = ON");
-
-// });
 
     db.serialize(function() {
-        db.run(daccTable);
+        db.run(daccTable);  
         db.run(teaTable);
         db.run(stuTable);
         db.run(schTable);
         db.run(LRTable);
         db.run("PRAGMA foreign_keys = ON");
+
+    });
+
+	db.serialize(function(){
+		db.run(teaTable);
+		db.run(stuTable);
+		db.run(schTable);
+		db.run(LRTable);
+		db.run(daccTable);
+		db.run("PRAGMA foreign_keys = ON");
 
     });
 }

@@ -3310,6 +3310,10 @@ code {
     margin-bottom: 25px;
     margin-top: 0;
     padding: 0;
+    border: 1px solid #1c84c6;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
 .ibox.collapsed .ibox-content {
     display: none;
@@ -3330,23 +3334,17 @@ code {
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
     background-color: #1c84c6;
-    border-color: #e7eaec;
-    border-image: none;
-    border-style: solid solid none;
-    border-width: 4px 0px 0;
+
     color: inherit;
     margin-bottom: 0;
     padding: 14px 15px 7px;
     min-height: 48px;
+	border-bottom: 1px solid #1c84c6;
 }
 .ibox-content {
     background-color: #ffffff;
     color: inherit;
     padding: 15px 20px 20px 20px;
-    border-color: #e7eaec;
-    border-image: none;
-    border-style: solid solid none;
-    border-width: 1px 0px;
 }
 table.table-mail tr td {
     padding: 12px;
@@ -6041,7 +6039,7 @@ body.skin-1 {
     border-width: 1px;
 }
 .skin-1 .ibox-content:last-child {
-    border-style: solid solid solid solid;
+    /*border-style: solid solid solid solid;*/
 }
 .skin-1 .nav > li.active {
     border: none;

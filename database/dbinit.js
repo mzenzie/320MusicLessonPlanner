@@ -62,39 +62,6 @@ module.exports.reinit = function() {
         db.run(daccTable);
     });
 
-<<<<<<< HEAD
-
-    db.serialize(function() {
-        db.run(daccTable);  
-        db.run(teaTable);
-        db.run(stuTable);
-        db.run(schTable);
-        db.run(LRTable);
-        db.run("PRAGMA foreign_keys = ON");
-
-    });
-
-	db.serialize(function(){
-		db.run(teaTable);
-		db.run(stuTable);
-		db.run(schTable);
-		db.run(LRTable);
-		db.run(daccTable);
-		db.run("PRAGMA foreign_keys = ON");
-
-    });
-=======
-// <<<<<<< HEAD
-// 	db.serialize(function(){
-// 		db.run(teaTable);
-// 		db.run(stuTable);
-// 		db.run(schTable);
-// 		//db.run(LRTable);
-// 		db.run(daccTable);
-// 		db.run("PRAGMA foreign_keys = ON");
-
-// });
-// =======
     db.serialize(function() {
         db.run(accTable);
         db.run(teaTable);
@@ -104,6 +71,4 @@ module.exports.reinit = function() {
         //db.run("PRAGMA foreign_keys = ON");
 
     });
-// >>>>>>> UIDeveloperBranch
->>>>>>> 9f25d3714873fce793d15d903fab6ae3e95ceffc
 }

@@ -8,7 +8,7 @@ MusicLessonPlanner is an organizational application for private music teachers t
 The current version can be accessed for use or testing at [320mlpbeta.zenzie.net](http://320mlpbeta.zenzie.net).
 This website redirects automatically to IP address
 ```sh
-54.165.8.175:8000
+http://54.208.4.249:8000/
 ```
 **Features implemented**
 

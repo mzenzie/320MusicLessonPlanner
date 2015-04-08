@@ -494,7 +494,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     $state.go('startpage.landing');
                 })
                 .error(function(data, status, header, config) {
-                    alert('Sign out failed. How does that happen!!!??!?!');
+                    $state.go('startpage.landing');
+
+                    // alert('Sign out failed. How does that happen!!!??!?!');
                 });
         };
         $scope.signup = function() {

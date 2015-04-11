@@ -1,6 +1,7 @@
 var Teacher = require('../model/teacher.js');
 var Account = require('../model/account.js');
 
+
 module.exports.create = function(req, res) {
     // > POST /api/teacher
 

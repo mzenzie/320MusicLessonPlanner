@@ -30,7 +30,8 @@
             <p>{{changedNotes}}</p>
         </div>
         <div class="row">
-            <button class="btn btn-success btn-md" ng-click="editStudentRecordNote()" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Update Note</button>
+            <button class="btn btn-success btn-md" ng-click="editStudentRecordNote()" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Student</button>
+            <button class="btn btn-success btn-md" ng-click="deleteStudentRecord(student)" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Student</button>
         </div>
     </div>
     <div ng-include="'/views/lessonNoteListView.html'"></div>

@@ -11,13 +11,21 @@
             </thread>
             <tbody>
                 <tr ng-repeat="lesson in lessons| isTodaysLesson | orderBy: 'lessonTime' ">
-                    <td>{{lesson.lessonTime | date:'h:mm a'}}</span></td>
+                    <td>{{lesson.lessonTime | date:'h:mm a'}}</span>
+                    </td>
                     <!-- <td>{{lesson.sid}}  <small>(Will have names soon!)</small></td> -->
                     <td>{{lesson.lastName}}, {{lesson.firstName}}</td>
                     <td align="right">
-                        <div class="btn-group" role="group" aria-label="...">
-                            <button class="btn btn-success btn-xs" ng-click="viewStudentRecord(lesson)"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
-                            <button class="btn btn-danger btn-xs" ng-click=""><span class="fa fa-trash"></span>&nbsp;&nbsp;Cancel</button>
+                        <div class="dropdown" dropdown>
+                            <a class="dropdown-toggle" dropdown-toggle tooltip-placement="top" tooltip="Lesson Options"> <i class="fa fa-chevron-right"></i><span class="caret"></span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs" role="menu">
+                                <li>
+                                    <a href="#" ng-click="viewStudentRecord(lesson)"><i class="fa fa-eye"></i>&nbsp;&nbsp;View Student</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click=""><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Cancel Lesson</a>
+                                </li>
+                            </ul>
                         </div>
                         </a>
                     </td>

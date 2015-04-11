@@ -2,7 +2,11 @@ var fs = require("fs");
 var file = './mlp.sql'; //file used to store the data
 var exists = fs.existsSync(file); // if the file not exist create a new one
 
-accTable = "CREATE TABLE Account(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, tid INTEGER references Teacher(tid));";
+//accTable = "CREATE TABLE Account(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, tid INTEGER references Teacher(tid));";
+accTable = "CREATE TABLE Account(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, tid INTEGER references Teacher(tid) on delete cascade on update cascade);";
+//teaTable = "CREATE TABLE Teacher(tid INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
+
+//accTable = "CREATE TABLE Account(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, tid INTEGER);";
 teaTable = "CREATE TABLE Teacher(tid INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
 stuTable = "CREATE TABLE SRecord(sid INTEGER PRIMARY KEY AUTOINCREMENT, tid INTEGER references Teacher(tid) on delete cascade on update cascade, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT, birthday DATE, instrument TEXT, generalNotes TEXT);";
 schTable = "CREATE TABLE Schedule(lsid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, lessonTime DATETIME, lessonLength INTEGER, notes TEXT, sid INTEGER references SRecord(sid) on delete cascade on update cascade);";
@@ -58,17 +62,6 @@ module.exports.reinit = function() {
         db.run(daccTable);
     });
 
-// <<<<<<< HEAD
-// 	db.serialize(function(){
-// 		db.run(teaTable);
-// 		db.run(stuTable);
-// 		db.run(schTable);
-// 		//db.run(LRTable);
-// 		db.run(daccTable);
-// 		db.run("PRAGMA foreign_keys = ON");
-
-// });
-// =======
     db.serialize(function() {
         db.run(accTable);
         db.run(teaTable);
@@ -78,5 +71,4 @@ module.exports.reinit = function() {
         //db.run("PRAGMA foreign_keys = ON");
 
     });
-// >>>>>>> UIDeveloperBranch
 }

@@ -96,16 +96,9 @@ module.exports.update = function(req, res) {
     if(sid === undefined){
         res.status(400).json({error:"invalid sid requested"});
     }else{
-<<<<<<< HEAD
-        StudentRecord.get(req.query.sid, function(err, studentRecord){
-            console.log(studentRecord);
-            if(studentRecord == null){
-                res.send("Invalid student");
-=======
         StudentRecord.get(sid, function(err, studentRecord){
             if(err!=null || studentRecord == null){
                 res.status(400).json({error:"unable to retrieve StudentRecord for updating"});
->>>>>>> 11dc72483372a9e9bccf8ef1079e8e6dbacbeb10
             }else{
                  for(var key in req.body){
                     if(req.body.hasOwnProperty(key)){

@@ -32,10 +32,6 @@ http://54.208.4.249:8000/
   ```sh
   $ sudo npm install
   ```
-  - sqlite3
-  ```sh
-  $ sudo npm install sqlite3 --save
-  ```
   - bcrypt
   ```sh
   $ sudo npm install bcrypt
@@ -50,6 +46,18 @@ Open your internet browser and go to the localhost:
 ```sh
 localhost:8000
 ```
+
+When running this app on a remote host, it is recommended to use a utility such as screen or nohup in order to have it run in the background once you disconnect. The recommended command to use for this is:
+```sh
+screen -m node app
+```
+
+In order to stop the server once it is running, the recommended command is 
+```sh
+pkill -f node
+```
+
+If you have other node servers running, you will have to be more specific with the command (i.e. specify the PID)
 
 ### Database Access
 

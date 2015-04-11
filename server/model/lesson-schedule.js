@@ -24,7 +24,7 @@ var LessonSchedule = function(jsObject) {
     }
     this.lessonTime = jsObject.lessonTime;
     this.lessonLength = jsObject.lessonLength;
-    this.notes = "";
+    this.notes = "Notes for this lesson.";
     if (jsObject.notes !== undefined) {
         this.notes = jsObject.notes;
     }

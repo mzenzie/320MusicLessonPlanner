@@ -12,19 +12,22 @@
             </ol>
         </div>
     </div>
-    <div class="ibox float-e-margins" ng-controller="StudentListCtrl">
+    <div class="ibox float-e-margins">
         <div class="ibox-title">
-            <h5><strong>Notes</strong></h5>
+            <h5><strong>Notes for lesson on {{lesson.date | date:'MMMM d, yyyy'}} {{lesson.lessonTime | date:'h:mm a'}} </h5>
             <div ibox-tools></div>
         </div>
         <div class="ibox-content">
-            <form novalidate role="form" name="studentRecordForm">
+            <form novalidate role="form" name="lessonNoteForm">
                 <!-- <input type="textarea" ng-model="student.generalNotes" class="form-control" name="notes"> -->
-                <summernote ng-model="student.generalNotes" class="form-control"></summernote>
-                <div>
-                    <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
-                    <button type="button" class="btn btn-primary" ng-click="ok()">Save Changes</button>
-                </div>
+                <summernote ng-model="lesson.notes" class="form-control"></summernote>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-danger" ng-click="cancelEditLessonNote()">Cancel</button>
+                            <button type="button" class="btn btn-success" ng-click="saveEditLessonNote()">Save Changes</button>
+                        </div>
+                    </div>
             </form>
         </div>
     </div>

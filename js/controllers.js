@@ -16,7 +16,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         studentRecordList.query(function(result) {
             var studentRecords = result;
             $scope.students = result;
-            $log.debug('students length:' + $scope.students.length);
+            // $log.debug('students length:' + $scope.students.length);
             $scope.lessons = [];
             var promises = [];
             for (var i = 0; i < studentRecords.length; i++) {
@@ -122,13 +122,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
         //  View student record
         $scope.viewStudentRecord = function(student) {
-            $scope.student = studentRecordList.get({
-                id: student.sid
-            }, {
-                update: {
-                    method: 'PUT'
-                }
-            });
+            $scope.student = studentRecordList.get({id: student.sid}, {update: {method: 'PUT'}});
             studentRecordList.get({
                 id: student.sid
             }, function(result) {
@@ -139,15 +133,31 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             });
         };
 
+        $scope.viewLessonRecord = function(lesson) {
+            var lessonRecord = $resource('/api/studentRecord/:sid/lessonSchedule/:lsid');
+            $scope.lesson = lessonRecord.get({sid: lesson.sid, lsid: lesson.lsid}, function(result){
+                var lessonParams = {
+                    sid: result.sid,
+                    lsid: result.lsid
+                };
+                $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', lessonParams);
+            });
+        };
+
+        $scope.editLessonRecord = function(lesson) {
+            var lessonRecord = $resource('/api/studentRecord/:sid/lessonSchedule/:lsid');
+            $scope.lesson = lessonRecord.get({sid: lesson.sid, lsid: lesson.lsid}, function(result){
+                var lessonParams = {
+                    sid: result.sid,
+                    lsid: result.lsid
+                };
+                $state.go('teacher-dashboard.editLessonRecord/:sid/:lsid', lessonParams);
+            });
+        };
+
         //  Edit student record
         $scope.editStudentRecord = function(student) {
-            $scope.student = studentRecordList.get({
-                id: student.sid
-            }, {
-                update: {
-                    method: 'PUT'
-                }
-            });
+            $scope.student = studentRecordList.get({id: student.sid}, {update: {method: 'PUT'}});
             studentRecordList.get({
                 id: student.sid
             }, function(result) {
@@ -182,12 +192,32 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             $state.go('teacher-dashboard.createStudentRecord');
         };
 
-        $scope.cancelLesson = function(student) {
+        //  Edit Student record
+        $scope.cancelEditLessonNote = function() {
+            $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', {sid: $scope.lesson.sid, lsid: $scope.lesson.lsid});
+        }
 
-            $scope.openModal = function() {
+        $scope.saveEditLessonNote = function() {
+            $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', {sid: $scope.lesson.sid, lsid: $scope.lesson.lsid});
+        }
 
-            };
+        $scope.cancelLesson = function(lesson) {
+
+            $scope.confirmCancelLesson = 0;
+            var modalInstance = $modal.open({
+                templateUrl: 'views/rescheduleLessonModal.html',
+                controller: 'ModalCancelLessonCtrl',
+                size: 'sm',
+                resolve: {
+                    confirmCancelLesson: function() {
+                        return $scope.confirmCancelLesson;
+                    }
+                }
+            });
+            modalInstance.result.then(function(confirmCancelLesson) {
+                $log.debug('Lesson reschedule choice made: ' + confirmCancelLesson);
             // @TODO cancel current lesson
+            });
         };
     }
 ])
@@ -206,6 +236,32 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         $scope.cancel = function() {
             $scope.confirmDeleteStudent = false;
             $modalInstance.close($scope.confirmDeleteStudent);
+            // $modalInstance.dismiss('cancel');
+        };
+    }
+])
+
+/**
+ *      ModalCancelLessonCtrl
+ *      Displays a modal window to confirm or cancel deletion of a student record
+ */
+.controller('ModalCancelLessonCtrl', ['$scope', '$modalInstance',
+    function($scope, $modalInstance) {
+
+        $scope.closeCancelLesson = function() {
+            $scope.confirmCancelLesson = 0;
+            $modalInstance.close($scope.confirmCancelLesson);
+            // $modalInstance.dismiss('cancel');
+        };
+
+        $scope.cancelNoReschedule = function() {
+            $scope.confirmCancelLesson = 1;
+            $modalInstance.close($scope.confirmCancelLesson);
+        };
+
+        $scope.rescheduleLesson = function() {
+            $scope.confirmCancelLesson = 2;
+            $modalInstance.close($scope.confirmCancelLesson);
             // $modalInstance.dismiss('cancel');
         };
     }
@@ -503,7 +559,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     var lessonDate = lesson.getDate();
                     var lessonMonth = lesson.getMonth();
                     var lessonYear = lesson.getYear();
-                    console.log("Lesson month: " + lessonMonth + " date: " + lessonDate +  "?= Today month: " + todayMonth + " date: " + todayDate);
+                    // console.log("Lesson month: " + lessonMonth + " date: " + lessonDate +  "?= Today month: " + todayMonth + " date: " + todayDate);
                     if (lessonDate == todayDate && lessonMonth == todayMonth) {
                         todaysLessons.push(lessons[i]);
                     }
@@ -525,7 +581,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             }
             var keyID = 0;
             for (i = 0; i < students.length; i++) {
-                console.log('filterDuplicates...sid: ' + students[i].sid + ' key: ' + keyID);
                 if (keyID != students[i]) {
                     filteredStudents.push(students[i]);
                     keyID = students[i].sid

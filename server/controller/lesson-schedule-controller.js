@@ -76,34 +76,6 @@ module.exports.delete = function(req, res) {
 }
 
 module.exports.update = function(req, res) {
-<<<<<<< HEAD
-    // > PUT /api/lessonSchedule/:id
-    if(req.query.lsid === undefined){
-        res.status(400).send("invalid lsid");
-    }else{
-        LessonSchedule.get(req.query.lsid, function(err, schedule){
-            console.log(schedule);
-            if(schedule == null){
-                res.send("Invalid schedule");
-            }else{
-            
-                 for(var key in req.body){
-                    if(req.body.hasOwnProperty(key)){
-                        var val = req.body[key];
-                        schedule[key] = val;
-                    }
-                }
-                schedule.update(function(err, studentRecord){
-                    if (err!=null){
-                        res.status(400).send("unable to update schedule");
-                    } else {
-                        res.status(200).send(schedule);
-                    }
-                });
-            }
-        });
-    
-=======
     // > PUT /api/studentRecord/:sid/lessonSchedule/:lsid
     var lsid = req.params.lsid;
     var sid  = req.params.sid;
@@ -133,5 +105,4 @@ module.exports.update = function(req, res) {
 	    	}
 	    });
     }
->>>>>>> 11dc72483372a9e9bccf8ef1079e8e6dbacbeb10
 }

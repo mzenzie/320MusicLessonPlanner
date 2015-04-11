@@ -174,7 +174,6 @@ module.exports.delete = function(lsid, callback) {
     });
 };
 
-<<<<<<< HEAD
 /*
  * Update lesson schedule.
  * Note: only updates fields. Not ID.
@@ -199,11 +198,7 @@ module.exports.update = function(callback) {
             callback(null, new LessonSchedule(self));
         }
     });
-
-
 };
-=======
->>>>>>> 11dc72483372a9e9bccf8ef1079e8e6dbacbeb10
 
 /*
  * Create a new schedule.

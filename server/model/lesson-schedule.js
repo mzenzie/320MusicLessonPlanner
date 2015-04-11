@@ -216,12 +216,91 @@ module.exports.create = function(jsObject, studentRecord, callback) {
 
 };
 
+
+//if 
 module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
     var db = dbConnector.getInstance();
     var error = null;
     var schedules = []
     var scheduleData = new LessonSchedule(scheduleObj);
     var numberOfLessons = scheduleObj.numberOfLessons;
+
+    ///////////////////////////////////////////////////////////////////
+    if (validateInput(scheduleData)){
+        var studentListQuery = "select * from Teacher WHERE tid = {0}".format(studentRecord.tid); // query statement to retrieve all the students of the teacher.    
+        db.serialzie(function(){
+
+        for(var i = 0; i < numberOfLessons; i++){
+            var date = scheduleData.date.getDate();
+            var lessonLength = scheduleData.lessonLength;
+            var lessonTime = scheduleData.lessonTime;
+            var base = lessonTime;
+            console.log(lessonTime +"00000000000000000000000000");
+            var bond = new Date(lessonTime.getTime() + lessonLength*60000);
+            var flag = 0
+
+            db.each(studentListQuery, function(err, student){
+                var scheduleListQuery = "select * from Schedule WHERE sid = {0}".format(student.sid);
+                db.each(scheduleListQuery, function(err, schedule){
+                    var olbase = schedule.lessonTime;
+                    var olbond = new Date(olbase.getTime() + schedule.lessonLength*60000);
+                    if(schedule.date != date || (schedule.date == date && (olbase > bond || olbond < base))){
+
+                    }else{
+                        flag =1
+                    }
+                
+                });
+            });
+
+            if(flag == 0){ // do the schedule generation
+                var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}"
+                .format(studentRecord.sid);
+                console.log("BEFORE=========");
+                db.serialize(function(){
+                    console.log("AFTER=========" + numberOfLessons);
+                    // console.log(scheduleData);
+                   for (var i = 0; i < numberOfLessons; i++){
+                    scheduleData.date.setDate(scheduleData.date.getDate()+7);
+                    console.log(scheduleData);
+                        var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
+                            .format(
+                                scheduleData.date.toISOString(),
+                                scheduleData.lessonTime,
+                              scheduleData.lessonLength,
+                                scheduleData.notes,
+                                studentRecord.sid);
+                        console.log(lschedule_query);
+                        // console.log(get_query);
+                        db.run(lschedule_query, function(err) {
+                            if (err != null) {
+                                console.log(err);
+                            }
+                        })
+                    }
+                    db.all(get_query, function(err, schedules) {
+                        if (err != null || schedules == null) {
+                            console.log(err);
+                            callback(err, null);
+                        } else {
+                            console.log("200 -------- RETREIVED SCHEDULE LIST");
+                            callback(null, schedules);
+                        }
+                    });
+                });
+
+            }else{
+                res.send("conflict schedule");
+            }
+        }
+    });
+    }
+
+
+
+
+/////////////////////////////////////////////////////////////////////////
+/*
     if (validateInput(scheduleData)){
         var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}"
             .format(studentRecord.sid);
@@ -258,6 +337,7 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
             });
         });
     }
+    */
 }
 
 // doesnt work lol gg 

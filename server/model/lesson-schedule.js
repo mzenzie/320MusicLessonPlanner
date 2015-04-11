@@ -24,7 +24,7 @@ var LessonSchedule = function(jsObject) {
     }
     this.lessonTime = jsObject.lessonTime;
     this.lessonLength = jsObject.lessonLength;
-    this.notes = "";
+    this.notes = "Enter notes";
     if (jsObject.notes !== undefined) {
         this.notes = jsObject.notes;
     }
@@ -214,7 +214,6 @@ module.exports.create = function(jsObject, studentRecord, callback) {
     console.log("CREATE");
     var newLSchedule = new LessonSchedule(jsObject);
     newLSchedule.save(studentRecord, callback);
-
 
 };
 

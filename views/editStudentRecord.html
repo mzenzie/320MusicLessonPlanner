@@ -1,0 +1,120 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>MusicLessonPlanner: Edit Student Record: {{student.firstName}} {{student.lastName}}</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="teacher-dashboard.main">Home</a>
+            </li>
+            <li class="active">
+                <strong>EditStudent Record</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<!-- <div class="wrapper wrapper-content" ng-controller="StudentRecordCreationCrtl"> -->
+<div class="row">
+    <div class="col-md-10 col-md-offset-1 animated fadeInDown">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3>Edit Student Record: {{student.firstName}} {{student.lastName}}</h3>
+            </div>
+            <div class="panel-body">
+                <form novalidate role="form" name="studentRecordForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="font-noraml">First Name</label>
+                                <input type="text" ng-model="student.firstName" class="form-control" name="firstName" placeHolder="First Name" ng-minlength="3" required>
+                                <div class="m-t-xs" ng-show="studentRecordForm.firstName.$invalid && studentRecordForm.firstName.$dirty || studentRecordForm.submitted">
+                                    <small class="text-danger" ng-show="studentRecordForm.firstName.$error.required">Please input a first name.</small>
+                                    <small class="text-danger" ng-show="studentRecordForm.firstName.$error.minlength">Your username is required to be at least 3 characters.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="font-noraml">Last Name</label>
+                                <input type="text" ng-model="student.lastName" class="form-control" name="lastName" placeHolder="Last Name" ng-minlength="3" required>
+                                <div class="m-t-xs" ng-show="studentRecordForm.lastName.$invalid && studentRecordForm.lastName.$dirty || studentRecordForm.submitted">
+                                    <small class="text-danger" ng-show="studentRecordForm.lastName.$error.required">Please input a last name.</small>
+                                    <small class="text-danger" ng-show="studentRecordForm.lastName.$error.minlength">Your username is required to be at least 3 characters.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="font-noraml">Instrument</label>
+                                <input type="text" ng-model="student.instrument" class="form-control" name="instrument" placeHolder="Instrument" ng-minlength="3" required>
+                                <div class="m-t-xs" ng-show="studentRecordForm.instrument.$invalid && studentRecordForm.instrument.$dirty || studentRecordForm.submitted">
+                                    <small class="text-danger" ng-show="studentRecordForm.instrument.$error.required">Please input a last name.</small>
+                                    <small class="text-danger" ng-show="studentRecordForm.instrument.$error.minlength">Your username is required to be at least 3 characters.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="font-noraml">Email</label>
+                                <input type="email" ng-model="student.email" class="form-control" name="email" placeHolder="Email" required>
+                                <div class="m-t-xs" ng-show="studentRecordForm.email.$invalid && studentRecordForm.email.$dirty || studentRecordForm.submitted">
+                                    <small class="text-danger" ng-show="studentRecordForm.email.$error">Please input a valid email address.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="font-noraml">Address</label>
+                                <input type="text" ng-model="student.address" class="form-control" name="address" placeHolder="Address" required>
+                                <div class="m-t-xs" ng-show="studentRecordForm.address.$invalid && studentRecordForm.address.$dirty || studentRecordForm.submitted">
+                                    <small class="text-danger" ng-show="studentRecordForm.address.$error.required">Please input an address.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="font-noraml">Phone</label>
+                                <input type="text" class="form-control" data-mask="(999) 999-9999" ng-model="student.phone" name="phone" placeHolder="" required>
+                                <span class="help-block">(999) 999-9999</span>
+                                <div class="m-t-xs" ng-show="studentRecordForm.phone.$invalid && studentRecordForm.phone.$dirty || studentRecordForm.submitted">
+                                    <small class="text-danger" ng-show="studentRecordForm.phone.$error.required">Please input a phone number.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group date">
+                                <label class="font-noraml">Birthday</label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="student.birthday" is-open="openedBirthday" ng-required="true" close-text="Close" name="student.birthday" placeHolder="MMMM d, yyyy" required>
+                                    <span class="input-group-addon"><button type="button" class="btn btn-success btn-xs" ng-click="openBirthday($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
+                                    <div class="m-t-xs" ng-show="studentRecordForm.birthday.$invalid && studentRecordForm.birthday.$dirty || studentRecordForm.submitted">
+                                        <small class="text-danger" ng-show="studentRecordForm.birthday.$error.required">Please input a birthday.</small>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="font-noraml">Notes</label>
+                                <summernote ng-model="student.generalNotes"></summernote>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-danger" ng-click="cancelEditStudent()">Cancel</button>
+                            <button type="button" class="btn btn-success" ng-click="saveEditStudent()">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

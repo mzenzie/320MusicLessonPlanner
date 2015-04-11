@@ -66,20 +66,44 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
         },
         resolve: {
             loadPlugin: function($ocLazyLoad) {
-                return $ocLazyLoad.load([
-                    {
-                        insertBefore: '#loadBefore',
-                        name: 'localytics.directives',
-                        files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
-                    },
-                    {
-                        name: 'cgNotify',
-                        files: ['css/plugins/angular-notify/angular-notify.min.css','js/plugins/angular-notify/angular-notify.min.js']
-                    },
-                    {
-                        files: ['js/plugins/jasny/jasny-bootstrap.min.js']
-                    }
-                ]);
+                return $ocLazyLoad.load([{
+                    insertBefore: '#loadBefore',
+                    name: 'localytics.directives',
+                    files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
+                }, {
+                    name: 'cgNotify',
+                    files: ['css/plugins/angular-notify/angular-notify.min.css', 'js/plugins/angular-notify/angular-notify.min.js']
+                }, {
+                    files: ['js/plugins/jasny/jasny-bootstrap.min.js']
+                }]);
+            }
+        }
+    })
+
+    //  Student Record Creation form page
+
+    .state('teacher-dashboard.editStudentRecord/:sid', {
+        url: "/editStudentRecord/:sid",
+        templateUrl: "views/editStudentRecord.html",
+        data: {
+            pageTitle: 'Edit Student Record',
+            requiresLogin: true
+        },
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    insertBefore: '#loadBefore',
+                    name: 'localytics.directives',
+                    files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
+                }, {
+                    name: 'cgNotify',
+                    files: ['css/plugins/angular-notify/angular-notify.min.css', 'js/plugins/angular-notify/angular-notify.min.js']
+                }, {
+                    files: ['js/plugins/jasny/jasny-bootstrap.min.js']
+                }, {
+                    name: 'summernote',
+                    files: ['css/plugins/summernote/summernote.css', 'css/plugins/summernote/summernote-bs3.css', 'js/plugins/summernote/summernote.min.js', 'js/plugins/summernote/angular-summernote.min.js']
+                }]);
             }
         }
     })

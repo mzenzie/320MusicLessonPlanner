@@ -129,7 +129,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     method: 'PUT'
                 }
             });
-            // $log.debug('Setting $scope to student named: ' + $scope.student.firstName + " " + $scope.student.lastName + ": " + $scope.student.instrument);
             studentRecordList.get({
                 id: student.sid
             }, function(result) {
@@ -142,8 +141,41 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
         //  Edit student record
         $scope.editStudentRecord = function(student) {
-            // @TODO implement this
+            $scope.student = studentRecordList.get({
+                id: student.sid
+            }, {
+                update: {
+                    method: 'PUT'
+                }
+            });
+            studentRecordList.get({
+                id: student.sid
+            }, function(result) {
+                var studentParams = {
+                    sid: result.sid,
+                };
+                $state.go('teacher-dashboard.editStudentRecord/:sid', studentParams);
+            });
         };
+        /*
+         *       DATE PICKER CODE
+         */
+        $scope.openBirthday = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.openedBirthday = true;
+        };
+
+        $scope.cancelEditStudent = function() {
+            $state.go('teacher-dashboard.main');
+        };
+
+        $scope.saveEditStudent = function() {
+            $scope.student.$update(function() {
+                // $log.debug('New note value: ' + $scope.student.generalNotes);
+            });
+            $state.go('teacher-dashboard.main');
+        }
 
         //  Add student record
         $scope.createStudentRecord = function() {
@@ -325,11 +357,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             $state.go('teacher-dashboard.main');
         };
 
+
         /*
          *       DATE PICKER CODE
          */
-
-
         $scope.openBirthday = function($event) {
             $event.preventDefault();
             $event.stopPropagation();

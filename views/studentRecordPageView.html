@@ -1,6 +1,6 @@
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>MusicLessonPlanner: Student Records</h2>
+    <div class="col-lg-10" ng-controller="StudentRecordCtrl">
+        <h2>MusicLessonPlanner | Student: {{student.firstName}} {{student.lastName}}</h2>
         <ol class="breadcrumb">
             <li>
                 <a ui-sref="teacher-dashboard.main">Home</a>
@@ -15,7 +15,7 @@
 </div>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        <div class="col-lg-6 col-md-7" ng-include="'/views/studentRecordView.html'" id="studentRecordPageLeft" ng-controller="StudentRecordCtrl"></div>
-        <div class="col-lg-6 col-md-5" ng-include="'/views/studentListView.html'" id="studentRecordPageRight" ng-controller="teacherController"></div>
+        <div class="col-lg-6 col-md-7" ng-include="'/views/studentRecordView.html'" id="studentRecordPageLeft"></div>
+        <div class="col-lg-6 col-md-5" ng-include="'/views/studentListView.html'" id="studentRecordPageRight"></div>
     </div>
 </div>

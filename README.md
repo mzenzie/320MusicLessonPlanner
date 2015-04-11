@@ -1,14 +1,14 @@
 ﻿# MusicLessonPlanner
 
 ### Version
-0.1.0 BETA
+0.1.1 BETA
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
 The current version can be accessed for use or testing at [320mlpbeta.zenzie.net](http://320mlpbeta.zenzie.net).
 This website redirects automatically to IP address
 ```sh
-54.165.8.175:8000
+http://54.208.4.249:8000/
 ```
 **Features implemented**
 
@@ -32,10 +32,6 @@ This website redirects automatically to IP address
   ```sh
   $ sudo npm install
   ```
-  - sqlite3
-  ```sh
-  $ sudo npm install sqlite3 --save
-  ```
   - bcrypt
   ```sh
   $ sudo npm install bcrypt
@@ -50,6 +46,18 @@ Open your internet browser and go to the localhost:
 ```sh
 localhost:8000
 ```
+
+When running this app on a remote host, it is recommended to use a utility such as screen or nohup in order to have it run in the background once you disconnect. The recommended command to use for this is:
+```sh
+screen -m node app
+```
+
+In order to stop the server once it is running, the recommended command is 
+```sh
+pkill -f node
+```
+
+If you have other node servers running, you will have to be more specific with the command (i.e. specify the PID)
 
 ### Database Access
 
@@ -122,6 +130,17 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 * [node.js]: backend framework
 * [Twitter Bootstrap]: CSS styling framework
 * [SQLite3]: Database
+
+### Change Log
+
+-0.1.0: Initial BETA version
+-0.1.1:
+  * Added tooltips
+  * Added Bug report buttons
+  * Preliminary logo and styling for login, registration, about
+  * The teacher's name is displayed when logged in.
+  * Refactored controllers.js to clean up the code.
+  * Added form validation, so no blank fields are allowed.
 
 
 [node.js]:http://nodejs.org

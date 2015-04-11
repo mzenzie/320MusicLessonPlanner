@@ -1,33 +1,46 @@
-<div class="ibox float-e-margins">
+<div class="ibox float-e-margins" ng-controller="StudentListCtrl">
     <div class="ibox-title">
-        <h5>Students <small>list of current students</small></h5>
+        <h5>Students of <strong>{{teacherProfile.firstName}}</strong></h5>
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
         <table class="table table-hover">
             <thread>
                 <th>Students (<span ng-bind="students.length"></span> records)</th>
-                <th>Instrument</th>
-                <!-- <th>Birthday</th> -->
-                <th></th>
+                <th align="right">Instrument</th>
                 <th></th>
             </thread>
             <tbody>
-                <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument']">
-                    <td>{{student.lastName}}, {{student.firstName}}</td>
-                    <td>{{student.instrument}}</td>
-                    <!-- <td>{{student.birthday}}</td> -->
-                    <td align="right">
-                        <div class="btn-group" role="group" aria-label="...">
-                            <button class="btn btn-info btn-xs" ng-click="viewStudentRecord(student)"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button>
-                            <!-- <button class="btn btn-info" ui-sref="index.studentRecordViewPage({student: student})"><span class="fa fa-eye"></span>&nbsp;&nbsp;View</button> -->
-                            <button class="btn btn-primary btn-xs" ng-click="editStudentRecord(student)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit</button>
-                            <button class="btn btn-danger btn-xs" ng-click="deleteStudentRecord(student)"><span class="fa fa-trash"></span>&nbsp;&nbsp;Delete</button>
-                        </div>
+                <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument']" ng-click="viewStudentRecord(student)">
+                    <td>
+                        {{student.lastName}}, {{student.firstName}}
                     </td>
+                    <td>
+                        {{student.instrument}}
+                    </td>
+                    <td align="right">
+                        <!-- <a href="#" ng-click="viewStudentRecord(student)"> -->
+                            <i class="fa fa-chevron-right"></i>
+                        <!-- </a> -->
+                    </td>
+                    <!-- </div> -->
+                    <!--                         <div class="dropdown" dropdown>
+                            <a class="dropdown-toggle" dropdown-toggle tooltip-placement="top" tooltip="Student record options."> <i class="fa fa-chevron-right"></i><span class="caret"></span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs" role="menu">
+                                <li>
+                                    <a href="#" ng-click="viewStudentRecord(student)"><i class="fa fa-eye"></i>&nbsp;&nbsp;View Student</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="editStudentRecord(student)"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Edit Student</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="deleteStudentRecord(student)"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete Student</a>
+                                </li>
+                            </ul>
+                        </div> -->
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary" ng-click="createStudentRecord()">Add New Student</button>
+        <button class="btn btn-success" ng-click="createStudentRecord()" tooltip-placement="top" tooltip="Create a new student record.">Add New Student</button>
     </div>
 </div>

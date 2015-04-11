@@ -246,6 +246,7 @@ module.exports.list = function(tid, callback) {
             //     }
             // })
             studentRecords.push(studentRecord);
+            console.log('Student added to list: ' + studentRecord.firstName + ' Length = ' + studentRecords.length);
         }
     }, function(err, numberOfRows){
         if (error){

@@ -1,6 +1,6 @@
-<div class="ibox float-e-margins">
+<div class="ibox float-e-margins" ng-controller="StudentRecordCtrl">
     <div class="ibox-title">
-        <h5>{{student.lastName}}, {{student.firstName}}</h5>
+        <h5><strong>{{student.lastName}}, {{student.firstName}}</strong> ... {{student.instrument}}</h5>
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
@@ -22,19 +22,17 @@
             <dt>Original Start Date:</dt>
             <dd> {{student.lessonSchedules[0].date | date:'MMMM d, yyyy'}}</dd>
         </dl>
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>Notes and Student Progress</h5>
-                <div ibox-tools></div>
-            </div>
-            <div class="ibox-content no-padding">
-                <!-- <div summernote class="summernote" ng-model="generalNotes"> -->
-                    {{student.generalNotes}}
-                    <br/>
-                    <br/>
-                    <button class="btn btn-primary btn-md" ng-click="editStudentRecord(student)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Note</button>
-            </div>
+        <hr>
+        <h5>Notes and Student Progress</h5>
+        <!-- <summernote height="245" ng-model="generalNotes"></summernote> -->
+        <div class="row">
+            <summernote config="options" on-change="change(contents)" ng-model="student.generalNotes"></summernote>
+            <p>{{changedNotes}}</p>
         </div>
-        <div ng-include="'/views/lessonNoteListView.html'"></div>
+        <div class="row">
+            <button class="btn btn-success btn-md" ng-click="editStudentRecordNote()" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Student</button>
+            <button class="btn btn-success btn-md" ng-click="deleteStudentRecord(student)" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Student</button>
+        </div>
     </div>
+    <div ng-include="'/views/lessonNoteListView.html'"></div>
 </div>

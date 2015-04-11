@@ -144,8 +144,8 @@ StudentRecord.prototype.update = function(callback) {
     //TODO: implement function
     var self = this;
     var db = dbConnector.getInstance();
-    var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}', instrument='{5}', email='{6}' WHERE sid='{7}'"
-                .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.instrument,  self.email, self.sid);
+    var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}', instrument='{5}', email='{6}', generalNotes='{7}' WHERE sid='{8}'"
+                .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.instrument,  self.email, self.generalNotes, self.sid);
     console.log(query);
     db.run(query, function(err){
         if (err!=null){

@@ -131,8 +131,23 @@ module.exports.delete = function(studentRecord, callback) {
  * @param {Text} email
  */
 
-module.exports.update = function(lessonTime, lessonLength, email) {
+module.exports.update = function(callback) {
     //TODO: update lesson schedule in DB
+    var self = this;
+    var db = dbConnector.getInstance();
+    var query = "UPDATE Schedule SET date='{0}', lessonTime='{1}', lessonLength={2}, notes='{3}'WHERE lrid='{4}'"
+                .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lrid);
+    console.log(query);
+    db.run(query, function(err){
+        if (err!=null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            callback(null, new LessonSchedule(self));
+        }
+    });
+
+
 };
 
 /*

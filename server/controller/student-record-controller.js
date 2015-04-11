@@ -104,8 +104,9 @@ module.exports.update = function(req, res) {
         res.status(400).send("invalid sid");
     }else{
         StudentRecord.get(req.query.sid, function(err, studentRecord){
+            console.log(studentRecord);
             if(studentRecord == null){
-                res.send("Invalid sid");
+                res.send("Invalid student");
             }else{
             
                  for(var key in req.body){

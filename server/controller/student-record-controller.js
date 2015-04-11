@@ -45,9 +45,9 @@ module.exports.get = function(req, res) {
     // var sess = req.session;
     // var id = sess.id; // to be implemented...
     var sid = req.query.id;
-    var tid = Account.getIDFromToken(req.headers.authorization); 
-    if (tid==null) tid = 1;
-    if (sid === undefined){
+    var tid = Account.getIDFromToken(req.headers.authorization);
+    if (tid == null) tid = 1;
+    if (sid === undefined) {
         //list
         StudentRecord.list(tid, function(err, studentRecords) {
             if (err != null) {
@@ -65,7 +65,7 @@ module.exports.get = function(req, res) {
                 res.json(studentRecord);
             }
         })
-        
+
     }
 };
 
@@ -92,10 +92,13 @@ module.exports.delete = function(req, res) {
 
 module.exports.update = function(req, res) {
     // > PUT /api/studentRecord/:id
+    console.log("UPDATE");
+    console.log(req.body);
+    console.log(req.query.id);
     var sid = req.query.id;
     if(sid === undefined){
         res.status(400).json({error:"invalid sid requested"});
-    }else{
+    } else {
         StudentRecord.get(sid, function(err, studentRecord){
             if(err!=null || studentRecord == null){
                 res.status(400).json({error:"unable to retrieve StudentRecord for updating"});

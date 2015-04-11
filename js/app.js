@@ -10,6 +10,7 @@
 (function () {
     angular.module('inspinia', [
         'ui.router',                    // Routing
+        'ngSanitize',
         'ngResource',
         'oc.lazyLoad',                  // ocLazyLoad
         'ui.bootstrap',                 // Ui Bootstrap

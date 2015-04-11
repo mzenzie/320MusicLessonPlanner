@@ -2982,7 +2982,7 @@ video {
 /* Summernote text editor  */
 .note-editor {
     height: auto;
-    min-height: 300px;
+    /*min-height: 300px;*/
 }
 /* MODAL */
 .modal-content {

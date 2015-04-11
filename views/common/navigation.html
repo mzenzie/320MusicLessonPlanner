@@ -1,16 +1,17 @@
-<nav class="navbar-default navbar-static-side" role="navigation" ng-controller="StudentListCtrl">
+<!-- <nav class="navbar-default navbar-static-side" role="navigation" ng-controller="StudentListCtrl"> -->
+<nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul side-navigation class="nav" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element" dropdown>
                     <a class="dropdown-toggle" dropdown-toggle href>
-                        <span class="clear">
-                            <span class="block m-t-xs"><strong class="font-bold">{{teacherProfile.firstName}}</strong></span>
+                        <span class="clear"><span class="block m-t-xs"><strong class="font-bold">{{teacherProfile.firstName}}</strong></span>
+                        <!-- <span class="clear"><span class="block m-t-xs"><strong class="font-bold">{{student.firstName}} {{student.lastName}}</strong></span> -->
                         <span class="text-muted text-xs block">Account<b class="caret"></b></span>
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs" ng-controller="LoginCtrl">
-<!--                         <li><a ui-sref="profile">Profile</a></li>
+                        <!--                         <li><a ui-sref="profile">Profile</a></li>
                         <li><a ui-sref="contacts">Contacts</a></li>
                         <li><a ui-sref="inbox">Mailbox</a></li>
                         <li class="divider"></li> -->
@@ -24,9 +25,9 @@
             <li class="active">
                 <a ui-sref="teacher-dashboard.main"><i class="fa fa-music"></i> <span class="nav-label">Main page</span> </a>
             </li>
-            <li class="active">
+            <!--             <li class="active">
                 <a ui-sref="teacher-dashboard.calendar"><i class="fa fa-calendar"></i> <span class="nav-label">Calendar</span> </a>
-            </li>
+            </li> -->
             <li class="active">
                 <a ui-sref="teacher-dashboard.about"><i class="fa fa-info-circle"></i> <span class="nav-label">About</span> </a>
             </li>
@@ -36,5 +37,3 @@
         </ul>
     </div>
 </nav>
-
-

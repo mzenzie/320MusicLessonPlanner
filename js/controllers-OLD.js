@@ -3,55 +3,31 @@
 
 angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: angular.module.factory.controller.etc....
 
-// /**
-//  * MainCtrl - controller
-//  */
-.controller('MainCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', '$q', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID',
-    function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID) {
+/**
+ * MainCtrl - controller
+ */
+.controller('MainCtrl', ['$scope', '$resource', 'store', 'jwtHelper', '$log',
+    function($scope, $log) {
+        //Get user date
 
-        //  Gets the list of students and lessons
-        var studentRecordList = $resource('/api/studentRecord/', {
-            id: '@id'
-        }, {
-            update: {
-                method: 'PUT'
-            }
-        });
+    }
+])
 
-        studentRecordList.query(function(result) {
-            var studentRecords = result;
+/**
+ *     teacherController
+ *     Handles deleting, viewing, and editing student records.
+ */
+.controller('StudentListCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID',
+    function($scope, $resource, $stateParams, $state, $modal, $log, store, jwtHelper, getTeacherByID, getStudentByID) {
+
+        //  Gets the list of students
+        var StudentRecord = $resource('/api/studentRecord/');
+
+        StudentRecord.query(function(result) {
             $scope.students = result;
-            $log.debug('students length:' + $scope.students.length);
-            $scope.lessons = [];
-            var promises = [];
-            for (var i = 0; i < studentRecords.length; i++) {
-                var futureStudentRecord = studentRecordList.get({
-                    id: studentRecords[i].sid
-                });
-                promises.push(futureStudentRecord.$promise.then(function(result) {
-                    return result;
-                }));
-            };
-
-            $q.all(promises).then(function(result) {
-                for (var sr_index in result) {
-                    var schedules = result[sr_index].lessonSchedules;
-                    for (var ls_index in schedules) {
-                        var todayViewModel = {
-                            date: schedules[ls_index].date,
-                            lessonTime: schedules[ls_index].lessonTime,
-                            lessonLength: schedules[ls_index].lessonLength,
-                            firstName: result[sr_index].firstName,
-                            lastName: result[sr_index].lastName,
-                            sid: result[sr_index].sid
-                        };
-                        $scope.lessons.push(todayViewModel);
-                    }
-                }
-            });
         });
 
-        //Get teacher data
+        //Get user date
         var token = store.get('token')
         var decodedToken = token && jwtHelper.decodeToken(token);
         $scope.teacherProfile = getTeacherByID.get({
@@ -72,52 +48,15 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 }
             });
             modalInstance.result.then(function(confirmDeleteStudent) {
-                $log.debug('Delete: Looking up student named: ' + student.firstName + " " + student.lastName + ": " + student.sid);
                 $scope.confirmDeleteStudent = confirmDeleteStudent;
+                $log.debug("Confirm Delete status: " + $scope.confirmDeleteStudent);
                 if ($scope.confirmDeleteStudent) {
-                    studentRecordList.delete({
+                    StudentRecord.delete({
                         id: student.sid
                     }, function(result) {
                         if (result.isSuccessful) {
-                            var index = -1;
-                            for (var i = 0; i < $scope.students.length; i++) {
-                                // $log.debug('sid=' + student.sid + '   list sid=' + $scope.students[i].sid);
-                                if (student.sid == $scope.students[i].sid) {
-                                    index = i;
-                                }
-                            };
+                            var index = $scope.students.indexOf(student);
                             $scope.students.splice(index, 1);
-                            studentRecordList.query(function(result) {
-                                var studentRecords = result;
-                                $scope.students = result;
-                                $scope.lessons = [];
-                                var promises = [];
-                                for (var i = 0; i < studentRecords.length; i++) {
-                                    var futureStudentRecord = studentRecordList.get({
-                                        id: studentRecords[i].sid
-                                    });
-                                    promises.push(futureStudentRecord.$promise.then(function(result) {
-                                        return result;
-                                    }));
-                                };
-
-                                $q.all(promises).then(function(result) {
-                                    for (var sr_index in result) {
-                                        var schedules = result[sr_index].lessonSchedules;
-                                        for (var ls_index in schedules) {
-                                            var todayViewModel = {
-                                                date: schedules[ls_index].date,
-                                                lessonTime: schedules[ls_index].lessonTime,
-                                                lessonLength: schedules[ls_index].lessonLength,
-                                                firstName: result[sr_index].firstName,
-                                                lastName: result[sr_index].lastName,
-                                                sid: result[sr_index].sid
-                                            };
-                                            $scope.lessons.push(todayViewModel);
-                                        }
-                                    }
-                                });
-                            });
                             $state.go('teacher-dashboard.main');
                         }
                     });
@@ -127,67 +66,100 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
         //  View student record
         $scope.viewStudentRecord = function(student) {
-            $scope.student = studentRecordList.get({
-                id: student.sid
-            }, {
-                update: {
-                    method: 'PUT'
-                }
-            });
-            studentRecordList.get({
+            StudentRecord.get({
                 id: student.sid
             }, function(result) {
                 var studentParams = {
                     sid: result.sid,
                 };
+                $scope.student = getStudentByID.get({
+                    id: $stateParams.sid
+                });
                 $state.go('teacher-dashboard.viewStudentRecord/:sid', studentParams);
             });
         };
 
         //  Edit student record
         $scope.editStudentRecord = function(student) {
-            $scope.student = studentRecordList.get({
-                id: student.sid
-            }, {
-                update: {
-                    method: 'PUT'
-                }
-            });
-            studentRecordList.get({
-                id: student.sid
-            }, function(result) {
-                var studentParams = {
-                    sid: result.sid,
-                };
-                $state.go('teacher-dashboard.editStudentRecord/:sid', studentParams);
-            });
+            // @TODO implement this
         };
-        /*
-         *       DATE PICKER CODE
-         */
-        $scope.openBirthday = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.openedBirthday = true;
-        };
-
-        $scope.cancelEditStudent = function() {
-            $state.go('teacher-dashboard.main');
-        };
-
-        $scope.saveEditStudent = function() {
-            console.log("...");
-            console.log($scope.student.firstName);
-            console.log("...");
-            $scope.student.$update({id:$scope.student.sid},function() {
-                // $log.debug('New note value: ' + $scope.student.generalNotes);
-            });
-            $state.go('teacher-dashboard.main');
-        }
 
         //  Add student record
         $scope.createStudentRecord = function() {
             $state.go('teacher-dashboard.createStudentRecord');
+        };
+    }
+])
+
+
+/**
+ *      TodayViewController
+ *      Controller for the today view.
+ *      Will get a list of lessons scheduled for today and displays them
+ *      Will also handle canceling and rescheduling lessons.
+ */
+.controller('TodayViewController', ['$scope', '$resource', '$modal', '$stateParams', '$state', '$log', '$q',
+    function($scope, $resource, $modal, $stateParams, $state, $log, $q) {
+
+        var studentRecordList = $resource('/api/studentRecord/');
+
+        studentRecordList.query(function(result) {
+            // $log.warn('studentRecordList.query called in TodayViewController, number of students BEFORE:' + result.length);
+            var studentRecords = result;
+            // for (var i = 0; i < studentRecords.length; i++) {
+            //     $log.debug('   Student[' + i + '] loaded: ' + studentRecords[i].sid);
+            // };
+            $scope.lessons = [];
+            var promises = []; //holds promises returned by studentRecordList.get.$promise.then
+            for (var i = 0; i < studentRecords.length; i++) {
+                var futureStudentRecord = studentRecordList.get({
+                    // a 'future' is returned from studentRecordList - meaning this object currently, doesn't
+                    // know the return value, it will know later on in the code - but now it doens't - just a
+                    // place holder.
+                    id: studentRecords[i].sid
+                });
+                promises.push(futureStudentRecord.$promise.then(function(result) {
+                    return result;
+                }));
+                // the thing we want to add to this promises array is the place holder for the outcome
+                // that will be given by the server's response - this is the promise. We get this promise from our
+                // future.
+            };
+
+            $q.all(promises).then(function(result) {
+                // here is where we actually get the result. $q.all takes in our promises and resolves it
+                // when the server responses back.
+                // console.log(result.length);
+                for (var sr_index in result) {
+                    var schedules = result[sr_index].lessonSchedules;
+                    // console.log(schedules);
+                    for (var ls_index in schedules) {
+                        // using a MVVM (Model-View-ViewModel) term.
+                        var todayViewModel = {
+                            date: schedules[ls_index].date,
+                            lessonTime: schedules[ls_index].lessonTime,
+                            lessonLength: schedules[ls_index].lessonLength,
+                            firstName: result[sr_index].firstName,
+                            lastName: result[sr_index].lastName,
+                            sid: result[sr_index].sid
+                        };
+                        // console.log(todayViewModel);
+                        $scope.lessons.push(todayViewModel);
+                    }
+                }
+            });
+        });
+
+        //  View student record
+        $scope.viewStudentRecord = function(lesson) {
+            studentRecordList.get({
+                id: lesson.sid
+            }, function(result) {
+                var studentParams = {
+                    sid: result.sid,
+                };
+                $state.go('teacher-dashboard.viewStudentRecord/:sid', studentParams);
+            });
         };
 
         $scope.cancelLesson = function(student) {
@@ -199,6 +171,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         };
     }
 ])
+
 
 /**
  *      ModalDeleteStudentCtrl
@@ -220,23 +193,47 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 ])
 
 /**
+ *      StudentRecordCtrl
+ *      Controller for the student record viewing page.
+ *      Necessary to pass the variable scope of a specific student to the new page.
+ */
+.controller('StudentRecordCtrl', ['$scope', '$state', '$stateParams', '$resource', 'getStudentByID', '$log',
+    function($scope, $state, $stateParams, $resource, getStudentByID, $log) {
+
+        //  Get 'sid' number from $stateParams
+        //  Use the getStudentByID factory to receive the $scope from teacherController
+        $scope.student = getStudentByID.get({
+            id: $stateParams.sid
+        });
+
+        //  Edit student record note
+        $scope.editStudentRecord = function() {
+            // $scope.student.$update(function() {
+            //     $log.debug('New note value: ' + $scope.student.generalNotes);
+            // });
+        };
+    }
+])
+
+
+/**
  *     StudentRecordCreationCrtl
  *     Controller for the Add student record form. The edit form will be similar.
  */
-.controller('StudentRecordCreationCrtl', ['$scope', '$resource', '$state', '$log', 'notify', '$q',
-    function($scope, $resource, $state, $log, notify, $q) {
+.controller('StudentRecordCreationCrtl', ['$scope', '$resource', '$state', '$log', 'notify',
+    function($scope, $resource, $state, $log, notify) {
+        var StudentRecord = $resource('/api/studentRecord/');
+
+        StudentRecord.query(function(result) {
+            $scope.students = result;
+        });
 
         /*
-         *       DATE INITIALIZATION CODE       ****************************
+         *       TIME PICKER CODE       ****************************
          */
-        $scope.birthday = new Date();
-        $scope.birthday.setFullYear(1980);
-        $scope.birthday.setMonth(0);
-        $scope.birthday.setDate(1);
-
-        $scope.startDate = new Date();
-        $scope.startDate.setMinutes(0);
-        $scope.startDate.setSeconds(0);
+        $scope.lessonTime = new Date();
+        $scope.lessonTime.setMinutes(0);
+        $scope.lessonTime.setSeconds(0);
 
         $scope.hstep = 1;
         $scope.mstep = 15;
@@ -255,15 +252,15 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             var d = new Date();
             d.setHours(14);
             d.setMinutes(0);
-            $scope.startDate = d;
+            $scope.lessonTime = d;
         };
 
         $scope.changed = function() {
-            // $log.log('Time changed to: ' + $scope.startDate);
+            $log.log('Time changed to: ' + $scope.lessonTime);
         };
 
         $scope.clear = function() {
-            $scope.startDate = null;
+            $scope.lessonTime = null;
         };
         //      *******************************************************
 
@@ -281,7 +278,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
         $scope.ok = function() {
             if ($scope.studentRecordForm.$valid) {
-                var StudentRecord = $resource('/api/studentRecord/');
+                var StudentRecord = $resource('/api/studentRecord/:id');
                 var newStudentRecord = new StudentRecord();
                 newStudentRecord.firstName = $scope.firstName;
                 newStudentRecord.lastName = $scope.lastName;
@@ -290,43 +287,17 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 newStudentRecord.phone = $scope.phone;
                 newStudentRecord.address = $scope.address;
                 newStudentRecord.birthday = $scope.birthday;
+                $log.debug('Birthday returned: ' + newStudentRecord.birthday);
                 newStudentRecord.startDate = $scope.startDate;
+                $log.debug('Starting date returned: ' + newStudentRecord.startDate);
                 newStudentRecord.numberOfLessons = $scope.numberOfLessons;
-                newStudentRecord.lessonTime = $scope.startDate;
+                newStudentRecord.lessonTime = $scope.lessonTime;
                 newStudentRecord.lessonLength = $scope.lessonLength;
                 newStudentRecord.generalNotes = $scope.generalNotes;
                 newStudentRecord.lessonNotes = $scope.lessonNotes;
                 newStudentRecord.$save(function(result) {
                     StudentRecord.query(function(result) {
-                        $scope.$parent.students = result;
-                        var studentRecords = result;
-                        $scope.$parent.lessons = [];
-                        var promises = [];
-                        for (var i = 0; i < studentRecords.length; i++) {
-                            var futureStudentRecord = StudentRecord.get({
-                                id: studentRecords[i].sid
-                            });
-                            promises.push(futureStudentRecord.$promise.then(function(result) {
-                                return result;
-                            }));
-                        };
-
-                        $q.all(promises).then(function(result) {
-                            for (var sr_index in result) {
-                                var schedules = result[sr_index].lessonSchedules;
-                                for (var ls_index in schedules) {
-                                    var todayViewModel = {
-                                        date: schedules[ls_index].date,
-                                        lessonTime: schedules[ls_index].lessonTime,
-                                        lessonLength: schedules[ls_index].lessonLength,
-                                        firstName: result[sr_index].firstName,
-                                        lastName: result[sr_index].lastName,
-                                        sid: result[sr_index].sid
-                                    };
-                                    $scope.$parent.lessons.push(todayViewModel);
-                                }
-                            }
-                        });
+                        $scope.students = result;
                     });
                     $scope.firstName = '';
                     $scope.lastName = '';
@@ -342,7 +313,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     $scope.generalNotes = '';
                     $scope.lessonNotes = null;
                 });
-                $scope.$parent.students.push(newStudentRecord);
+                $scope.students.push(newStudentRecord);
                 notify({
                     message: 'Student record successfully created.',
                     classes: 'alert-success',
@@ -365,10 +336,11 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             $state.go('teacher-dashboard.main');
         };
 
-
         /*
          *       DATE PICKER CODE
          */
+
+
         $scope.openBirthday = function($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -383,6 +355,83 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     }
 ])
 
+/**
+ * CalendarCtrl - Controller for Calendar
+ * Store data events for calendar
+ * This is not finished yet!!!!
+ */
+.controller('CalendarCtrl', ['$scope',
+    function($scope) {
+
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        // Events
+        $scope.events = [{
+            title: 'All Day Event',
+            start: new Date(y, m, 1)
+        }, {
+            title: 'Long Event',
+            start: new Date(y, m, d - 5),
+            end: new Date(y, m, d - 2)
+        }, {
+            id: 999,
+            title: 'Repeating Event',
+            start: new Date(y, m, d - 3, 16, 0),
+            allDay: false
+        }, {
+            id: 999,
+            title: 'Repeating Event',
+            start: new Date(y, m, d + 4, 16, 0),
+            allDay: false
+        }, {
+            title: 'Birthday Party',
+            start: new Date(y, m, d + 1, 19, 0),
+            end: new Date(y, m, d + 1, 22, 30),
+            allDay: false
+        }, {
+            title: 'Click for Google',
+            start: new Date(y, m, 28),
+            end: new Date(y, m, 29),
+            url: 'http://google.com/'
+        }];
+
+
+        /* message on eventClick */
+        $scope.alertOnEventClick = function(event, allDay, jsEvent, view) {
+            $scope.alertMessage = (event.title + ': Clicked ');
+        };
+        /* message on Drop */
+        $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+            $scope.alertMessage = (event.title + ': Droped to make dayDelta ' + dayDelta);
+        };
+        /* message on Resize */
+        $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
+            $scope.alertMessage = (event.title + ': Resized to make dayDelta ' + minuteDelta);
+        };
+
+        /* config object */
+        $scope.uiConfig = {
+            calendar: {
+                height: 450,
+                editable: true,
+                header: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                eventClick: $scope.alertOnEventClick,
+                eventDrop: $scope.alertOnDrop,
+                eventResize: $scope.alertOnResize
+            }
+        };
+
+        /* Event sources array */
+        $scope.eventSources = [$scope.events];
+    }
+])
 
 .controller('LoginCtrl', ['$state', '$stateParams', '$scope', '$resource', '$http', 'store', 'jwtHelper', 'getTeacherByID', '$log',
     function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log) {
@@ -459,6 +508,41 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     }
 ])
 
+.controller('LessonNoteController', ['$scope', '$resource',
+    function($scope, $resource) {
+        var LessnNote = $resource('/api/lessonNote/:id');
+
+        LessnNote.query(function(result) {
+            $scope.notes = result;
+        });
+
+        $scope.deleteLessonNote = function(note) {
+            LessonNote.delete({
+                id: note.nid
+            }, function(result) {
+                if (result.isSuccessful) {
+                    var index = $scope.notes.indexOf(note);
+                    $scope.notes.splice(index, 1);
+                }
+            });
+        };
+
+        $scope.notes = [];
+        $scope.createLessonNote = function() {
+            var newLessonNote = new LessonNote();
+            newLessonNote.notes = $scope.notes;
+            newLessonNote.date = $scope.date;
+            newLessonNote.$save(function(result) {
+                LessonNote.query(function(result) {
+                    $scope.notes = result;
+                });
+                $scope.notes = '';
+                $scope.date = '';
+            });
+
+        }
+    }
+])
 
 /*
  *      Factory that passes student data from one controller to another
@@ -478,17 +562,13 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 /*
  *      Factory that passes student data from one controller to another
  */
-.factory('getTeacherByID', ['$resource', 
+.factory('getTeacherByID', ['$resource',
     function($resource) {
         return $resource('/api/teacher/:id', {
             id: '@id'
         });
     }
 ])
-
-.service('queryStudentRecords', [function() {
-
-}])
 
 /**
  * [description]
@@ -511,7 +591,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     var lessonDate = lesson.getDate();
                     var lessonMonth = lesson.getMonth();
                     var lessonYear = lesson.getYear();
-                    console.log("Lesson month: " + lessonMonth + " date: " + lessonDate +  "?= Today month: " + todayMonth + " date: " + todayDate);
                     if (lessonDate == todayDate && lessonMonth == todayMonth) {
                         todaysLessons.push(lessons[i]);
                     }

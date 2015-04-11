@@ -13,14 +13,15 @@ module.exports.create = function(req, res) {
 		{
 			date: req.body.date,
 			lessonTime: req.body.lessonTime,
-			lessonLength: req.body.lessonLength
+			lessonLength: req.body.lessonLength,
+			notes: req.body.notes
 		});
-	studentRecord = new StudentRecord(req.params);
+	studentRecord = new StudentRecord(req.params); // only sid initialized
 	console.log(lessonSchedule);
 	console.log(req.body);
 	lessonSchedule.save(studentRecord, function(err, newSchedule){
 		if (err!=null){
-			res.status(400).send("unable to create new lesson schedule");
+			res.status(400).send(err);
 		} else {
 			res.json(newSchedule);
 		}
@@ -50,6 +51,7 @@ module.exports.list = function(req, res) {
 module.exports.get = function(req, res){
 	// > GET /api/lessonSchedule/:id
 	var lsid = req.params.lsid;
+	console.log(req.params.sid);
 	LessonSchedule.get(lsid, function(err, scheduleObj){
 		if (err != null){
 			res.status(400).send("unable to get");
@@ -61,10 +63,9 @@ module.exports.get = function(req, res){
 }
 
 module.exports.delete = function(req, res) {
-    // > DELETE /api/lessonSchedule/:id
-
-
-	LessonSchedule.delete(req.params.lsid, function(err){
+    // > DELETE /api/studentRecord/:sid/lessonSchedule/:id
+    var lsid = req.params.lsid;
+	LessonSchedule.delete(lsid, function(err){
 		if (err != null){
 			res.json({isSuccessful:false});
 		} else {
@@ -75,5 +76,33 @@ module.exports.delete = function(req, res) {
 }
 
 module.exports.update = function(req, res) {
-    // > PUT /api/lessonSchedule/:id
+    // > PUT /api/studentRecord/:sid/lessonSchedule/:lsid
+    var lsid = req.params.lsid;
+    var sid  = req.params.sid;
+    if (lsid===undefined || sid ===undefined){
+    	res.status(400).json({error:"Invalid lsid or sid requested"});
+    } else {
+	    LessonSchedule.get(lsid, function(err, schedule){
+	    	// console.log("SCHEDULE SID="+schedule.sid);
+	    	if (schedule.sid != sid){
+	    		res.status(400).json({error:"Unable to update. Lesson Schedule doesn't belong to sent SID"});	
+	    	} else if (err!=null || schedule==null){
+	    		console.log(err);
+	    		res.status(400).json({error:"Unable to retrieve LessonSchedule for update"});	
+	    	} else {
+	    		for (var key in req.body){
+	    			if(req.body.hasOwnProperty(key)){
+	    				schedule[key] = req.body[key];
+	    			} 
+	    		}
+	    		schedule.update(function(err, newSchedule){
+	    			if (err!=null){
+	    				res.status(400).json({error:"Unable to update LssonSchedule"});
+	    			} else {
+	    				res.json(newSchedule);
+	    			}
+	    		})
+	    	}
+	    });
+    }
 }

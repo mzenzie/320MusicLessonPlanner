@@ -101,6 +101,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
         studentRecordList.query(function(result) {
             // $log.warn('studentRecordList.query called in TodayViewController, number of students BEFORE:' + result.length);
+            console.log("querying users");
             var studentRecords = result;
             // for (var i = 0; i < studentRecords.length; i++) {
             //     $log.debug('   Student[' + i + '] loaded: ' + studentRecords[i].sid);
@@ -139,7 +140,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                             lastName: result[sr_index].lastName,
                             sid: result[sr_index].sid
                         };
-                        // console.log(todayViewModel);
+                        console.log(todayViewModel);
                         $scope.lessons.push(todayViewModel);
                     }
                 }
@@ -494,7 +495,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     $state.go('startpage.landing');
                 })
                 .error(function(data, status, header, config) {
-                    alert('Sign out failed. How does that happen!!!??!?!');
+                    $state.go('startpage.landing');
+
+                    // alert('Sign out failed. How does that happen!!!??!?!');
                 });
         };
         $scope.signup = function() {
@@ -562,9 +565,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
  */
 .factory('getStudentByID', ['$resource',
     function($resource, $log) {
-        return $resource('/api/studentRecord/', {
-            id: '@id'
-        });
+        return $resource('/api/studentRecord/', {id: '@id'}, {update: {method:'PUT'}});
     }
 ])
 

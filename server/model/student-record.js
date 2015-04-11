@@ -1,4 +1,4 @@
-
+    
 /**
  * Instantiates a new student record.
  * @param {String} jsObject.firstname is the student's first name
@@ -105,7 +105,7 @@ StudentRecord.prototype.save = function(tid, callback){
     db.run(student_record_query, function(err){
         if (err !== null){
             console.log("STUDENT RECORD SAVE ERR TO DB");
-            console.log(err);
+            console.log(err, null);
         } 
 
         var student_record_get_query = "SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND email='{2}' AND address='{3}' AND phone='{4}' AND birthday='{5}' AND instrument = '{6}'"
@@ -120,12 +120,12 @@ StudentRecord.prototype.save = function(tid, callback){
         console.log(student_record_get_query);
         db.get(student_record_get_query, function(err, row){
             if (err!= null || row == null){
-                console.log(err);
+                console.log(err, null);
             } else {
                 console.log("== STUDENT RECORD SAVED! ==");
                 self.sid = row.sid
         		console.log(self);
-        		callback(err, self);
+        		callback(null, self);
             }
     	});
     })
@@ -295,6 +295,7 @@ module.exports.create = function(jsObject, callback) {
             lessonLength: jsObject.lessonLength,
             numberOfLessons: jsObject.numberOfLessons
         };
+        console.log(scheduleData);
         if (err != null || studentRecord == null){
             callback(err, null);
         } else {

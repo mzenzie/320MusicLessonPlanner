@@ -6394,6 +6394,9 @@ button.close {
 .visible-lg-inline-block {
     display: none !important;
 }
+.note-editor {
+    height: auto !important;
+}
 @media (max-width: 767px) {
     .visible-xs {
         display: block !important;
@@ -6581,4 +6584,5 @@ button.close {
         display: none !important;
     }
 }
+
 /*# sourceMappingURL=bootstrap.css.map */

@@ -1,4 +1,5 @@
-<div class="ibox float-e-margins" ng-controller="TodayViewController">
+<!-- <div class="ibox float-e-margins" ng-controller="TodayViewController"> -->
+<div class="ibox float-e-margins">
     <div class="ibox-title">
         <h5>Today <small style="color:white"> Upcoming Events</small></h5>
         <div ibox-tools></div>
@@ -10,24 +11,13 @@
                 <th>Student</th>
             </thread>
             <tbody>
-                <tr ng-repeat="lesson in lessons| isTodaysLesson | orderBy: 'lessonTime' ">
-                    <td>{{lesson.lessonTime | date:'h:mm a'}}</span>
+                <tr ng-repeat="lesson in lessons| isTodaysLesson | orderBy: 'lessonTime' "ng-click="viewStudentRecord(lesson)">
+                    <td>{{lesson.lessonTime | date:'h:mm a'}}
                     </td>
                     <!-- <td>{{lesson.sid}}  <small>(Will have names soon!)</small></td> -->
                     <td>{{lesson.lastName}}, {{lesson.firstName}}</td>
                     <td align="right">
-                        <div class="dropdown" dropdown>
-                            <a class="dropdown-toggle" dropdown-toggle tooltip-placement="top" tooltip="Lesson Options"> <i class="fa fa-chevron-right"></i><span class="caret"></span> </a>
-                            <ul class="dropdown-menu animated fadeInRight m-t-xs" role="menu">
-                                <li>
-                                    <a href="#" ng-click="viewStudentRecord(lesson)"><i class="fa fa-eye"></i>&nbsp;&nbsp;View Student</a>
-                                </li>
-                                <li>
-                                    <a href="#" ng-click=""><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Cancel Lesson</a>
-                                </li>
-                            </ul>
-                        </div>
-                        </a>
+                            <i class="fa fa-chevron-right"></i>
                     </td>
                 </tr>
             </tbody>

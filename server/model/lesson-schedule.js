@@ -25,21 +25,21 @@ var LessonSchedule = function(jsObject) {
     this.lessonTime = jsObject.lessonTime;
     this.lessonLength = jsObject.lessonLength;
     this.notes = "";
-    if (jsObject.notes!==undefined){
+    if (jsObject.notes !== undefined) {
         this.notes = jsObject.notes;
     }
     this.lsid = null;
-    if (jsObject.lsid!==undefined){
+    if (jsObject.lsid !== undefined) {
         this.lsid = jsObject.lsid;
     }
     this.sid = null;
-    if (jsObject.sid!==undefined){
+    if (jsObject.sid !== undefined) {
         this.sid = jsObject.sid;
     }
 };
 
-function validateInput(scheduleData){
-    var undef = scheduleData.date!==undefined && scheduleData.lessonTime!==undefined && scheduleData.lessonLength!==undefined && scheduleData.notes!==undefined;
+function validateInput(scheduleData) {
+    var undef = scheduleData.date !== undefined && scheduleData.lessonTime !== undefined && scheduleData.lessonLength !== undefined && scheduleData.notes !== undefined;
     return undef;
 }
 
@@ -53,7 +53,7 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
     var db = dbConnector.getInstance();
 
     console.log("DB SAVE");
-    if (validateInput(self)){
+    if (validateInput(self)) {
         var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
             .format(
                 self.date,
@@ -87,9 +87,11 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
                 _lessonSchedule.lsid = row.lsid;
                 callback(null, _lessonSchedule);
             }
-        });   
+        });
     } else {
-        callback({error:"Lesson Schedule Invalid Input"}, null);
+        callback({
+            error: "Lesson Schedule Invalid Input"
+        }, null);
     }
 };
 
@@ -98,18 +100,18 @@ LessonSchedule.prototype.update = function(callback) {
     //TODO: update lesson schedule in DB
     var db = dbConnector.getInstance();
     var self = this;
-    if (self.lessonLength==null)console.log("NULL DATE");
+    if (self.lessonLength == null) console.log("NULL DATE");
     console.log(self.lessonLength);
     var query = "UPDATE Schedule SET date='{0}', lessonTime='{1}', lessonLength='{2}', notes='{3}' WHERE lsid={4}"
         .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lsid);
     console.log(query);
-    db.run(query, function(err){
-        if (err!=null){
+    db.run(query, function(err) {
+        if (err != null) {
             console.log(err, null);
-            callback(err);  
+            callback(err);
         } else {
             callback(null, new LessonSchedule(self));
-        } 
+        }
     });
 
 };
@@ -125,8 +127,8 @@ module.exports = LessonSchedule;
 module.exports.get = function(lsid, callback) {
     //TODO: get lesson note
     var db = dbConnector.getInstance();
-    db.get("SELECT * From Schedule WHERE Schedule.lsid={0}".format(lsid), function(err, row){
-        if (err!=null || row==null){
+    db.get("SELECT * From Schedule WHERE Schedule.lsid={0}".format(lsid), function(err, row) {
+        if (err != null || row == null) {
             console.log(err);
             callback(err, null);
         } else {
@@ -142,17 +144,17 @@ module.exports.get = function(lsid, callback) {
  * @param {Text} email
  * @param {Function} callback
  */
-module.exports.list = function(sid, callback){ /// option = {callback: function(err, schedules), db: db}
+module.exports.list = function(sid, callback) { /// option = {callback: function(err, schedules), db: db}
     var db = dbConnector.getInstance();
     console.log("DB LIST");
     db.all("SELECT * FROM Schedule WHERE Schedule.sid={0}".format(sid), function(err, rows) {
-        if (err!= null || rows == null){
+        if (err != null || rows == null) {
             console.log(err);
             callback(err, null);
         } else {
             console.log(rows);
             callback(null, rows);
-        }   
+        }
     });
 };
 
@@ -222,18 +224,20 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
     var schedules = []
     var scheduleData = new LessonSchedule(scheduleObj);
     var numberOfLessons = scheduleObj.numberOfLessons;
-    if (validateInput(scheduleData)){
+    if (validateInput(scheduleData)) {
         var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}"
             .format(studentRecord.sid);
         console.log("BEFORE=========");
-         db.serialize(function(){
+        db.serialize(function() {
             console.log("AFTER=========" + numberOfLessons);
             // console.log(scheduleData);
-            for (var i = 0; i < numberOfLessons; i++){
-               scheduleData.date.setDate(scheduleData.date.getDate()+7);
-               console.log(scheduleData);
+            for (var i = 0; i < numberOfLessons; i++) {
+                if (i != 0) {
+                    scheduleData.date.setDate(scheduleData.date.getDate() + 7);
+                }
+                console.log(scheduleData);
                 var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
-                    .format(
+                    .format(    
                         scheduleData.date.toISOString(),
                         scheduleData.lessonTime,
                         scheduleData.lessonLength,
@@ -262,28 +266,28 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
 
 // doesnt work lol gg 
 // supposed to append schedules to each student in students. 
-module.exports.retrieveSchedules = function(studentRecords, callback){
+module.exports.retrieveSchedules = function(studentRecords, callback) {
     var db = dbConnector.getInstance();
     var newStudentRecords = [];
     var error = null;
-    db.serialize(function(){
-        for (var i = 0; i < studentRecords.length; i++){
+    db.serialize(function() {
+        for (var i = 0; i < studentRecords.length; i++) {
             var studentRecord = studentRecords[i];
-            var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}".format(studentRecord.sid); 
-            db.all(get_query, function(err, schedules){
-                if (err!=null || schedules == null){
+            var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}".format(studentRecord.sid);
+            db.all(get_query, function(err, schedules) {
+                if (err != null || schedules == null) {
                     console.log(err);
                     error = err;
                     callback(err, null);
                 } else {
                     studentRecord.lessonSchedules = schedules;
                     newStudentRecords.push(studentRecord);
-                    if (i==studentRecords.length-1){
+                    if (i == studentRecords.length - 1) {
                         callback(null, newStudentRecords);
                     }
                 }
             })
-            if (error!=null) break;
+            if (error != null) break;
         }
     });
 }

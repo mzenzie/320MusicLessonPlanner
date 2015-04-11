@@ -45,9 +45,9 @@ module.exports.get = function(req, res) {
     // var sess = req.session;
     // var id = sess.id; // to be implemented...
     var sid = req.query.id;
-    var tid = Account.getIDFromToken(req.headers.authorization); 
-    if (tid==null) tid = 1;
-    if (sid === undefined){
+    var tid = Account.getIDFromToken(req.headers.authorization);
+    if (tid == null) tid = 1;
+    if (sid === undefined) {
         //list
         StudentRecord.list(tid, function(err, studentRecords) {
             if (err != null) {
@@ -65,7 +65,7 @@ module.exports.get = function(req, res) {
                 res.json(studentRecord);
             }
         })
-        
+
     }
 };
 

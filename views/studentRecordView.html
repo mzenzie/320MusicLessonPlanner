@@ -1,4 +1,5 @@
-<div class="ibox float-e-margins" ng-controller="StudentRecordCtrl">
+<!-- <div class="ibox float-e-margins" ng-controller="StudentRecordCtrl"> -->
+<div class="ibox float-e-margins">
     <div class="ibox-title">
         <h5><strong>{{student.lastName}}, {{student.firstName}}</strong> ... {{student.instrument}}</h5>
         <div ibox-tools></div>
@@ -16,23 +17,24 @@
             <dt>Birthday:</dt>
             <dd> {{student.birthday | date:'MMMM d, yyyy'}}</dd>
             <dt>Lesson Time:</dt>
-            <dd> {{student.lessonSchedules[0].date | date:'EEEE'}}s at {{student.lessonSchedules[0].lessonTime | date:'h:mm a'}}</dd>
+            <dd> {{student.lessonSchedules[0].date | date:'EEEE'}}s at {{student.lessonSchedules[0].date | date:'h:mm a'}}</dd>
             <dt>Lesson Length:</dt>
             <dd> {{student.lessonSchedules[0].lessonLength}}</dd>
             <dt>Original Start Date:</dt>
             <dd> {{student.lessonSchedules[0].date | date:'MMMM d, yyyy'}}</dd>
         </dl>
+        <div class="ibox float-e-margins"=>
+            <div class="ibox-title">
+                <h5>Notes and Student Progress</h5>
+                <div ibox-tools></div>
+            </div>
+            <div class="ibox-content">
+                <p ng-bind-html="student.generalNotes"></p>
+            </div>
+        </div>
+        <div ng-include="'/views/lessonNoteListView.html'"></div>
         <hr>
-        <h5>Notes and Student Progress</h5>
-        <!-- <summernote height="245" ng-model="generalNotes"></summernote> -->
-        <div class="row">
-            <summernote config="options" on-change="change(contents)" ng-model="student.generalNotes"></summernote>
-            <p>{{changedNotes}}</p>
-        </div>
-        <div class="row">
-            <button class="btn btn-success btn-md" ng-click="editStudentRecordNote()" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Student</button>
-            <button class="btn btn-success btn-md" ng-click="deleteStudentRecord(student)" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Student</button>
-        </div>
+        <button class="btn btn-success btn-md" ng-click="editStudentRecord(student)" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Student</button>
+        <button class="btn btn-danger btn-md" ng-click="deleteStudentRecord(student)" tooltip-placement="top" tooltip="Delete {{student.firstName}} {{student.lastName}} ({{student.instrument}})"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Delete Student</button>
     </div>
-    <div ng-include="'/views/lessonNoteListView.html'"></div>
 </div>

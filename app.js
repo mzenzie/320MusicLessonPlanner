@@ -19,6 +19,7 @@ var secret 						= require('./server/config/secret.js');
 var studentRecordController 	= require('./server/controller/student-record-controller');
 var authenticationController 	= require('./server/controller/authentication-controller');
 var lessonScheduleController	= require('./server/controller/lesson-schedule-controller');
+var lessonNoteController		= require('./server/controller/lesson-note-controller');
 var teacherController			= require('./server/controller/teacher-controller');
 
 //	Configuration ============================================
@@ -50,6 +51,9 @@ dbConnector.init();
 // authenticationController.startRedisServer(); //uncomment when authen completes.
 
 // Routes ======================================================
+/*  For Angular people, use these routes to make requests, i.e. $resource('/api/studentRecord/:sid/lessonSchedule') 
+	or use the lower level http service $http.get('/api/studentRecord/:sid/lessonSchedule/:lsid', callback...) etc etc etc. 
+*/
 
 //ACCOUNT
 app.post('/api/signout',  jwt({ secret: secret.secretToken }),authenticationController.signout);
@@ -64,10 +68,23 @@ app.put("/api/studentRecord/", studentRecordController.update);
 
 // LESSON SCHEDULE
 app.get('/api/studentRecord/:sid/lessonSchedule/', lessonScheduleController.list);
+app.get('/api/studentRecord/:sid/lessonSchedule/:lsid', lessonScheduleController.get);
+app.post('/api/studentRecord/:sid/lessonSchedule/', lessonScheduleController.create);
+app.delete('/api/studentRecord/:sid/lessonSchedule/:lsid', lessonScheduleController.delete);
+app.put('/api/studentRecord/:sid/lessonSchedule/:lsid', lessonScheduleController.update);
 
 //TEACHER
 app.get('/api/teacher/', teacherController.get);
-app.get('/api/teacher/:id', teacherController.get);
+app.get('/api/teacher/:id', teacherController.get); // testing
+
+// LESSON NOTES
+app.get('/api/studentRecord/:sid/lessonNotes/', lessonNoteController.list);
+app.get('/api/studentRecord/:sid/lessonNotes/:lnid', lessonNoteController.get);
+app.post('/api/studentRecord/:sid/lessonNotes/', lessonNoteController.create);
+app.delete('/api/studentRecord/:sid/lessonNotes/:lnid', lessonNoteController.delete);
+app.put('/api/studentRecord/:sid/lessonNotes/:lnid', lessonNoteController.update);
+
+
 
 
 

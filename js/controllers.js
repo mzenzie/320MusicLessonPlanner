@@ -503,6 +503,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     var lessonDate = lesson.getDate();
                     var lessonMonth = lesson.getMonth();
                     var lessonYear = lesson.getYear();
+                    console.log("Lesson month: " + lessonMonth + " date: " + lessonDate +  "?= Today month: " + todayMonth + " date: " + todayDate);
                     if (lessonDate == todayDate && lessonMonth == todayMonth) {
                         todaysLessons.push(lessons[i]);
                     }

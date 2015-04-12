@@ -77,6 +77,7 @@ module.exports.delete = function(req, res) {
 
 module.exports.update = function(req, res) {
     // > PUT /api/studentRecord/:sid/lessonSchedule/:lsid
+    console.log(req.body);
     var lsid = req.params.lsid;
     var sid  = req.params.sid;
     if (lsid===undefined || sid ===undefined){

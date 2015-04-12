@@ -176,6 +176,31 @@ module.exports.delete = function(lsid, callback) {
     });
 };
 
+/*
+ * Update lesson schedule.
+ * Note: only updates fields. Not ID.
+ *
+ * @param {Date} lessonTime
+ * @param {Date} lessonLength
+ * @param {Text} email
+ */
+
+module.exports.update = function(callback) {
+    //TODO: update lesson schedule in DB
+    var self = this;
+    var db = dbConnector.getInstance();
+    var query = "UPDATE Schedule SET date='{0}', lessonTime='{1}', lessonLength={2}, notes='{3}'WHERE lrid='{4}'"
+                .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lrid);
+    console.log(query);
+    db.run(query, function(err){
+        if (err!=null){
+            console.log(err);
+            callback(err, null);
+        } else {
+            callback(null, new LessonSchedule(self));
+        }
+    });
+};
 
 /*
  * Create a new schedule.
@@ -190,8 +215,8 @@ module.exports.create = function(jsObject, studentRecord, callback) {
     var newLSchedule = new LessonSchedule(jsObject);
     newLSchedule.save(studentRecord, callback);
 
-
 };
+
 
 module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
     var db = dbConnector.getInstance();
@@ -238,6 +263,55 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
         });
     }
 }
+
+
+
+
+/////////////////////////////////////////////////////////////////////////
+/*
+    if (validateInput(scheduleData)){
+=======
+    if (validateInput(scheduleData)) {
+>>>>>>> 3775d9647eeaff7aa9460c95f8d3d06ca02fb9aa
+        var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}"
+            .format(studentRecord.sid);
+        console.log("BEFORE=========");
+        db.serialize(function() {
+            console.log("AFTER=========" + numberOfLessons);
+            // console.log(scheduleData);
+            for (var i = 0; i < numberOfLessons; i++) {
+                if (i != 0) {
+                    scheduleData.date.setDate(scheduleData.date.getDate() + 7);
+                }
+                console.log(scheduleData);
+                var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
+                    .format(    
+                        scheduleData.date.toISOString(),
+                        scheduleData.lessonTime,
+                        scheduleData.lessonLength,
+                        scheduleData.notes,
+                        studentRecord.sid);
+                console.log(lschedule_query);
+                // console.log(get_query);
+                db.run(lschedule_query, function(err) {
+                    if (err != null) {
+                        console.log(err);
+                    }
+                })
+            }
+            db.all(get_query, function(err, schedules) {
+                if (err != null || schedules == null) {
+                    console.log(err);
+                    callback(err, null);
+                } else {
+                    console.log("200 -------- RETREIVED SCHEDULE LIST");
+                    callback(null, schedules);
+                }
+            });
+        });
+    }
+    */
+
 
 // doesnt work lol gg 
 // supposed to append schedules to each student in students. 

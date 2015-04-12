@@ -70,4 +70,26 @@ module.exports.delete = function(req, res) {
 
 module.exports.update = function(req, res) {
     // > PUT /api/teacher/:id
+    if(req.query.tid === undefined){
+        res.status(400).send("invalid tid");
+    }else{
+        Teacher.get(req.query.tid, function(err, teacher){
+            if(err || teacher === null){
+                res.send("No such teacher");
+            }else{
+                for(var key in req.body){
+                    if(req.body.hasOwnProperty(key)){
+                        var val = req.body[key];
+                        teacher[key] = val;                    }
+                    }
+                }
+                Teacher.update(teacher, function(err, teacher){
+                    if(err != null){
+                        res.status(400).send("unable to update teacher");
+                    }else{
+                        res.status(200).send(teacher);
+                    }
+                });
+            });
+        }
 }

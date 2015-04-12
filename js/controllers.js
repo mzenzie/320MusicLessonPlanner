@@ -10,8 +10,13 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID) {
 
         //  Gets the list of students and lessons
-        var studentRecordList = $resource('/api/studentRecord/');
-
+        var studentRecordList = $resource('/api/studentRecord/', {
+            id: '@id'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
 
         studentRecordList.query(function(result) {
             var studentRecords = result;
@@ -181,7 +186,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         };
 
         $scope.saveEditStudent = function() {
-            $scope.student.$update(function() {
+            $scope.student.$update({id:$scope.student.sid},function() {
                 // $log.debug('New note value: ' + $scope.student.generalNotes);
             });
             $state.go('teacher-dashboard.main');
@@ -526,7 +531,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 /*
  *      Factory that passes student data from one controller to another
  */
-.factory('getTeacherByID', ['$resource',
+.factory('getTeacherByID', ['$resource', 
     function($resource) {
         return $resource('/api/teacher/:id', {
             id: '@id'

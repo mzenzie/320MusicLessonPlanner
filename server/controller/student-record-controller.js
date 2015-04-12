@@ -92,10 +92,13 @@ module.exports.delete = function(req, res) {
 
 module.exports.update = function(req, res) {
     // > PUT /api/studentRecord/:id
+    console.log("UPDATE");
+    console.log(req.body);
+    console.log(req.query.id);
     var sid = req.query.id;
     if(sid === undefined){
         res.status(400).json({error:"invalid sid requested"});
-    }else{
+    } else {
         StudentRecord.get(sid, function(err, studentRecord){
             if(err!=null || studentRecord == null){
                 res.status(400).json({error:"unable to retrieve StudentRecord for updating"});

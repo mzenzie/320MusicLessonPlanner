@@ -75,6 +75,17 @@ Teacher.prototype.save = function(callback) {
 
 Teacher.prototype.update = function(jsObject) {
     //TODO: implement function
+    var db = dbConnector.getInstance();
+    var update = "Update Teacher SET email='{0}', firstName='{1}', lastName='{2}', address='{3}', phone='{4}' WHERE tid={4}"
+    .format(jsObject.email, jsObject.firstName, jsObject.lastName, jsObject.address, jsObject.phone, jsObject.tid);
+    console.log(update);
+    db.run(update, function(err){
+        if(err != null){
+            console.log(err);
+        } else {
+            callback(null, new LessonNote(jsObject));
+        }
+    });
 };
 
 // Exports the teacher account to allow it to be used by

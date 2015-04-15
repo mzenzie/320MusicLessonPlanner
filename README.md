@@ -86,7 +86,9 @@ Additional SQL commands can be found [here](http://www.thegeekstuff.com/2012/09/
 
 ### Testing
 
-Testing is implemented using the [Mocha](http://mochajs.org/) testing framework. Within this framework, unit tests use [should](https://github.com/shouldjs/should.js) and integration tests use [supertest](https://www.npmjs.com/package/supertest) (with some possible overlapping). All test files are located in [./test](./test).
+Testing is implemented using the [Mocha](http://mochajs.org/) testing framework. Within this framework, unit tests use [should](https://github.com/shouldjs/should.js) and some integration tests use [supertest](https://www.npmjs.com/package/supertest) (with some possible overlapping). All test files are located in [./test](./test).
+
+The other integration tests use Protractor, which currently tests Firefox and Chrome. Downloads these browsers to test on them. 
 
 When beginning testing for the first time you will need to install the testing dependencies. All of the necessary dependencies can be installed by executing
   ```sh
@@ -96,25 +98,11 @@ If the above command does not work, you may need to re-run with admin privileges
   ```sh
   $ sudo ./install_test_dependencies
   ```
-All tests can be run from the root directory with the following command
+All Unit tests can be run from the root directory with the following command
   ```sh
   $ mocha
   ```
-More detailed testing instructions can be found [here](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Testing).
-
-For integration tests install [Protractor](https://github.com/angular/protractor), start the app
-  ```sh
-  $ node app
-  ```
-and run the test
-  ```sh
-  $ protractor test/Protractor_Tests/protractor.conf.js
-  ```
-or  
-  ```sh
-  $ protractor debug test/Protractor_Tests/protractor.conf.js
-  ```
-which allows you to explore the browser as it happens and step through code by entering 'c'
+More detailed testing instructions, and complete Integration tests, look [here](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Testing).
 
 ### Bug Tracking
 

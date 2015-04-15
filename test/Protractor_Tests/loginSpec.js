@@ -10,6 +10,7 @@ describe('Routing validation', function(){
         expect(browser.getCurrentUrl()).toMatch('/#/startpage/support')});
       browser.get('#/').then(function(){ 
         expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
+      browser.debugger();
    });
 
     it('should login', function(){
@@ -19,14 +20,15 @@ describe('Routing validation', function(){
       password.sendKeys('1234');
       element(by.buttonText('Login')).click()
         .then(function(){ expect(browser.getCurrentUrl()).toMatch('/#/teacher-dashboard/main')});
-      //browser.debugger();
+      browser.debugger();
     });
   });
 
   describe('Landing page functionality', function(){
     it('should create a student record', function(){
-      element(by.buttonText('Add New Student')).click();
-      //browser.debugger();
+      //element(by.buttonText('Add New Student')).click();
+      element(by.css('[ng-click="createNewStudent()"')).click();
+      browser.debugger();
       element(by.model('firstName')).sendKeys('testFirstName');
       element(by.model('lastName')).sendKeys('testLastName');
       element(by.model('instrument')).sendKeys('my instrument');
@@ -36,26 +38,23 @@ describe('Routing validation', function(){
       element(by.model('birthday')).sendKeys('1/1/2000');
       element(by.model('startDate')).sendKeys('1/1/2000');
       element(by.model('numberOfLessons')).sendKeys('10');
-       //browser.debugger();
+       browser.debugger();
       element(by.css('[ng-click="ok()"]')).click();
       browser.debugger();
+    });
+    it('should visit calendar', function(){
+      browser.get('#/teacher-dashboard/calendar')
+      .then(function(){expect(browser.getCurrentUrl()).toMatch('#/teacher-dashboard/calendar')});
+    });
+       /* <button class="btn btn-w-m btn-white" ng-click="signout()" tooltip-placement="bottom" tooltip="Log out of your account.">
+                    <i class="fa fa-sign-out"></i> Log out
+                </button>*/
+
+    it('should logout correctly', function(){
+      browser.get('#/').then(function(){ 
+        expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
     });
   });
 
   
 });
-/*
-describe('Routing Test', function() {
-
-  it('Should create a new student', function(){
-    
-    //expect(browser.getCurrentUrl()).toEqual('/#/teacher-dashboard/main');
-    //browser.debugger();
-
-    
-  })
-
-  it('Should correctly display new student', function(){
-    browser.debugger();
-  })
-});*/

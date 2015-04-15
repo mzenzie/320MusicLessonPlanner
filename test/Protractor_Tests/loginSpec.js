@@ -10,6 +10,7 @@ describe('Routing validation', function(){
         expect(browser.getCurrentUrl()).toMatch('/#/startpage/support')});
       browser.get('#/').then(function(){ 
         expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
+      browser.waitForAngular();
       browser.debugger();
    });
 
@@ -20,15 +21,18 @@ describe('Routing validation', function(){
       password.sendKeys('1234');
       element(by.buttonText('Login')).click()
         .then(function(){ expect(browser.getCurrentUrl()).toMatch('/#/teacher-dashboard/main')});
+      browser.waitForAngular();
       browser.debugger();
     });
   });
 
   describe('Landing page functionality', function(){
     it('should create a student record', function(){
-      //element(by.buttonText('Add New Student')).click();
-      element(by.css('[ng-click="createNewStudent()"')).click();
+      
+      browser.get('#/teacher-dashboard/createStudentRecord').then(function(){ 
+        expect(browser.getCurrentUrl()).toMatch('#/teacher-dashboard/createStudentRecord')});
       browser.debugger();
+      browser.waitForAngular();
       element(by.model('firstName')).sendKeys('testFirstName');
       element(by.model('lastName')).sendKeys('testLastName');
       element(by.model('instrument')).sendKeys('my instrument');
@@ -38,7 +42,8 @@ describe('Routing validation', function(){
       element(by.model('birthday')).sendKeys('1/1/2000');
       element(by.model('startDate')).sendKeys('1/1/2000');
       element(by.model('numberOfLessons')).sendKeys('10');
-       browser.debugger();
+      browser.waitForAngular();
+      browser.debugger();
       element(by.css('[ng-click="ok()"]')).click();
       browser.debugger();
     });

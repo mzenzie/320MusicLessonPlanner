@@ -4,8 +4,9 @@ exports.config = {
   specs: ['*Spec*.js'],
   rootElement: '.protractorStartPoint',
   multiCapabilities: [
-  { browserName: 'firefox'}, 
-    //{browserName: 'chrome'}
+    //{browserName: 'opera'}
+    {browserName: 'firefox'}, 
+    {browserName: 'chrome'}
   ]
   /*
   multiCapabilities: [

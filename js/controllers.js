@@ -18,6 +18,15 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             }
         });
 
+        var lessonRecord = $resource('/api/studentRecord/:sid/lessonSchedule/:lsid', {
+            sid: '@sid',
+            lsid: '@lsid'
+        }, {
+            update: {
+                method: 'PUT'
+            }
+        });
+
         studentRecordList.query(function(result) {
             var studentRecords = result;
             $scope.students = result;
@@ -50,6 +59,17 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 }
             });
         });
+
+        //List pagination
+        $scope.currentStudentPage = 0;
+        $scope.currentLessonSchedulePage = 0;
+        $scope.pageSize = 10;
+        $scope.numberOfStudentPages = function() {
+            return Math.ceil($scope.students.length / $scope.pageSize);
+        }
+        $scope.numberOfLessonSchedulePages = function() {
+            return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
+        }
 
         //Get teacher data
         var token = store.get('token')
@@ -127,7 +147,13 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
         //  View student record
         $scope.viewStudentRecord = function(student) {
-            $scope.student = studentRecordList.get({id: student.sid}, {update: {method: 'PUT'}});
+            $scope.student = studentRecordList.get({
+                id: student.sid
+            }, {
+                update: {
+                    method: 'PUT'
+                }
+            });
             studentRecordList.get({
                 id: student.sid
             }, function(result) {
@@ -139,8 +165,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         };
 
         $scope.viewLessonRecord = function(lesson) {
-            var lessonRecord = $resource('/api/studentRecord/:sid/lessonSchedule/:lsid');
-            $scope.lesson = lessonRecord.get({sid: lesson.sid, lsid: lesson.lsid}, function(result){
+            $scope.lesson = lessonRecord.get({
+                sid: lesson.sid,
+                lsid: lesson.lsid
+            }, function(result) {
                 var lessonParams = {
                     sid: result.sid,
                     lsid: result.lsid
@@ -150,8 +178,19 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         };
 
         $scope.editLessonRecord = function(lesson) {
-            var lessonRecord = $resource('/api/studentRecord/:sid/lessonSchedule/:lsid');
-            $scope.lesson = lessonRecord.get({sid: lesson.sid, lsid: lesson.lsid}, function(result){
+            // var lessonRecord = $resource('/api/studentRecord/:sid/lessonSchedule/:lsid');
+            $scope.lesson = lessonRecord.get({
+                sid: lesson.sid,
+                lsid: lesson.lsid
+            }, {
+                update: {
+                    method: 'PUT'
+                }
+            });
+            lessonRecord.get({
+                sid: lesson.sid,
+                lsid: lesson.lsid
+            }, function(result) {
                 var lessonParams = {
                     sid: result.sid,
                     lsid: result.lsid
@@ -162,7 +201,13 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
         //  Edit student record
         $scope.editStudentRecord = function(student) {
-            $scope.student = studentRecordList.get({id: student.sid}, {update: {method: 'PUT'}});
+            $scope.student = studentRecordList.get({
+                id: student.sid
+            }, {
+                update: {
+                    method: 'PUT'
+                }
+            });
             studentRecordList.get({
                 id: student.sid
             }, function(result) {
@@ -186,7 +231,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         };
 
         $scope.saveEditStudent = function() {
-            $scope.student.$update({id:$scope.student.sid},function() {
+            $scope.student.$update({
+                id: $scope.student.sid
+            }, function() {
                 // $log.debug('New note value: ' + $scope.student.generalNotes);
             });
             $state.go('teacher-dashboard.main');
@@ -199,11 +246,21 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
         //  Edit Student record
         $scope.cancelEditLessonNote = function() {
-            $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', {sid: $scope.lesson.sid, lsid: $scope.lesson.lsid});
+            $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', {
+                sid: $scope.lesson.sid,
+                lsid: $scope.lesson.lsid
+            });
         }
 
         $scope.saveEditLessonNote = function() {
-            $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', {sid: $scope.lesson.sid, lsid: $scope.lesson.lsid});
+            $scope.lesson.$update({
+                sid: $scope.lesson.sid,
+                lsid: $scope.lesson.lsid
+            }, function() {});
+            $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', {
+                sid: $scope.lesson.sid,
+                lsid: $scope.lesson.lsid
+            });
         }
 
         $scope.cancelLesson = function(lesson) {
@@ -221,7 +278,13 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             });
             modalInstance.result.then(function(confirmCancelLesson) {
                 $log.debug('Lesson reschedule choice made: ' + confirmCancelLesson);
-            // @TODO cancel current lesson
+                if (confirmCancelLesson == 0) {
+                    // @TODO Maybe a notify?
+                } else if (confirmCancelLesson == 1) {
+                    // @TODO Delete the lesson
+                } else {
+                    // @TODO Change the lesson date;
+                }
             });
         };
     }
@@ -531,7 +594,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 /*
  *      Factory that passes student data from one controller to another
  */
-.factory('getTeacherByID', ['$resource', 
+.factory('getTeacherByID', ['$resource',
     function($resource) {
         return $resource('/api/teacher/:id', {
             id: '@id'
@@ -574,6 +637,13 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         }
     }
 ])
+
+.filter('startPageFrom', function() {
+    return function(input, start) {
+        start = +start;
+        return input.slice(start);
+    }
+})
 
 .filter('filterDuplicates', [
     function() {

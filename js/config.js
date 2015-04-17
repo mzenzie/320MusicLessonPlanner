@@ -222,6 +222,32 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
         }
     })
 
+    //  Reschedule Lesson
+
+    .state('teacher-dashboard.rescheduleLesson/:sid/:lsid', {
+        url: "/rescheduleLesson/:sid/:lsid",
+        templateUrl: "views/rescheduleLesson.html",
+        data: {
+            pageTitle: 'Reschedule Lesson',
+            requiresLogin: true
+
+        },
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    insertBefore: '#loadBefore',
+                    name: 'localytics.directives',
+                    files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
+                }, {
+                    name: 'cgNotify',
+                    files: ['css/plugins/angular-notify/angular-notify.min.css', 'js/plugins/angular-notify/angular-notify.min.js']
+                }, {
+                    files: ['js/plugins/jasny/jasny-bootstrap.min.js']
+                }]);
+            }
+        }
+    })
+
     //  Calendar view - LOGGED IN @TODO implement this.
 
     .state('teacher-dashboard.calendar', {
@@ -332,4 +358,8 @@ angular
             }
         });
 
+        //  Scrolls to the top of the page whenever a new route is called.
+        $rootScope.$on('$stateChangeSuccess', function() {
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+        });
     });

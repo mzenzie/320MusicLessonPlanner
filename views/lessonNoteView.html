@@ -1,11 +1,10 @@
 <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h5>Lesson Note View</h5>
+        <h5>Lesson Notes for {{lesson.date | date:'MMMM d, yyyy'}} at {{lesson.date | date:'h:mm a'}}</h5>
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
         <h3><small>Name:</small> {{student.lastName}}, {{student.firstName}} <small>Instrument:</small> {{student.instrument}} </h3>
-        <h3><small>Date:</small> {{lesson.date | date:'MMMM d, yyyy'}} <small>Time:</small> {{lesson.date | date:'h:mm a'}} </h3>
         <div class="ibox float-e-margins"=>
             <div class="ibox-title">
                 <h5>Notes</h5>

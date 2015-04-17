@@ -114,7 +114,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="font-noraml">Number of Lessons:</label>
-                                <input type="number" ng-model="numberOfLessons" class="form-control" name="numberOfLessons" placeHolder="0"  min="1" required>
+                                <input type="number" ng-model="numberOfLessons" class="form-control" name="numberOfLessons" placeHolder="0"  min="1" max="500" required>
                                 <div class="m-t-xs" ng-show="studentRecordForm.numberOfLessons.$invalid && studentRecordForm.numberOfLessons.$dirty || studentRecordForm.submitted">
                                     <small class="text-danger" ng-show="studentRecordForm.numberOfLessons.$error.required">Please input the number of lessons.</small>
                                     <small class="text-danger" ng-show="studentRecordForm.numberOfLessons.$error.number">Please input a number only.</small>

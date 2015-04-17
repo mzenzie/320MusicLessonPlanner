@@ -5,13 +5,14 @@
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
+        <p>Click to view more information. </p>
         <table class="table table-hover">
             <thread>
                 <th>Time</th>
                 <th>Student</th>
             </thread>
             <tbody>
-                <tr ng-repeat="lesson in lessons| isTodaysLesson | orderBy: 'lessonTime' "ng-click="viewStudentRecord(lesson)">
+                <tr ng-repeat="lesson in lessons| isTodaysLesson | orderBy: 'lessonTime' "ng-click="viewTodayLessonRecord(lesson)">
                     <td>{{lesson.lessonTime | date:'h:mm a'}}
                     </td>
                     <!-- <td>{{lesson.sid}}  <small>(Will have names soon!)</small></td> -->

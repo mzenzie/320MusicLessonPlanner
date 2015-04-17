@@ -1,0 +1,47 @@
+<div class="wrapper wrapper-content">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-8">
+            <h2>MusicLessonPlanner: Reschedule Lesson</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a ui-sref="teacher-dashboard.main">Home</a>
+                </li>
+                <li class="active">
+                    <strong>Reschedule Lesson</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>Select new date and time.</h5>
+            <div ibox-tools></div>
+        </div>
+        <div class="ibox-content">
+            <form novalidate role="form" name="lessonNoteForm">
+                <div class="form-group">
+                    <label class="font-noraml">Change {{lesson.date | date:'MMMM d, yyyy'}} to:</label>
+                    <p class="input-group">
+                        <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="lesson.date" is-open="openedLessonDate" ng-required="true" close-text="Close" name="newDate" placeholder="MMMM d, yyyy" required>
+                        <span class="input-group-addon"><button type="button" class="btn btn-success btn-xs" ng-click="openLessonDate($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
+                        <div class="m-t-xs" ng-show="lessonNoteForm.newDate.$invalid && lessonNoteForm.newDate.$dirty || lessonNoteForm.submitted">
+                            <small class="text-danger" ng-show="lessonNoteForm.newDate.$error.required">Please input a date.</small>
+                        </div>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="font-noraml">Lesson Time</label>
+                    <timepicker ng-model="lesson.date" ng-change="changed()" hour-step="hstep" minute-step="5" show-meridian="ismeridian"></timepicker>
+                    {{lesson.date | date:'h:mm a'}}
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-danger" ng-click="cancelEditLessonNote()">Cancel</button>
+                        <button type="button" class="btn btn-success" ng-click="saveEditLessonNote()">Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

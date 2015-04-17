@@ -32,9 +32,9 @@
                 <p ng-bind-html="student.generalNotes"></p>
             </div>
         </div>
-        <div ng-include="'/views/lessonNoteListView.html'"></div>
-        <hr>
-        <button class="btn btn-success btn-md" ng-click="editStudentRecord(student)" tooltip-placement="top" tooltip="Submit edits to note (Not yet implemented)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Student</button>
+        <button class="btn btn-success btn-md" ng-click="editStudentRecord(student)" tooltip-placement="top" tooltip="Edit this student's record"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Student</button>
         <button class="btn btn-danger btn-md" ng-click="deleteStudentRecord(student)" tooltip-placement="top" tooltip="Delete {{student.firstName}} {{student.lastName}} ({{student.instrument}})"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Delete Student</button>
+        <hr>
     </div>
+    <div ng-include="'/views/lessonNoteListView.html'"></div>
 </div>

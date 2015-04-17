@@ -80,13 +80,41 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
         }
     })
 
-    //  Student Record Creation form page
+    //  Student Record Editing form page
 
     .state('teacher-dashboard.editStudentRecord/:sid', {
         url: "/editStudentRecord/:sid",
         templateUrl: "views/editStudentRecord.html",
         data: {
             pageTitle: 'Edit Student Record',
+            requiresLogin: true
+        },
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    insertBefore: '#loadBefore',
+                    name: 'localytics.directives',
+                    files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
+                }, {
+                    name: 'cgNotify',
+                    files: ['css/plugins/angular-notify/angular-notify.min.css', 'js/plugins/angular-notify/angular-notify.min.js']
+                }, {
+                    files: ['js/plugins/jasny/jasny-bootstrap.min.js']
+                }, {
+                    name: 'summernote',
+                    files: ['css/plugins/summernote/summernote.css', 'css/plugins/summernote/summernote-bs3.css', 'js/plugins/summernote/summernote.min.js', 'js/plugins/summernote/angular-summernote.min.js']
+                }]);
+            }
+        }
+    })
+
+    //  Lesson Record Editing form page
+
+    .state('teacher-dashboard.editLessonRecord', {
+        url: "/editLessonRecord/",
+        templateUrl: "views/editLessonRecord.html",
+        data: {
+            pageTitle: 'Edit Lesson Record',
             requiresLogin: true
         },
         resolve: {
@@ -156,8 +184,8 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
 
     //  Specific Lesson Note view
 
-    .state('teacher-dashboard.lessonNoteViewPage', {
-        url: "/lessonNotePageView",
+    .state('teacher-dashboard.viewLessonRecord/:sid/:lsid', {
+        url: "/viewLessonRecord/:sid/:lsid",
         templateUrl: "views/lessonNotePageView.html",
         data: {
             pageTitle: 'Lesson Notes',
@@ -169,6 +197,52 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, jwtInte
                 return $ocLazyLoad.load([{
                     name: 'summernote',
                     files: ['css/plugins/summernote/summernote.css', 'css/plugins/summernote/summernote-bs3.css', 'js/plugins/summernote/summernote.min.js', 'js/plugins/summernote/angular-summernote.min.js']
+                }]);
+            }
+        }
+    })
+
+    //  Edit Lesson Note
+
+    .state('teacher-dashboard.editLessonRecord/:sid/:lsid', {
+        url: "/editLessonRecord/:sid/:lsid",
+        templateUrl: "views/editLessonRecord.html",
+        data: {
+            pageTitle: 'Edit Lesson Notes',
+            requiresLogin: true
+
+        },
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    name: 'summernote',
+                    files: ['css/plugins/summernote/summernote.css', 'css/plugins/summernote/summernote-bs3.css', 'js/plugins/summernote/summernote.min.js', 'js/plugins/summernote/angular-summernote.min.js']
+                }]);
+            }
+        }
+    })
+
+    //  Reschedule Lesson
+
+    .state('teacher-dashboard.rescheduleLesson/:sid/:lsid', {
+        url: "/rescheduleLesson/:sid/:lsid",
+        templateUrl: "views/rescheduleLesson.html",
+        data: {
+            pageTitle: 'Reschedule Lesson',
+            requiresLogin: true
+
+        },
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([{
+                    insertBefore: '#loadBefore',
+                    name: 'localytics.directives',
+                    files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/chosen/chosen.js']
+                }, {
+                    name: 'cgNotify',
+                    files: ['css/plugins/angular-notify/angular-notify.min.css', 'js/plugins/angular-notify/angular-notify.min.js']
+                }, {
+                    files: ['js/plugins/jasny/jasny-bootstrap.min.js']
                 }]);
             }
         }
@@ -284,4 +358,8 @@ angular
             }
         });
 
+        //  Scrolls to the top of the page whenever a new route is called.
+        $rootScope.$on('$stateChangeSuccess', function() {
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+        });
     });

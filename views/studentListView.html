@@ -5,6 +5,7 @@
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
+        <p>Click to view more information.</p>
         <table class="table table-hover">
             <thread>
                 <th>Students (<span ng-bind="students.length"></span> records)</th>
@@ -12,7 +13,7 @@
                 <th></th>
             </thread>
             <tbody>
-                <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument']" ng-click="viewStudentRecord(student)">
+                <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument'] | startPageFrom:currentStudentPage*pageSize | limitTo:pageSize" ng-click="viewStudentRecord(student)">
                     <td>
                         {{student.lastName}}, {{student.firstName}}
                     </td>
@@ -20,26 +21,17 @@
                         {{student.instrument}}
                     </td>
                     <td align="right">
-                            <i class="fa fa-chevron-right"></i>
+                        <i class="fa fa-chevron-right"></i>
                     </td>
-                    <!-- </div> -->
-                    <!--                         <div class="dropdown" dropdown>
-                            <a class="dropdown-toggle" dropdown-toggle tooltip-placement="top" tooltip="Student record options."> <i class="fa fa-chevron-right"></i><span class="caret"></span> </a>
-                            <ul class="dropdown-menu animated fadeInRight m-t-xs" role="menu">
-                                <li>
-                                    <a href="#" ng-click="viewStudentRecord(student)"><i class="fa fa-eye"></i>&nbsp;&nbsp;View Student</a>
-                                </li>
-                                <li>
-                                    <a href="#" ng-click="editStudentRecord(student)"><i class="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Edit Student</a>
-                                </li>
-                                <li>
-                                    <a href="#" ng-click="deleteStudentRecord(student)"><i class="fa fa-trash"></i>&nbsp;&nbsp;Delete Student</a>
-                                </li>
-                            </ul>
-                        </div> -->
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-success" ng-click="createStudentRecord()" tooltip-placement="top" tooltip="Create a new student record.">Add New Student</button>
+        <button ng-disabled="currentStudentPage == 0" ng-click="currentStudentPage=currentStudentPage-1">
+            Previous
+        </button>
+        {{currentStudentPage+1}}/{{numberOfStudentPages()}}
+        <button ng-disabled="currentStudentPage >= students.length/pageSize - 1" ng-click="currentStudentPage=currentStudentPage+1">Next</button>
+        <hr>
+            <button class="btn btn-success" ng-click="createStudentRecord()" tooltip-placement="top" tooltip="Create a new student record.">Add New Student</button>
     </div>
 </div>

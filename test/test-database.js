@@ -25,6 +25,7 @@ describe('Database', function() {
         numberOfLessons: '12',
         lessonTime: '12:10',
         lessonLength: '2:00',
+        generalNotes: 'My notes'
     }
     var student2 = {}
     student2.body = {
@@ -39,6 +40,7 @@ describe('Database', function() {
         numberOfLessons: '12',
         lessonTime: '12:10',
         lessonLength: '2:00',
+        generalNotes: 'My other notes'
     }
 
     function setup()

@@ -274,11 +274,6 @@ module.exports.delete = function(sid,callback) {
  */
  /*
 
-db.run("INSERT INTO Schedule (date, lessonTime, lessonLength, sid) 
-VALUES ('1999-09-18', '18:25:00', '10', '1'),
-('1999-09-19', '18:25:00', '4', '1'),
-('1999-09-20', '18:25:10', '2', '1')");
-
 
  */
 module.exports.create = function(jsObject, callback) {

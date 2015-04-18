@@ -122,6 +122,7 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 ### Change Log
 
 0.1.0: Initial BETA version
+
 0.1.1:
   * Added tooltips
   * Added Bug report buttons
@@ -129,6 +130,7 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
   * The teacher's name is displayed when logged in.
   * Refactored controllers.js to clean up the code.
   * Added form validation, so no blank fields are allowed.
+
 0.1.2a:
   * Implemented editing student records
   * Implemented editing lesson notes

@@ -1,7 +1,7 @@
 ﻿# MusicLessonPlanner
 
 ### Version
-0.1.1 BETA
+0.1.2a BETA
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
@@ -121,15 +121,15 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 
 ### Change Log
 
--0.1.0: Initial BETA version
--0.1.1:
+0.1.0: Initial BETA version
+0.1.1:
   * Added tooltips
   * Added Bug report buttons
   * Preliminary logo and styling for login, registration, about
   * The teacher's name is displayed when logged in.
   * Refactored controllers.js to clean up the code.
   * Added form validation, so no blank fields are allowed.
--0.1.2a:
+0.1.2a:
   * Implemented editing student records
   * Implemented editing lesson notes
   * Implemented rescheduling/canceling lessons

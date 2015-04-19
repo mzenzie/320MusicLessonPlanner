@@ -377,6 +377,61 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 }
             });
         };
+
+        $scope.rescheduleLesson = function(lesson) {
+            $scope.hstep = 1;
+            $scope.mstep = 15;
+
+            $scope.options = {
+                hstep: [1, 2, 3],
+                mstep: [1, 5, 10, 15, 25, 30]
+            };
+
+            $scope.ismeridian = true;
+            $scope.toggleMode = function() {
+                $scope.ismeridian = !$scope.ismeridian;
+            };
+
+            $scope.update = function() {
+                var d = new Date();
+                d.setHours(14);
+                d.setMinutes(0);
+                $scope.lesson.lessonTime = d;
+            };
+
+            $scope.changed = function() {
+                // $log.log('Time changed to: ' + $scope.startDate);
+            };
+
+            $scope.clear = function() {
+                $scope.lesson.lessonTime = null;
+            };
+            //      *******************************************************
+            $scope.lesson = lessonRecord.get({
+                sid: lesson.sid,
+                lsid: lesson.lsid
+            }, {
+                update: {
+                    method: 'PUT'
+                }
+            });
+            lessonRecord.get({
+                sid: lesson.sid,
+                lsid: lesson.lsid
+            }, function(result) {
+                var lessonParams = {
+                    sid: result.sid,
+                    lsid: result.lsid
+                };
+                $state.go('teacher-dashboard.rescheduleLesson/:sid/:lsid', lessonParams);
+                // $log.debug("Lesson Date: " + $scope.lesson.date + " Time: " + $scope.lesson.lessonTime);
+            });
+            $scope.openLessonDate = function($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.openedLessonDate = true;
+            };
+        };
     }
 ])
 

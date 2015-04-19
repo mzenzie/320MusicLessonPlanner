@@ -322,6 +322,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                         }
                     });
                 } else {
+
                     $scope.hstep = 1;
                     $scope.mstep = 15;
 
@@ -379,6 +380,13 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         };
 
         $scope.rescheduleLesson = function(lesson) {
+            /*
+             *   Date initialization
+             */
+            // $log.debug($scope.lesson.date);
+            // var lessonDate = new Date($scope.lesson.date);
+            // $log.debug(lessonDate);
+
             $scope.hstep = 1;
             $scope.mstep = 15;
 
@@ -396,7 +404,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 var d = new Date();
                 d.setHours(14);
                 d.setMinutes(0);
-                $scope.lesson.lessonTime = d;
+                $scope.lesson.lessonTime = d.toString;
             };
 
             $scope.changed = function() {

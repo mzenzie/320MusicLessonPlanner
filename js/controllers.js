@@ -3,9 +3,9 @@
 
 angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: angular.module.factory.controller.etc....
 
-// /**
-//  * MainCtrl - controller
-//  */
+/**
+ * MainCtrl - controller
+ */
 .controller('MainCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', '$q', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID',
     function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID) {
 
@@ -596,11 +596,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 .controller('LoginCtrl', ['$state', '$stateParams', '$scope', '$resource', '$http', 'store', 'jwtHelper', 'getTeacherByID', '$log',
     function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log) {
 
-        // $scope.teacherProfile = {};
-        // if ($scope.teacherProfile.firstName != undefined) {
-        //     $log.warn('teacherProfile (firstName): ' + $scope.teacherProfile.firstName);
-        // };
-
         $scope.signin = function() {
             if ($scope.loginForm.$valid) {
                 $http.post('/api/signin', {
@@ -608,21 +603,12 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                         password: $scope.password
                     })
                     .success(function(data, status, header, config) {
-                        // alert("SIGN-IN-CTRL Recieved " + data.token);
                         store.set('token', data.token);
-
-                        // //Get user date
-                        // var token = store.get('token')
-                        // var decodedToken = token && jwtHelper.decodeToken(token);
-
-                        // $log.debug('Decoded token id: ' + decodedToken.id);
-                        // $scope.teacherProfile = getTeacherByID.get({
-                        //     id: decodedToken.id
-                        // });
-
                         $state.go('teacher-dashboard.main');
                     })
                     .error(function(data, status, header, config) {
+                        $log.error(status);
+                        
                         //alert('Incorrect user name or password.');
                     });
             } else {
@@ -645,9 +631,8 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 });
         };
         $scope.signup = function() {
-            // alert($scope.username);
             if ($scope.loginForm.$valid) {
-                alert('Welcome to MusicLessonPlanner, ' + $scope.firstName);
+                // alert('Welcome to MusicLessonPlanner, ' + $scope.firstName);
                 $http.post('/api/signup', {
                         username: $scope.username,
                         password: $scope.password,

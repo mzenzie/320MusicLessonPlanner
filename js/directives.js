@@ -33,7 +33,7 @@ function sideNavigation($timeout) {
         restrict: 'A',
         link: function(scope, element) {
             // Call the metsiMenu plugin and plug it to sidebar navigation
-            $timeout(function(){
+            $timeout(function() {
                 element.metisMenu();
             });
         }
@@ -48,23 +48,23 @@ function iboxTools($timeout) {
         restrict: 'A',
         scope: true,
         templateUrl: 'views/common/ibox_tools.html',
-        controller: function ($scope, $element) {
+        controller: function($scope, $element) {
             // Function for collapse ibox
-            $scope.showhide = function () {
-                var ibox = $element.closest('div.ibox');
-                var icon = $element.find('i:first');
-                var content = ibox.find('div.ibox-content');
-                content.slideToggle(200);
-                // Toggle icon from up to down
-                icon.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
-                ibox.toggleClass('').toggleClass('border-bottom');
-                $timeout(function () {
-                    ibox.resize();
-                    ibox.find('[id^=map-]').resize();
-                }, 50);
-            },
+            $scope.showhide = function() {
+                    var ibox = $element.closest('div.ibox');
+                    var icon = $element.find('i:first');
+                    var content = ibox.find('div.ibox-content');
+                    content.slideToggle(200);
+                    // Toggle icon from up to down
+                    icon.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+                    ibox.toggleClass('').toggleClass('border-bottom');
+                    $timeout(function() {
+                        ibox.resize();
+                        ibox.find('[id^=map-]').resize();
+                    }, 50);
+                },
                 // Function for close ibox
-                $scope.closebox = function () {
+                $scope.closebox = function() {
                     var ibox = $element.closest('div.ibox');
                     ibox.remove();
                 }
@@ -74,26 +74,26 @@ function iboxTools($timeout) {
 
 /**
  * minimalizaSidebar - Directive for minimalize sidebar
-*/
+ */
 function minimalizaSidebar($timeout) {
     return {
         restrict: 'A',
         template: '<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="" ng-click="minimalize()"><i class="fa fa-bars"></i></a>',
-        controller: function ($scope, $element) {
-            $scope.minimalize = function () {
+        controller: function($scope, $element) {
+            $scope.minimalize = function() {
                 $("body").toggleClass("mini-navbar");
                 if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
                     // Hide menu in order to smoothly turn on when maximize menu
                     $('#side-menu').hide();
                     // For smoothly turn on menu
                     setTimeout(
-                        function () {
+                        function() {
                             $('#side-menu').fadeIn(500);
                         }, 100);
-                } else if ($('body').hasClass('fixed-sidebar')){
+                } else if ($('body').hasClass('fixed-sidebar')) {
                     $('#side-menu').hide();
                     setTimeout(
-                        function () {
+                        function() {
                             $('#side-menu').fadeIn(500);
                         }, 300);
                 } else {
@@ -101,6 +101,41 @@ function minimalizaSidebar($timeout) {
                     $('#side-menu').removeAttr('style');
                 }
             }
+        }
+    };
+};
+
+function qnValidate() {
+    return {
+        link: function(scope, element, attr) {
+            var form = element.inheritedData('$formController');
+            // no need to validate if form doesn't exists
+            if (!form) return;
+            // validation model
+            var validate = attr.qnValidate;
+            // watch validate changes to display validation
+            scope.$watch(validate, function(errors) {
+
+                // every server validation should reset others
+                // note that this is form level and NOT field level validation
+                form.$serverError = {};
+
+                // if errors is undefined or null just set invalid to false and return
+                if (!errors) {
+                    form.$serverInvalid = false;
+                    return;
+                }
+                // set $serverInvalid to true|false
+                form.$serverInvalid = (errors.length > 0);
+
+                // loop through errors
+                angular.forEach(errors, function(error, i) {
+                    form.$serverError[error.key] = {
+                        $invalid: true,
+                        message: error.value
+                    };
+                });
+            });
         }
     };
 };
@@ -118,3 +153,4 @@ angular
     .directive('sideNavigation', sideNavigation)
     .directive('iboxTools', iboxTools)
     .directive('minimalizaSidebar', minimalizaSidebar)
+    .directive('qnValidate', qnValidate)

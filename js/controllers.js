@@ -593,8 +593,8 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 ])
 
 
-.controller('LoginCtrl', ['$state', '$stateParams', '$scope', '$resource', '$http', 'store', 'jwtHelper', 'getTeacherByID', '$log',
-    function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log) {
+.controller('LoginCtrl', ['$state', '$stateParams', '$scope', '$resource', '$http', 'store', 'jwtHelper', 'getTeacherByID', '$log', '$parse',
+    function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log, $parse) {
 
         $scope.signin = function() {
             if ($scope.loginForm.$valid) {
@@ -607,9 +607,11 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                         $state.go('teacher-dashboard.main');
                     })
                     .error(function(data, status, header, config) {
-                        $log.error(status);
-                        
-                        //alert('Incorrect user name or password.');
+                        // $log.error(status);
+                        $scope.errors = [{
+                            key: 'invalidUserName',
+                            value: 'Incorrect email or password.'
+                        }];
                     });
             } else {
                 $scope.loginForm.submitted = true;
@@ -644,7 +646,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                         $state.go('startpage.landing');
                     })
                     .error(function(data, status, header, config) {
-                        alert('Invalid input.');
+                        $scope.errors = [{
+                            key: 'duplicateUserName',
+                            value: 'Email already exists.'
+                        }];
                     });
             } else {
                 $scope.loginForm.submitted = true;

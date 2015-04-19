@@ -14,13 +14,13 @@ http://54.208.4.249:8000/
 
 - [Add/Delete/View student accounts](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Managing-student-accounts)
 - [Teacher Login Authentication](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Create-a-new-teacher-account)
+- Lesson Notes - Add/delete/view notes for each lesson and general notes for each student.
+- Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
+- Lesson Scheduling - Allow teachers to cancel or reschedule lessons.
 
 **Features in progress**
 
-- Lesson Notes - Add/delete/view notes for each lesson and general notes for each student.
-- Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
-- Edit/View teacher account information - Allow teachers to view, modify, or update their account information after creating already having created an account.
-- Lesson Scheduling - Integrate Google API to allow teachers to schedule lessons and make updates to existing lessons.
+- UI polishing and bug squashing.
 
 
 ### Installation and Build
@@ -136,6 +136,10 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
   * Implemented editing lesson notes
   * Implemented rescheduling/canceling lessons
   * Fixed today view
+
+0.1.2b:
+  * Added a message when the user tries to login with the wrong email/password
+  * Added a message when the user tries to create an account with a duplicate email
 
 
 [node.js]:http://nodejs.org

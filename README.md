@@ -21,6 +21,7 @@ http://54.208.4.249:8000/
 **Features in progress**
 
 - UI polishing and bug squashing.
+- Server-side check for lesson time conflicts.
 
 
 ### Installation and Build

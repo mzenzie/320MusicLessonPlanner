@@ -1,5 +1,8 @@
 "use strict";
 
+/*
+*   Design Patterns: the filters and factories at the bottom of the page demonstrate the Singleton and Factory patterns.
+ */
 
 angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: angular.module.factory.controller.etc....
 

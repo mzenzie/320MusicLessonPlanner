@@ -1,4 +1,8 @@
 describe('Routing validation', function(){
+  /*var dbConnector = require('../../database/dbinit.js');
+  dbConnector.init();        
+  dbConnector.reinit();
+  var db = dbConnector.getInstance();//*/
 
   describe('Pre-login functionality', function() {
     it('should reach Main, About and support screen', function(){
@@ -10,15 +14,30 @@ describe('Routing validation', function(){
         expect(browser.getCurrentUrl()).toMatch('/#/startpage/support')});
       browser.get('#/').then(function(){ 
         expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
-      browser.waitForAngular();
-      browser.debugger();
+      browser.waitForAngular();      
    });
 
+    it('should create an account', function(){
+      element(by.buttonText('Create an account')).then(function(){ 
+        expect(browser.getCurrentUrl()).toMatch('#/startpage/register')});
+      var newName = element(by.model('firstName'));
+      var newEmail = element(by.model('username'));
+      var newPassword = element(by.model('password'));
+      newName.sendKeys('t');
+      newEmail.sendKeys('t@t.com');
+      newPassword.sendKeys('ttttttt');
+      element(by.buttonText('Register')).click()
+      browser.waitForAngular();
+
+      }
+    });
+
     it('should login', function(){
+      browser.debugger();
       var username = element(by.model('username'));
       var password = element(by.model('password'));
-      username.sendKeys('admin@g.com');
-      password.sendKeys('1234');
+      username.sendKeys('t@t.com');
+      password.sendKeys('ttttttt');
       element(by.buttonText('Login')).click()
         .then(function(){ expect(browser.getCurrentUrl()).toMatch('/#/teacher-dashboard/main')});
       browser.waitForAngular();

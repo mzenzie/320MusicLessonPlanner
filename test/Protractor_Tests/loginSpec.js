@@ -1,3 +1,51 @@
+"use strict";
+var LandingPage = function(){
+  this.CreateAccountButton = element(by.buttonText('Create an account'));
+  this.UserNameField = element(by.model('username'));
+  this.PasswordField = element(by.model('password'));   
+  this.LoginButton =   element(by.buttonText('Login'))
+      
+  this.ClickCreateAccount = function(){
+    CreateAccountButton.then(function(){ 
+      expect(browser.getCurrentUrl()).toMatch('#/startpage/register')});
+  };
+
+  this.SendLoginInfo = function(email, password){
+    username.sendKeys('t@t.com');
+    password.sendKeys('ttttttt');
+    LoginButton.click()
+        .then(function(){ expect(browser.getCurrentUrl()).toMatch('/#/teacher-dashboard/main')});
+  };
+
+  this.TestLandingPageRouting = function(){
+    browser.get('#/').then(function(){ 
+      expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
+    browser.get('/#/startpage/about').then(function(){ 
+      expect(browser.getCurrentUrl()).toMatch('/#/startpage/about')});
+    browser.get('/#/startpage/support').then(function(){ 
+      expect(browser.getCurrentUrl()).toMatch('/#/startpage/support')});
+    browser.get('#/').then(function(){ 
+      expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
+  };
+};
+
+var RegisterPage = function(){
+  this.NameField = element(by.model("firstName"));
+  this.EmailField = element(by.model("username"));
+  this.PasswordField = element(by.model("password"));
+  this.RegisterButton = element(by.buttonText('Register'));
+
+  this.CreateAccount = function(name, email, password){
+    
+    UserNameField.sendKeys(name);
+    EmailField.sendKeys(email);
+    PasswordField.sendKeys(password);
+    RegisterButton.click()
+      .then(function(){expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
+
+};
+
+
 describe('Routing validation', function(){
   /*var dbConnector = require('../../database/dbinit.js');
   dbConnector.init();        
@@ -5,42 +53,17 @@ describe('Routing validation', function(){
   var db = dbConnector.getInstance();//*/
 
   describe('Pre-login functionality', function() {
-    it('should reach Main, About and support screen', function(){
-      browser.get('#/').then(function(){ 
-        expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
-      browser.get('/#/startpage/about').then(function(){ 
-        expect(browser.getCurrentUrl()).toMatch('/#/startpage/about')});
-      browser.get('/#/startpage/support').then(function(){ 
-        expect(browser.getCurrentUrl()).toMatch('/#/startpage/support')});
-      browser.get('#/').then(function(){ 
-        expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
-      browser.waitForAngular();      
+    it('should reach Main, About and support screen', function(){      
+      LandingPage.TestLandingPageRouting(); 
    });
 
-    it('should create an account', function(){
-      element(by.buttonText('Create an account')).then(function(){ 
-        expect(browser.getCurrentUrl()).toMatch('#/startpage/register')});
-      var newName = element(by.model('firstName'));
-      var newEmail = element(by.model('username'));
-      var newPassword = element(by.model('password'));
-      newName.sendKeys('t');
-      newEmail.sendKeys('t@t.com');
-      newPassword.sendKeys('ttttttt');
-      element(by.buttonText('Register')).click()
-      browser.waitForAngular();
-
-      }
+    it('should create an account', function(){      
+      LandingPage.ClickCreateAccount();
+      
     });
 
     it('should login', function(){
-      browser.debugger();
-      var username = element(by.model('username'));
-      var password = element(by.model('password'));
-      username.sendKeys('t@t.com');
-      password.sendKeys('ttttttt');
-      element(by.buttonText('Login')).click()
-        .then(function(){ expect(browser.getCurrentUrl()).toMatch('/#/teacher-dashboard/main')});
-      browser.waitForAngular();
+     
       browser.debugger();
     });
   });

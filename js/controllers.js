@@ -540,7 +540,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         //      *******************************************************
 
         //      Temp General Notes:
-        $scope.generalNotes = "This is where notes on student progress should be placed. <b>Hopefully</b> formatting will work.";
+        // $scope.generalNotes = "This is where notes on student progress should be placed. <b>Hopefully</b> formatting will work.";
 
         //      Lesson Length Options:   @TODO This has stopped working right.
 

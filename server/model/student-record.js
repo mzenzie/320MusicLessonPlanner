@@ -117,14 +117,14 @@ StudentRecord.prototype.save = function(tid, callback){
                                 self.phone,
                                 self.birthday,
                                 self.instrument);
-        console.log(student_record_get_query);
+        // console.log(student_record_get_query);
         db.get(student_record_get_query, function(err, row){
             if (err!= null || row == null){
                 console.log(err, null);
             } else {
                 console.log("== STUDENT RECORD SAVED! ==");
                 self.sid = row.sid
-        		console.log(self);
+        		// console.log(self);
         		callback(null, self);
             }
     	});
@@ -295,7 +295,7 @@ module.exports.create = function(jsObject, callback) {
             lessonLength: jsObject.lessonLength,
             numberOfLessons: jsObject.numberOfLessons
         };
-        console.log(scheduleData);
+        // console.log(scheduleData);
         if (err != null || studentRecord == null){
             callback(err, null);
         } else {

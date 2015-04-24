@@ -233,7 +233,9 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
             // console.log(scheduleData);
             for (var i = 0; i < numberOfLessons; i++) {
                 if (i != 0) {
+                    console.log('=========DATE BEFORE: ' + scheduleData.date);
                     scheduleData.date.setDate(scheduleData.date.getDate() + 7);
+                    console.log('=========DATE AFTER: ' + scheduleData.date);
                 }
                 console.log(scheduleData);
                 var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"

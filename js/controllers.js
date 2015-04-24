@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-*   Design Patterns: the filters and factories at the bottom of the page demonstrate the Singleton and Factory patterns.
+ *   Design Patterns: the filters and factories at the bottom of the page demonstrate the Singleton and Factory patterns.
  */
 
 angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: angular.module.factory.controller.etc....
@@ -73,9 +73,11 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         $scope.numberOfStudentPages = function() {
             return Math.ceil($scope.students.length / $scope.pageSize);
         };
-        $scope.numberOfLessonSchedulePages = function() {
-            return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
-        };
+        // if ($scope.student !== undefined) {
+            $scope.numberOfLessonSchedulePages = function() {
+                return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
+            };
+        // };
 
 
         //Get teacher data

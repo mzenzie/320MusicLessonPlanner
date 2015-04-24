@@ -14,7 +14,7 @@
                 <tbody>
                     <tr ng-repeat="lesson in student.lessonSchedules | startPageFrom:currentLessonSchedulePage*pageSize | limitTo:pageSize" ng-click="viewLessonRecord(lesson)">
                         <td>{{lesson.date | date:'MMMM d, yyyy'}}</td>
-                        <td>{{lesson.date | date:'h:mm a'}}</td>
+                        <td>{{lesson.lessonTime | date:'h:mm a'}}</td>
                         <td align="right"><i class="fa fa-chevron-right"></i></td>
                     </tr>
                 </tbody>

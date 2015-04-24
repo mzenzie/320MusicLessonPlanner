@@ -290,7 +290,8 @@ module.exports.create = function(jsObject, callback) {
     var newStudentRecord = new StudentRecord(jsObject);
     newStudentRecord.save(jsObject.tid, function(err, studentRecord){
         var scheduleData = {
-            date: new Date(jsObject.startDate),
+            // date: new Date(jsObject.startDate),
+            date: jsObject.startDate,
             lessonTime: jsObject.lessonTime,
             lessonLength: jsObject.lessonLength,
             numberOfLessons: jsObject.numberOfLessons

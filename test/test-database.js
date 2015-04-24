@@ -12,6 +12,9 @@ describe('Database', function() {
     var n = d.toDateString();
     
     var student = {body:''};
+    beforeEach(function(){
+        
+    });
      
     student.body = {
         firstName: 'Josh',

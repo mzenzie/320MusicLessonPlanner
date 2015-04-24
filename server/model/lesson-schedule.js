@@ -239,7 +239,7 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
                 var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
                     .format(
                         // scheduleData.date.toISOString(),
-                        scheduleData.date,
+                        scheduleData.date.toISOString(),
                         scheduleData.lessonTime,
                         scheduleData.lessonLength,
                         scheduleData.notes,

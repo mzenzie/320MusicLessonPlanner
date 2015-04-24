@@ -86,7 +86,7 @@
                             <div class="form-group date">
                                 <label class="font-noraml">Birthday</label>
                                 <p class="input-group">
-                                    <input type="date" class="form-control" datepicker-popup="shortDate" ng-model="birthday" is-open="openedBirthday" ng-required="true" close-text="Close" name="birthday" placeHolder="mm dd, yyyy" required>
+                                    <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="birthday" is-open="openedBirthday" ng-required="true" close-text="Close" name="birthday" placeHolder="mm dd, yyyy" required>
                                     <span class="input-group-addon"><button type="button" class="btn btn-success btn-xs" ng-click="openBirthday($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
                                     <div class="m-t-xs" ng-show="studentRecordForm.birthday.$invalid && studentRecordForm.birthday.$dirty || studentRecordForm.submitted">
                                         <small class="text-danger" ng-show="studentRecordForm.birthday.$error.required">Please select a birthday.</small>
@@ -98,7 +98,7 @@
                             <div class="form-group">
                                 <label class="font-noraml">Starting Date</label>
                                 <p class="input-group">
-                                    <input type="date" class="form-control" datepicker-popup="shortDate" ng-model="startDate" is-open="openedStartDate" ng-required="true" close-text="Close" name="startDate" placeholder="MMMM d, yyyy " required>
+                                    <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="startDate" is-open="openedStartDate" ng-required="true" close-text="Close" name="startDate" placeholder="MMMM d, yyyy " required>
                                     <span class="input-group-addon"><button type="button" class="btn btn-success btn-xs" ng-click="openStartDate($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
                                     <div class="m-t-xs" ng-show="studentRecordForm.startDate.$invalid && studentRecordForm.startDate.$dirty || studentRecordForm.submitted">
                                         <small class="text-danger" ng-show="studentRecordForm.startDate.$error.required">Please select a starting date.</small>

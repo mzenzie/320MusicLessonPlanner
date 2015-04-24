@@ -12,6 +12,8 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 .controller('MainCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', '$q', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID',
     function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID) {
 
+        $scope.versionNumber="version 0.1.2c";
+
         //  Gets the list of students and enables editing
         var studentRecordList = $resource('/api/studentRecord/', {
             id: '@id'

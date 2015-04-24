@@ -40,7 +40,7 @@ var StudentRecord = function(jsObject) {
 
     this.address = jsObject.address;
     if (jsObject.birthday !== undefined){
-        if (jsObject.birthday.getDate !== undefined){
+        if (jsObject.birthday.getUTCDate !== undefined){
             this.birthday = jsObject.birthday;
         } else {
             this.birthday = new Date("{0}".format(jsObject.birthday));

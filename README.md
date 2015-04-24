@@ -1,7 +1,7 @@
 ﻿# MusicLessonPlanner
 
 ### Version
-0.1.2b BETA
+0.1.2c BETA
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
@@ -141,6 +141,10 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 0.1.2b:
   * Added a message when the user tries to login with the wrong email/password
   * Added a message when the user tries to create an account with a duplicate email
+
+0.1.2c:
+  * Fixed an email validation error
+  * Fixed some of the date display problems (The dates being edited still are a bit ugly)
 
 
 [node.js]:http://nodejs.org

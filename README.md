@@ -26,24 +26,26 @@ http://54.208.4.249:8000/
 
 ### Installation and Build
 
-- Install [python](https://www.python.org/downloads/), [node](https://nodejs.org/), and [express](http://expressjs.com/) before running this app.
+- Install [python](https://www.python.org/downloads/), [node](https://nodejs.org/), and [express](http://expressjs.com/) before running this app. Make sure that you install python version 2.7
 - Navigate to the directory where you wish to install MusicLessonPlanner and clone the repository.
-- Make sure you have the necessary dependencies installed:
-  - project dependencies
-  ```sh
-  $ sudo npm install
-  ```
-  - bcrypt
-  ```sh
-  $ sudo npm install bcrypt
-  ```
-  NOTE: This package is rather finicky. Make sure you are using python 2.7
-  
+- Run the install script through whatever shell you use. On most distros, this is
+```sh
+$ sudo bash install.sh
+```
 To run the app, in your terminal execute:
 ```sh
 $ node app
 ```
-Open your internet browser and go to the localhost:
+If you want to run the server persistently (i.e. on a remote server) use the provided command
+```sh
+$ runapp
+```
+To later stop the server, use the provided command
+```sh
+$ stopapp
+```
+
+To check that the server is running, open your internet browser and go to the localhost:
 ```sh
 localhost:8000
 ```

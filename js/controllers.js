@@ -786,12 +786,14 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     var todayMonth = today.getMonth();
                     var todayYear = today.getFullYear();
                     var lesson = new Date(lessons[i].date);
-                    var lessonHour = lesson.getHours();
+                    var lessonTime = new Date(lessons[i].lessonTime);
+                    var lessonHour = lessonTime.getHours();
                     var lessonDate = lesson.getDate();
                     var lessonMonth = lesson.getMonth();
                     var lessonYear = lesson.getYear();
-                    // console.log("Lesson hour: " + lessonHour + " ?= Today hour: " + todayHour);
+                    // console.log("Lesson date: " + lesson.toString() + " ?= Today date: " + today.toString());
                     if (lessonDate == todayDate && lessonMonth == todayMonth && lessonHour >= todayHour) {
+                    // console.log("Lesson hour: " + lessonHour + " ?= Today hour: " + todayHour);
                         todaysLessons.push(lessons[i]);
                     }
                 }

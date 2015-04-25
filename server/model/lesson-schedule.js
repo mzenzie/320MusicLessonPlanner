@@ -20,8 +20,10 @@ var LessonSchedule = function(jsObject) {
     if (jsObject.date.getDate !== undefined) {
         this.date = jsObject.date;
     } else {
-        this.date = new Date(jsObject.date);
+        this.date = jsObject.date;
+        // this.date = new Date(jsObject.date);
     }
+    // this.date = jsObject.date;
     this.lessonTime = jsObject.lessonTime;
     this.lessonLength = jsObject.lessonLength;
     this.notes = "Notes for this lesson.";
@@ -190,10 +192,10 @@ module.exports.update = function(callback) {
     var self = this;
     var db = dbConnector.getInstance();
     var query = "UPDATE Schedule SET date='{0}', lessonTime='{1}', lessonLength={2}, notes='{3}'WHERE lrid='{4}'"
-                .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lrid);
+        .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lrid);
     console.log(query);
-    db.run(query, function(err){
-        if (err!=null){
+    db.run(query, function(err) {
+        if (err != null) {
             console.log(err);
             callback(err, null);
         } else {
@@ -227,19 +229,18 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
     if (validateInput(scheduleData)) {
         var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}"
             .format(studentRecord.sid);
-        console.log("BEFORE=========");
         db.serialize(function() {
-            console.log("AFTER=========" + numberOfLessons);
-            // console.log(scheduleData);
+            var nextDate = new Date(scheduleData.date);
             for (var i = 0; i < numberOfLessons; i++) {
                 if (i != 0) {
-                    scheduleData.date.setDate(scheduleData.date.getDate() + 7);
+                    nextDate.setDate(nextDate.getDate() + 7);
                 }
+                var outputDate = nextDate.toISOString();
                 console.log(scheduleData);
                 var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
                     .format(
                         // scheduleData.date.toISOString(),
-                        scheduleData.date,
+                        outputDate,
                         scheduleData.lessonTime,
                         scheduleData.lessonLength,
                         scheduleData.notes,

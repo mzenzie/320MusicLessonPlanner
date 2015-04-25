@@ -16,7 +16,8 @@ var StartPage = function(){
 
   // This goes the account creation page
   this.ClickCreateAccount = function(){
-    CreateAccountButton.then(function(){ 
+    //browser.debugger();
+    element(by.buttonText('Create an account')).click().then(function(){ 
       expect(browser.getCurrentUrl()).toMatch('#/startpage/register')});
   };
 
@@ -29,33 +30,39 @@ var StartPage = function(){
   };
 
   // This routes between the the Startpage, the About page and Support page and ensures they route correctly
-  this.TeststartPageRouting = function(){
+  this.TestStartPageRouting = function(){
     browser.get('#/').then(function(){ 
-      expect(browser.getCurrentUrl()).toMatch('/#/startpage/start')});
+      expect(browser.getCurrentUrl()).toMatch('#/startpage/landing')});
     browser.get('/#/startpage/about').then(function(){ 
       expect(browser.getCurrentUrl()).toMatch('/#/startpage/about')});
     browser.get('/#/startpage/support').then(function(){ 
       expect(browser.getCurrentUrl()).toMatch('/#/startpage/support')});
     browser.get('#/').then(function(){ 
-      expect(browser.getCurrentUrl()).toMatch('/#/startpage/start')});
+      expect(browser.getCurrentUrl()).toMatch('#/startpage/landing')});
   };
 };
 
 // New Teacher registration page
-var RegisterTeacherPage = function(){
-    this.NameField = element(by.model("firstName"));
-    this.EmailField = element(by.model("username"));
-    this.PasswordField = element(by.model("password"));
-    this.RegisterButton = element(by.buttonText('Register'));
+var RegisterTeacherPage = function()
+{
+  //this.NameField = element(by.model("firstName"));
+  //this.EmailField = element(by.model("username"));
+  //this.PasswordField = element(by.model("password"));
+  //this.RegisterButton = element(by.buttonText('Register'));
 
-    // Fills in your account info and clicks register
-    this.CreateAccount = function(name, email, password){      
-      UserNameField.sendKeys(name);
-      EmailField.sendKeys(email);
-      PasswordField.sendKeys(password);
-      RegisterButton.click()
-        .then(function(){expect(browser.getCurrentUrl()).toMatch('/#/startpage/start')});
+  // Fills in your account info and clicks register
+  this.CreateAccount = function(name, email, password){    
+    expect(browser.getCurrentUrl()).toMatch('#/startpage/register');
+    element(by.model("firstName")).sendKeys(name);
+    //NameField.sendKeys(name);
+    element(by.model("username")).sendKeys(email);
+    element(by.model("password")).sendKeys(password);
+    browser.debugger();
+    element(by.buttonText('Register')).click()
+      .then(function(){expect(browser.getCurrentUrl()).toMatch('/#/startpage/start')});
+  };
 };
+
 
 // This is the default page when you log in.
 var DashboardPage = function(){
@@ -101,7 +108,7 @@ var DashboardPage = function(){
   // Routes to logout
   this.Logout = function(){
     browser.get('#/').then(function(){ 
-      expect(browser.getCurrentUrl()).toMatch('/#/startpage/start')});
+      expect(browser.getCurrentUrl()).toMatch('/#/startpage/landing')});
   };
   
 };
@@ -109,45 +116,46 @@ var DashboardPage = function(){
 ///      This is where the integration tests are run
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Routing validation', function(){
-
+  //browser.get('#/');
+  
   describe('Startpage functionality', function() {
-    it('should reach Main, About and support screen', function(){      
-      Startpage.TeststartPageRouting(); 
+    //browser.debugger();
+    var startPage = new StartPage();
+    it('should reach Main, About and support screen', function(){     
+      
+      //startPage.TestStartPageRouting();
+      
+    });
+    it('should create an account and return to login', function(){     
+      //browser.debugger(); 
+      startPage.ClickCreateAccount();
       browser.debugger();
-   });
-    it('should create an account and return to login', function(){      
-      Startpage.ClickCreateAccount();
-      RegisterTeacherPage.CreateAccount('Test Name', 'test@gmail.com', 'testpassword');
-      browser.debugger();
+      var registerPage = new RegisterTeacherPage();
+      registerPage.CreateAccount('Test Name', 'test@gmail.com', 'testpassword');
+      //browser.debugger();
     });
     it('should login', function(){   
-      Startpage.SendLoginInfo('test@gmail.com', 'testpassword');
+      startPage.SendLoginInfo('test@gmail.com', 'testpassword');
       browser.debugger();
     });
-  });
+  });  
 
-  describe('start page functionality', function(){
-    it('should create a student record', function(){
-      
-      DashboardPage.TestDashboardRouting
-      //fname, lname, instrument, email, phone, address, bday, startDate, numberOfLessons
-      DashboardPage.EnterStudentInfo('fname', 'lname', 'instrument', 
-      
-      browser.waitForAngular();
+  describe('Dashboard functionality', function(){
+    var dashPage = new DashboardPage();
+    it('should route to pages reachable from dashboard', function(){
+      dashPage.TestDashboardRouting();
+    });
+
+    it('Should create a new student', function(){
+      //(fname, lname, instrument, email, phone, address, bday, startDate, numberOfLessons)
+      dashPage.EnterStudentInfo('fname', 'lname', 'instrument', 'email', 'phone', 'address', '1/1/2000', '1/2/2000', 1);
+      dashPage.SaveCorrectStudentInfo();
       browser.debugger();
-      element(by.css('[ng-click="ok()"]')).click();
-      browser.debugger();
     });
 
-    it('should visit calendar', function(){
-      browser.get('#/teacher-dashboard/calendar')
-      .then(function(){expect(browser.getCurrentUrl()).toMatch('#/teacher-dashboard/calendar')});
+    it('should logout', function(){
+      dashPage.Logout();
     });
+  }); 
 
-    it('should logout correctly', function(){
-  
-    });
-  });
-
-  
 });

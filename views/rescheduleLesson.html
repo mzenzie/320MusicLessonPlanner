@@ -23,7 +23,7 @@
                     <label class="font-noraml">Change {{lesson.date | date:'MMMM d, yyyy'}} to:</label>
                     <p class="input-group">
                         <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="lesson.date" is-open="openedLessonDate" ng-required="true" close-text="Close" name="newDate" placeholder="MMMM d, yyyy " required>
-                        <span class="input-group-addon"><button type="button" class="btn btn-success btn-xs" ng-click="openLessonDate($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
+                        <span class="input-group-btn"><button type="button" class="btn btn-success" ng-click="openLessonDate($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
                         <div class="m-t-xs" ng-show="lessonNoteForm.newDate.$invalid && lessonNoteForm.newDate.$dirty || lessonNoteForm.submitted">
                             <small class="text-danger" ng-show="lessonNoteForm.newDate.$error.required">Please input a date.</small>
                         </div>

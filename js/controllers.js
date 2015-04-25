@@ -12,7 +12,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 .controller('MainCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', '$q', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID',
     function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID) {
 
-        $scope.versionNumber="version 0.1.2c";
+        $scope.versionNumber = "version 0.1.2c";
 
         //  Gets the list of students and enables editing
         var studentRecordList = $resource('/api/studentRecord/', {
@@ -76,9 +76,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             return Math.ceil($scope.students.length / $scope.pageSize);
         };
         // if ($scope.student !== undefined) {
-            $scope.numberOfLessonSchedulePages = function() {
-                return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
-            };
+        // $scope.numberOfLessonSchedulePages = function() {
+        //     return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
+        // };
         // };
 
 
@@ -165,6 +165,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     method: 'PUT'
                 }
             });
+
+            $scope.numberOfLessonSchedulePages = function() {
+                return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
+            };
             studentRecordList.get({
                 id: student.sid
             }, function(result) {
@@ -505,14 +509,19 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         /*
          *       DATE INITIALIZATION CODE       ****************************
          */
-        $scope.birthday = new Date();
-        $scope.birthday.setFullYear(1980);
-        $scope.birthday.setMonth(0);
-        $scope.birthday.setDate(1);
+        $scope.initializeDates = function() {
+            $scope.birthday = new Date();
+            $scope.birthday.setFullYear(1980);
+            $scope.birthday.setMonth(0);
+            $scope.birthday.setDate(1);
 
-        $scope.startDate = new Date();
-        $scope.startDate.setMinutes(0);
-        $scope.startDate.setSeconds(0);
+            $scope.startDate = new Date();
+            $scope.startDate.setMinutes(0);
+            $scope.startDate.setSeconds(0);
+        };
+
+        $scope.dateFormat = 'MMMM dd, yyyy';
+        $scope.initializeDates();
 
         $scope.hstep = 1;
         $scope.mstep = 15;
@@ -528,15 +537,14 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         };
 
         $scope.update = function() {
+            $log.debug('UPDATE called');
             var d = new Date();
             d.setHours(14);
             d.setMinutes(0);
             $scope.startDate = d;
         };
 
-        $scope.changed = function() {
-            // $log.log('Time changed to: ' + $scope.startDate);
-        };
+        $scope.changed = function() {};
 
         $scope.clear = function() {
             $scope.startDate = null;
@@ -636,7 +644,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         $scope.open = function($event) {
             $event.preventDefault();
             $event.stopPropagation();
-
             $scope.opened = true;
         };
 
@@ -649,6 +656,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
          *       DATE PICKER CODE
          */
         $scope.openBirthday = function($event) {
+            $log.debug("Birthday: " + $scope.birthday);
             $event.preventDefault();
             $event.stopPropagation();
             $scope.openedBirthday = true;

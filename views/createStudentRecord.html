@@ -86,8 +86,8 @@
                             <div class="form-group date">
                                 <label class="font-noraml">Birthday</label>
                                 <p class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="MMMM d, yyyy" ng-model="birthday" is-open="openedBirthday" ng-required="true" close-text="Close" name="birthday" placeHolder="MMMM dd, yyyy" required>
-                                    <span class="input-group-addon"><button type="button" class="btn btn-success btn-xs" ng-click="openBirthday($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
+                                    <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" datepicker-mode='year' ng-model="birthday" is-open="openedBirthday" ng-required="true" close-text="Close" name="birthday">
+                                    <span class="input-group-btn"><button type="button" class="btn btn-success" ng-click="openBirthday($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
                                     <div class="m-t-xs" ng-show="studentRecordForm.birthday.$invalid && studentRecordForm.birthday.$dirty || studentRecordForm.submitted">
                                         <small class="text-danger" ng-show="studentRecordForm.birthday.$error.required">Please select a birthday.</small>
                                     </div>
@@ -98,8 +98,8 @@
                             <div class="form-group">
                                 <label class="font-noraml">Starting Date</label>
                                 <p class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="MMMM d, yyyy" ng-model="startDate" is-open="openedStartDate" ng-required="true" close-text="Close" name="startDate" placeholder="MMMM d, yyyy " required>
-                                    <span class="input-group-addon"><button type="button" class="btn btn-success btn-xs" ng-click="openStartDate($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
+                                    <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" ng-model="startDate" is-open="openedStartDate" ng-required="true" close-text="Close" name="startDate">
+                                    <span class="input-group-btn"><button type="button" class="btn btn-success" ng-click="openStartDate($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
                                     <div class="m-t-xs" ng-show="studentRecordForm.startDate.$invalid && studentRecordForm.startDate.$dirty || studentRecordForm.submitted">
                                         <small class="text-danger" ng-show="studentRecordForm.startDate.$error.required">Please select a starting date.</small>
                                     </div>
@@ -123,7 +123,7 @@
                                 <label class="font-noraml">Lesson Length</label>
                                 <br>
                                 <div class="input-group">
-                                    <select chosen class="chosen-select" style="width:350px;" data-placeholder="30 minutes" tabindex="1" ng-model="lessonLength" ng-options="lengthOfLesson for lengthOfLesson in lengthOfLessons" disable_search="true" ng-init="lessonLength = lengthOfLessons[1]">
+                                    <select chosen class="chosen-select" style="width:200px;" data-placeholder="30 minutes" tabindex="1" ng-model="lessonLength" ng-options="lengthOfLesson for lengthOfLesson in lengthOfLessons" disable_search="true" ng-init="lessonLength = lengthOfLessons[1]">
                                     </select>
                                 </div>
                             </div>
@@ -134,12 +134,12 @@
                             <div class="form-group">
                                 <label class="font-noraml">Lesson Time</label>
                                 <timepicker ng-model="startDate" ng-change="changed()" hour-step="hstep" minute-step="5" show-meridian="ismeridian"></timepicker>
-                                    {{startDate | date:'MMMM d, yyyy h:mm a'}}
+                                    <!-- {{startDate | date:'MMMM d, yyyy h:mm a'}} -->
                             </div>
                         </div>
                     </div>
-                    Start date send format: {{startDate}}<br>
-                    Birthday send format: {{birthday}}<br>
+<!--                     Start date send format: {{startDate | date:'fullDate'}}<br>
+                    Birthday send format: {{birthday}}<br> -->
                     <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
                     <button type="button" class="btn btn-success" ng-click="ok()">Save</button>
                 </form>

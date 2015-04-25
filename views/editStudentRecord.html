@@ -90,7 +90,7 @@
                                 <label class="font-noraml">Birthday</label>
                                 <p class="input-group">
                                     <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="student.birthday" is-open="openedBirthday" ng-required="true" close-text="Close" name="student.birthday" placeHolder="MMMM d, yyyy" required>
-                                    <span class="input-group-addon"><button type="button" class="btn btn-success btn-xs" ng-click="openBirthday($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
+                                    <span class="input-group-btn"><button type="button" class="btn btn-success" ng-click="openBirthday($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
                                     <div class="m-t-xs" ng-show="studentRecordForm.birthday.$invalid && studentRecordForm.birthday.$dirty || studentRecordForm.submitted">
                                         <small class="text-danger" ng-show="studentRecordForm.birthday.$error.required">Please input a birthday.</small>
                                     </div>

@@ -1,7 +1,7 @@
 ﻿# MusicLessonPlanner
 
 ### Version
-0.1.1 BETA
+0.1.2b BETA
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
@@ -14,13 +14,14 @@ http://54.208.4.249:8000/
 
 - [Add/Delete/View student accounts](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Managing-student-accounts)
 - [Teacher Login Authentication](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Create-a-new-teacher-account)
+- Lesson Notes - Add/delete/view notes for each lesson and general notes for each student.
+- Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
+- Lesson Scheduling - Allow teachers to cancel or reschedule lessons.
 
 **Features in progress**
 
-- Lesson Notes - Add/delete/view notes for each lesson and general notes for each student.
-- Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
-- Edit/View teacher account information - Allow teachers to view, modify, or update their account information after creating already having created an account.
-- Lesson Scheduling - Integrate Google API to allow teachers to schedule lessons and make updates to existing lessons.
+- UI polishing and bug squashing.
+- Server-side check for lesson time conflicts.
 
 
 ### Installation and Build
@@ -121,19 +122,25 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 
 ### Change Log
 
--0.1.0: Initial BETA version
--0.1.1:
+0.1.0: Initial BETA version
+
+0.1.1:
   * Added tooltips
   * Added Bug report buttons
   * Preliminary logo and styling for login, registration, about
   * The teacher's name is displayed when logged in.
   * Refactored controllers.js to clean up the code.
   * Added form validation, so no blank fields are allowed.
--0.1.2a:
+
+0.1.2a:
   * Implemented editing student records
   * Implemented editing lesson notes
   * Implemented rescheduling/canceling lessons
   * Fixed today view
+
+0.1.2b:
+  * Added a message when the user tries to login with the wrong email/password
+  * Added a message when the user tries to create an account with a duplicate email
 
 
 [node.js]:http://nodejs.org

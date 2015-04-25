@@ -1,14 +1,14 @@
 <!-- <div class="ibox float-e-margins" ng-controller="StudentListCtrl"> -->
 <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h5>Students of <strong>{{teacherProfile.firstName}}</strong></h5>
+        <h5>Student Records</h5>
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
-        <p>Click to view more information.</p>
+        <p>Select row for more information.</p>
         <table class="table table-hover">
             <thread>
-                <th>Students (<span ng-bind="students.length"></span> records)</th>
+                <th>Name (<span ng-bind="students.length"></span> records)</th>
                 <th align="right">Instrument</th>
                 <th></th>
             </thread>
@@ -32,6 +32,6 @@
         {{currentStudentPage+1}}/{{numberOfStudentPages()}}
         <button ng-disabled="currentStudentPage >= students.length/pageSize - 1" ng-click="currentStudentPage=currentStudentPage+1">Next</button>
         <hr>
-            <button class="btn btn-success" ng-click="createStudentRecord()" tooltip-placement="top" tooltip="Create a new student record.">Add New Student</button>
+            <button class="btn btn-success" ng-click="createStudentRecord()" tooltip-placement="top" tooltip="Create a new student record.">New Student</button>
     </div>
 </div>

@@ -5,7 +5,7 @@ exports.config = {
   rootElement: '.protractorStartPoint',
   multiCapabilities: [
     //{browserName: 'opera'}
-    {browserName: 'firefox'}, 
+    //{browserName: 'firefox'}, 
     {browserName: 'chrome'}
   ]
   /*

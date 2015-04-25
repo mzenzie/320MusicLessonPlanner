@@ -1,11 +1,14 @@
 "use strict";
 
+/*
+*   Design Patterns: the filters and factories at the bottom of the page demonstrate the Singleton and Factory patterns.
+ */
 
 angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: angular.module.factory.controller.etc....
 
-// /**
-//  * MainCtrl - controller
-//  */
+/**
+ * MainCtrl - controller
+ */
 .controller('MainCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', '$q', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID',
     function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID) {
 
@@ -322,6 +325,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                         }
                     });
                 } else {
+
                     $scope.hstep = 1;
                     $scope.mstep = 15;
 
@@ -376,6 +380,68 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     };
                 }
             });
+        };
+
+        $scope.rescheduleLesson = function(lesson) {
+            /*
+             *   Date initialization
+             */
+            // $log.debug($scope.lesson.date);
+            // var lessonDate = new Date($scope.lesson.date);
+            // $log.debug(lessonDate);
+
+            $scope.hstep = 1;
+            $scope.mstep = 15;
+
+            $scope.options = {
+                hstep: [1, 2, 3],
+                mstep: [1, 5, 10, 15, 25, 30]
+            };
+
+            $scope.ismeridian = true;
+            $scope.toggleMode = function() {
+                $scope.ismeridian = !$scope.ismeridian;
+            };
+
+            $scope.update = function() {
+                var d = new Date();
+                d.setHours(14);
+                d.setMinutes(0);
+                $scope.lesson.lessonTime = d.toString;
+            };
+
+            $scope.changed = function() {
+                // $log.log('Time changed to: ' + $scope.startDate);
+            };
+
+            $scope.clear = function() {
+                $scope.lesson.lessonTime = null;
+            };
+            //      *******************************************************
+            $scope.lesson = lessonRecord.get({
+                sid: lesson.sid,
+                lsid: lesson.lsid
+            }, {
+                update: {
+                    method: 'PUT'
+                }
+            });
+            lessonRecord.get({
+                sid: lesson.sid,
+                lsid: lesson.lsid
+            }, function(result) {
+                var lessonParams = {
+                    sid: result.sid,
+                    lsid: result.lsid
+                };
+                $state.go('teacher-dashboard.rescheduleLesson/:sid/:lsid', lessonParams);
+                // $log.debug("Lesson Date: " + $scope.lesson.date + " Time: " + $scope.lesson.lessonTime);
+            });
+            $scope.openLessonDate = function($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.openedLessonDate = true;
+            };
         };
     }
 ])
@@ -593,13 +659,8 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 ])
 
 
-.controller('LoginCtrl', ['$state', '$stateParams', '$scope', '$resource', '$http', 'store', 'jwtHelper', 'getTeacherByID', '$log',
-    function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log) {
-
-        // $scope.teacherProfile = {};
-        // if ($scope.teacherProfile.firstName != undefined) {
-        //     $log.warn('teacherProfile (firstName): ' + $scope.teacherProfile.firstName);
-        // };
+.controller('LoginCtrl', ['$state', '$stateParams', '$scope', '$resource', '$http', 'store', 'jwtHelper', 'getTeacherByID', '$log', '$parse',
+    function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log, $parse) {
 
         $scope.signin = function() {
             if ($scope.loginForm.$valid) {
@@ -608,22 +669,15 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                         password: $scope.password
                     })
                     .success(function(data, status, header, config) {
-                        // alert("SIGN-IN-CTRL Recieved " + data.token);
                         store.set('token', data.token);
-
-                        // //Get user date
-                        // var token = store.get('token')
-                        // var decodedToken = token && jwtHelper.decodeToken(token);
-
-                        // $log.debug('Decoded token id: ' + decodedToken.id);
-                        // $scope.teacherProfile = getTeacherByID.get({
-                        //     id: decodedToken.id
-                        // });
-
                         $state.go('teacher-dashboard.main');
                     })
                     .error(function(data, status, header, config) {
-                        //alert('Incorrect user name or password.');
+                        // $log.error(status);
+                        $scope.errors = [{
+                            key: 'invalidUserName',
+                            value: 'Incorrect email or password.'
+                        }];
                     });
             } else {
                 $scope.loginForm.submitted = true;
@@ -645,9 +699,8 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 });
         };
         $scope.signup = function() {
-            // alert($scope.username);
             if ($scope.loginForm.$valid) {
-                alert('Welcome to MusicLessonPlanner, ' + $scope.firstName);
+                // alert('Welcome to MusicLessonPlanner, ' + $scope.firstName);
                 $http.post('/api/signup', {
                         username: $scope.username,
                         password: $scope.password,
@@ -659,7 +712,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                         $state.go('startpage.landing');
                     })
                     .error(function(data, status, header, config) {
-                        alert('Invalid input.');
+                        $scope.errors = [{
+                            key: 'duplicateUserName',
+                            value: 'Email already exists.'
+                        }];
                     });
             } else {
                 $scope.loginForm.submitted = true;

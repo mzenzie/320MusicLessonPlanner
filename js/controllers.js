@@ -1,7 +1,7 @@
 "use strict";
 
 /*
-*   Design Patterns: the filters and factories at the bottom of the page demonstrate the Singleton and Factory patterns.
+ *   Design Patterns: the filters and factories at the bottom of the page demonstrate the Singleton and Factory patterns.
  */
 
 angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: angular.module.factory.controller.etc....
@@ -11,6 +11,8 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
  */
 .controller('MainCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', '$q', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID',
     function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID) {
+
+        $scope.versionNumber = "version 0.1.2c";
 
         //  Gets the list of students and enables editing
         var studentRecordList = $resource('/api/studentRecord/', {
@@ -73,9 +75,11 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         $scope.numberOfStudentPages = function() {
             return Math.ceil($scope.students.length / $scope.pageSize);
         };
-        $scope.numberOfLessonSchedulePages = function() {
-            return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
-        };
+        // if ($scope.student !== undefined) {
+        // $scope.numberOfLessonSchedulePages = function() {
+        //     return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
+        // };
+        // };
 
 
         //Get teacher data
@@ -161,6 +165,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     method: 'PUT'
                 }
             });
+
+            $scope.numberOfLessonSchedulePages = function() {
+                return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
+            };
             studentRecordList.get({
                 id: student.sid
             }, function(result) {
@@ -501,14 +509,19 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         /*
          *       DATE INITIALIZATION CODE       ****************************
          */
-        $scope.birthday = new Date();
-        $scope.birthday.setFullYear(1980);
-        $scope.birthday.setMonth(0);
-        $scope.birthday.setDate(1);
+        $scope.initializeDates = function() {
+            $scope.birthday = new Date();
+            $scope.birthday.setFullYear(1980);
+            $scope.birthday.setMonth(0);
+            $scope.birthday.setDate(1);
 
-        $scope.startDate = new Date();
-        $scope.startDate.setMinutes(0);
-        $scope.startDate.setSeconds(0);
+            $scope.startDate = new Date();
+            $scope.startDate.setMinutes(0);
+            $scope.startDate.setSeconds(0);
+        };
+
+        $scope.dateFormat = 'MMMM dd, yyyy';
+        $scope.initializeDates();
 
         $scope.hstep = 1;
         $scope.mstep = 15;
@@ -524,15 +537,14 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         };
 
         $scope.update = function() {
+            $log.debug('UPDATE called');
             var d = new Date();
             d.setHours(14);
             d.setMinutes(0);
             $scope.startDate = d;
         };
 
-        $scope.changed = function() {
-            // $log.log('Time changed to: ' + $scope.startDate);
-        };
+        $scope.changed = function() {};
 
         $scope.clear = function() {
             $scope.startDate = null;
@@ -540,9 +552,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         //      *******************************************************
 
         //      Temp General Notes:
-        $scope.generalNotes = "This is where notes on student progress should be placed. <b>Hopefully</b> formatting will work.";
+        $scope.generalNotes = "Enter notes here.";
 
-        //      Lesson Length Options:   @TODO This has stopped working right.
+        //      Lesson Length Options
 
         $scope.lengthOfLessons = ['15 minutes', '30 minutes', '45 minutes', '60 minutes'];
         $scope.lessonLength = $scope.lengthOfLessons[1];
@@ -632,7 +644,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         $scope.open = function($event) {
             $event.preventDefault();
             $event.stopPropagation();
-
             $scope.opened = true;
         };
 
@@ -645,6 +656,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
          *       DATE PICKER CODE
          */
         $scope.openBirthday = function($event) {
+            $log.debug("Birthday: " + $scope.birthday);
             $event.preventDefault();
             $event.stopPropagation();
             $scope.openedBirthday = true;
@@ -774,12 +786,14 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     var todayMonth = today.getMonth();
                     var todayYear = today.getFullYear();
                     var lesson = new Date(lessons[i].date);
-                    var lessonHour = lesson.getHours();
+                    var lessonTime = new Date(lessons[i].lessonTime);
+                    var lessonHour = lessonTime.getHours();
                     var lessonDate = lesson.getDate();
                     var lessonMonth = lesson.getMonth();
                     var lessonYear = lesson.getYear();
-                    // console.log("Lesson hour: " + lessonHour + " ?= Today hour: " + todayHour);
+                    // console.log("Lesson date: " + lesson.toString() + " ?= Today date: " + today.toString());
                     if (lessonDate == todayDate && lessonMonth == todayMonth && lessonHour >= todayHour) {
+                    // console.log("Lesson hour: " + lessonHour + " ?= Today hour: " + todayHour);
                         todaysLessons.push(lessons[i]);
                     }
                 }

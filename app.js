@@ -25,6 +25,7 @@ var teacherController			= require('./server/controller/teacher-controller');
 //	Configuration ============================================
 
 var port = process.env.PORT || 8000;
+var development = process.env.DEV || false;
 
 format.extend(String.prototype); //allows usage of String.format(arg1, arg2), i.e. "Hello {0}".format(name); -> "Hello "
 
@@ -43,7 +44,8 @@ app.get('/', function (req, res) {
 
 app.use(express.static(__dirname + "/"));
 
-dbConnector.init();
+if (development) dbConnector.init('./test.sql');
+else dbConnector.init();
 // var db = dbConnector.getInstance();
 
 // var studentRecordController = require(__dirname+"/server/controller/student-record-controller.js");

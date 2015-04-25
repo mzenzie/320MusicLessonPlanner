@@ -40,7 +40,7 @@ var StudentRecord = function(jsObject) {
 
     this.address = jsObject.address;
     if (jsObject.birthday !== undefined){
-        if (jsObject.birthday.getDate !== undefined){
+        if (jsObject.birthday.getUTCDate !== undefined){
             this.birthday = jsObject.birthday;
         } else {
             this.birthday = new Date("{0}".format(jsObject.birthday));
@@ -117,14 +117,14 @@ StudentRecord.prototype.save = function(tid, callback){
                                 self.phone,
                                 self.birthday,
                                 self.instrument);
-        console.log(student_record_get_query);
+        // console.log(student_record_get_query);
         db.get(student_record_get_query, function(err, row){
             if (err!= null || row == null){
                 console.log(err, null);
             } else {
                 console.log("== STUDENT RECORD SAVED! ==");
                 self.sid = row.sid
-        		console.log(self);
+        		// console.log(self);
         		callback(null, self);
             }
     	});
@@ -274,11 +274,6 @@ module.exports.delete = function(sid,callback) {
  */
  /*
 
-db.run("INSERT INTO Schedule (date, lessonTime, lessonLength, sid) 
-VALUES ('1999-09-18', '18:25:00', '10', '1'),
-('1999-09-19', '18:25:00', '4', '1'),
-('1999-09-20', '18:25:10', '2', '1')");
-
 
  */
 module.exports.create = function(jsObject, callback) {
@@ -290,12 +285,13 @@ module.exports.create = function(jsObject, callback) {
     var newStudentRecord = new StudentRecord(jsObject);
     newStudentRecord.save(jsObject.tid, function(err, studentRecord){
         var scheduleData = {
-            date: new Date(jsObject.startDate),
+            // date: new Date(jsObject.startDate),
+            date: jsObject.startDate,
             lessonTime: jsObject.lessonTime,
             lessonLength: jsObject.lessonLength,
             numberOfLessons: jsObject.numberOfLessons
         };
-        console.log(scheduleData);
+        // console.log(scheduleData);
         if (err != null || studentRecord == null){
             callback(err, null);
         } else {

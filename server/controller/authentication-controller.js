@@ -41,10 +41,8 @@ module.exports.signin = function(req, res) {
 module.exports.signout = function(req, res) {
     if (req.user) {
         // remove from redis storage
-        res.send(200);
-    } else {
-        res.send(401);
     }
+    res.send(200);
 }
 
 module.exports.signup = function(req, res) {

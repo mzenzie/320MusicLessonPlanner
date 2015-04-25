@@ -9,23 +9,25 @@
 var StartPage = function(){
 
   // These are the buttons and fields on the starting page
-  this.CreateAccountButton = element(by.buttonText('Create an account'));
-  this.UserNameField = element(by.model('username'));
-  this.PasswordField = element(by.model('password'));   
-  this.LoginButton =   element(by.buttonText('Login'));
+  //this.CreateAccountButton = element(by.linkText("Create an account"));
+  //this.UserNameField = element(by.model('username'));
+  //this.PasswordField = element(by.model('password'));   
+  //this.LoginButton =   element(by.buttonText('Login'));
 
   // This goes the account creation page
   this.ClickCreateAccount = function(){
     //browser.debugger();
-    element(by.buttonText('Create an account')).click().then(function(){ 
+    element(by.linkText("Create an account")).click().then(function(){ 
       expect(browser.getCurrentUrl()).toMatch('#/startpage/register')});
   };
 
   // This fills in the related fields and clicks Login
   this.SendLoginInfo = function(email, password){
-    username.sendKeys(email);
-    password.sendKeys(password);
-    LoginButton.click()
+    //browser.debugger();
+    element(by.model('username')).sendKeys(email);
+    element(by.model('password')).sendKeys(password);
+    //browser.debugger();
+    element(by.buttonText('Login')).click()
         .then(function(){ expect(browser.getCurrentUrl()).toMatch('/#/teacher-dashboard/main')});
   };
 
@@ -57,18 +59,15 @@ var RegisterTeacherPage = function()
     //NameField.sendKeys(name);
     element(by.model("username")).sendKeys(email);
     element(by.model("password")).sendKeys(password);
-    browser.debugger();
-    element(by.buttonText('Register')).click()
-      .then(function(){expect(browser.getCurrentUrl()).toMatch('/#/startpage/start')});
+    //browser.debugger();
+    element(by.buttonText('Register')).click();
+      //.then(function(){expect(browser.getCurrentUrl()).toMatch('/#/startpage/start')});
   };
 };
 
 
 // This is the default page when you log in.
-var DashboardPage = function(){
-  var newStudentButton = element(by.buttonText("New Student"));
-  var studentSaveButton = element(by.buttonText("Save"));
-  var studentCancelButton = element(by.buttonText("Cancel"));
+var DashboardPage = function(){  
 
   // Routes to all available pages
   this.TestDashboardRouting = function(){
@@ -82,28 +81,43 @@ var DashboardPage = function(){
 
   // Enters the given fields into Add Student creation
   this.EnterStudentInfo = function(fname, lname, instrument, email, phone, address, bday, startDate, numberOfLessons){
-    newStudentButton.click().then(function(){ 
-      expect(browser.getCurrentUrl()).toMatch('#/teacher-dashboard/createStudentRecord')});
     element(by.model('firstName')).sendKeys(fname);
     element(by.model('lastName')).sendKeys(lname);
     element(by.model('instrument')).sendKeys(instrument);
     element(by.model('email')).sendKeys(email);
-    element(by.model('phone')).clear().then(function(){element(by.model('phone')).sendKeys(phone);});
+    //browser.debugger();
+    element(by.model('phone')).clear().then(function(){element(by.model('phone')).sendKeys(phone)});
+    //browser.debugger();
     element(by.model('address')).sendKeys(address);
-    element(by.model('birthday')).sendKeys(bday);
-    element(by.model('startDate')).sendKeys(startDate);
+    //element(by.model('birthday')).sendKeys(bday);
+    //element(by.model('startDate')).sendKeys(startDate);
     element(by.model('numberOfLessons')).sendKeys(numberOfLessons);
   };
 
+  this.ClickCreateStudent = function(){
+    element(by.buttonText("New Student")).click().then(function(){ 
+      expect(browser.getCurrentUrl()).toMatch('#/teacher-dashboard/createStudentRecord')});
+  };
+
+  this.CancelStudentInfo = function(){
+    element(by.buttonText("Cancel")).click().then(
+      function(){expect(browser.getCurrentUrl()).toMatch('#/teacher-dashboard/main')});
+  }
+
   // This clicks Save when creating a student. It asserts that all information is correct
   this.SaveCorrectStudentInfo = function(){
-    studentSaveButton.click().then(function(){expect(browser.getCurrentUrl()).toMatch('#/teacher-dashboard/main')});
+    element(by.buttonText("Save")).click().then(function(){expect(browser.getCurrentUrl()).toMatch('#/teacher-dashboard/main')});
   };
 
   // Call this to assert incorrect data doesn't result in a new student
   this.SaveIncorrectStudentInfo = function(){
     studentSaveButton.click().then(function(){expect(browser.getCurrentUrl()).not.toMatch('#/teacher-dashboard/main')});
   };
+
+  this.EnsureStudentWasCreated = function(lname, fname, instrument){
+    var col1 = element(by.repeater('student in students').row(0).column(0));
+    expect(col1).toMatch('lname, fname');
+  }
 
   // Routes to logout
   this.Logout = function(){
@@ -117,26 +131,24 @@ var DashboardPage = function(){
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Routing validation', function(){
   //browser.get('#/');
-  
+  //browser.browser.ignoreSynchronization = true;
+  //browser.browser.ignoreSynchronization = true;
   describe('Startpage functionality', function() {
     //browser.debugger();
     var startPage = new StartPage();
-    it('should reach Main, About and support screen', function(){     
-      
-      //startPage.TestStartPageRouting();
-      
+    it('should reach Main, About and support screen', function(){           
+      startPage.TestStartPageRouting();      
     });
     it('should create an account and return to login', function(){     
-      //browser.debugger(); 
+      
       startPage.ClickCreateAccount();
-      browser.debugger();
+      //browser.debugger();
       var registerPage = new RegisterTeacherPage();
       registerPage.CreateAccount('Test Name', 'test@gmail.com', 'testpassword');
       //browser.debugger();
     });
     it('should login', function(){   
       startPage.SendLoginInfo('test@gmail.com', 'testpassword');
-      browser.debugger();
     });
   });  
 
@@ -144,17 +156,24 @@ describe('Routing validation', function(){
     var dashPage = new DashboardPage();
     it('should route to pages reachable from dashboard', function(){
       dashPage.TestDashboardRouting();
+      browser.debugger();
     });
 
     it('Should create a new student', function(){
       //(fname, lname, instrument, email, phone, address, bday, startDate, numberOfLessons)
-      dashPage.EnterStudentInfo('fname', 'lname', 'instrument', 'email', 'phone', 'address', '1/1/2000', '1/2/2000', 1);
+      dashPage.ClickCreateStudent();
+      browser.debugger();
+      dashPage.EnterStudentInfo('fname', 'lname', 'instrument', 'test@test.com', '1234567890', 'address', '1/1/2000', '1/2/2000', 1);
+      //browser.debugger();
+      
       dashPage.SaveCorrectStudentInfo();
+      browser.debugger();
+      //dashPage.EnsureStudentWasCreated('lname', 'fname', 'instrument');
       browser.debugger();
     });
 
     it('should logout', function(){
-      dashPage.Logout();
+      //dashPage.Logout();
     });
   }); 
 

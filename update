@@ -1,0 +1,3 @@
+#! /bin/bash
+cd /home/ec2-user/320MusicLessonPlanner && sudo git stash save --keep-index
+sudo git pull

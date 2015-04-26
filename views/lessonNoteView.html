@@ -1,6 +1,6 @@
 <div class="ibox float-e-margins">
     <div class="ibox-title">
-        <h5>Lesson Notes for {{lesson.date | date:'MMMM d, yyyy'}} at {{lesson.date | date:'h:mm a'}}</h5>
+        <h5>Lesson Notes for {{lesson.date | date:'MMMM d, yyyy'}} at {{lesson.lessonTime | date:'h:mm a'}}</h5>
         <div ibox-tools></div>
     </div>
     <div class="ibox-content">
@@ -16,5 +16,6 @@
         </div>
         <button class="btn btn-success btn-md" ng-click="editLessonRecord(lesson)" tooltip-placement="top" tooltip="Click to edit the notes for this lesson."><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Lesson Notes</button>
         <button class="btn btn-danger btn-md" ng-click="cancelLesson(lesson)" tooltip-placement="top" tooltip="Click to cancel or reschedule this lesson."><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Cancel Lesson</button>
+        <button class="btn btn-outline btn-default btn-md" ng-click="rescheduleLesson(lesson)" tooltip-placement="top" tooltip="Click to reschedule this lesson."><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Reschedule Lesson</button>
     </div>
 </div>

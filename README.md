@@ -1,7 +1,7 @@
 ﻿# MusicLessonPlanner
 
 ### Version
-0.1.2a BETA
+0.1.2c BETA
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
@@ -14,35 +14,38 @@ http://54.208.4.249:8000/
 
 - [Add/Delete/View student accounts](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Managing-student-accounts)
 - [Teacher Login Authentication](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Create-a-new-teacher-account)
+- Lesson Notes - Add/delete/view notes for each lesson and general notes for each student.
+- Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
+- Lesson Scheduling - Allow teachers to cancel or reschedule lessons.
 
 **Features in progress**
 
-- Lesson Notes - Add/delete/view notes for each lesson and general notes for each student.
-- Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
-- Edit/View teacher account information - Allow teachers to view, modify, or update their account information after creating already having created an account.
-- Lesson Scheduling - Integrate Google API to allow teachers to schedule lessons and make updates to existing lessons.
+- UI polishing and bug squashing.
+- Server-side check for lesson time conflicts.
 
 
 ### Installation and Build
 
-- Install [python](https://www.python.org/downloads/), [node](https://nodejs.org/), and [express](http://expressjs.com/) before running this app.
+- Install [python](https://www.python.org/downloads/), [node](https://nodejs.org/), and [express](http://expressjs.com/) before running this app. Make sure that you install python version 2.7
 - Navigate to the directory where you wish to install MusicLessonPlanner and clone the repository.
-- Make sure you have the necessary dependencies installed:
-  - project dependencies
-  ```sh
-  $ sudo npm install
-  ```
-  - bcrypt
-  ```sh
-  $ sudo npm install bcrypt
-  ```
-  NOTE: This package is rather finicky. Make sure you are using python 2.7
-  
+- Run the install script through whatever shell you use. On most distros, this is
+```sh
+$ sudo bash install.sh
+```
 To run the app, in your terminal execute:
 ```sh
 $ node app
 ```
-Open your internet browser and go to the localhost:
+If you want to run the server persistently (i.e. on a remote server) use the provided command
+```sh
+$ runapp
+```
+To later stop the server, use the provided command
+```sh
+$ stopapp
+```
+
+To check that the server is running, open your internet browser and go to the localhost:
 ```sh
 localhost:8000
 ```
@@ -136,6 +139,14 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
   * Implemented editing lesson notes
   * Implemented rescheduling/canceling lessons
   * Fixed today view
+
+0.1.2b:
+  * Added a message when the user tries to login with the wrong email/password
+  * Added a message when the user tries to create an account with a duplicate email
+
+0.1.2c:
+  * Fixed an email validation error
+  * Fixed some of the date display problems (The dates being edited still are a bit ugly)
 
 
 [node.js]:http://nodejs.org

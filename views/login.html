@@ -3,8 +3,8 @@
         <div class="jumbotron">
             <!-- <h1>MusicLessonPlanner</h1> -->
             <h1>MusicLessonPlanner</h1>
-            <p>Keep track of your students, schedule lessons and make-up lessons,<br>
-            and keep notes on each student's progress</p>
+            <p><small>Keep track of your students, schedule lessons and make-up lessons,
+                <br> and keep notes on each student's progress</small></p>
         </div>
     </div>
 </div>
@@ -14,18 +14,21 @@
             <div class="panel-heading">Member Login:</div>
             <!-- <p>Testing: Username: <small>admin@g.com</small> Password: <small>1234</small></p> -->
             <div class="panel-body">
-                <form novalidate role="form" name="loginForm">
+                <form novalidate role="form" name="loginForm" qn-validate="errors">
                     <div class="form-group">
                         <input type="email" class="form-control" placeholder="Email" ng-model="username" name="username" required>
                         <div class="m-t-xs" ng-show="loginForm.username.$invalid && loginForm.username.$dirty || loginForm.submitted">
                             <small class="text-danger" ng-show="loginForm.username.$error.required">Please input your user name (Email).</small>
+                            <small class="text-danger" ng-show="loginForm.username.$error">Please input a valid email address.</small>
                         </div>
+                        <small class="text-danger" ng-show="loginForm.$serverError.invalidUserName.$invalid">Incorrect email or password.</small>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Password" ng-model="password" name="password" required>
                         <div class="m-t-xs" ng-show="loginForm.password.$invalid && loginForm.password.$dirty || loginForm.submitted">
                             <small class="text-danger" ng-show="loginForm.password.$error.required">Please input your password.</small>
                         </div>
+                        <small class="text-danger" ng-show="loginForm.$serverError.invalidUserName.$invalid">Incorrect email or password.</small>
                     </div>
                     <button type="submit" ng-click="signin()" class="btn btn-success block full-width m-b">Login</button>
                     <!-- <a href="#"><small>Forgot password?</small></a> -->

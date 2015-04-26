@@ -12,6 +12,9 @@ describe('Database', function() {
     var n = d.toDateString();
     
     var student = {body:''};
+    beforeEach(function(){
+        
+    });
      
     student.body = {
         firstName: 'Josh',
@@ -63,7 +66,7 @@ describe('Database', function() {
         })
         it('db not undefined', function()
         {
-            assert.notEqual((db==undefined), true)
+            assert.notEqual((db===undefined), true)
         })
         it('db has run function', function(){
             assert.equal(typeof db.run, 'function');

@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <label class="font-noraml">Change {{lesson.date | date:'MMMM d, yyyy'}} to:</label>
                     <p class="input-group">
-                        <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" ng-model="lesson.date" is-open="openedLessonDate" ng-required="true" close-text="Cancel" name="newDate">
+                        <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" ng-model="lesson.date" is-open="openedLessonDate" ng-required="true" close-text="Close" name="newDate">
                         <span class="input-group-btn">
                                     <button type="button" class="btn btn-success" ng-click="openLessonDate($event)" tabindex="-1">
                                     <i class="fa fa-calendar"></i></button>

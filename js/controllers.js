@@ -257,15 +257,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             });
         };
 
-        // /*
-        //  *       DATE PICKER CODE
-        //  *       (Used in rescheduling lessons)
-        //  */
-        // $scope.openBirthday = function($event) {
-        //     $event.preventDefault();
-        //     $event.stopPropagation();
-        //     $scope.openedBirthday = true;
-        // };
+        /*
+        *       DATE PICKER CODE
+        *       (Used in rescheduling lessons)
+        */
 
         $scope.cancelEditStudent = function() {
             $state.go('teacher-dashboard.main');
@@ -372,7 +367,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 $scope.lesson.lessonTime = null;
             };
 
-            
             $scope.lesson = lessonRecord.get({
                 sid: lesson.sid,
                 lsid: lesson.lsid
@@ -399,6 +393,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             };
 
             $scope.openLessonDate = function($event) {
+                $log.debug('Opening lesson date event is: ' + $event);
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.openedLessonDate = true;

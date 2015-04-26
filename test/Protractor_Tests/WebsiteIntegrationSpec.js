@@ -95,6 +95,7 @@ var DashboardPage = function(){
   };
 
   this.ClickCreateStudent = function(){
+    browser.debugger();
     element(by.buttonText("New Student")).click().then(function(){ 
       expect(browser.getCurrentUrl()).toMatch('#/teacher-dashboard/createStudentRecord')});
   };
@@ -111,12 +112,13 @@ var DashboardPage = function(){
 
   // Call this to assert incorrect data doesn't result in a new student
   this.SaveIncorrectStudentInfo = function(){
-    studentSaveButton.click().then(function(){expect(browser.getCurrentUrl()).not.toMatch('#/teacher-dashboard/main')});
+    element(by.buttonText("Save")).click().then(function(){expect(browser.getCurrentUrl()).not.toMatch('#/teacher-dashboard/main')});
   };
 
   this.EnsureStudentWasCreated = function(lname, fname, instrument){
-    var col1 = element(by.repeater('student in students').row(0).column(0));
-    expect(col1).toMatch('lname, fname');
+    element(by.repeater('student in students').row(0)).getText()
+      .then(function(row){expect(row).toMatch(lname + ', ' + fname + ' ' + instrument)});
+    
   }
 
   // Routes to logout
@@ -161,19 +163,25 @@ describe('Routing validation', function(){
 
     it('Should create a new student', function(){
       //(fname, lname, instrument, email, phone, address, bday, startDate, numberOfLessons)
+
+      //Create a student with invalid email
+      dashPage.ClickCreateStudent();
+      dashPage.EnterStudentInfo('fname', 'lname', 'instrument', 'bademail', '1234567890', 'address', '1/1/2000', '1/2/2000', 1);
+      dashPage.SaveIncorrectStudentInfo();
+      dashPage.CancelStudentInfo();
+
       dashPage.ClickCreateStudent();
       browser.debugger();
       dashPage.EnterStudentInfo('fname', 'lname', 'instrument', 'test@test.com', '1234567890', 'address', '1/1/2000', '1/2/2000', 1);
-      //browser.debugger();
-      
+      //browser.debugger();      
       dashPage.SaveCorrectStudentInfo();
       browser.debugger();
-      //dashPage.EnsureStudentWasCreated('lname', 'fname', 'instrument');
+      dashPage.EnsureStudentWasCreated('lname', 'fname', 'instrument');
       browser.debugger();
     });
 
     it('should logout', function(){
-      //dashPage.Logout();
+      dashPage.Logout();
     });
   }); 
 

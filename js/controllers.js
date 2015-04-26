@@ -258,7 +258,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                                     }
                                 });
                             });
-                            $state.go('teacher-dashboard.main');
+                            $state.go('teacher-dashboard.main', {}, {
+                                reload: true
+                            });
                         }
                     });
                 };

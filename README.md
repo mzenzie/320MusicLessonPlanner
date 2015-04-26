@@ -151,6 +151,7 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 0.1.2d:
   * Fixed the issue with datepicker in editing where the calendar would become non-functional after the first use.
   * Refactored controllers.js to have separate controllers for editing and rescheduling.
+  * Replaced the current pagination with a Angular-UI pagination, eliminating some odd errors and improving appearance.
 
 
 [node.js]:http://nodejs.org

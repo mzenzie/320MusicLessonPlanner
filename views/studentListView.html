@@ -7,13 +7,13 @@
     <div class="ibox-content">
         <p>Select row for more information.</p>
         <table class="table table-hover">
-            <thread>
+            <thead>
                 <th>Name (<span ng-bind="students.length"></span> records)</th>
                 <th align="right">Instrument</th>
                 <th></th>
-            </thread>
+            </thead>
             <tbody>
-                <tr ng-repeat="student in students | orderBy: ['lastName', 'firstName', 'instrument'] | startPageFrom:currentStudentPage*pageSize | limitTo:pageSize" ng-click="viewStudentRecord(student)">
+                <tr ng-repeat="student in filteredStudents" ng-click="viewStudentRecord(student)">
                     <td>
                         {{student.lastName}}, {{student.firstName}}
                     </td>
@@ -26,12 +26,16 @@
                 </tr>
             </tbody>
         </table>
-        <button ng-disabled="currentStudentPage == 0" ng-click="currentStudentPage=currentStudentPage-1">
+        <pagination total-items="totalStudents" items-per-page="studentPageSize" ng-model="studentPageData.currentStudentPage" ng-change="studentPageChanged()"></pagination>
+<!--         <p>Total students: {{totalStudents}}</p>
+        <p>Current Page: {{currentStudentPage}}</p>
+        <p>Students per page: {{studentPageSize}}</p> -->
+<!--                 <button ng-disabled="currentStudentPage == 0" ng-click="currentStudentPage=currentStudentPage-1">
             Previous
         </button>
         {{currentStudentPage+1}}/{{numberOfStudentPages()}}
-        <button ng-disabled="currentStudentPage >= students.length/pageSize - 1" ng-click="currentStudentPage=currentStudentPage+1">Next</button>
+        <button ng-disabled="currentStudentPage >= students.length/pageSize - 1" ng-click="currentStudentPage=currentStudentPage+1">Next</button> -->
         <hr>
-            <button class="btn btn-success" ng-click="createStudentRecord()" tooltip-placement="top" tooltip="Create a new student record.">New Student</button>
+        <button class="btn btn-success" ng-click="createStudentRecord()" tooltip-placement="top" tooltip="Create a new student record.">New Student</button>
     </div>
 </div>

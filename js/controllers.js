@@ -9,10 +9,15 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 /**
  * MainCtrl - controller
  */
-.controller('MainCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', '$q', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID',
-    function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID) {
+.controller('MainCtrl', ['$scope', '$resource', '$stateParams', '$state', '$modal', '$log', '$q', 'store', 'jwtHelper', 'getTeacherByID', 'getStudentByID', '$filter',
+    function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID, $filter) {
 
-        $scope.versionNumber = "version 0.1.2c";
+        /*
+         *       MAIN PAGE DISPLAY
+         */
+        //  Version number and date format for the entire site
+        $scope.versionNumber = "version 0.1.2d";
+        $scope.dateFormat = 'MMMM dd, yyyy';
 
         //  Gets the list of students and enables editing
         var studentRecordList = $resource('/api/studentRecord/', {
@@ -34,10 +39,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         });
 
         //  Builds the list of students and adds fields to each lesson for Today View.
-        studentRecordList.query(function(result) {
+        $scope.students = studentRecordList.query(function(result) {
             var studentRecords = result;
-            $scope.students = result;
-            // $log.debug('students length:' + $scope.students.length);
+            // $scope.students = result;
             $scope.lessons = [];
             var promises = [];
             for (var i = 0; i < studentRecords.length; i++) {
@@ -69,25 +73,130 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         });
 
         //List pagination for student and lesson lists (Not for TODAY VIEW)
-        $scope.currentStudentPage = 0;
-        $scope.currentLessonSchedulePage = 0;
-        $scope.pageSize = 8;
-        $scope.numberOfStudentPages = function() {
-            return Math.ceil($scope.students.length / $scope.pageSize);
+        // $scope.currentStudentPage = 0;
+        // $scope.currentLessonSchedulePage = 0;
+        // $scope.pageSize = 8;
+        // $scope.numberOfStudentPages = function() {
+        //     return Math.ceil($scope.students.length / $scope.pageSize);
+        // };
+        $scope.studentPageData = {};
+        $scope.studentPageData.currentStudentPage = 1;
+        $scope.studentPageSize = 8;
+        $scope.studentPageChanged = function() {
+            var begin = (($scope.studentPageData.currentStudentPage - 1) * $scope.studentPageSize),
+                end = begin + $scope.studentPageSize;
+            $scope.filteredStudents = $scope.students.slice(begin, end);
         };
-        // if ($scope.student !== undefined) {
-        // $scope.numberOfLessonSchedulePages = function() {
-        //     return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
-        // };
-        // };
+        $scope.students.$promise.then(function() {
+            $scope.students = $filter('orderBy')($scope.students, 'lastName');
+            $scope.totalStudents = $scope.students.length;
+            $scope.$watch('currentStudentPage + studentPageSize', function() {
+                var begin = (($scope.studentPageData.currentStudentPage - 1) * $scope.studentPageSize),
+                    end = begin + $scope.studentPageSize;
+                $scope.filteredStudents = $scope.students.slice(begin, end);
+            });
+        });
 
 
-        //Get teacher data
+        //Get teacher data to display the teacher's name
         var token = store.get('token')
         var decodedToken = token && jwtHelper.decodeToken(token);
         $scope.teacherProfile = getTeacherByID.get({
             id: decodedToken.id
         });
+
+        //  ================================================================================
+
+        /*
+         *       VIEW RECORD FUNCTIONS   ++++++++++++++++++++++++++++++++++++++++
+         */
+
+        //  View student record
+        $scope.viewStudentRecord = function(student) {
+            $scope.student = studentRecordList.get({
+                id: student.sid
+            }, {
+                update: {
+                    method: 'PUT'
+                }
+            });
+
+
+            studentRecordList.get({
+                id: student.sid
+            }, function(result) {
+                var studentParams = {
+                    sid: result.sid,
+                };
+                // Student Lesson pagination
+                $scope.lessonPageData = {};
+                $scope.lessonPageData.currentLessonPage = 1;
+                $scope.lessonPageSize = 8;
+                $scope.lessonPageChanged = function() {
+                    var begin = (($scope.lessonPageData.currentLessonPage - 1) * $scope.lessonPageSize),
+                        end = begin + $scope.lessonPageSize;
+                    $scope.filteredLessons = $scope.student.lessonSchedules.slice(begin, end);
+                };
+                $scope.student.$promise.then(function() {
+                    $scope.student.lessonSchedules = $filter('orderBy')($scope.student.lessonSchedules, 'date');
+                    $scope.totalLessons = $scope.student.lessonSchedules.length;
+                    $scope.$watch('currentLessonPage + lessonPageSize', function() {
+                        var begin = (($scope.lessonPageData.currentLessonPage - 1) * $scope.lessonPageSize),
+                            end = begin + $scope.lessonPageSize;
+                        $scope.filteredLessons = $scope.student.lessonSchedules.slice(begin, end);
+                    });
+                });
+                $state.go('teacher-dashboard.viewStudentRecord/:sid', studentParams);
+            });
+        };
+
+        //  View lesson record from Today View
+        $scope.viewTodayLessonRecord = function(lesson) {
+            $scope.student = studentRecordList.get({
+                id: lesson.sid
+            }, {
+                update: {
+                    method: 'PUT'
+                }
+            });
+            $scope.lesson = lessonRecord.get({
+                sid: lesson.sid,
+                lsid: lesson.lsid
+            }, function(result) {
+                var lessonParams = {
+                    sid: result.sid,
+                    lsid: result.lsid
+                };
+                $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', lessonParams);
+            });
+        };
+
+        //  View individual lesson record
+        $scope.viewLessonRecord = function(lesson) {
+            $scope.lesson = lessonRecord.get({
+                sid: lesson.sid,
+                lsid: lesson.lsid
+            }, function(result) {
+                var lessonParams = {
+                    sid: result.sid,
+                    lsid: result.lsid
+                };
+                $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', lessonParams);
+            });
+        };
+
+        /*
+         *       CREATE RECORD FUNCTIONS     ++++++++++++++++++++++++++++++++++++++++++++++
+         */
+
+        //  Add student record
+        $scope.createStudentRecord = function() {
+            $state.go('teacher-dashboard.createStudentRecord');
+        };
+
+        /*
+         *       DELETE RECORD FUNCTIONS     ++++++++++++++++++++++++++++++++++++++++++++++
+         */
 
         //  Delete student record
         $scope.confirmDeleteStudent = false;
@@ -149,15 +258,21 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                                     }
                                 });
                             });
-                            $state.go('teacher-dashboard.main');
+                            $state.go('teacher-dashboard.main', {}, {
+                                reload: true
+                            });
                         }
                     });
                 };
             });
         };
 
-        //  View student record
-        $scope.viewStudentRecord = function(student) {
+        /*
+         *       EDIT RECORD FUNCTIONS       ++++++++++++++++++++++++++++++++++++++++++++++
+         */
+
+        //  Edit student record
+        $scope.editStudentRecord = function(student) {
             $scope.student = studentRecordList.get({
                 id: student.sid
             }, {
@@ -165,53 +280,13 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     method: 'PUT'
                 }
             });
-
-            $scope.numberOfLessonSchedulePages = function() {
-                return Math.ceil($scope.student.lessonSchedules.length / $scope.pageSize);
-            };
             studentRecordList.get({
                 id: student.sid
             }, function(result) {
                 var studentParams = {
                     sid: result.sid,
                 };
-                $state.go('teacher-dashboard.viewStudentRecord/:sid', studentParams);
-            });
-        };
-
-        //  View lesson record from Today View
-        $scope.viewTodayLessonRecord = function(lesson) {
-            $log.debug("lesson id: " + lesson.lsid + "..... student id: " + lesson.sid);
-            $scope.student = studentRecordList.get({
-                id: lesson.sid
-            }, {
-                update: {
-                    method: 'PUT'
-                }
-            });
-            $scope.lesson = lessonRecord.get({
-                sid: lesson.sid,
-                lsid: lesson.lsid
-            }, function(result) {
-                var lessonParams = {
-                    sid: result.sid,
-                    lsid: result.lsid
-                };
-                $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', lessonParams);
-            });
-        };
-
-        //  View individual lesson record
-        $scope.viewLessonRecord = function(lesson) {
-            $scope.lesson = lessonRecord.get({
-                sid: lesson.sid,
-                lsid: lesson.lsid
-            }, function(result) {
-                var lessonParams = {
-                    sid: result.sid,
-                    lsid: result.lsid
-                };
-                $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', lessonParams);
+                $state.go('teacher-dashboard.editStudentRecord/:sid', studentParams);
             });
         };
 
@@ -237,75 +312,11 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             });
         };
 
-        //  Edit student record
-        $scope.editStudentRecord = function(student) {
-            $scope.student = studentRecordList.get({
-                id: student.sid
-            }, {
-                update: {
-                    method: 'PUT'
-                }
-            });
-            studentRecordList.get({
-                id: student.sid
-            }, function(result) {
-                var studentParams = {
-                    sid: result.sid,
-                };
-                $state.go('teacher-dashboard.editStudentRecord/:sid', studentParams);
-            });
-        };
-
         /*
-         *       DATE PICKER CODE
-         *       (Used in rescheduling lessons)
+         *       LESSON RESCHEDULING FUNCTIONS       ++++++++++++++++++++++++++++++++++++
          */
-        $scope.openBirthday = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.openedBirthday = true;
-        };
 
-        $scope.cancelEditStudent = function() {
-            $state.go('teacher-dashboard.main');
-        };
-
-        $scope.saveEditStudent = function() {
-            $scope.student.$update({
-                id: $scope.student.sid
-            }, function() {
-                // $log.debug('New note value: ' + $scope.student.generalNotes);
-            });
-            $state.go('teacher-dashboard.main');
-        }
-
-        //  Add student record
-        $scope.createStudentRecord = function() {
-            $state.go('teacher-dashboard.createStudentRecord');
-        };
-
-        //  Edit Student record
-        $scope.cancelEditLessonNote = function() {
-            $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', {
-                sid: $scope.lesson.sid,
-                lsid: $scope.lesson.lsid
-            });
-        }
-
-        //  Saves the edited lesson note
-        $scope.saveEditLessonNote = function() {
-            $scope.lesson.$update({
-                sid: $scope.lesson.sid,
-                lsid: $scope.lesson.lsid
-            }, function() {});
-            $state.go('teacher-dashboard.main', {}, {
-                reload: true
-            });
-        }
-
-        /*
-         *   Opens the dialog for rescheduling or canceling a lesson
-         */
+        //   Opens the dialog for rescheduling or canceling a lesson
         $scope.cancelLesson = function(lesson) {
             $scope.confirmCancelLesson = 0;
             var rescheduleDate = new Date();
@@ -333,99 +344,13 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                         }
                     });
                 } else {
-
-                    $scope.hstep = 1;
-                    $scope.mstep = 15;
-
-                    $scope.options = {
-                        hstep: [1, 2, 3],
-                        mstep: [1, 5, 10, 15, 25, 30]
-                    };
-
-                    $scope.ismeridian = true;
-                    $scope.toggleMode = function() {
-                        $scope.ismeridian = !$scope.ismeridian;
-                    };
-
-                    $scope.update = function() {
-                        var d = new Date();
-                        d.setHours(14);
-                        d.setMinutes(0);
-                        $scope.lesson.lessonTime = d;
-                    };
-
-                    $scope.changed = function() {
-                        // $log.log('Time changed to: ' + $scope.startDate);
-                    };
-
-                    $scope.clear = function() {
-                        $scope.lesson.lessonTime = null;
-                    };
-                    //      *******************************************************
-                    $scope.lesson = lessonRecord.get({
-                        sid: lesson.sid,
-                        lsid: lesson.lsid
-                    }, {
-                        update: {
-                            method: 'PUT'
-                        }
-                    });
-                    lessonRecord.get({
-                        sid: lesson.sid,
-                        lsid: lesson.lsid
-                    }, function(result) {
-                        var lessonParams = {
-                            sid: result.sid,
-                            lsid: result.lsid
-                        };
-                        $state.go('teacher-dashboard.rescheduleLesson/:sid/:lsid', lessonParams);
-                        // $log.debug("Lesson Date: " + $scope.lesson.date + " Time: " + $scope.lesson.lessonTime);
-                    });
-                    $scope.openLessonDate = function($event) {
-                        $event.preventDefault();
-                        $event.stopPropagation();
-                        $scope.openedLessonDate = true;
-                    };
+                    $scope.rescheduleLesson(lesson);
                 }
             });
         };
 
         $scope.rescheduleLesson = function(lesson) {
-            /*
-             *   Date initialization
-             */
-            // $log.debug($scope.lesson.date);
-            // var lessonDate = new Date($scope.lesson.date);
-            // $log.debug(lessonDate);
 
-            $scope.hstep = 1;
-            $scope.mstep = 15;
-
-            $scope.options = {
-                hstep: [1, 2, 3],
-                mstep: [1, 5, 10, 15, 25, 30]
-            };
-
-            $scope.ismeridian = true;
-            $scope.toggleMode = function() {
-                $scope.ismeridian = !$scope.ismeridian;
-            };
-
-            $scope.update = function() {
-                var d = new Date();
-                d.setHours(14);
-                d.setMinutes(0);
-                $scope.lesson.lessonTime = d.toString;
-            };
-
-            $scope.changed = function() {
-                // $log.log('Time changed to: ' + $scope.startDate);
-            };
-
-            $scope.clear = function() {
-                $scope.lesson.lessonTime = null;
-            };
-            //      *******************************************************
             $scope.lesson = lessonRecord.get({
                 sid: lesson.sid,
                 lsid: lesson.lsid
@@ -445,56 +370,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 $state.go('teacher-dashboard.rescheduleLesson/:sid/:lsid', lessonParams);
                 // $log.debug("Lesson Date: " + $scope.lesson.date + " Time: " + $scope.lesson.lessonTime);
             });
-            $scope.openLessonDate = function($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.openedLessonDate = true;
-            };
-        };
-    }
-])
-
-/**
- *      ModalDeleteStudentCtrl
- *      Displays a modal window to confirm or cancel deletion of a student record
- */
-.controller('ModalDeleteStudentCtrl', ['$scope', '$modalInstance',
-    function($scope, $modalInstance) {
-        $scope.ok = function() {
-            $scope.confirmDeleteStudent = true;
-            $modalInstance.close($scope.confirmDeleteStudent);
-        };
-
-        $scope.cancel = function() {
-            $scope.confirmDeleteStudent = false;
-            $modalInstance.close($scope.confirmDeleteStudent);
-            // $modalInstance.dismiss('cancel');
-        };
-    }
-])
-
-/**
- *      ModalCancelLessonCtrl
- *      Displays a modal window to confirm or cancel deletion of a student record
- */
-.controller('ModalCancelLessonCtrl', ['$scope', '$modalInstance',
-    function($scope, $modalInstance) {
-
-        $scope.closeCancelLesson = function() {
-            $scope.confirmCancelLesson = 0;
-            $modalInstance.close($scope.confirmCancelLesson);
-            // $modalInstance.dismiss('cancel');
-        };
-
-        $scope.cancelNoReschedule = function() {
-            $scope.confirmCancelLesson = 1;
-            $modalInstance.close($scope.confirmCancelLesson);
-        };
-
-        $scope.rescheduleLesson = function() {
-            $scope.confirmCancelLesson = 2;
-            $modalInstance.close($scope.confirmCancelLesson);
-            // $modalInstance.dismiss('cancel');
         };
     }
 ])
@@ -520,7 +395,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             $scope.startDate.setSeconds(0);
         };
 
-        $scope.dateFormat = 'MMMM dd, yyyy';
         $scope.initializeDates();
 
         $scope.hstep = 1;
@@ -670,6 +544,175 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     }
 ])
 
+/**
+ *      EditStudentCtrl
+ *      Controller for editing student records
+ */
+.controller('EditStudentCtrl', ['$scope', '$state', function($scope, $state) {
+
+    /*
+     *       DATE PICKER CODE
+     */
+    $scope.openBirthday = function($event) {
+        // $log.debug("Birthday: " + $scope.birthday);
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.openedBirthday = true;
+    };
+
+    //      Cancel: Return to main page
+    $scope.cancelEditStudent = function() {
+        $state.go('teacher-dashboard.main');
+    };
+
+    //      Save then return to main page
+    $scope.saveEditStudent = function() {
+        $scope.student.$update({
+            id: $scope.student.sid
+        }, function() {
+            // $log.debug('New note value: ' + $scope.student.generalNotes);
+        });
+        $state.go('teacher-dashboard.main');
+    }
+}])
+
+/**
+ *      EditLessonNoteCtrl
+ *      Controller for editing notes for individual lessons
+ */
+.controller('EditLessonNoteCtrl', ['$scope', '$state', function($scope, $state) {
+    //  Edit Lesson note
+    $scope.cancelEditLessonNote = function() {
+        $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', {
+            sid: $scope.lesson.sid,
+            lsid: $scope.lesson.lsid
+        });
+    }
+
+    //  Saves the edited lesson note
+    $scope.saveEditLessonNote = function() {
+        $scope.lesson.$update({
+            sid: $scope.lesson.sid,
+            lsid: $scope.lesson.lsid
+        }, function() {});
+        $state.go('teacher-dashboard.main', {}, {
+            reload: true
+        });
+    }
+}])
+
+/**
+ *  RescheduleLessonCtrl
+ *  Controller for rescheduling an individual lesson's date and time.
+ */
+
+.controller('RescheduleLessonCtrl', ['$scope', '$state', function($scope, $state) {
+    /*
+     *   Time Picker options
+     */
+    $scope.hstep = 1;
+    $scope.mstep = 15;
+
+    $scope.options = {
+        hstep: [1, 2, 3],
+        mstep: [1, 5, 10, 15, 25, 30]
+    };
+
+    $scope.ismeridian = true;
+    $scope.toggleMode = function() {
+        $scope.ismeridian = !$scope.ismeridian;
+    };
+
+    $scope.update = function() {
+        var d = new Date();
+        d.setHours(14);
+        d.setMinutes(0);
+        $scope.lesson.lessonTime = d.toString;
+    };
+
+    $scope.changed = function() {
+        // $log.log('Time changed to: ' + $scope.startDate);
+    };
+
+    $scope.clear = function() {
+        $scope.lesson.lessonTime = null;
+    };
+
+    $scope.cancel = function() {
+        $state.go('teacher-dashboard.main');
+    };
+
+    $scope.openLessonDate = function($event) {
+        // $log.debug('Opening lesson date event is: ' + $event);
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.openedLessonDate = true;
+    };
+    //  Cancel rescheduling
+    $scope.cancelReschedule = function() {
+        $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', {
+            sid: $scope.lesson.sid,
+            lsid: $scope.lesson.lsid
+        });
+    }
+
+    //  Saves the edited lesson time
+    $scope.saveReschedule = function() {
+        $scope.lesson.$update({
+            sid: $scope.lesson.sid,
+            lsid: $scope.lesson.lsid
+        }, function() {});
+        $state.go('teacher-dashboard.main', {}, {
+            reload: true
+        });
+    }
+}])
+
+/**
+ *      ModalDeleteStudentCtrl
+ *      Displays a modal window to confirm or cancel deletion of a student record
+ */
+.controller('ModalDeleteStudentCtrl', ['$scope', '$modalInstance',
+    function($scope, $modalInstance) {
+        $scope.ok = function() {
+            $scope.confirmDeleteStudent = true;
+            $modalInstance.close($scope.confirmDeleteStudent);
+        };
+
+        $scope.cancel = function() {
+            $scope.confirmDeleteStudent = false;
+            $modalInstance.close($scope.confirmDeleteStudent);
+            // $modalInstance.dismiss('cancel');
+        };
+    }
+])
+
+/**
+ *      ModalCancelLessonCtrl
+ *      Displays a modal window to confirm or cancel deletion of a student record
+ */
+.controller('ModalCancelLessonCtrl', ['$scope', '$modalInstance',
+    function($scope, $modalInstance) {
+
+        $scope.closeCancelLesson = function() {
+            $scope.confirmCancelLesson = 0;
+            $modalInstance.close($scope.confirmCancelLesson);
+            // $modalInstance.dismiss('cancel');
+        };
+
+        $scope.cancelNoReschedule = function() {
+            $scope.confirmCancelLesson = 1;
+            $modalInstance.close($scope.confirmCancelLesson);
+        };
+
+        $scope.rescheduleLesson = function() {
+            $scope.confirmCancelLesson = 2;
+            $modalInstance.close($scope.confirmCancelLesson);
+            // $modalInstance.dismiss('cancel');
+        };
+    }
+])
+
 
 .controller('LoginCtrl', ['$state', '$stateParams', '$scope', '$resource', '$http', 'store', 'jwtHelper', 'getTeacherByID', '$log', '$parse',
     function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log, $parse) {
@@ -736,6 +779,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     }
 ])
 
+/**
+ *      FACTORIES AND SERVICES (Singleton and Factory Patters)      ++++++++++++++++++++++++++
+ */
+
 
 /*
  *      Factory that passes student data from one controller to another
@@ -768,10 +815,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 }])
 
 /**
- * [description]
+ * [Filter lessons by those only after the current time.]
  * @param  {Array}  lessons
  * @return {Array}  lessons filtered by today's date.
- * @todo Filter lessons by those only after the current time.
  */
 .filter('isTodaysLesson', [
     function() { // Filters lessons scheduled for today
@@ -786,14 +832,14 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     var todayMonth = today.getMonth();
                     var todayYear = today.getFullYear();
                     var lesson = new Date(lessons[i].date);
-                    var lessonTime = new Date(lessons[i].lessonTime);
-                    var lessonHour = lessonTime.getHours();
+                    // var lessonTime = new Date(lessons[i].lessonTime);
+                    var lessonHour = lesson.getHours();
                     var lessonDate = lesson.getDate();
                     var lessonMonth = lesson.getMonth();
                     var lessonYear = lesson.getYear();
                     // console.log("Lesson date: " + lesson.toString() + " ?= Today date: " + today.toString());
                     if (lessonDate == todayDate && lessonMonth == todayMonth && lessonHour >= todayHour) {
-                    // console.log("Lesson hour: " + lessonHour + " ?= Today hour: " + todayHour);
+                        // console.log("Lesson hour: " + lessonHour + " ?= Today hour: " + todayHour);
                         todaysLessons.push(lessons[i]);
                     }
                 }

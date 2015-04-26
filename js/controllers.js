@@ -138,6 +138,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     $scope.filteredLessons = $scope.student.lessonSchedules.slice(begin, end);
                 };
                 $scope.student.$promise.then(function() {
+                    $scope.student.lessonSchedules = $filter('orderBy')($scope.student.lessonSchedules, 'date');
                     $scope.totalLessons = $scope.student.lessonSchedules.length;
                     $scope.$watch('currentLessonPage + lessonPageSize', function() {
                         var begin = (($scope.lessonPageData.currentLessonPage - 1) * $scope.lessonPageSize),
@@ -829,8 +830,8 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     var todayMonth = today.getMonth();
                     var todayYear = today.getFullYear();
                     var lesson = new Date(lessons[i].date);
-                    var lessonTime = new Date(lessons[i].lessonTime);
-                    var lessonHour = lessonTime.getHours();
+                    // var lessonTime = new Date(lessons[i].lessonTime);
+                    var lessonHour = lesson.getHours();
                     var lessonDate = lesson.getDate();
                     var lessonMonth = lesson.getMonth();
                     var lessonYear = lesson.getYear();

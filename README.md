@@ -1,7 +1,7 @@
 ﻿# MusicLessonPlanner
 
 ### Version
-0.1.2c BETA
+0.1.2d BETA
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
@@ -147,6 +147,11 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 0.1.2c:
   * Fixed an email validation error
   * Fixed some of the date display problems (The dates being edited still are a bit ugly)
+
+0.1.2d:
+  * Fixed the issue with datepicker in editing where the calendar would become non-functional after the first use.
+  * Refactored controllers.js to have separate controllers for editing and rescheduling.
+  * Replaced the current pagination with a Angular-UI pagination, eliminating some odd errors and improving appearance.
 
 
 [node.js]:http://nodejs.org

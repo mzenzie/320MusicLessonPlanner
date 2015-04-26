@@ -13,7 +13,7 @@
             </thread>
             <tbody>
                 <tr ng-repeat="lesson in lessons| isTodaysLesson | orderBy: 'date' "ng-click="viewTodayLessonRecord(lesson)">
-                    <td>{{lesson.lessonTime | date:'h:mm a'}}
+                    <td>{{lesson.date | date:'h:mm a'}}
                     </td>
                     <!-- <td>{{lesson.sid}}  <small>(Will have names soon!)</small></td> -->
                     <td>{{lesson.lastName}}, {{lesson.firstName}}</td>

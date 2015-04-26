@@ -14,6 +14,7 @@ describe('Database', function() {
     var n = d.toDateString();
     
      student = {
+
         firstName: 'Josh',
         lastName: 'Levine',
         instrument: 'Timpani',

@@ -1,8 +1,8 @@
 var assert = require('assert');
 var format = require('string-format');
-mockery = require('mockery');
+var mockery = require('mockery');
 
-/*
+
 describe('Student Record Controller', function() {
     var db, app;
     var student = {};

@@ -7,8 +7,20 @@ var TID = 1;
 
 format.extend(String.prototype); //allows usage of String.format(arg1, arg2), i.e. "Hello {0}".format(name); -> "Hello "
 
-describe('Database', function() {
-    var db, app;
+/*
+This Unit Test tests the database class, and StudentRecord class (dbinit.js and student-record.js).
+*/
+
+
+var db, app;
+function setup(){
+    app = require('../database/dbinit.js');
+    app.init('./test.sql');        
+    // app.reinit();
+    db = app.getInstance();
+}
+
+describe('Test 1', function() {
     var self;
     var d = new Date();
     var n = d.toDateString();
@@ -39,19 +51,12 @@ describe('Database', function() {
         birthday: new Date(1993, 8, 1),
         startDate: new Date(2015, 5, 1),
         numberOfLessons: '5',
-        lessonTime: new Date('T03:00:00'),
+        lessonTime: new Date('T03:00:00'), // intended wrong date format
         lessonLength: '60',
         generalNotes: 'My other notes',
         tid: TID
     }
 
-    function setup()
-    {
-        app = require('../database/dbinit.js');
-        app.init('./test.sql');        
-        // app.reinit();
-        db = app.getInstance();
-    }
 
     describe('Database', function(){
         setup();

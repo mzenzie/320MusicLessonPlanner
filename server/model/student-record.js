@@ -40,7 +40,7 @@ var StudentRecord = function(jsObject) {
 
     this.address = jsObject.address;
     this.birthday = null;
-    if (jsObject.birthday !== undefined){
+    if (jsObject.birthday !== undefined && jsObject.birthday != null){
         if (jsObject.birthday.getUTCDate !== undefined){
             this.birthday = jsObject.birthday;
         } else {
@@ -48,7 +48,7 @@ var StudentRecord = function(jsObject) {
         }
     }
     this.startDate = null;
-    if (jsObject.startDate !== undefined){
+    if (jsObject.startDate !== undefined && jsObject.startDate!=null){
         if (jsObject.startDate.getDate !== undefined){
             if (!isNaN(jsObject.startDate)){
                 this.startDate = jsObject.startDate;
@@ -61,7 +61,7 @@ var StudentRecord = function(jsObject) {
     }
 
     this.lessonTime = null;
-    if (jsObject.lessonTime !== undefined){
+    if (jsObject.lessonTime !== undefined && jsObject.lessonTime!=null){
         if (jsObject.lessonTime.getDate !== undefined){
             if (!isNaN(jsObject.lessonTime)){
                 this.lessonTime = jsObject.lessonTime;

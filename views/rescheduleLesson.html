@@ -12,7 +12,8 @@
             </ol>
         </div>
     </div>
-    <div class="ibox float-e-margins">
+    <div class="ibox float-e-margins" ng-controller="RescheduleLessonCtrl">
+    <!-- <div class="ibox float-e-margins"> -->
         <div class="ibox-title">
             <h5>Select new date and time for {{student.firstName}} {{student.lastName}}</h5>
             <div ibox-tools></div>
@@ -21,13 +22,13 @@
             <!-- <p>Datepicker is open? {{openedLessonDate}}</p> -->
             <form novalidate role="form" name="lessonNoteForm">
                 <div class="form-group">
-                    <label class="font-noraml">Change {{lesson.date | date:'MMMM d, yyyy'}} to:</label>
+                    <label class="font-noraml">Current selection {{lesson.date | date:'MMMM d, yyyy'}} lesson time: {{lesson.lessonTime | date:'h:mm a'}}</label>
                     <p class="input-group">
-                        <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" ng-model="lesson.date" is-open="openedLessonDate" ng-required="true" close-text="Close" name="newDate">
                         <span class="input-group-btn">
                                     <button type="button" class="btn btn-success" ng-click="openLessonDate($event)" tabindex="-1">
                                     <i class="fa fa-calendar"></i></button>
                                     </span>
+                        <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" ng-model="lesson.date" is-open="openedLessonDate" ng-required="true" close-text="Close" name="newDate">
                         <div class="m-t-xs" ng-show="lessonNoteForm.newDate.$invalid && lessonNoteForm.newDate.$dirty || lessonNoteForm.submitted">
                             <small class="text-danger" ng-show="lessonNoteForm.newDate.$error.required">Please input a date.</small>
                         </div>
@@ -40,8 +41,8 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-danger" ng-click="cancelEditLessonNote()">Cancel</button>
-                        <button type="button" class="btn btn-success" ng-click="saveEditLessonNote()">Save Changes</button>
+                        <button type="button" class="btn btn-danger" ng-click="cancelReschedule()">Cancel</button>
+                        <button type="button" class="btn btn-success" ng-click="saveReschedule()">Save Changes</button>
                     </div>
                 </div>
             </form>

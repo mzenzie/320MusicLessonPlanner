@@ -13,6 +13,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     function($scope, $resource, $stateParams, $state, $modal, $log, $q, store, jwtHelper, getTeacherByID, getStudentByID) {
 
         $scope.versionNumber = "version 0.1.2c";
+        $scope.dateFormat = 'MMMM dd, yyyy';
 
         //  Gets the list of students and enables editing
         var studentRecordList = $resource('/api/studentRecord/', {
@@ -256,15 +257,15 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             });
         };
 
-        /*
-         *       DATE PICKER CODE
-         *       (Used in rescheduling lessons)
-         */
-        $scope.openBirthday = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.openedBirthday = true;
-        };
+        // /*
+        //  *       DATE PICKER CODE
+        //  *       (Used in rescheduling lessons)
+        //  */
+        // $scope.openBirthday = function($event) {
+        //     $event.preventDefault();
+        //     $event.stopPropagation();
+        //     $scope.openedBirthday = true;
+        // };
 
         $scope.cancelEditStudent = function() {
             $state.go('teacher-dashboard.main');
@@ -333,71 +334,16 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                         }
                     });
                 } else {
-
-                    $scope.hstep = 1;
-                    $scope.mstep = 15;
-
-                    $scope.options = {
-                        hstep: [1, 2, 3],
-                        mstep: [1, 5, 10, 15, 25, 30]
-                    };
-
-                    $scope.ismeridian = true;
-                    $scope.toggleMode = function() {
-                        $scope.ismeridian = !$scope.ismeridian;
-                    };
-
-                    $scope.update = function() {
-                        var d = new Date();
-                        d.setHours(14);
-                        d.setMinutes(0);
-                        $scope.lesson.lessonTime = d;
-                    };
-
-                    $scope.changed = function() {
-                        // $log.log('Time changed to: ' + $scope.startDate);
-                    };
-
-                    $scope.clear = function() {
-                        $scope.lesson.lessonTime = null;
-                    };
-                    //      *******************************************************
-                    $scope.lesson = lessonRecord.get({
-                        sid: lesson.sid,
-                        lsid: lesson.lsid
-                    }, {
-                        update: {
-                            method: 'PUT'
-                        }
-                    });
-                    lessonRecord.get({
-                        sid: lesson.sid,
-                        lsid: lesson.lsid
-                    }, function(result) {
-                        var lessonParams = {
-                            sid: result.sid,
-                            lsid: result.lsid
-                        };
-                        $state.go('teacher-dashboard.rescheduleLesson/:sid/:lsid', lessonParams);
-                        // $log.debug("Lesson Date: " + $scope.lesson.date + " Time: " + $scope.lesson.lessonTime);
-                    });
-                    $scope.openLessonDate = function($event) {
-                        $event.preventDefault();
-                        $event.stopPropagation();
-                        $scope.openedLessonDate = true;
-                    };
+                    $scope.rescheduleLesson(lesson);
                 }
             });
         };
 
         $scope.rescheduleLesson = function(lesson) {
-            /*
-             *   Date initialization
-             */
-            // $log.debug($scope.lesson.date);
-            // var lessonDate = new Date($scope.lesson.date);
-            // $log.debug(lessonDate);
 
+            /*
+             *   Time Picker options
+             */
             $scope.hstep = 1;
             $scope.mstep = 15;
 
@@ -425,7 +371,8 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             $scope.clear = function() {
                 $scope.lesson.lessonTime = null;
             };
-            //      *******************************************************
+
+            
             $scope.lesson = lessonRecord.get({
                 sid: lesson.sid,
                 lsid: lesson.lsid
@@ -445,6 +392,12 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 $state.go('teacher-dashboard.rescheduleLesson/:sid/:lsid', lessonParams);
                 // $log.debug("Lesson Date: " + $scope.lesson.date + " Time: " + $scope.lesson.lessonTime);
             });
+
+
+            $scope.cancel = function() {
+                $state.go('teacher-dashboard.main');
+            };
+
             $scope.openLessonDate = function($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
@@ -520,7 +473,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             $scope.startDate.setSeconds(0);
         };
 
-        $scope.dateFormat = 'MMMM dd, yyyy';
         $scope.initializeDates();
 
         $scope.hstep = 1;

@@ -26,7 +26,7 @@ var LessonSchedule = function(jsObject) {
     // this.date = jsObject.date;
     this.lessonTime = jsObject.lessonTime;
     this.lessonLength = jsObject.lessonLength;
-    this.notes = "Notes for this lesson.";
+    this.notes = "Select Edit Lesson Notes to create notes for this lesson.";
     if (jsObject.notes !== undefined) {
         this.notes = jsObject.notes;
     }

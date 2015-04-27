@@ -403,7 +403,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         //      *******************************************************
 
         //      Temp General Notes:
-        $scope.generalNotes = "Enter notes here.";
+        $scope.generalNotes = "Select Edit Student to create notes for this record.";
 
         //      Lesson Length Options
 
@@ -758,6 +758,9 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     }
 ])
 
+.service('queryStudentRecords', [function() {
+
+}])
 
 /**
  * [Filter lessons by those only after the current time.]

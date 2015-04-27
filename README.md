@@ -28,6 +28,7 @@ http://54.208.4.249:8000/
 
 - Install [python](https://www.python.org/downloads/), [node](https://nodejs.org/), and [express](http://expressjs.com/) before running this app. Make sure that you install python version 2.7
 - Navigate to the directory where you wish to install MusicLessonPlanner and clone the repository.
+- Navigate into the project directory. 
 - Run the install script through whatever shell you use. On most distros, this is
 ```sh
 $ sudo bash install.sh

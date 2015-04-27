@@ -72,30 +72,30 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
             });
         });
 
-        //List pagination for student and lesson lists (Not for TODAY VIEW)
-        // $scope.currentStudentPage = 0;
-        // $scope.currentLessonSchedulePage = 0;
-        // $scope.pageSize = 8;
-        // $scope.numberOfStudentPages = function() {
-        //     return Math.ceil($scope.students.length / $scope.pageSize);
-        // };
-        $scope.studentPageData = {};
-        $scope.studentPageData.currentStudentPage = 1;
-        $scope.studentPageSize = 8;
-        $scope.studentPageChanged = function() {
-            var begin = (($scope.studentPageData.currentStudentPage - 1) * $scope.studentPageSize),
-                end = begin + $scope.studentPageSize;
-            $scope.filteredStudents = $scope.students.slice(begin, end);
-        };
-        $scope.students.$promise.then(function() {
-            $scope.students = $filter('orderBy')($scope.students, 'lastName');
-            $scope.totalStudents = $scope.students.length;
-            $scope.$watch('currentStudentPage + studentPageSize', function() {
+        /*
+         *   List pagination for student and lesson lists (Not for TODAY VIEW)
+         */
+
+        $scope.displayStudentList = function() {
+            $scope.studentPageData = {};
+            $scope.studentPageData.currentStudentPage = 1;
+            $scope.studentPageSize = 8;
+            $scope.studentPageChanged = function() {
                 var begin = (($scope.studentPageData.currentStudentPage - 1) * $scope.studentPageSize),
                     end = begin + $scope.studentPageSize;
                 $scope.filteredStudents = $scope.students.slice(begin, end);
+            };
+            $scope.students.$promise.then(function() {
+                $scope.students = $filter('orderBy')($scope.students, 'lastName');
+                $scope.totalStudents = $scope.students.length;
+                $scope.$watch('currentStudentPage + studentPageSize', function() {
+                    var begin = (($scope.studentPageData.currentStudentPage - 1) * $scope.studentPageSize),
+                        end = begin + $scope.studentPageSize;
+                    $scope.filteredStudents = $scope.students.slice(begin, end);
+                });
             });
-        });
+        };
+        $scope.displayStudentList();
 
 
         //Get teacher data to display the teacher's name
@@ -129,24 +129,31 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     sid: result.sid,
                 };
                 // Student Lesson pagination
-                $scope.lessonPageData = {};
-                $scope.lessonPageData.currentLessonPage = 1;
-                $scope.lessonPageSize = 8;
-                $scope.lessonPageChanged = function() {
+                $scope.displayLessonList();
+                $state.go('teacher-dashboard.viewStudentRecord/:sid', studentParams);
+            });
+        };
+
+        /*
+         *       Function to display a list of lesson records
+         */
+        $scope.displayLessonList = function() {
+            $scope.lessonPageData = {};
+            $scope.lessonPageData.currentLessonPage = 1;
+            $scope.lessonPageSize = 8;
+            $scope.lessonPageChanged = function() {
+                var begin = (($scope.lessonPageData.currentLessonPage - 1) * $scope.lessonPageSize),
+                    end = begin + $scope.lessonPageSize;
+                $scope.filteredLessons = $scope.student.lessonSchedules.slice(begin, end);
+            };
+            $scope.student.$promise.then(function() {
+                $scope.student.lessonSchedules = $filter('orderBy')($scope.student.lessonSchedules, 'date');
+                $scope.totalLessons = $scope.student.lessonSchedules.length;
+                $scope.$watch('currentLessonPage + lessonPageSize', function() {
                     var begin = (($scope.lessonPageData.currentLessonPage - 1) * $scope.lessonPageSize),
                         end = begin + $scope.lessonPageSize;
                     $scope.filteredLessons = $scope.student.lessonSchedules.slice(begin, end);
-                };
-                $scope.student.$promise.then(function() {
-                    $scope.student.lessonSchedules = $filter('orderBy')($scope.student.lessonSchedules, 'date');
-                    $scope.totalLessons = $scope.student.lessonSchedules.length;
-                    $scope.$watch('currentLessonPage + lessonPageSize', function() {
-                        var begin = (($scope.lessonPageData.currentLessonPage - 1) * $scope.lessonPageSize),
-                            end = begin + $scope.lessonPageSize;
-                        $scope.filteredLessons = $scope.student.lessonSchedules.slice(begin, end);
-                    });
                 });
-                $state.go('teacher-dashboard.viewStudentRecord/:sid', studentParams);
             });
         };
 
@@ -167,6 +174,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                     sid: result.sid,
                     lsid: result.lsid
                 };
+                $scope.displayLessonList();
                 $state.go('teacher-dashboard.viewLessonRecord/:sid/:lsid', lessonParams);
             });
         };
@@ -227,37 +235,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                                 }
                             };
                             $scope.students.splice(index, 1);
-                            studentRecordList.query(function(result) {
-                                var studentRecords = result;
-                                $scope.students = result;
-                                $scope.lessons = [];
-                                var promises = [];
-                                for (var i = 0; i < studentRecords.length; i++) {
-                                    var futureStudentRecord = studentRecordList.get({
-                                        id: studentRecords[i].sid
-                                    });
-                                    promises.push(futureStudentRecord.$promise.then(function(result) {
-                                        return result;
-                                    }));
-                                };
-
-                                $q.all(promises).then(function(result) {
-                                    for (var sr_index in result) {
-                                        var schedules = result[sr_index].lessonSchedules;
-                                        for (var ls_index in schedules) {
-                                            var todayViewModel = {
-                                                date: schedules[ls_index].date,
-                                                lessonTime: schedules[ls_index].lessonTime,
-                                                lessonLength: schedules[ls_index].lessonLength,
-                                                firstName: result[sr_index].firstName,
-                                                lastName: result[sr_index].lastName,
-                                                sid: result[sr_index].sid
-                                            };
-                                            $scope.lessons.push(todayViewModel);
-                                        }
-                                    }
-                                });
-                            });
                             $state.go('teacher-dashboard.main', {}, {
                                 reload: true
                             });
@@ -457,35 +434,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
                 newStudentRecord.$save(function(result) {
                     StudentRecord.query(function(result) {
                         $scope.$parent.students = result;
-                        var studentRecords = result;
-                        $scope.$parent.lessons = [];
-                        var promises = [];
-                        for (var i = 0; i < studentRecords.length; i++) {
-                            var futureStudentRecord = StudentRecord.get({
-                                id: studentRecords[i].sid
-                            });
-                            promises.push(futureStudentRecord.$promise.then(function(result) {
-                                return result;
-                            }));
-                        };
-
-                        $q.all(promises).then(function(result) {
-                            for (var sr_index in result) {
-                                var schedules = result[sr_index].lessonSchedules;
-                                for (var ls_index in schedules) {
-                                    var todayViewModel = {
-                                        date: schedules[ls_index].date,
-                                        lessonTime: schedules[ls_index].lessonTime,
-                                        lessonLength: schedules[ls_index].lessonLength,
-                                        lsid: schedules[ls_index].lsid,
-                                        firstName: result[sr_index].firstName,
-                                        lastName: result[sr_index].lastName,
-                                        sid: result[sr_index].sid
-                                    };
-                                    $scope.$parent.lessons.push(todayViewModel);
-                                }
-                            }
-                        });
                     });
                     $scope.firstName = '';
                     $scope.lastName = '';
@@ -810,9 +758,6 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     }
 ])
 
-.service('queryStudentRecords', [function() {
-
-}])
 
 /**
  * [Filter lessons by those only after the current time.]

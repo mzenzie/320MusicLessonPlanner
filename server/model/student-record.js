@@ -39,23 +39,47 @@ var StudentRecord = function(jsObject) {
     //
 
     this.address = jsObject.address;
-    if (jsObject.birthday !== undefined){
+    this.birthday = null;
+    if (jsObject.birthday !== undefined && jsObject.birthday != null){
         if (jsObject.birthday.getUTCDate !== undefined){
             this.birthday = jsObject.birthday;
         } else {
             this.birthday = new Date("{0}".format(jsObject.birthday));
         }
     }
-    if (jsObject.startDate !== undefined){
+    this.startDate = null;
+    if (jsObject.startDate !== undefined && jsObject.startDate!=null){
         if (jsObject.startDate.getDate !== undefined){
-            this.startDate = jsObject.startDate;
+            if (!isNaN(jsObject.startDate)){
+                this.startDate = jsObject.startDate;
+            }
         } else {
-            this.startDate = new Date("{0}".format(jsObject.startDate));
+            if (!isNaN(Date.parse(jsObject.startDate))){
+                this.startDate = new Date(jsObject.startDate);
+            }
         }
     }
-    this.lessonTime = jsObject.lessonTime;
-    this.numberOfLessons = jsObject.numberOfLessons;
-    this.lessonLength = jsObject.lessonLength;
+
+    this.lessonTime = null;
+    if (jsObject.lessonTime !== undefined && jsObject.lessonTime!=null){
+        if (jsObject.lessonTime.getDate !== undefined){
+            if (!isNaN(jsObject.lessonTime)){
+                this.lessonTime = jsObject.lessonTime;
+            }
+        } else {
+            if (!isNaN(Date.parse(jsObject.lessonTime))){
+                this.lessonTime = new Date(this.lessonTime);
+            }
+        }
+    }
+    this.numberOfLessons = null;
+    if(jsObject.numberOfLessons!==undefined){
+        this.numberOfLessons = jsObject.numberOfLessons;
+    }
+    this.lessonLength = null;
+    if(jsObject.lessonLength!==undefined){
+        this.lessonLength = jsObject.lessonLength;
+    }
 
     this.sid = null;
     if (jsObject.sid!==undefined){
@@ -75,6 +99,24 @@ var StudentRecord = function(jsObject) {
 
 
 /**
+ * Check wether input (during creating new student) is valid.
+ * 
+ * @param {Object} jsObject : the object containing all the information that needs to be validated
+ */
+
+function isInputValid(o){
+	//TODO: implement function
+	//		determine what are necessary inputs. Fields (mentioned above) 
+	//		are accessed through jsObject.{fields} 
+    if (o.firstName!==undefined && o.lastName!==undefined && o.address!==undefined && o.phone!==undefined && o.instrument!==undefined
+         && o.birthday!==undefined && o.email!==undefined && o.generalNotes!==undefined){
+        if (o.birthday != null){
+            return true;
+        }
+    }
+    return false;
+}
+/**
  * Save a student record to the database.
  * Used after changes are made to a student account
  * or when a new student is being saved for the first time.
@@ -82,53 +124,55 @@ var StudentRecord = function(jsObject) {
  * @param {Function} callback the function used to handle database error
  */
 StudentRecord.prototype.save = function(tid, callback){
-	var self = this; // save model's context. 
-	var myErr = null;
-	//TODO: save to db
-	// returns identifier for StudentRecord
-	var db = dbConnector.getInstance();
-	console.log("DB SAVE");
-    console.log(self);
-	var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument, generalNotes) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')"
-						.format(
-							tid,
-							self.firstName,
-							self.lastName,
-							self.email,
-							self.address,
-							self.phone,
-							self.birthday,
-							self.instrument,
-                            self.generalNotes);
-    console.log(student_record_query);
-
-    db.run(student_record_query, function(err){
-        if (err !== null){
-            console.log("STUDENT RECORD SAVE ERR TO DB");
-            console.log(err, null);
-        } 
-
-        var student_record_get_query = "SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND email='{2}' AND address='{3}' AND phone='{4}' AND birthday='{5}' AND instrument = '{6}'"
+    var self = this; // save model's context. 
+    var myErr = null;
+    //TODO: save to db
+    // returns identifier for StudentRecord
+    var db = dbConnector.getInstance();
+    // console.log(self);
+    if (isInputValid(self) && tid!==undefined){
+        var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument, generalNotes) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')"
                             .format(
+                                tid,
                                 self.firstName,
                                 self.lastName,
                                 self.email,
                                 self.address,
                                 self.phone,
                                 self.birthday,
-                                self.instrument);
-        // console.log(student_record_get_query);
-        db.get(student_record_get_query, function(err, row){
-            if (err!= null || row == null){
-                console.log(err, null);
-            } else {
-                console.log("== STUDENT RECORD SAVED! ==");
-                self.sid = row.sid
-        		// console.log(self);
-        		callback(null, self);
-            }
-    	});
-    })
+                                self.instrument,
+                                self.generalNotes);
+        // console.log(student_record_query);
+
+        db.run(student_record_query, function(err){
+            if (err != null){
+                console.log(err);
+            } 
+
+            var student_record_get_query = "SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND email='{2}' AND address='{3}' AND phone='{4}' AND birthday='{5}' AND instrument = '{6}'"
+                                .format(
+                                    self.firstName,
+                                    self.lastName,
+                                    self.email,
+                                    self.address,
+                                    self.phone,
+                                    self.birthday,
+                                    self.instrument);
+            // console.log(student_record_get_query);
+            db.get(student_record_get_query, function(err, row){
+                if (err!= null || row == null){
+                    console.log(err);
+                    callback(err, null);
+                } else {
+                    self.sid = row.sid
+                    // console.log(self);
+                    callback(null, self);
+                }
+            });
+        })
+    } else {
+        callback({'error': 'invalid input'}, null);
+    }
 };
 
 
@@ -141,17 +185,21 @@ StudentRecord.prototype.update = function(callback) {
     //TODO: implement function
     var self = this;
     var db = dbConnector.getInstance();
-    var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}', instrument='{5}', email='{6}', generalNotes='{7}' WHERE sid='{8}'"
-                .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.instrument,  self.email, self.generalNotes, self.sid);
-    console.log(query);
-    db.run(query, function(err){
-        if (err!=null){
-            console.log(err);
-            callback(err, null);
-        } else {
-            callback(null, new StudentRecord(self));
-        }
-    });    
+    if (isInputValid(self) && self.sid !== undefined){
+        var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}', instrument='{5}', email='{6}', generalNotes='{7}' WHERE sid='{8}'"
+                    .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.instrument,  self.email, self.generalNotes, self.sid);
+        // console.log(query);
+        db.run(query, function(err){
+            if (err!=null){
+                console.log(err);
+                callback(err, null);
+            } else {
+                callback(null, new StudentRecord(self));
+            }
+        });    
+    } else {
+        callback({'error':'invlaid input'}, null);
+    }
 };
 
 // Exports the student record to allow it to be used by
@@ -160,17 +208,6 @@ module.exports = StudentRecord;
 
 // Static Methods //
 
-/**
- * Check wether input (during creating new student) is valid.
- * 
- * @param {Object} jsObject : the object containing all the information that needs to be validated
- */
-
-module.exports.isInputValid =function(jsObject){
-	//TODO: implement function
-	//		determine what are necessary inputs. Fields (mentioned above) 
-	//		are accessed through jsObject.{fields} 
-};
 
 /**
  * Retrieve student information from database.
@@ -183,7 +220,7 @@ module.exports.get = function(sid, callback){
 	//TODO: retrieve student based on sid handler
 	var db = dbConnector.getInstance();
 	var query = "SELECT * FROM SRecord WHERE SRecord.sid={0}".format(sid);
-	console.log("DB GET: " + query);
+	// console.log("DB GET: " + query);
 	db.get(query,function(err, row){
         if (err!=null){
             console.log(err);
@@ -196,7 +233,6 @@ module.exports.get = function(sid, callback){
                     callback(err, null);
                 } else {
                     retrievedStudentRecord.lessonSchedules = schedules;
-                    console.log(retrievedStudentRecord);
                     callback(null, retrievedStudentRecord);
                 }
             });
@@ -220,16 +256,13 @@ module.exports.get = function(sid, callback){
 */
 module.exports.list = function(tid, callback) {
     var db = dbConnector.getInstance();
-    console.log("DB LIST");
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
     var list_query = "SELECT * FROM SRecord WHERE SRecord.tid={0}".format(tid);
-    console.log(list_query);
     db.all(list_query, function(err, studentRecords) {
         if (err!=null || studentRecords == null){
             console.log(err);
             callback(err, null);
         } else {
-            console.log("appending schedules to each records");
             callback(null, studentRecords);
         }
     });
@@ -249,8 +282,7 @@ module.exports.delete = function(sid,callback) {
     // var drecord_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
     var srecord_query = "DELETE FROM SRecord WHERE SRecord.sid={0}".format(sid);
     var schedule_query = "DELETE FROM Schedule WHERE Schedule.sid='{0}'".format(sid);
-    // console.log(schedule_query);
-    console.log(srecord_query);
+
     db.exec(srecord_query, function(err) {
         if (err != null) {
             console.log(err);
@@ -279,33 +311,35 @@ module.exports.delete = function(sid,callback) {
 module.exports.create = function(jsObject, callback) {
     //TODO: implement
     //		loop to create multiple student records
-    console.log("CREATE");
     var db = dbConnector.getInstance();
-    var numberOfLessons = jsObject.numberOfLessons;
     var newStudentRecord = new StudentRecord(jsObject);
-    newStudentRecord.save(jsObject.tid, function(err, studentRecord){
-        var scheduleData = {
-            // date: new Date(jsObject.startDate),
-            date: jsObject.startDate,
-            lessonTime: jsObject.lessonTime,
-            lessonLength: jsObject.lessonLength,
-            numberOfLessons: jsObject.numberOfLessons
-        };
-        // console.log(scheduleData);
-        if (err != null || studentRecord == null){
-            callback(err, null);
-        } else {
-            var error = null;
-            LessonSchedule.generateDates(scheduleData, studentRecord, function(err, schedules){
-                if (err != null || schedules == null){
-                    callback(err, null);
-                } else {
-                    studentRecord.lessonSchedules = schedules;
-                    callback(null, studentRecord);
-                }
-            })
-        
-        }
-
-    });
+    if (isInputValid(jsObject) && newStudentRecord.lessonTime!=null && newStudentRecord.startDate!=null){
+        var numberOfLessons = jsObject.numberOfLessons;
+        newStudentRecord.save(jsObject.tid, function(err, studentRecord){
+            var scheduleData = {
+                // date: new Date(jsObject.startDate),
+                date: jsObject.startDate,
+                lessonTime: jsObject.lessonTime,
+                lessonLength: jsObject.lessonLength,
+                numberOfLessons: jsObject.numberOfLessons
+            };
+            // console.log(scheduleData);
+            if (err != null || studentRecord == null){
+                callback(err, null);
+            } else {
+                var error = null;
+                LessonSchedule.generateDates(scheduleData, studentRecord, function(err, schedules){
+                    if (err != null || schedules == null){
+                        callback(err, null);
+                    } else {
+                        studentRecord.lessonSchedules = schedules;
+                        callback(null, studentRecord);
+                    }
+                })
+            
+            }
+        });
+    } else {
+        callback({'error':'invalid input'}, null);
+    }
 };

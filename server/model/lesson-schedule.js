@@ -148,13 +148,13 @@ module.exports.get = function(lsid, callback) {
  */
 module.exports.list = function(sid, callback) { /// option = {callback: function(err, schedules), db: db}
     var db = dbConnector.getInstance();
-    console.log("DB LIST");
+    // console.log("DB LIST");
     db.all("SELECT * FROM Schedule WHERE Schedule.sid={0}".format(sid), function(err, rows) {
         if (err != null || rows == null) {
             console.log(err);
             callback(err, null);
         } else {
-            console.log(rows);
+            // console.log(rows);
             callback(null, rows);
         }
     });
@@ -236,7 +236,7 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
                     nextDate.setDate(nextDate.getDate() + 7);
                 }
                 var outputDate = nextDate.toISOString();
-                console.log(scheduleData);
+                // console.log(scheduleData);
                 var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
                     .format(
                         // scheduleData.date.toISOString(),
@@ -245,7 +245,7 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
                         scheduleData.lessonLength,
                         scheduleData.notes,
                         studentRecord.sid);
-                console.log(lschedule_query);
+                // console.log(lschedule_query);
                 // console.log(get_query);
                 db.run(lschedule_query, function(err) {
                     if (err != null) {
@@ -258,7 +258,6 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
                     console.log(err);
                     callback(err, null);
                 } else {
-                    console.log("200 -------- RETREIVED SCHEDULE LIST");
                     callback(null, schedules);
                 }
             });
@@ -266,53 +265,6 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
     }
 }
 
-
-
-
-/////////////////////////////////////////////////////////////////////////
-/*
-    if (validateInput(scheduleData)){
-=======
-    if (validateInput(scheduleData)) {
->>>>>>> 3775d9647eeaff7aa9460c95f8d3d06ca02fb9aa
-        var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}"
-            .format(studentRecord.sid);
-        console.log("BEFORE=========");
-        db.serialize(function() {
-            console.log("AFTER=========" + numberOfLessons);
-            // console.log(scheduleData);
-            for (var i = 0; i < numberOfLessons; i++) {
-                if (i != 0) {
-                    scheduleData.date.setDate(scheduleData.date.getDate() + 7);
-                }
-                console.log(scheduleData);
-                var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
-                    .format(    
-                        scheduleData.date.toISOString(),
-                        scheduleData.lessonTime,
-                        scheduleData.lessonLength,
-                        scheduleData.notes,
-                        studentRecord.sid);
-                console.log(lschedule_query);
-                // console.log(get_query);
-                db.run(lschedule_query, function(err) {
-                    if (err != null) {
-                        console.log(err);
-                    }
-                })
-            }
-            db.all(get_query, function(err, schedules) {
-                if (err != null || schedules == null) {
-                    console.log(err);
-                    callback(err, null);
-                } else {
-                    console.log("200 -------- RETREIVED SCHEDULE LIST");
-                    callback(null, schedules);
-                }
-            });
-        });
-    }
-    */
 
 
 // doesnt work lol gg 

@@ -497,6 +497,15 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 .controller('EditStudentCtrl', ['$scope', '$state', function($scope, $state) {
 
     /*
+     *       DATE INITIALIZATION CODE       ****************************
+     */
+    $scope.initializeEditDate = function() {
+        var birthday = $scope.student.birthday;
+        $scope.student.birthday = new Date(birthday);
+    };
+
+    $scope.initializeEditDate();
+    /*
      *       DATE PICKER CODE
      */
     $scope.openBirthday = function($event) {
@@ -553,6 +562,15 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
  */
 
 .controller('RescheduleLessonCtrl', ['$scope', '$state', function($scope, $state) {
+    /*
+     *       DATE INITIALIZATION CODE       ****************************
+     */
+    $scope.initializeRescheduleDate = function() {
+        var lessonDate = $scope.lesson.date;
+        $scope.lesson.date = new Date(lessonDate);
+    };
+
+    $scope.initializeRescheduleDate();
     /*
      *   Time Picker options
      */

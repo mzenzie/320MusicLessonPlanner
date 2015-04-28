@@ -3530,7 +3530,7 @@ table.table-mail tr td {
 	color: white;
 	text-align: right;
 	vertical-align: text-bottom;
-	background: url(../img/Julliard.jpg) no-repeat center center;
+	background: black url(../img/Julliard.jpg) no-repeat center center;
 	line-height: normal;
 	font-size: x-small;
 }
@@ -3538,6 +3538,7 @@ table.table-mail tr td {
     margin-top: 0;
 	color: white;
 	font-variant: small-caps;
+	text-align: right;
 }
 /* COLORS */
 .text-navy {

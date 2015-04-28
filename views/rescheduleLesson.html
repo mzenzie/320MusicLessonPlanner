@@ -13,31 +13,33 @@
         </div>
     </div>
     <div class="ibox float-e-margins" ng-controller="RescheduleLessonCtrl">
-    <!-- <div class="ibox float-e-margins"> -->
+        <!-- <div class="ibox float-e-margins"> -->
         <div class="ibox-title">
             <h5>Select new date and time for {{student.firstName}} {{student.lastName}}</h5>
             <div ibox-tools></div>
         </div>
         <div class="ibox-content">
-            <!-- <p>Datepicker is open? {{openedLessonDate}}</p> -->
             <form novalidate role="form" name="lessonNoteForm">
-                <div class="form-group">
-                    <label class="font-noraml">Current selection {{lesson.date | date:'MMMM d, yyyy'}} lesson time: {{lesson.lessonTime | date:'h:mm a'}}</label>
-                    <p class="input-group">
-                        <span class="input-group-btn">
-                                    <button type="button" class="btn btn-success" ng-click="openLessonDate($event)" tabindex="-1">
-                                    <i class="fa fa-calendar"></i></button>
-                                    </span>
-                        <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" ng-model="lesson.date" is-open="openedLessonDate" ng-required="true" close-text="Close" name="newDate">
-                        <div class="m-t-xs" ng-show="lessonNoteForm.newDate.$invalid && lessonNoteForm.newDate.$dirty || lessonNoteForm.submitted">
-                            <small class="text-danger" ng-show="lessonNoteForm.newDate.$error.required">Please input a date.</small>
-                        </div>
-                    </p>
+                <div class="form-group date">
+                    <label class="font-noraml">New Date: {{lesson.date | date: 'MMMM dd, yyyy hh:mm a'}}</label>
+                    <input type="date" class="form-control" ng-model="lesson.date" name="newDate" data-mask="9999-99-99" placeHolder="yyyy-mm-dd" required>
+                    <div class="m-t-xs" ng-show="lessonNoteForm.newDate.$invalid && lessonNoteForm.newDate.$dirty || lessonNoteForm.submitted">
+                        <small class="text-danger" ng-show="lessonNoteForm.newDate.$error.required">Please select a new date.</small>
+                        <small class="text-danger" ng-show="lessonNoteForm.newDate.$valid">Please enter the date as yyyy-mm-dd. Example: 1972-12-05</small>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="font-noraml">Lesson Time</label>
                     <timepicker ng-model="lesson.date" ng-change="changed()" hour-step="hstep" minute-step="5" show-meridian="ismeridian"></timepicker>
                 </div>
+<!--                 <div class="form-group">
+                    <label class="font-noraml">TEST</label>
+                    <input type="time" class="form-control" ng-model="lesson.date" name="newTime" data-mask="99:99" placeHolder="yyyy-mm-dd" required>
+                    <div class="m-t-xs" ng-show="lessonNoteForm.newDate.$invalid && lessonNoteForm.newDate.$dirty || lessonNoteForm.submitted">
+                        <small class="text-danger" ng-show="lessonNoteForm.newDate.$error.required">Please select a new date.</small>
+                        <small class="text-danger" ng-show="lessonNoteForm.newDate.$valid">Please enter the date as yyyy-mm-dd. Example: 1972-12-05</small>
+                    </div>
+                </div> -->
                 <hr>
                 <div class="row">
                     <div class="col-md-12">

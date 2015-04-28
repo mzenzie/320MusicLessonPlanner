@@ -142,6 +142,10 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
   * Refactored controllers.js to have separate controllers for editing and rescheduling.
   * Replaced the current pagination with a Angular-UI pagination, eliminating some odd errors and improving appearance.
 
+0.1.3 (Pre-release)
+  * Hopefully the last BETA version before 1.0.0
+  * Changed all of the date input types from text with a BootStrap datepicker to date inputs that use each browser's default method. This will improve user experience on iOS, Android, and Chrome. (iOS for example has its own date picker which most users would expect.)
+
 
 [node.js]:http://nodejs.org
 [Twitter Bootstrap]:http://twitter.github.com/bootstrap/

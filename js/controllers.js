@@ -15,9 +15,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         /*
          *       MAIN PAGE DISPLAY
          */
-        //  Version number and date format for the entire site
-        $scope.versionNumber = "version 0.1.2d";
-        $scope.dateFormat = 'MMMM dd, yyyy';
+        $scope.dateFormat = 'yyyy-mm-dd';
 
         //  Gets the list of students and enables editing
         var studentRecordList = $resource('/api/studentRecord/', {
@@ -664,6 +662,12 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
 .controller('LoginCtrl', ['$state', '$stateParams', '$scope', '$resource', '$http', 'store', 'jwtHelper', 'getTeacherByID', '$log', '$parse',
     function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log, $parse) {
+
+        //  Version number and date format for the entire site
+        // $scope.releaseStatus = "FINAL ";
+        // $scope.versionNumber = "version 1.0.0";
+        $scope.releaseStatus = "BETA ";
+        $scope.versionNumber = "version 0.1.3";
 
         $scope.signin = function() {
             if ($scope.loginForm.$valid) {

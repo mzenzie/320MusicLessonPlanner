@@ -27,6 +27,7 @@ function execute(command){
     }
 }
 
-function getDBManager(path){
-    var DBManager = {path: path, db: null, loadDB: loadDB, saveDB: saveDB, execute: execute};
+function getDBManager(path) {
+    var DBManager = { path: path, db: null, loadDB: loadDB, saveDB: saveDB, execute: execute };
     return DBManager;
+}

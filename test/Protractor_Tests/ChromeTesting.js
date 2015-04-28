@@ -27,7 +27,8 @@ var StartPage = function () {
       //browser.debugger();
       element(by.model('username')).sendKeys(email);
       element(by.model('password')).sendKeys(password);
-      //browser.debugger();
+      browser.debugger();
+      console.log("Creating a new teacher account: " + email);
       element(by.buttonText('Login')).click()
         .then(function () { expect(browser.getCurrentUrl()).toMatch('/#/teacher-dashboard/main') });
    };
@@ -145,10 +146,12 @@ var DashboardPage = function () {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Routing validation', function () {
    //Set the browser name
+   /*
    browser.getCapabilities().then(function (cap) {
       browser.browserName = cap.caps_.browserName;
-   });
-   var emailName = browser.browserName + '@' + browser.browserName;
+   });*/
+    var emailName = 'Chrome@Chrome.com';
+   
    describe('Startpage functionality', function () {
       //browser.debugger();
       //console.log(Date.now());
@@ -164,7 +167,7 @@ describe('Routing validation', function () {
          var registerPage = new RegisterTeacherPage();
          browser.waitForAngular();
          registerPage.CreateAccount('Test Name', emailName, 'testpassword');
-         //browser.debugger();
+         browser.debugger();
       });
       it('should login', function () {
          browser.waitForAngular();
@@ -195,12 +198,10 @@ describe('Routing validation', function () {
          //browser.debugger();
          dashPage.SaveCorrectStudentInfo();
          browser.waitForAngular();
-         console.log("at break");
          browser.debugger();
-         console.log("past break");
          //dashPage.EnsureStudentWasCreated('lname', 'fname', 'instrument', 0);
          browser.waitForAngular();
-         console.log("Done");
+         console.log('Chrome testing is finished');
          browser.debugger();
       });
 

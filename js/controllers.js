@@ -685,7 +685,7 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
         // $scope.releaseStatus = "FINAL ";
         // $scope.versionNumber = "version 1.0.0";
         $scope.releaseStatus = "BETA ";
-        $scope.versionNumber = "version 0.1.3";
+        $scope.versionNumber = "version 0.1.3a";
 
         $scope.signin = function() {
             if ($scope.loginForm.$valid) {

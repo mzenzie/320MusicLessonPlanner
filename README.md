@@ -146,6 +146,9 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
   * Hopefully the last BETA version before 1.0.0
   * Changed all of the date input types from text with a BootStrap datepicker to date inputs that use each browser's default method. This will improve user experience on iOS, Android, and Chrome. (iOS for example has its own date picker which most users would expect.)
 
+0.1.3a (Pre-release)
+  * Fixed a bug where a dates were not displayed in fields for rescheduling and editing students.
+
 
 [node.js]:http://nodejs.org
 [Twitter Bootstrap]:http://twitter.github.com/bootstrap/

@@ -44,13 +44,10 @@ Teacher.prototype.save = function(callback) {
         );
     var get_query = "SELECT * FROM Teacher WHERE Teacher.email='{0}'"
         .format(self.email);
-
-    console.log("======= TEACHER SAVE");
-    console.log(teacher_account_query);
+    // console.log(teacher_account_query);
 
     db.run(teacher_account_query, function(err) {
         if (err != null) {
-            console.log("TEACHER ACCOUNT SAVE ERR TO DB");
             console.log(err);
         }
     })
@@ -60,7 +57,6 @@ Teacher.prototype.save = function(callback) {
             callback(err, null);
         } else {
             self.tid = row.tid;
-            console.log("++++ TEACHER SAVED ++++");
             callback(null, self);
         }
     });
@@ -76,14 +72,16 @@ Teacher.prototype.save = function(callback) {
 Teacher.prototype.update = function(callback) {
     //TODO: implement function
     var db = dbConnector.getInstance();
-    var update = "Update Teacher SET email='{0}', firstName='{1}', lastName='{2}', address='{3}', phone='{4}' WHERE tid={4}"
-    .format(this.email, this.firstName, this.lastName, this.address, this.phone, this.tid);
-    console.log(update);
+    self = this;
+    var update = "Update Teacher SET email='{0}', firstName='{1}', phone='{2}' WHERE tid={3}"
+    .format(this.email, this.firstName,  this.phone, this.tid);
+    // console.log(update);
     db.run(update, function(err){
         if(err != null){
             console.log(err);
+            callback(err, null);
         } else {
-            callback(null, new LessonNote(jsObject));
+            callback(null, new Teacher(self));
         }
     });
 };
@@ -105,7 +103,7 @@ module.exports.get = function(tid, callback) {
     var db = dbConnector.getInstance();
     db.get("SELECT * FROM Teacher WHERE Teacher.tid={0}".format(tid), function(err, row) {
         if (err!=null || row==null){
-            console.log(err);
+            if (row!=null) console.log(err);
             callback(err, null);
         } else {
             var teacher = new Teacher(row);
@@ -122,7 +120,6 @@ module.exports.get = function(tid, callback) {
 
 module.exports.list = function(callback) {
     var db = dbConnector.getInstance();
-    console.log("DB LIST");
     // need to put , Schedule WHERE Schedule.sid = SRecord.sid
     db.all("SELECT * FROM Teacher", function(err, rows) {
         if (err!=null || rows==null){
@@ -144,11 +141,13 @@ module.exports.list = function(callback) {
 module.exports.delete = function(tid, callback) {
     var db = dbConnector.getInstance();
     var teacher_query = "DELETE FROM Teacher WHERE Teacher.tid={0}".format(tid);
-    console.log(teacher_query);
+    // console.log(teacher_query);
     db.exec(teacher_query, function(err) {
         if (err != null) {
             console.log(err);
             callback(err);
+        } else {
+            callback(null);
         }
     });
 };
@@ -162,7 +161,6 @@ module.exports.delete = function(tid, callback) {
 module.exports.create = function(jsObject, callback) {
     //TODO: implement
     //		loop to create multiple student records
-    console.log("CREATE");
     var newTeacher = new Teacher(jsObject);
     newTeacher.save(callback);
 };

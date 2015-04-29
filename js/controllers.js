@@ -522,12 +522,16 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
     //      Save then return to main page
     $scope.saveEditStudent = function() {
-        $scope.student.$update({
-            id: $scope.student.sid
-        }, function() {
-            // $log.debug('New note value: ' + $scope.student.generalNotes);
-        });
-        $state.go('teacher-dashboard.main');
+        if ($scope.studentRecordForm.$valid) {
+            $scope.student.$update({
+                id: $scope.student.sid
+            }, function() {
+                // $log.debug('New note value: ' + $scope.student.generalNotes);
+            });
+            $state.go('teacher-dashboard.main');
+        } else {
+            $scope.studentRecordForm.submitted = true;
+        }
     }
 }])
 
@@ -622,13 +626,17 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
     //  Saves the edited lesson time
     $scope.saveReschedule = function() {
-        $scope.lesson.$update({
-            sid: $scope.lesson.sid,
-            lsid: $scope.lesson.lsid
-        }, function() {});
-        $state.go('teacher-dashboard.main', {}, {
-            reload: true
-        });
+        if ($scope.lessonNoteForm.$valid) {
+            $scope.lesson.$update({
+                sid: $scope.lesson.sid,
+                lsid: $scope.lesson.lsid
+            }, function() {});
+            $state.go('teacher-dashboard.main', {}, {
+                reload: true
+            });
+        } else {
+            $scope.lessonNoteForm.submitted = true;
+        }
     }
 }])
 

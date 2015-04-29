@@ -144,6 +144,9 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 0.1.3a (Pre-release)
   * Fixed a bug where a dates were not displayed in fields for rescheduling and editing students.
 
+0.1.3b (Release candidate)
+  * Fixed email validation error in creating/editing student records.
+
 
 [node.js]:http://nodejs.org
 [Twitter Bootstrap]:http://twitter.github.com/bootstrap/

@@ -25,7 +25,7 @@
                     <input type="date" class="form-control" ng-model="lesson.date" name="newDate" data-mask="9999-99-99" placeHolder="yyyy-mm-dd" required>
                     <div class="m-t-xs" ng-show="lessonNoteForm.newDate.$invalid && lessonNoteForm.newDate.$dirty || lessonNoteForm.submitted">
                         <small class="text-danger" ng-show="lessonNoteForm.newDate.$error.required">Please select a new date.</small>
-                        <small class="text-danger" ng-show="lessonNoteForm.newDate.$valid">Please enter the date as yyyy-mm-dd. Example: 1972-12-05</small>
+                        <small class="text-danger" ng-show="lessonNoteForm.newDate.$invalid">Please enter the date as yyyy-mm-dd. Example: 1972-12-05</small>
                     </div>
                 </div>
                 <div class="form-group">

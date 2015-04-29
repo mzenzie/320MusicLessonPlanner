@@ -690,10 +690,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log, $parse) {
 
         //  Version number and date format for the entire site
-        // $scope.releaseStatus = "FINAL ";
-        // $scope.versionNumber = "version 1.0.0";
-        $scope.releaseStatus = "BETA ";
-        $scope.versionNumber = "version 0.1.3b";
+        $scope.releaseStatus = "FINAL ";
+        $scope.versionNumber = "version 1.0.0";
+        // $scope.releaseStatus = "BETA ";
+        // $scope.versionNumber = "version 0.1.3b";
 
         $scope.signin = function() {
             if ($scope.loginForm.$valid) {

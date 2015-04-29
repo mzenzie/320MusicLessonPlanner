@@ -82,18 +82,13 @@ Testing is implemented using the [Mocha](http://mochajs.org/) testing framework.
 
 The other integration tests use Protractor, which currently tests Firefox and Chrome. Downloads these browsers to test on them. 
 
-When beginning testing for the first time you will need to install the testing dependencies. All of the necessary dependencies can be installed by executing
-  ```sh
-  $ ./install_test_dependencies
-  ```
-If the above command does not work, you may need to re-run with admin privileges
-  ```sh
-  $ sudo ./install_test_dependencies
-  ```
 All Unit tests can be run from the root directory with the following command
   ```sh
   $ mocha
   ```
+  
+The integration tests are run atgit
+
 More detailed testing instructions, and complete Integration tests, look [here](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Testing).
 
 ### Bug Tracking

@@ -1,7 +1,7 @@
 ﻿# MusicLessonPlanner
 
 ### Version
-0.1.2d BETA
+1.0.0
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
@@ -18,10 +18,6 @@ http://54.208.4.249:8000/
 - Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
 - Lesson Scheduling - Allow teachers to cancel or reschedule lessons.
 
-**Features in progress**
-
-- UI polishing and bug squashing.
-- Server-side check for lesson time conflicts.
 
 
 ### Installation and Build
@@ -146,6 +142,9 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 
 0.1.3b (Release candidate)
   * Fixed email validation error in creating/editing student records.
+
+1.0.0 Final Release
+  * Removed Beta tag
 
 
 [node.js]:http://nodejs.org

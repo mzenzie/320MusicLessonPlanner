@@ -58,9 +58,9 @@ module.exports.isInputValid =function(jsObject){
  * @param {Function} callback : the function used to handle database error
  */
 
-module.exports.get = function(sid, callback){
-	callback(null, sid);
-
+module.exports.get = function (sid, callback) {
+    callback(null, sid);
+}
 /**
  * Retrieve a list of all the students belonging to a given teacher
  * 

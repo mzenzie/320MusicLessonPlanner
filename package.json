@@ -12,6 +12,7 @@
     "jsonwebtoken": "^4.2.1",
     "morgan": "^1.5.1",
     "multer": "^0.1.8",
+    "protractor": "^2.0.0",
     "redis": "^0.12.1",
     "sqlite3": "^3.0.5",
     "string-format": "^0.5.0"
@@ -20,11 +21,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-   "type": "git",
-   "url": "https://github.com/mzenzie/320MusicLessonPlanner.git"
-},
+    "type": "git",
+    "url": "https://github.com/mzenzie/320MusicLessonPlanner.git"
+  },
   "author": "",
   "license": "ISC"
 }
-
-

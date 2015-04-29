@@ -14,8 +14,13 @@
                 <p ng-bind-html="lesson.notes"></p>
             </div>
         </div>
-        <button class="btn btn-success btn-md" ng-click="editLessonRecord(lesson)" tooltip-placement="top" tooltip="Click to edit the notes for this lesson."><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Lesson Notes</button>
-        <button class="btn btn-danger btn-md" ng-click="cancelLesson(lesson)" tooltip-placement="top" tooltip="Click to cancel or reschedule this lesson."><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Cancel Lesson</button>
-        <button class="btn btn-outline btn-default btn-md" ng-click="rescheduleLesson(lesson)" tooltip-placement="top" tooltip="Click to reschedule this lesson."><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Reschedule Lesson</button>
+        <div class="btn-group">
+            <button class="btn btn-success" ng-click="editLessonRecord(lesson)" tooltip-placement="top"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Edit Notes</button>
+            <button class="btn btn-danger" ng-click="cancelLesson(lesson)" tooltip-placement="top"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Cancel Lesson</button>
+            <button class="btn btn-outline btn-default" ng-click="rescheduleLesson(lesson)"><span class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Reschedule</button>
+        </div>
     </div>
 </div>
+ <!-- tooltip="Click to edit the notes for this lesson." -->
+  <!-- tooltip="Click to cancel or reschedule this lesson." -->
+   <!-- tooltip-placement="top" tooltip="Click to reschedule this lesson." -->

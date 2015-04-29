@@ -85,28 +85,21 @@
                         <div class="col-md-6">
                             <div class="form-group date">
                                 <label class="font-noraml">Birthday</label>
-                                <p class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" datepicker-mode='year' ng-model="birthday" is-open="openedBirthday" ng-required="true" close-text="Close" name="birthday">
-                                    <span class="input-group-btn">
-                                    <button type="button" class="btn btn-success" ng-click="openBirthday($event)" tabindex="-1">
-                                    <i class="fa fa-calendar"></i></button>
-                                    </span>
-                                    <div class="m-t-xs" ng-show="studentRecordForm.birthday.$invalid && studentRecordForm.birthday.$dirty || studentRecordForm.submitted">
-                                        <small class="text-danger" ng-show="studentRecordForm.birthday.$error.required">Please select a birthday.</small>
-                                    </div>
-                                </p>
+                                <input type="date" class="form-control" ng-model="birthday" name="birthday" data-mask="9999-99-99" required>
+                                <div class="m-t-xs" ng-show="studentRecordForm.birthday.$invalid && studentRecordForm.birthday.$dirty || studentRecordForm.submitted">
+                                    <small class="text-danger" ng-show="studentRecordForm.birthday.$error.required">Please select a birthday.</small>
+                                    <small class="text-danger" ng-show="studentRecordForm.birthday.$valid">Please enter the date as yyyy-mm-dd. Example: 1972-12-05</small>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="font-noraml">Starting Date</label>
-                                <p class="input-group">
-                                    <input type="text" class="form-control" datepicker-popup="{{dateFormat}}" ng-model="startDate" is-open="openedStartDate" ng-required="true" close-text="Close" name="startDate">
-                                    <span class="input-group-btn"><button type="button" class="btn btn-success" ng-click="openStartDate($event)" tabindex="-1"><i class="fa fa-calendar"></i></button></span>
-                                    <div class="m-t-xs" ng-show="studentRecordForm.startDate.$invalid && studentRecordForm.startDate.$dirty || studentRecordForm.submitted">
-                                        <small class="text-danger" ng-show="studentRecordForm.startDate.$error.required">Please select a starting date.</small>
-                                    </div>
-                                </p>
+                                <input type="date" class="form-control" ng-model="startDate" name="startDate" data-mask="9999-99-99" required>
+                                <div class="m-t-xs" ng-show="studentRecordForm.startDate.$invalid && studentRecordForm.startDate.$dirty || studentRecordForm.submitted">
+                                    <small class="text-danger" ng-show="studentRecordForm.startDate.$error.required">Please select a starting date.</small>
+                                    <small class="text-danger" ng-show="studentRecordForm.startDate.$valid">Please enter the date as yyyy-mm-dd. Example: 1972-12-05</small>
+                                </div>
                             </div>
                         </div>
                     </div>

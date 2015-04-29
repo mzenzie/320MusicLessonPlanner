@@ -28,6 +28,7 @@ http://54.208.4.249:8000/
 
 - Install [python](https://www.python.org/downloads/), [node](https://nodejs.org/), and [express](http://expressjs.com/) before running this app. Make sure that you install python version 2.7
 - Navigate to the directory where you wish to install MusicLessonPlanner and clone the repository.
+- Navigate into the project directory. 
 - Run the install script through whatever shell you use. On most distros, this is
 ```sh
 $ sudo bash install.sh
@@ -49,18 +50,6 @@ To check that the server is running, open your internet browser and go to the lo
 ```sh
 localhost:8000
 ```
-
-When running this app on a remote host, it is recommended to use a utility such as screen or nohup in order to have it run in the background once you disconnect. The recommended command to use for this is:
-```sh
-screen -m node app
-```
-
-In order to stop the server once it is running, the recommended command is 
-```sh
-pkill -f node
-```
-
-If you have other node servers running, you will have to be more specific with the command (i.e. specify the PID)
 
 ### Database Access
 
@@ -152,6 +141,13 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
   * Fixed the issue with datepicker in editing where the calendar would become non-functional after the first use.
   * Refactored controllers.js to have separate controllers for editing and rescheduling.
   * Replaced the current pagination with a Angular-UI pagination, eliminating some odd errors and improving appearance.
+
+0.1.3 (Pre-release)
+  * Hopefully the last BETA version before 1.0.0
+  * Changed all of the date input types from text with a BootStrap datepicker to date inputs that use each browser's default method. This will improve user experience on iOS, Android, and Chrome. (iOS for example has its own date picker which most users would expect.)
+
+0.1.3a (Pre-release)
+  * Fixed a bug where a dates were not displayed in fields for rescheduling and editing students.
 
 
 [node.js]:http://nodejs.org

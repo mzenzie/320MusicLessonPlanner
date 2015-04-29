@@ -20,11 +20,16 @@ var LessonSchedule = function(jsObject) {
     if (jsObject.date.getDate !== undefined) {
         this.date = jsObject.date;
     } else {
-        this.date = jsObject.date;
+        this.date = new Date(jsObject.date);
         // this.date = new Date(jsObject.date);
     }
     // this.date = jsObject.date;
-    this.lessonTime = jsObject.lessonTime;
+    this.lessonTime = null
+    if (jsObject.lessonTime.getTime!==undefined){
+        this.lessonTime = jsObject.lessonTime;
+    } else {
+        this.lessonTime = new Date(jsObject.lessonTime);
+    }
     this.lessonLength = jsObject.lessonLength;
     this.notes = "Notes for this lesson.";
     if (jsObject.notes !== undefined) {
@@ -54,7 +59,6 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
     var myErr = null;
     var db = dbConnector.getInstance();
 
-    console.log("DB SAVE");
     if (validateInput(self)) {
         var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
             .format(
@@ -70,12 +74,11 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
                 self.lessonLength,
                 studentRecord.sid);
 
-        console.log(lschedule_query);
-        console.log(get_query);
+        // console.log(lschedule_query);
+        // console.log(get_query);
 
         db.run(lschedule_query, function(err) {
             if (err != null) {
-                console.log("SCHEDULE SAVE TO DB ERR");
                 console.log(err);
                 // callback(err, null); don't neeed may be redundant
             }
@@ -84,9 +87,9 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
                 console.log(err);
                 callback(err, null);
             } else {
-                console.log(row);
                 var _lessonSchedule = new LessonSchedule(row);
                 _lessonSchedule.lsid = row.lsid;
+                self.lsid = row.lsid;
                 callback(null, _lessonSchedule);
             }
         });
@@ -103,10 +106,8 @@ LessonSchedule.prototype.update = function(callback) {
     var db = dbConnector.getInstance();
     var self = this;
     if (self.lessonLength == null) console.log("NULL DATE");
-    console.log(self.lessonLength);
     var query = "UPDATE Schedule SET date='{0}', lessonTime='{1}', lessonLength='{2}', notes='{3}' WHERE lsid={4}"
         .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lsid);
-    console.log(query);
     db.run(query, function(err) {
         if (err != null) {
             console.log(err, null);
@@ -131,7 +132,7 @@ module.exports.get = function(lsid, callback) {
     var db = dbConnector.getInstance();
     db.get("SELECT * From Schedule WHERE Schedule.lsid={0}".format(lsid), function(err, row) {
         if (err != null || row == null) {
-            console.log(err);
+            if (row!=null) console.log(err);
             callback(err, null);
         } else {
             var schedule = new LessonSchedule(row);
@@ -167,7 +168,6 @@ module.exports.list = function(sid, callback) { /// option = {callback: function
 module.exports.delete = function(lsid, callback) {
     var db = dbConnector.getInstance();
     var lschedule_query = "DELETE FROM Schedule WHERE Schedule.lsid={0}".format(lsid);
-    console.log(lschedule_query);
     db.exec(lschedule_query, function(err) {
         if (err != null) {
             console.log(err);
@@ -193,7 +193,7 @@ module.exports.update = function(callback) {
     var db = dbConnector.getInstance();
     var query = "UPDATE Schedule SET date='{0}', lessonTime='{1}', lessonLength={2}, notes='{3}'WHERE lrid='{4}'"
         .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lrid);
-    console.log(query);
+    // console.log(query);
     db.run(query, function(err) {
         if (err != null) {
             console.log(err);
@@ -213,7 +213,6 @@ module.exports.update = function(callback) {
  */
 
 module.exports.create = function(jsObject, studentRecord, callback) {
-    console.log("CREATE");
     var newLSchedule = new LessonSchedule(jsObject);
     newLSchedule.save(studentRecord, callback);
 
@@ -265,32 +264,3 @@ module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
     }
 }
 
-
-
-// doesnt work lol gg 
-// supposed to append schedules to each student in students. 
-module.exports.retrieveSchedules = function(studentRecords, callback) {
-    var db = dbConnector.getInstance();
-    var newStudentRecords = [];
-    var error = null;
-    db.serialize(function() {
-        for (var i = 0; i < studentRecords.length; i++) {
-            var studentRecord = studentRecords[i];
-            var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}".format(studentRecord.sid);
-            db.all(get_query, function(err, schedules) {
-                if (err != null || schedules == null) {
-                    console.log(err);
-                    error = err;
-                    callback(err, null);
-                } else {
-                    studentRecord.lessonSchedules = schedules;
-                    newStudentRecords.push(studentRecord);
-                    if (i == studentRecords.length - 1) {
-                        callback(null, newStudentRecords);
-                    }
-                }
-            })
-            if (error != null) break;
-        }
-    });
-}

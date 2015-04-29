@@ -73,11 +73,11 @@ Teacher.prototype.save = function(callback) {
  * @param {Object} jsObject : contains the information needing to be updated
  */
 
-Teacher.prototype.update = function(jsObject) {
+Teacher.prototype.update = function(callback) {
     //TODO: implement function
     var db = dbConnector.getInstance();
     var update = "Update Teacher SET email='{0}', firstName='{1}', lastName='{2}', address='{3}', phone='{4}' WHERE tid={4}"
-    .format(jsObject.email, jsObject.firstName, jsObject.lastName, jsObject.address, jsObject.phone, jsObject.tid);
+    .format(this.email, this.firstName, this.lastName, this.address, this.phone, this.tid);
     console.log(update);
     db.run(update, function(err){
         if(err != null){

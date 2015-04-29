@@ -26,7 +26,7 @@ describe('Test 1', function() {
     var n = d.toDateString();
     
      student = {
-
+        // NOTE ** SHOULD REMAIN IN DB FOR TESTING 
         firstName: 'Josh',
         lastName: 'Levine',
         instrument: 'Timpani',
@@ -84,7 +84,7 @@ describe('Test 1', function() {
     })
 
     
-    describe('StudentRecord', function() {   
+    describe('StudentRecord - [CRUD operations]', function() {   
         it('should have created a student 1 with no error - CREATE & SAVE', function(done){
             /* Tests CREATE & SAVE */
             StudentRecord.create(student, function(err, studentRecord){
@@ -174,7 +174,7 @@ describe('Test 1', function() {
             });
         });
 
-        it('should be able to DELETE', function(done){
+        it('should be able to DELETE <deleted student2>', function(done){
             StudentRecord.delete(student2.sid, function(err){
                 assert(err==null);
                 StudentRecord.get(student2.sid, function(err, s){

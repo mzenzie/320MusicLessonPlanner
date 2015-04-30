@@ -94,7 +94,7 @@ describe('Test 1', function() {
             });
         });
 
-        it('should have an error', function(done){
+        it('should have an error on student record 2', function(done){
             /* Tests isValidInput */
             StudentRecord.create(student2, function(err, studentRecord){
                 assert(err!=null);

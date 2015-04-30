@@ -1,4 +1,4 @@
-	var format = require("string-format");
+var format = require("string-format");
 var dbConnector = require('../../database/dbinit.js');
 var bcrypt = require('bcrypt');
 var Map = require('collections/map');
@@ -22,29 +22,31 @@ var Account = function(jsObject){
 Account.prototype.save = function(callback){
 	var self = this;
 	var db = dbConnector.getInstance();
-	bcrypt.genSalt(10, function(err, salt){
-		bcrypt.hash(self.password, salt, function(err, hash){
-			if (err){
-				callback(err, null);
-			} else {
-				self.password = hash;
-				PASS = hash;
-				console.log("HASH: " + self.password);
-				insert_query = "INSERT INTO Account (username, password, tid) VALUES ('{0}', '{1}', {2})"
-								.format(self.username, self.password, self.tid);
-				console.log("======= SAVE USER ACCOUNT");
-				console.log(insert_query);
-				db.run(insert_query, function(err){
-					if (err!=null){
-						console.log(err);
-						callback(err, null)
-					} else {
-						callback(null, self);
-					}
-				});
-			}
-		});
-	})
+	if (self.tid!=null){
+		bcrypt.genSalt(10, function(err, salt){
+			bcrypt.hash(self.password, salt, function(err, hash){
+				if (err){
+					callback(err, null);
+				} else {
+					self.password = hash;
+					PASS = hash;
+					insert_query = "INSERT INTO Account (username, password, tid) VALUES ('{0}', '{1}', {2})"
+									.format(self.username, self.password, self.tid);
+					// console.log(insert_query);
+					db.run(insert_query, function(err){
+						if (err!=null){
+							console.log(err);
+							callback(err, null)
+						} else {
+							callback(null, self);
+						}
+					});
+				}
+			});
+		})
+	} else {
+		callback({error: 'must have teacher id'}, null);
+	}
 }
 
 
@@ -54,7 +56,6 @@ Account.prototype.update = function(tid, callback){
 	var db = dbConnector.getInstance();
 	update_query = "UPDATE Account SET Account.tid={0} WHERE Account.username='{1}'"
 				.format(tid, self.username);
-	console.log("======= REGISTERING TID");
 }
 
 
@@ -65,17 +66,14 @@ module.exports.hasUsername = function(username, callback){
 	var error = null;
 	var get_query = "SELECT * FROM Account WHERE Account.username='{0}'" // checks duplication of username
 		.format(username);
-	console.log("======= HAS USERNAME???????? ");
-	console.log(get_query);
+	// console.log(get_query);
 	db.get(get_query, function(err, row){
 		if (err != null){
 			console.log(err);
 			callback(err, null);
 		} else if (row == null){
-			console.log("NO USERNAME FOUND YA");
 			callback(null, false);
 		} else {
-			console.log("USER NAME FOUND :( TRY AGAIN");
 			callback(null, true);
 		}
 	});
@@ -86,18 +84,14 @@ module.exports.get = function(username, password, callback){
 	var db = dbConnector.getInstance();
 	var get_query = "SELECT * FROM Account WHERE Account.username='{0}'"
 					.format(username);
-	console.log("=======> GETTING USER ACCOUNT");
-	console.log(get_query);
+	// console.log(get_query);
 	db.get(get_query, function(err, row){
 		if (err != null || row == null){
 			callback(err, null);
 		} else {
-			console.log("== > USER found");
-			console.log(row);
 			var myAccount = new Account(row);
 			bcrypt.compare(password, myAccount.password, function(err, isMatch){
 				if (err || !isMatch) {
-					console.log("MISMATCH");
 					console.log(err);
 					callback(err, null);
 				} else {
@@ -121,6 +115,7 @@ function fetchToken(auth) {
 module.exports.getIDFromToken = function(auth){
 	if (auth===undefined) return null;
     var token = fetchToken(auth);
+    if (token==null) return null;
     var decoded = jwt.verify(token, secret.secretToken);
     return decoded.id;
 }

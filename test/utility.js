@@ -6,7 +6,5 @@ module.exports.createToken = function(id){
 		secret.secretToken,
 		{expiresInMinutes: 60000}						 
 	);
-	console.log("GEN TOKEN: ");
-	console.log(token);
-	return token;
+	return "Bearer "+token;
 }

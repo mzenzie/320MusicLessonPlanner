@@ -1,7 +1,7 @@
 ﻿# MusicLessonPlanner
 
 ### Version
-0.1.2d BETA
+1.0.0
 
 MusicLessonPlanner is an organizational application for private music teachers that keeps track of their studio of students, lesson notes, schedule, and progress.
 
@@ -18,10 +18,6 @@ http://54.208.4.249:8000/
 - Edit existing student accounts - Allow student information to be updated at any point after the account has already been created.
 - Lesson Scheduling - Allow teachers to cancel or reschedule lessons.
 
-**Features in progress**
-
-- UI polishing and bug squashing.
-- Server-side check for lesson time conflicts.
 
 
 ### Installation and Build
@@ -82,18 +78,13 @@ Testing is implemented using the [Mocha](http://mochajs.org/) testing framework.
 
 The other integration tests use Protractor, which currently tests Firefox and Chrome. Downloads these browsers to test on them. 
 
-When beginning testing for the first time you will need to install the testing dependencies. All of the necessary dependencies can be installed by executing
-  ```sh
-  $ ./install_test_dependencies
-  ```
-If the above command does not work, you may need to re-run with admin privileges
-  ```sh
-  $ sudo ./install_test_dependencies
-  ```
 All Unit tests can be run from the root directory with the following command
   ```sh
   $ mocha
   ```
+  
+The integration tests are run atgit
+
 More detailed testing instructions, and complete Integration tests, look [here](https://github.com/mzenzie/320MusicLessonPlanner/wiki/Testing).
 
 ### Bug Tracking
@@ -148,6 +139,12 @@ MusicLessonPlanner is built using a derivative of the "MEAN" stack:
 
 0.1.3a (Pre-release)
   * Fixed a bug where a dates were not displayed in fields for rescheduling and editing students.
+
+0.1.3b (Release candidate)
+  * Fixed email validation error in creating/editing student records.
+
+1.0.0 Final Release
+  * Removed Beta tag
 
 
 [node.js]:http://nodejs.org

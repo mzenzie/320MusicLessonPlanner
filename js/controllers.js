@@ -522,12 +522,16 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
     //      Save then return to main page
     $scope.saveEditStudent = function() {
-        $scope.student.$update({
-            id: $scope.student.sid
-        }, function() {
-            // $log.debug('New note value: ' + $scope.student.generalNotes);
-        });
-        $state.go('teacher-dashboard.main');
+        if ($scope.studentRecordForm.$valid) {
+            $scope.student.$update({
+                id: $scope.student.sid
+            }, function() {
+                // $log.debug('New note value: ' + $scope.student.generalNotes);
+            });
+            $state.go('teacher-dashboard.main');
+        } else {
+            $scope.studentRecordForm.submitted = true;
+        }
     }
 }])
 
@@ -622,13 +626,17 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
 
     //  Saves the edited lesson time
     $scope.saveReschedule = function() {
-        $scope.lesson.$update({
-            sid: $scope.lesson.sid,
-            lsid: $scope.lesson.lsid
-        }, function() {});
-        $state.go('teacher-dashboard.main', {}, {
-            reload: true
-        });
+        if ($scope.lessonNoteForm.$valid) {
+            $scope.lesson.$update({
+                sid: $scope.lesson.sid,
+                lsid: $scope.lesson.lsid
+            }, function() {});
+            $state.go('teacher-dashboard.main', {}, {
+                reload: true
+            });
+        } else {
+            $scope.lessonNoteForm.submitted = true;
+        }
     }
 }])
 
@@ -682,10 +690,10 @@ angular.module('inspinia') //This ENTIRE file is one call to 'angular', i.e.: an
     function($state, $stateParams, $scope, $resource, $http, store, jwtHelper, getTeacherByID, $log, $parse) {
 
         //  Version number and date format for the entire site
-        // $scope.releaseStatus = "FINAL ";
-        // $scope.versionNumber = "version 1.0.0";
-        $scope.releaseStatus = "BETA ";
-        $scope.versionNumber = "version 0.1.3a";
+        $scope.releaseStatus = "FINAL ";
+        $scope.versionNumber = "version 1.0.0";
+        // $scope.releaseStatus = "BETA ";
+        // $scope.versionNumber = "version 0.1.3b";
 
         $scope.signin = function() {
             if ($scope.loginForm.$valid) {

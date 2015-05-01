@@ -33,7 +33,7 @@ To run the app, in your terminal execute:
 ```sh
 $ node app
 ```
-If you want to run the server persistently (i.e. on a remote server) use the provided script
+If you want to run the server persistently (i.e. on a remote server) use the provided script to run it in a screen. If you are unfamiliar with the use of screen and running on a remote server, it is recommended to read [the manual](http://ss64.com/bash/screen.html).
 ```sh
 $ runapp
 ```

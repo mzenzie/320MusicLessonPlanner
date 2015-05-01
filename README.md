@@ -33,11 +33,11 @@ To run the app, in your terminal execute:
 ```sh
 $ node app
 ```
-If you want to run the server persistently (i.e. on a remote server) use the provided command
+If you want to run the server persistently (i.e. on a remote server) use the provided script
 ```sh
 $ runapp
 ```
-To later stop the server, use the provided command
+To later stop the server, use the provided script
 ```sh
 $ stopapp
 ```

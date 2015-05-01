@@ -4,5 +4,6 @@ sudo apt-get install python-dev
 sudo apt-get install gyp
 sudo chmod 777 ./mlp.sql
 sudo chmod 777 ./database/mlp.sql
+npm install -g mocha instanbul
 sudo npm install bcrypt
 sudo npm install 

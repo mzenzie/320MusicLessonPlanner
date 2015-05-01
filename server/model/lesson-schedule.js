@@ -25,10 +25,12 @@ var LessonSchedule = function(jsObject) {
     }
     // this.date = jsObject.date;
     this.lessonTime = null
-    if (jsObject.lessonTime.getTime!==undefined){
-        this.lessonTime = jsObject.lessonTime;
-    } else {
-        this.lessonTime = new Date(jsObject.lessonTime);
+    if (jsObject.lessonTime!==undefined && jsObject.lessonTime!=null){
+        if (jsObject.lessonTime.getTime!==undefined){
+            this.lessonTime = jsObject.lessonTime;
+        } else {
+            this.lessonTime = new Date(jsObject.lessonTime);
+        }
     }
     this.lessonLength = jsObject.lessonLength;
     this.notes = "Select Edit Lesson Notes to create notes for this lesson.";
@@ -78,13 +80,9 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
         // console.log(get_query);
 
         db.run(lschedule_query, function(err) {
-            if (err != null) {
-                console.log(err);
-                // callback(err, null); don't neeed may be redundant
-            }
         }).get(get_query, function(err, row) {
             if (err != null || row == null) {
-                console.log(err);
+                // console.log(err);
                 callback(err, null);
             } else {
                 var _lessonSchedule = new LessonSchedule(row);
@@ -100,12 +98,19 @@ LessonSchedule.prototype.save = function(studentRecord, callback) {
     }
 };
 
+/*
+ * Update lesson schedule.
+ * Note: only updates fields. Not ID.
+ *
+ * @param {Date} lessonTime
+ * @param {Date} lessonLength
+ */
+
 
 LessonSchedule.prototype.update = function(callback) {
     //TODO: update lesson schedule in DB
     var db = dbConnector.getInstance();
     var self = this;
-    if (self.lessonLength == null) console.log("NULL DATE");
     var query = "UPDATE Schedule SET date='{0}', lessonTime='{1}', lessonLength='{2}', notes='{3}' WHERE lsid={4}"
         .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lsid);
     db.run(query, function(err) {
@@ -178,31 +183,7 @@ module.exports.delete = function(lsid, callback) {
     });
 };
 
-/*
- * Update lesson schedule.
- * Note: only updates fields. Not ID.
- *
- * @param {Date} lessonTime
- * @param {Date} lessonLength
- * @param {Text} email
- */
 
-module.exports.update = function(callback) {
-    //TODO: update lesson schedule in DB
-    var self = this;
-    var db = dbConnector.getInstance();
-    var query = "UPDATE Schedule SET date='{0}', lessonTime='{1}', lessonLength={2}, notes='{3}'WHERE lrid='{4}'"
-        .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lrid);
-    // console.log(query);
-    db.run(query, function(err) {
-        if (err != null) {
-            console.log(err);
-            callback(err, null);
-        } else {
-            callback(null, new LessonSchedule(self));
-        }
-    });
-};
 
 /*
  * Create a new schedule.

@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for database/dbinit.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../prettify.css">
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header medium">
+    <h1>Code coverage report for <span class="entity">database/dbinit.js</span></h1>
+    <h2>
+        Statements: <span class="metric">76.09% <small>(35 / 46)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">58.33% <small>(7 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">60% <small>(3 / 5)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">75.56% <small>(34 / 45)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">database/</a> &#187; dbinit.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var fs = require("fs");
+var file = './mlp.sql'; //file used to store the data
+var exists = fs.existsSync(file); // if the file not exist create a new one
+var didReinit = false;
+&nbsp;
+//accTable = "CREATE TABLE Account(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, tid INTEGER references Teacher(tid));";
+accTable = "CREATE TABLE Account(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, tid INTEGER references Teacher(tid) on delete cascade on update cascade);";
+//teaTable = "CREATE TABLE Teacher(tid INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
+&nbsp;
+//accTable = "CREATE TABLE Account(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, tid INTEGER);";
+teaTable = "CREATE TABLE Teacher(tid INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT);";
+stuTable = "CREATE TABLE SRecord(sid INTEGER PRIMARY KEY AUTOINCREMENT, tid INTEGER references Teacher(tid) on delete cascade on update cascade, email TEXT, firstName TEXT, lastName TEXT, address TEXT, phone TEXT, birthday DATE, instrument TEXT, generalNotes TEXT);";
+schTable = "CREATE TABLE Schedule(lsid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, lessonTime DATETIME, lessonLength INTEGER, notes TEXT, sid INTEGER references SRecord(sid) on delete cascade on update cascade);";
+//LRTable = "CREATE TABLE LessonRecord(lrid INTEGER PRIMARY KEY AUTOINCREMENT, date DATE, notes TEXT, sid TEXT references SRecord(sid) on delete cascade on update cascade);";
+&nbsp;
+daccTable = "DROP TABLE IF EXISTS Account";
+dteaTable = "DROP TABLE IF EXISTS Teacher;"
+dstuTable = "DROP TABLE IF EXISTS SRecord;"
+dschTable = "DROP TABLE IF EXISTS Schedule;"
+//dLRTable = "DROP TABLE IF EXISTS LessonRecord;"
+&nbsp;
+// connect to the database and return the pointer to db
+var db = null;
+&nbsp;
+module.exports.init = function(_file) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (_file!=null || <span class="branch-1 cbranch-no" title="branch not covered" >_file!==undefined)</span> file = _file;
+    var sqlite3 = require("sqlite3").verbose();
+    db = new sqlite3.Database(file);
+    db.serialize(function() {
+        //connect to the database
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (_file!=null || <span class="branch-1 cbranch-no" title="branch not covered" >_file!==undefined)</span>{
+            console.log("reinitializing test database exists: "+_file);
+            db.run(dschTable);
+            db.run(dstuTable);
+            db.run(dteaTable);
+            db.run(daccTable);
+            didReinit = true;
+            
+        } 
+        // db.run("PRAGMA foreign_keys = ON");
+        // if the file is not exist create tables
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!exists || didReinit) {
+            console.log("Initializing DB: "+file);
+            db.run(accTable);
+            db.run(teaTable);
+            db.run(stuTable);
+            db.run(schTable);
+            //db.run(LRTable);
+            /*var stmt = db.prepare("INSERT INTO SRecord VALUES(?, ?, ?, ?)");
+            stmt.run(1, "Jack", "Benny", "Piano");
+            stmt.run(2, "Bruce", "Springsteen", "Violin");
+            stmt.run(3, "Prince", "", "Guitar");
+            stmt.run(4, "Mike", "Smith", "Trombone");
+            stmt.finalize();
+            console.log("hello databae________________");
+            */
+        }
+    });
+}
+&nbsp;
+module.exports.reinit = <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    var sqlite3 = require("sqlite3").verbose();</span>
+<span class="cstat-no" title="statement not covered" >    db = new sqlite3.Database(file);</span>
+<span class="cstat-no" title="statement not covered" >    db.serialize(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >        db.run(dschTable);</span>
+        //db.run(dLRTable);
+<span class="cstat-no" title="statement not covered" >        db.run(dstuTable);</span>
+<span class="cstat-no" title="statement not covered" >        db.run(dteaTable);</span>
+<span class="cstat-no" title="statement not covered" >        db.run(daccTable);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        db.run(accTable);</span>
+<span class="cstat-no" title="statement not covered" >        db.run(teaTable);</span>
+<span class="cstat-no" title="statement not covered" >        db.run(stuTable);</span>
+<span class="cstat-no" title="statement not covered" >        db.run(schTable)</span>
+    });
+&nbsp;
+    // db.serialize(function() {
+    //     db.run(accTable);
+    //     db.run(teaTable);
+    //     db.run(stuTable);
+    //     db.run(schTable);
+    //     //db.run(LRTable);
+    //     //db.run("PRAGMA foreign_keys = ON");
+&nbsp;
+    // });
+}
+module.exports.getInstance = function() {
+    // db.run("PRAGMA foreign_keys = ON");
+    return db;
+}
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 30 2015 21:36:39 GMT-0400 (EDT)</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

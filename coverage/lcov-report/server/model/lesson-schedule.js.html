@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/model/lesson-schedule.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">server/model/lesson-schedule.js</span></h1>
+    <h2>
+        Statements: <span class="metric">86.27% <small>(88 / 102)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">82% <small>(41 / 50)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">94.44% <small>(17 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">88% <small>(88 / 100)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">server/model/</a> &#187; lesson-schedule.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// TBD: Eliminate need for lesson-note.js by adding an additional field to the creation
+// of this class that is a string of lesson notes (initialized to the empty string and
+// able to be updated later on if wanted)
+&nbsp;
+/**
+ * Instantiates a new lesson-schedule.
+ * 
+ * @param {Date} date
+ * @param {Date} startTime
+ * @param {int} lessonLength
+ * @param {int} sid
+ */
+var format = require('string-format');
+&nbsp;
+var dbConnector = require('../../database/dbinit.js');
+<span class="missing-if-branch" title="if path not taken" >I</span>if (dbConnector == null) <span class="cstat-no" title="statement not covered" >console.log("DATABASE CON NULL");</span>
+&nbsp;
+var LessonSchedule = function(jsObject) {
+    this.date = null;
+    if (jsObject.date.getDate !== undefined) {
+        this.date = jsObject.date;
+    } else {
+        this.date = new Date(jsObject.date);
+        // this.date = new Date(jsObject.date);
+    }
+    // this.date = jsObject.date;
+    this.lessonTime = null
+    if (jsObject.lessonTime!==undefined &amp;&amp; jsObject.lessonTime!=null){
+        if (jsObject.lessonTime.getTime!==undefined){
+            this.lessonTime = jsObject.lessonTime;
+        } else {
+            this.lessonTime = new Date(jsObject.lessonTime);
+        }
+    }
+    this.lessonLength = jsObject.lessonLength;
+    this.notes = "Select Edit Lesson Notes to create notes for this lesson.";
+    if (jsObject.notes !== undefined) {
+        this.notes = jsObject.notes;
+    }
+    this.lsid = null;
+    if (jsObject.lsid !== undefined) {
+        this.lsid = jsObject.lsid;
+    }
+    this.sid = null;
+    if (jsObject.sid !== undefined) {
+        this.sid = jsObject.sid;
+    }
+};
+&nbsp;
+function validateInput(scheduleData) {
+    var undef = scheduleData.date !== undefined &amp;&amp; scheduleData.lessonTime !== undefined &amp;&amp; scheduleData.lessonLength !== undefined &amp;&amp; scheduleData.notes !== undefined;
+    return undef;
+}
+&nbsp;
+/*
+ * Save lesson schedule.
+ */
+&nbsp;
+LessonSchedule.prototype.save = function(studentRecord, callback) {
+    var self = this;
+    var myErr = null;
+    var db = dbConnector.getInstance();
+&nbsp;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (validateInput(self)) {
+        var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
+            .format(
+                self.date,
+                self.lessonTime,
+                self.lessonLength,
+                self.notes,
+                studentRecord.sid);
+        var get_query = "SELECT * FROM Schedule WHERE Schedule.date='{0}' AND Schedule.lessonTime='{1}' AND Schedule.lessonLength='{2}' AND Schedule.sid={3}"
+            .format(
+                self.date,
+                self.lessonTime,
+                self.lessonLength,
+                studentRecord.sid);
+&nbsp;
+        // console.log(lschedule_query);
+        // console.log(get_query);
+&nbsp;
+        db.run(lschedule_query, function(err) {
+        }).get(get_query, function(err, row) {
+            if (err != null || row == null) {
+                // console.log(err);
+                callback(err, null);
+            } else {
+                var _lessonSchedule = new LessonSchedule(row);
+                _lessonSchedule.lsid = row.lsid;
+                self.lsid = row.lsid;
+                callback(null, _lessonSchedule);
+            }
+        });
+    } else {
+<span class="cstat-no" title="statement not covered" >        callback({</span>
+            error: "Lesson Schedule Invalid Input"
+        }, null);
+    }
+};
+&nbsp;
+/*
+ * Update lesson schedule.
+ * Note: only updates fields. Not ID.
+ *
+ * @param {Date} lessonTime
+ * @param {Date} lessonLength
+ */
+&nbsp;
+&nbsp;
+LessonSchedule.prototype.update = function(callback) {
+    //TODO: update lesson schedule in DB
+    var db = dbConnector.getInstance();
+    var self = this;
+    var query = "UPDATE Schedule SET date='{0}', lessonTime='{1}', lessonLength='{2}', notes='{3}' WHERE lsid={4}"
+        .format(self.date, self.lessonTime, self.lessonLength, self.notes, self.lsid);
+    db.run(query, function(err) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null) {
+<span class="cstat-no" title="statement not covered" >            console.log(err, null);</span>
+<span class="cstat-no" title="statement not covered" >            callback(err);</span>
+        } else {
+            callback(null, new LessonSchedule(self));
+        }
+    });
+&nbsp;
+};
+&nbsp;
+&nbsp;
+module.exports = LessonSchedule;
+&nbsp;
+// STATIC FUNCTIONS //
+&nbsp;
+/*
+ * Get one the lesson note.
+ */
+module.exports.get = function(lsid, callback) {
+    //TODO: get lesson note
+    var db = dbConnector.getInstance();
+    db.get("SELECT * From Schedule WHERE Schedule.lsid={0}".format(lsid), function(err, row) {
+        if (err != null || row == null) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (row!=null) <span class="cstat-no" title="statement not covered" >console.log(err);</span>
+            callback(err, null);
+        } else {
+            var schedule = new LessonSchedule(row);
+            callback(null, schedule);
+        }
+    })
+};
+&nbsp;
+/*
+ * Get a list of lesson schedules.
+ *
+ * @param {Text} email
+ * @param {Function} callback
+ */
+module.exports.list = function(sid, callback) { /// option = {callback: function(err, schedules), db: db}
+    var db = dbConnector.getInstance();
+    // console.log("DB LIST");
+    db.all("SELECT * FROM Schedule WHERE Schedule.sid={0}".format(sid), function(err, rows) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null || rows == null) {
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >            callback(err, null);</span>
+        } else {
+            // console.log(rows);
+            callback(null, rows);
+        }
+    });
+};
+&nbsp;
+/*
+ * Delete current instance of lesson schedule.
+ */
+&nbsp;
+module.exports.delete = function(lsid, callback) {
+    var db = dbConnector.getInstance();
+    var lschedule_query = "DELETE FROM Schedule WHERE Schedule.lsid={0}".format(lsid);
+    db.exec(lschedule_query, function(err) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null) {
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >            callback(err);</span>
+        } else {
+            callback(null);
+        }
+    });
+};
+&nbsp;
+&nbsp;
+&nbsp;
+/*
+ * Create a new schedule.
+ * Note: only updates fields. Not ID.
+ *
+ * @param {Object} jsObject
+ * @param {Function} callback
+ */
+&nbsp;
+module.exports.create = <span class="fstat-no" title="function not covered" >function(jsObject, studentRecord, callback) {</span>
+<span class="cstat-no" title="statement not covered" >    var newLSchedule = new LessonSchedule(jsObject);</span>
+<span class="cstat-no" title="statement not covered" >    newLSchedule.save(studentRecord, callback);</span>
+&nbsp;
+};
+&nbsp;
+&nbsp;
+module.exports.generateDates = function(scheduleObj, studentRecord, callback) {
+    var db = dbConnector.getInstance();
+    var error = null;
+    var schedules = []
+    var scheduleData = new LessonSchedule(scheduleObj);
+    var numberOfLessons = scheduleObj.numberOfLessons;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (validateInput(scheduleData)) {
+        var get_query = "SELECT * FROM Schedule WHERE Schedule.sid={0}"
+            .format(studentRecord.sid);
+        db.serialize(function() {
+            var nextDate = new Date(scheduleData.date);
+            for (var i = 0; i &lt; numberOfLessons; i++) {
+                if (i != 0) {
+                    nextDate.setDate(nextDate.getDate() + 7);
+                }
+                var outputDate = nextDate.toISOString();
+                // console.log(scheduleData);
+                var lschedule_query = "INSERT INTO Schedule (date, lessonTime, lessonLength, notes, sid) VALUES('{0}', '{1}', '{2}', '{3}', {4})"
+                    .format(
+                        // scheduleData.date.toISOString(),
+                        outputDate,
+                        scheduleData.lessonTime,
+                        scheduleData.lessonLength,
+                        scheduleData.notes,
+                        studentRecord.sid);
+                // console.log(lschedule_query);
+                // console.log(get_query);
+                db.run(lschedule_query, function(err) {
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null) {
+<span class="cstat-no" title="statement not covered" >                        console.log(err);</span>
+                    }
+                })
+            }
+            db.all(get_query, function(err, schedules) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null || schedules == null) {
+<span class="cstat-no" title="statement not covered" >                    console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >                    callback(err, null);</span>
+                } else {
+                    callback(null, schedules);
+                }
+            });
+        });
+    }
+}
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 30 2015 21:36:39 GMT-0400 (EDT)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

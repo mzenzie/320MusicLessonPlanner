@@ -21,6 +21,11 @@ describe('Test 3', function(){
 		email: "mozart@piano.com",
 		phone: "413-801-5807"
 	};
+	teacher3 = {
+		firstName: undefined,
+		email: undefined,
+		phone: "413-801-5807"
+	};
 
 	describe('Teacher - [CRUD operations]', function(){
 		it('should be able to CREATE teacher', function(done){
@@ -101,5 +106,23 @@ describe('Test 3', function(){
 				});
 			});
 		})
+
+		it('should not be able to save teacher', function(done){
+			t3 = new Teacher(teacher3);
+			t3.save(function(err, teacher){
+				assert(teacher==null);
+				assert(err!=null);
+				done();
+			});
+		});
+
+		it('should not be able to get teacher', function(done){
+			Teacher.get(undefined, function(err, teacher){
+				assert(err!=null);
+				assert(teacher==null);
+				done();
+			});
+		})
+		
 	});
 });

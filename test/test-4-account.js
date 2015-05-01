@@ -86,6 +86,28 @@ describe('Test 4', function(){
 			assert(tid2==acc2.tid);
 			done();
 		});
+
+		it ('should not be able SAVE account', function(done){
+			var account = new Account({username:undefined, password:undefined, tid:undefined});
+			account.save(function(err, user){
+				assert(err!=null);
+				assert(user==null);
+				done();
+			});
+		});
+
+		it ('should not be able GET account', function(done){
+			Account.get(undefined, undefined,function(err, user){
+				// assert(err!=null);
+				assert(user==null);
+				done();
+			});
+		});
+
+		it('shouldnt evaluate random token', function(){
+            var token = Account.getIDFromToken("random string");
+            assert(token==null);
+        });
 	});
 });
 

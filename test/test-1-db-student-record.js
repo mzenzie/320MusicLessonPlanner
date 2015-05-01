@@ -56,6 +56,10 @@ describe('Test 1', function() {
         generalNotes: 'My other notes',
         tid: TID
     }
+    var student3 = {
+        firstName: 'What',
+        tid: TID
+    }
 
 
     describe('Database', function(){
@@ -180,6 +184,28 @@ describe('Test 1', function() {
                 StudentRecord.get(student2.sid, function(err, s){
                     assert(err==null);
                     assert(s==null);
+                    done();
+                });
+            });
+        });
+
+        it('should not be able to SAVE due to incomple object', function(done){
+            var st = new StudentRecord(student3);
+            st.save(TID, function(err, data){
+                assert(err!=null);
+                assert(data==null);
+                done();
+            });
+        });
+
+        it('should not be able to UPDATE due to incomple object', function(done){
+            StudentRecord.get(1, function(err, sr){
+                assert(err==null);
+                assert(sr!=null);
+                sr.lastName = undefined;
+                sr.update(function(err, sr){
+                    assert(err!=null);
+                    assert(sr==null);
                     done();
                 });
             });

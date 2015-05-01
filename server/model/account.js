@@ -51,12 +51,12 @@ Account.prototype.save = function(callback){
 
 
 /* change password / username TO BE IMPLEMENTED*/
-Account.prototype.update = function(tid, callback){
-	var self = this;
-	var db = dbConnector.getInstance();
-	update_query = "UPDATE Account SET Account.tid={0} WHERE Account.username='{1}'"
-				.format(tid, self.username);
-}
+// Account.prototype.update = function(tid, callback){
+// 	var self = this;
+// 	var db = dbConnector.getInstance();
+// 	update_query = "UPDATE Account SET Account.tid={0} WHERE Account.username='{1}'"
+// 				.format(tid, self.username);
+// }
 
 
 module.exports = Account;
@@ -84,7 +84,6 @@ module.exports.get = function(username, password, callback){
 	var db = dbConnector.getInstance();
 	var get_query = "SELECT * FROM Account WHERE Account.username='{0}'"
 					.format(username);
-	// console.log(get_query);
 	db.get(get_query, function(err, row){
 		if (err != null || row == null){
 			callback(err, null);

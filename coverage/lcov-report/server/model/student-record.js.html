@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/model/student-record.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">server/model/student-record.js</span></h1>
+    <h2>
+        Statements: <span class="metric">83.85% <small>(109 / 130)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">80% <small>(76 / 95)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(18 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">84.5% <small>(109 / 129)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">server/model/</a> &#187; student-record.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">    
+/**
+ * Instantiates a new student record.
+ * @param {String} jsObject.firstname is the student's first name
+ * @param {String} jsObject.lastname is the student's last name
+ * @param {String} jsObject.instrument is the student's instrument
+ * @param {String} jsObject.email is the student's email
+ * @param {String} jsObejct.phone is the student's phone number
+ * @param {String} jsObject.address is the student's home address
+ * @param {String} jsObject.birthday is the student's birthday
+ * @param {String} jsObject.startDate is the student's lessons start date
+ * @param {String} jsObject.numberOfLessons is the number of lessons this student 
+ * is initially booked with (this can be extended later using update)
+ * @param {String} _startTime is the start time (format TBD) of the student's lesson
+ * @param {String} _hours is the number of hours each lesson will last (0.5 is 30 minute lesson)
+ */
+&nbsp;
+var format = require('string-format');
+var LessonSchedule = require('./lesson-schedule.js');
+&nbsp;
+var dbConnector = require('../../database/dbinit.js');
+<span class="missing-if-branch" title="if path not taken" >I</span>if (dbConnector == null) <span class="cstat-no" title="statement not covered" >console.log("DATABASE CON NULL");</span>
+&nbsp;
+&nbsp;
+/**
+ * Instantiates a new student record.
+ * 
+ * @param {Object} jsObject
+ */
+var StudentRecord = function(jsObject) {
+    // example usage: new StudentRecord({firstName: "Natcha",  lastName: "Simsiri", ... [etc]})
+    this.firstName = jsObject.firstName;
+    this.lastName = jsObject.lastName;
+    this.instrument = jsObject.instrument;
+&nbsp;
+    // TODO: Validation of e-mail and phone
+    this.email = jsObject.email;
+    this.phone = jsObject.phone;
+    //
+&nbsp;
+    this.address = jsObject.address;
+    this.birthday = null;
+    if (jsObject.birthday !== undefined &amp;&amp; jsObject.birthday != null){
+        if (jsObject.birthday.getUTCDate !== undefined){
+            this.birthday = jsObject.birthday;
+        } else {
+            this.birthday = new Date("{0}".format(jsObject.birthday));
+        }
+    }
+    this.startDate = null;
+    if (jsObject.startDate !== undefined &amp;&amp; jsObject.startDate!=null){
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (jsObject.startDate.getDate !== undefined){
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (!isNaN(jsObject.startDate)){
+                this.startDate = jsObject.startDate;
+            }
+        } else {
+<span class="cstat-no" title="statement not covered" >            if (!isNaN(Date.parse(jsObject.startDate))){</span>
+<span class="cstat-no" title="statement not covered" >                this.startDate = new Date(jsObject.startDate);</span>
+            }
+        }
+    }
+&nbsp;
+    this.lessonTime = null;
+    if (jsObject.lessonTime !== undefined &amp;&amp; jsObject.lessonTime!=null){
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (jsObject.lessonTime.getDate !== undefined){
+            if (!isNaN(jsObject.lessonTime)){
+                this.lessonTime = jsObject.lessonTime;
+            }
+        } else {
+<span class="cstat-no" title="statement not covered" >            if (!isNaN(Date.parse(jsObject.lessonTime))){</span>
+<span class="cstat-no" title="statement not covered" >                this.lessonTime = new Date(this.lessonTime);</span>
+            }
+        }
+    }
+    this.numberOfLessons = null;
+    if(jsObject.numberOfLessons!==undefined){
+        this.numberOfLessons = jsObject.numberOfLessons;
+    }
+    this.lessonLength = null;
+    if(jsObject.lessonLength!==undefined){
+        this.lessonLength = jsObject.lessonLength;
+    }
+&nbsp;
+    this.sid = null;
+    if (jsObject.sid!==undefined){
+        this.sid = jsObject.sid;
+    }
+    // Notes is the list of lesson notes for this student.
+    // Initialized to null because a new student has no lesson notes.
+    this.lessonNotes = [];
+    this.generalNotes = null;
+    if (jsObject.generalNotes !== undefined &amp;&amp; jsObject.generalNotes != null){
+        this.generalNotes = jsObject.generalNotes;
+    }
+    this.lessonSchedules = [];
+    // Progress is the music record of pieces this student has done.
+    // Initialized to null because a new student has no previous music progress.
+};
+&nbsp;
+&nbsp;
+/**
+ * Check wether input (during creating new student) is valid.
+ * 
+ * @param {Object} jsObject : the object containing all the information that needs to be validated
+ */
+&nbsp;
+function isInputValid(o){
+	//TODO: implement function
+	//		determine what are necessary inputs. Fields (mentioned above) 
+	//		are accessed through jsObject.{fields} 
+    if (o.firstName!==undefined &amp;&amp; o.lastName!==undefined &amp;&amp; o.address!==undefined &amp;&amp; o.phone!==undefined &amp;&amp; o.instrument!==undefined
+         &amp;&amp; o.birthday!==undefined &amp;&amp; o.email!==undefined &amp;&amp; o.generalNotes!==undefined){
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (o.birthday != null){
+            return true;
+        }
+    }
+    return false;
+}
+/**
+ * Save a student record to the database.
+ * Used after changes are made to a student account
+ * or when a new student is being saved for the first time.
+ * 
+ * @param {Function} callback the function used to handle database error
+ */
+StudentRecord.prototype.save = function(tid, callback){
+    var self = this; // save model's context. 
+    var myErr = null;
+    //TODO: save to db
+    // returns identifier for StudentRecord
+    var db = dbConnector.getInstance();
+    // console.log(self);
+    if (isInputValid(self) &amp;&amp; tid!==undefined){
+        var student_record_query = "INSERT INTO SRecord (tid, firstName, lastName, email, address, phone, birthday, instrument, generalNotes) VALUES({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')"
+                            .format(
+                                tid,
+                                self.firstName,
+                                self.lastName,
+                                self.email,
+                                self.address,
+                                self.phone,
+                                self.birthday,
+                                self.instrument,
+                                self.generalNotes);
+        // console.log(student_record_query);
+&nbsp;
+        db.run(student_record_query, function(err){
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null){
+<span class="cstat-no" title="statement not covered" >                console.log(err);</span>
+            } 
+&nbsp;
+            var student_record_get_query = "SELECT * FROM SRecord WHERE firstName='{0}' AND lastName='{1}' AND email='{2}' AND address='{3}' AND phone='{4}' AND birthday='{5}' AND instrument = '{6}'"
+                                .format(
+                                    self.firstName,
+                                    self.lastName,
+                                    self.email,
+                                    self.address,
+                                    self.phone,
+                                    self.birthday,
+                                    self.instrument);
+            // console.log(student_record_get_query);
+            db.get(student_record_get_query, function(err, row){
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (err!= null || row == null){
+<span class="cstat-no" title="statement not covered" >                    console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >                    callback(err, null);</span>
+                } else {
+                    self.sid = row.sid
+                    // console.log(self);
+                    callback(null, self);
+                }
+            });
+        })
+    } else {
+        callback({'error': 'invalid input'}, null);
+    }
+};
+&nbsp;
+&nbsp;
+/**
+ * Update a student record in the database.
+ * 
+ * @param {Object} jsObject : contains the information needing to be updated
+ */
+StudentRecord.prototype.update = function(callback) {
+    //TODO: implement function
+    var self = this;
+    var db = dbConnector.getInstance();
+    if (isInputValid(self) &amp;&amp; self.sid !== undefined){
+        var query = "UPDATE SRecord SET firstName='{0}', lastName='{1}', address='{2}', phone='{3}', birthday='{4}', instrument='{5}', email='{6}', generalNotes='{7}' WHERE sid='{8}'"
+                    .format(self.firstName, self.lastName, self.address, self.phone, self.birthday, self.instrument,  self.email, self.generalNotes, self.sid);
+        // console.log(query);
+        db.run(query, function(err){
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (err!=null){
+<span class="cstat-no" title="statement not covered" >                console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >                callback(err, null);</span>
+            } else {
+                callback(null, new StudentRecord(self));
+            }
+        });    
+    } else {
+        callback({'error':'invlaid input'}, null);
+    }
+};
+&nbsp;
+// Exports the student record to allow it to be used by
+// the student record controller (or any other controller)
+module.exports = StudentRecord;
+&nbsp;
+// Static Methods //
+&nbsp;
+&nbsp;
+/**
+ * Retrieve student information from database.
+ *
+ * @param {int} sid : the unique id for the student to be retrieved
+ * @param {Function} callback : the function used to handle database error
+ */
+&nbsp;
+module.exports.get = function(sid, callback){
+	//TODO: retrieve student based on sid handler
+	var db = dbConnector.getInstance();
+	var query = "SELECT * FROM SRecord WHERE SRecord.sid={0}".format(sid);
+	// console.log("DB GET: " + query);
+	db.get(query,function(err, row){
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err!=null){
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >            callback(err, null);</span>
+        } else if (row!==undefined){
+            var retrievedStudentRecord = new StudentRecord(row);
+            LessonSchedule.list(sid, function(err, schedules){
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (err!= null || schedules == null){
+<span class="cstat-no" title="statement not covered" >                    console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >                    callback(err, null);</span>
+                } else {
+                    retrievedStudentRecord.lessonSchedules = schedules;
+                    callback(null, retrievedStudentRecord);
+                }
+            });
+        } else {
+            callback(null, null);
+        }
+	});
+};
+&nbsp;
+/**
+ * Retrieve a list of all the students belonging to a given teacher
+ * 
+ * @param {int} tid : the unique id for the teacher who's requesting
+ * the list of students
+ * @param {Function} callback : the function used to handle database error
+ */
+&nbsp;
+&nbsp;
+/*
+&nbsp;
+*/
+module.exports.list = function(tid, callback) {
+    var db = dbConnector.getInstance();
+    // need to put , Schedule WHERE Schedule.sid = SRecord.sid
+    var list_query = "SELECT * FROM SRecord WHERE SRecord.tid={0}".format(tid);
+    db.all(list_query, function(err, studentRecords) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err!=null || studentRecords == null){
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >            callback(err, null);</span>
+        } else {
+            callback(null, studentRecords);
+        }
+    });
+&nbsp;
+};
+&nbsp;
+/**
+ * Delete a student record from the database.
+ * Deleting a student record also deletes that student's lesson schedule.
+ *
+ * @param {int} sid : the unique id for the student to be deleted
+ * @param {Function} callback : the function used to handle database error
+ */
+&nbsp;
+module.exports.delete = function(sid,callback) {
+    var db = dbConnector.getInstance();
+    // var drecord_query = "DELETE SRecord, Schedule FROM SRecord INNER JOIN Schedule ON SRecord.sid=Schedule.sid WHERE SRecord.sid = {0}".format(sid);
+    var srecord_query = "DELETE FROM SRecord WHERE SRecord.sid={0}".format(sid);
+    var schedule_query = "DELETE FROM Schedule WHERE Schedule.sid='{0}'".format(sid);
+&nbsp;
+    db.exec(srecord_query, function(err) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null) {
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >            callback(err);</span>
+        }
+        // callback(null);
+    })
+    .exec(schedule_query, function(err) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null) {
+<span class="cstat-no" title="statement not covered" >            console.log(err);</span>
+        }
+        callback(err);
+    });
+};
+&nbsp;
+/**
+ * Create a new student and save their instance to the database.
+ * 
+ * @param {Object} jsObject : 
+ * @param {Function} callback : the function used to handle database error
+ */
+ /*
+&nbsp;
+&nbsp;
+ */
+module.exports.create = function(jsObject, callback) {
+    //TODO: implement
+    //		loop to create multiple student records
+    var db = dbConnector.getInstance();
+    var newStudentRecord = new StudentRecord(jsObject);
+    if (isInputValid(jsObject) &amp;&amp; newStudentRecord.lessonTime!=null &amp;&amp; newStudentRecord.startDate!=null){
+        var numberOfLessons = jsObject.numberOfLessons;
+        newStudentRecord.save(jsObject.tid, function(err, studentRecord){
+            var scheduleData = {
+                // date: new Date(jsObject.startDate),
+                date: jsObject.startDate,
+                lessonTime: jsObject.lessonTime,
+                lessonLength: jsObject.lessonLength,
+                numberOfLessons: jsObject.numberOfLessons
+            };
+            // console.log(scheduleData);
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null || studentRecord == null){
+<span class="cstat-no" title="statement not covered" >                callback(err, null);</span>
+            } else {
+                var error = null;
+                LessonSchedule.generateDates(scheduleData, studentRecord, function(err, schedules){
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (err != null || schedules == null){
+<span class="cstat-no" title="statement not covered" >                        callback(err, null);</span>
+                    } else {
+                        studentRecord.lessonSchedules = schedules;
+                        callback(null, studentRecord);
+                    }
+                })
+            
+            }
+        });
+    } else {
+        callback({'error':'invalid input'}, null);
+    }
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 30 2015 21:36:39 GMT-0400 (EDT)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

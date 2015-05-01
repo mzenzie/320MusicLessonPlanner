@@ -25,6 +25,13 @@ describe('Test 2', function(){
 		sid:SID
 	};
 
+	var lessonSch3 = {
+		date: new Date(2015, 9, 2),
+		lessonLength:'50',
+		lessonTime: null,
+		sid:SID
+	};
+
 	describe('LessonSchedule - [CRUD operations]' , function(){
 		it('should be able to SAVE to record', function(done){
 			var lesSch = new LessonSchedule(lessonSch1);
@@ -133,6 +140,23 @@ describe('Test 2', function(){
 					assert(schedule==null);
 					done();
 				});
+			});
+		});
+
+		it('should return database error when Saving', function(done){
+			ls = new LessonSchedule(lessonSch3);
+			assert(ls.save!==undefined);
+			ls.save({sid:ls.SID}, function(err, lesson){
+				assert(err!=null);
+				assert(lesson==null);
+				done();
+			});
+		});
+
+		it ('should not be able to get LessonSchedule', function(done){
+			LessonSchedule.get('fuf', function(err, ls){
+				assert(ls==null);
+				done();
 			});
 		});
 	});

@@ -28,6 +28,10 @@ var Teacher = function(jsObject) {
     this.address = '';
 };
 
+function isValidInput(o){
+    return o.email!==undefined && o.firstName!==undefined && o.tid!==undefined && o.email!=null;
+}
+
 
 Teacher.prototype.save = function(callback) {
     var self = this; // save model's context. 
@@ -45,21 +49,24 @@ Teacher.prototype.save = function(callback) {
     var get_query = "SELECT * FROM Teacher WHERE Teacher.email='{0}'"
         .format(self.email);
     // console.log(teacher_account_query);
-
-    db.run(teacher_account_query, function(err) {
-        if (err != null) {
-            console.log(err);
-        }
-    })
-    .get(get_query, function(err, row){
-        if (err != null || row == null){
-            console.log(err);
-            callback(err, null);
-        } else {
-            self.tid = row.tid;
-            callback(null, self);
-        }
-    });
+    if (isValidInput(self)){
+        db.run(teacher_account_query, function(err) {
+            if (err != null) {
+                console.log(err);
+            }
+        })
+        .get(get_query, function(err, row){
+            if (err != null || row == null){
+                console.log(err);
+                callback(err, null);
+            } else {
+                self.tid = row.tid;
+                callback(null, self);
+            }
+        });
+    } else {
+        callback({error:"invalid teacher object"}, null);
+    }
 };
 
 

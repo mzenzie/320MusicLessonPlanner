@@ -37,10 +37,11 @@ If you want to run the server persistently (i.e. on a remote server) use the pro
 ```sh
 $ runapp
 ```
-To later stop the server, use the provided script
+To later stop the server, use the provided script 
 ```sh
 $ stopapp
 ```
+or interrupt it with CTRL-c.
 
 To check that the server is running, open your internet browser and go to the localhost:
 ```sh
